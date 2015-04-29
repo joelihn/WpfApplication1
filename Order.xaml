@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="WpfApplication1.Order"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="1024" d:DesignWidth="1230">
+    <UserControl.Resources>
+        <DataTemplate x:Key="Name">
+            <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Mon">
+            <TextBlock Text="{Binding Mon}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Tue">
+            <TextBlock Text="{Binding Tue}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Wed">
+            <TextBlock Text="{Binding Wed}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Thu">
+            <TextBlock Text="{Binding Thu}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Fri">
+            <TextBlock Text="{Binding Fri}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Sta">
+            <TextBlock Text="{Binding Sta}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Sun">
+            <TextBlock Text="{Binding Sun}" />
+        </DataTemplate>
+
+    </UserControl.Resources>
+    <StackPanel>
+        <ListView  Name="ListView1" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="1024"
+                     ItemContainerStyle="{StaticResource myItemStyle}" ItemsSource="{Binding}" Style="{StaticResource ListViewStyle}">
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
+                    <GridViewColumn  Width="150"   CellTemplate="{StaticResource Name}">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="姓名" />
+                                
+                            </StackPanel>
+                        </Grid>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150" CellTemplate="{StaticResource Mon}">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="周一" />
+                            </StackPanel>
+                        </Grid>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150" CellTemplate="{StaticResource Tue}">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="周二" />
+                            </StackPanel>
+                        </Grid>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150" CellTemplate="{StaticResource Wed}">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="周三" />
+                            </StackPanel>
+                        </Grid>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150" CellTemplate="{StaticResource Thu}">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="周四" />
+                            </StackPanel>
+                        </Grid>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150" CellTemplate="{StaticResource Fri}">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="周五" />
+                            </StackPanel>
+                        </Grid>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150" CellTemplate="{StaticResource Sta}">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="周六" />
+                            </StackPanel>
+                        </Grid>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150" CellTemplate="{StaticResource Sun}">
+                        <Grid>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="周日" />
+                            </StackPanel>
+                        </Grid>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </StackPanel>
+</UserControl>

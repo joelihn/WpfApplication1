@@ -1,0 +1,49 @@
+﻿<Window x:Class="WpfApplication1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Height="1024" Width="1280" BorderBrush="{x:Null}" WindowStartupLocation="CenterScreen" WindowState="Maximized" WindowStyle="None">
+    <Grid>
+        
+        <Viewbox Stretch="Fill" Name="OverAllViewBox" >
+            <Grid Height="1024" Width="1280">
+            <Grid.RowDefinitions>
+                    <RowDefinition Height="1.8*" />
+                    <RowDefinition Height="1.8*" />
+                    <RowDefinition Height="1.8*" />
+                    <RowDefinition Height="1.8*" />
+                    <RowDefinition Height="1.8*" />
+                    <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50" />
+                    <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+                <!--<Border Grid.Row="5" Grid.Column="1" BorderThickness="0" >
+                    --><!--<Image Source="/fMRISystem;component/Resources/AD.png" Margin="50,20,0,0" />--><!--
+
+                    <Grid>
+                        <TextBlock Text="" Name="StatusText" Style="{StaticResource TextBlockStyle4}" TextAlignment="Center" TextWrapping="Wrap" Margin="5,20,0,0" ></TextBlock>
+                        <gifLib:GifImage Width="30"  Visibility="Hidden"  Name="loading"  Margin="158,5,0,0" Source="/fMRISystem;component/Resources/loading.gif" Stretch="Uniform"/>
+                        --><!--<MediaElement  Margin="50,8,72,0" Name="myGif" MediaEnded="myGif_MediaEnded" UnloadedBehavior="Manual"  Source="file://d:\gif006.gif" LoadedBehavior="Play" Stretch="None"/>--><!--
+                        <Image Visibility="Hidden" Width="30"  Name="loadover"  Source="/fMRISystem;component/Resources/approve.png" Margin="158,5,0,0" />
+                        <Image Visibility="Hidden" Width="30"  Name="warming"  Source="/fMRISystem;component/Resources/warming.png" Margin="158,5,0,0" />
+
+                    </Grid>
+
+                </Border>-->
+               
+                <Button Style="{StaticResource ButtonStyle1}" Name="InitButton" Grid.Row="0" Click="InitButton_Click"  ContentTemplate="{DynamicResource InitMain}">
+                </Button>
+                <Button Style="{StaticResource ButtonStyle1}" Name="OrderButton" Grid.Row="1" Click="OrderButton_Click"  ContentTemplate="{DynamicResource OrderMain}">
+                </Button>
+                <Button Style="{StaticResource ButtonStyle1}" Name="BedButton" Grid.Row="2" Click="BedButton_Click"  ContentTemplate="{DynamicResource BedMain}">
+                </Button>
+                <Button Style="{StaticResource ButtonStyle1}" Name="ConfigButton" Grid.Row="3" Click="ConfigButton_Click"  ContentTemplate="{DynamicResource ConfigMain}">
+                </Button>
+                <Button Style="{StaticResource ButtonStyle1}" Name="CloseButton" Grid.Row="4" Click="CloseButton_Click"  ContentTemplate="{DynamicResource CloseMain}">
+                </Button>
+                <ContentControl Name="RightContent" Grid.Column="1"  Grid.RowSpan="6" Foreground="GreenYellow"></ContentControl>
+            </Grid>
+    </Viewbox>
+    </Grid>
+</Window>

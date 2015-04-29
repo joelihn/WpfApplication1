@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="WpfApplication1.Bed"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="1024" d:DesignWidth="1230">
+    <UserControl.Resources>
+        <DataTemplate x:Key="Name">
+            <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
+
+    </UserControl.Resources>
+    <Grid>
+
+        <Viewbox Stretch="Fill" Name="OverAllViewBox" >
+            <Grid Height="1024" Width="1280">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="60" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.16*" />
+                    <ColumnDefinition Width="0.12*" />
+                    <ColumnDefinition Width="0.12*" />
+                    <ColumnDefinition Width="0.12*" />
+                    <ColumnDefinition Width="0.12*" />
+                    <ColumnDefinition Width="0.12*" />
+                    <ColumnDefinition Width="0.12*" />
+                    <ColumnDefinition Width="0.12*" />
+                </Grid.ColumnDefinitions>
+
+
+                <Button Style="{StaticResource ButtonStyle22}" Name="Mon" Grid.Row="0" Grid.Column="1"   ContentTemplate="{DynamicResource Mon}"></Button>
+                <Button Style="{StaticResource ButtonStyle22}" Name="Tue" Grid.Row="0" Grid.Column="2"   ContentTemplate="{DynamicResource Tue}"></Button>
+                <Button Style="{StaticResource ButtonStyle22}" Name="Wed" Grid.Row="0" Grid.Column="3"   ContentTemplate="{DynamicResource Wed}"></Button>
+                <Button Style="{StaticResource ButtonStyle22}" Name="Thu" Grid.Row="0" Grid.Column="4"   ContentTemplate="{DynamicResource Thu}"></Button>
+                <Button Style="{StaticResource ButtonStyle22}" Name="Fri" Grid.Row="0" Grid.Column="5"   ContentTemplate="{DynamicResource Fri}"></Button>
+                <Button Style="{StaticResource ButtonStyle22}" Name="Sta" Grid.Row="0" Grid.Column="6"   ContentTemplate="{DynamicResource Sta}"></Button>
+                <Button Style="{StaticResource ButtonStyle22}" Name="Sun" Grid.Row="0" Grid.Column="7"   ContentTemplate="{DynamicResource Sun}"></Button>
+
+                <Button Style="{StaticResource ButtonStyle33}" Name="AmButton" Grid.Row="1"  Grid.Column="1" Grid.ColumnSpan="2"  ContentTemplate="{DynamicResource AM}"></Button>
+                <Button Style="{StaticResource ButtonStyle33}" Name="PmButton" Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2"  ContentTemplate="{DynamicResource PM}"></Button>
+                <Button Style="{StaticResource ButtonStyle33}" Name="EvButton" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="3"  ContentTemplate="{DynamicResource EV}"></Button>
+
+
+                <ListView  Name="ListView1" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="1024"
+                      ItemContainerStyle="{StaticResource myItemStyle}" ItemsSource="{Binding}" Style="{StaticResource ListViewStyle}">
+                    <ListView.View>
+                        <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
+                            <GridViewColumn  Width="150"   CellTemplate="{StaticResource Name}">
+                                <Grid>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="姓名" />
+
+                                    </StackPanel>
+                                </Grid>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+                <StackPanel  Name="ListView2" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="7" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="1024">
+                    
+                </StackPanel>
+            </Grid>
+        </Viewbox>
+        
+    </Grid>
+</UserControl>

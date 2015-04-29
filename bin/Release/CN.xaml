@@ -1,0 +1,660 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                             xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="Save">保　存</sys:String>
+    <sys:String x:Key="SaveAs">另存为</sys:String>
+    <sys:String x:Key="Application">应　用</sys:String>
+    <TextBlock x:Key="Delete">删　除</TextBlock>
+    <sys:String x:Key="facade">配色方案</sys:String>
+    <sys:String x:Key="facadetitle">外观配置</sys:String>
+
+    <sys:String x:Key="IDtext">编号</sys:String>
+    <sys:String x:Key="PatientIDtext">患者ID</sys:String>
+    <sys:String x:Key="Nametext">姓名</sys:String>
+    <sys:String x:Key="Sextext">性别</sys:String>
+    <sys:String x:Key="Agetext">年龄</sys:String>
+    <sys:String x:Key="Handtext">利手</sys:String>
+    <sys:String x:Key="Datetext">登记日期</sys:String>
+
+    <sys:String x:Key="Remind2">是否要放弃？</sys:String>
+    <sys:String x:Key="EnglishText">中文</sys:String>
+    <sys:String x:Key="StimulusControlText">刺激控制</sys:String>
+    <sys:String x:Key="StartStimulusText">启动刺激</sys:String>
+    <sys:String x:Key="VisualText">视觉</sys:String>
+    <sys:String x:Key="HearingText">听觉</sys:String>
+    <sys:String x:Key="MovementText">运动</sys:String>
+    <sys:String x:Key="CharacterText">文字</sys:String>
+    <sys:String x:Key="PatientInformationText">患者信息</sys:String>
+    <sys:String x:Key="DestinationInformationText">目的地</sys:String>
+    <sys:String x:Key="NewModifySelectText">新建/修改/选择</sys:String>
+
+
+    <sys:String x:Key="BeginText">开始</sys:String>
+    <sys:String x:Key="EndText">截止</sys:String>
+    <sys:String x:Key="SelectdateText">选择日期</sys:String>
+    <sys:String x:Key="SearchText">查询</sys:String>
+
+    <sys:String x:Key="HandednessText">利手</sys:String>
+    <sys:String x:Key="ClinicalSymptomsText">临床症状</sys:String>
+    <sys:String x:Key="RegisterdateText">登记日期</sys:String>
+    <sys:String x:Key="NewText">新建</sys:String>
+    <sys:String x:Key="ViewText">查看</sys:String>
+    <sys:String x:Key="ModifyText">编辑</sys:String>
+    <sys:String x:Key="DelectText">删除</sys:String>
+    <sys:String x:Key="OKText">确定</sys:String>
+    <sys:String x:Key="cancelText">取消</sys:String>
+    <sys:String x:Key="saveText">保存</sys:String>
+    <sys:String x:Key="ProjectorcontrolText">投影仪控制</sys:String>
+    <sys:String x:Key="OpenprojectorText">打开投影仪</sys:String>
+    <sys:String x:Key="CloseprojectorText">关闭投影仪</sys:String>
+    <sys:String x:Key="ProgectorStatusText">投影仪状态</sys:String>
+    <sys:String x:Key="PromptText">提示</sys:String>
+    <sys:String x:Key="StimulusSetText">刺激设置</sys:String>
+    <sys:String x:Key="CycleTimesText">循环次数</sys:String>
+    <sys:String x:Key="FlickerFrequencyText">闪烁频率</sys:String>
+    <sys:String x:Key="SavetoStimulateText">保存到刺激</sys:String>
+    <sys:String x:Key="DataProcessingText">数据处理</sys:String>
+    <sys:String x:Key="StartProcessingText">启动处理</sys:String>
+    <sys:String x:Key="StartSendText">导航发送</sys:String>
+    <sys:String x:Key="SelectPatientdataText">患者数据</sys:String>
+    <sys:String x:Key="descriptionText">描述</sys:String>
+    <sys:String x:Key="protocolnameText">协议名称</sys:String>
+    <sys:String x:Key="scantimeText">扫描时间</sys:String>
+    <sys:String x:Key="imagetypeText">图像类型</sys:String>
+    <sys:String x:Key="whetherprocessingText">是否处理</sys:String>
+    <sys:String x:Key="imagenumberText">图像数量</sys:String>
+    <sys:String x:Key="selectstimulusparametersText">选择刺激参数</sys:String>
+    
+
+    <sys:String x:Key="stimulusmethodText">刺激方式</sys:String>
+    <sys:String x:Key="stimulustimeText">刺激时间</sys:String>
+    <sys:String x:Key="repeattimesText">重复</sys:String>
+    <sys:String x:Key="TRText">TR</sys:String>
+    <sys:String x:Key="PatientdateText">患者数据</sys:String>
+    <sys:String x:Key="ViewimagesandresultsText">查看图像及结果</sys:String>
+    <sys:String x:Key="dataimportmanuallyText">手动导入数据</sys:String>
+    <sys:String x:Key="datadirectoryText">数据目录</sys:String>
+    <sys:String x:Key="analysisText">分析</sys:String>
+    <sys:String x:Key="checkallText">全选</sys:String>
+
+    <sys:String x:Key="refreshText">刷新</sys:String>
+    <sys:String x:Key="importText">导入</sys:String>
+ 
+    <sys:String x:Key="confirmimportdataText">确定导入数据对话框</sys:String>
+    <!--><sys:String x:Key=""ifyouwantthedataofname：description：protocolname：Scantime：imagetype：applytoprocessingText"">您是否确定将：
+姓名： 描述： 协议名称： 扫描时间： 图像类型：
+应用到处理中来</sys:String>"<-->
+
+    <sys:String x:Key="datapreparationautomaticallyText">自动数据整理</sys:String>
+    <sys:String x:Key="datastatusText">数据状态</sys:String>
+    <sys:String x:Key="processingparametersText">处理参数</sys:String>
+    <sys:String x:Key="processingmethodText">处理方式</sys:String>
+    <sys:String x:Key="standardText">标准流程</sys:String>
+    <sys:String x:Key="ProcessType1">配准分割</sys:String>
+    <sys:String x:Key="ProcessType2">配准相减</sys:String>
+    <sys:String x:Key="saveasdefaultText">保存为默认值</sys:String>
+    <sys:String x:Key="parametersText">参数</sys:String>
+    <sys:String x:Key="valueText">值</sys:String>
+    <sys:String x:Key="yesText">是</sys:String>
+    <sys:String x:Key="noText">否</sys:String>
+    <sys:String x:Key="threedview">3D视图</sys:String>
+    <sys:String x:Key="extendview">附加显示</sys:String>
+    <sys:String x:Key="imagedisplayText">图像显示</sys:String>
+    <sys:String x:Key="imageoperationText">图像操作</sys:String>
+    <sys:String x:Key="UpperlayerText">上层</sys:String>
+    <sys:String x:Key="BottomlayerText">底层</sys:String>
+    <sys:String x:Key="nothingText">无</sys:String>
+    <sys:String x:Key="mergeimageText">融合图</sys:String>
+    <sys:String x:Key="CTimagebeforeText">术前CT图像</sys:String>
+    <sys:String x:Key="CTimageafterText">术后CT图像</sys:String>
+    <sys:String x:Key="MRimageText">MR图像</sys:String>
+    <sys:String x:Key="activatedimageText">激活图</sys:String>
+    <sys:String x:Key="alignmentactivatedimageText">配准激活图</sys:String>
+    <sys:String x:Key="PvalueText">P值 </sys:String>
+    <sys:String x:Key="TvalueText">T值 </sys:String>
+    <sys:String x:Key="layoutText">布局</sys:String>
+    <sys:String x:Key="zoomText">比例</sys:String>
+    <sys:String x:Key="WindowwidthText">窗宽</sys:String>
+    <sys:String x:Key="WindowlevelText">窗位</sys:String>
+    <sys:String x:Key="thedefaultWindowwidthText">默认窗宽窗位</sys:String>
+    <sys:String x:Key="SenttoreportText">发送到报告</sys:String>
+    <sys:String x:Key="ThreedimensionalcoordinatesText">三维坐标</sys:String>
+    <sys:String x:Key="reportsentText">报告发送</sys:String>
+    <sys:String x:Key="reportText">报告</sys:String>
+    <sys:String x:Key="Editext">编辑</sys:String>
+
+    <sys:String x:Key="PrintPreviewText">打印预览</sys:String>
+    <sys:String x:Key="PrintText">打印</sys:String>
+    <sys:String x:Key="FunctionalmagneticresonanceimagingreportoftheXXhospitalText">XX医院的功能核磁共振报告</sys:String>
+
+    <sys:String x:Key="inspectiondateText">检查日期</sys:String>
+    <sys:String x:Key="reportdateText">报告日期</sys:String>
+    <sys:String x:Key="inspectionmethodsortechniquesText">检查方法或技术</sys:String>
+    <sys:String x:Key="medicalimageingmanifestationsText">医学影像学表现</sys:String>
+    <sys:String x:Key="medicalimagingdiagnosisText">医学影像学诊断</sys:String>
+    <sys:String x:Key="signatureofwrittenphysicianText">书写医师签字</sys:String>
+    <sys:String x:Key="signatureofreportphysicianText">报告医师签字</sys:String>
+    <sys:String x:Key="BurningsendText">刻录/发送</sys:String>
+    
+    <sys:String x:Key="burndataText">数据刻录</sys:String>
+    <sys:String x:Key="importdataText">数据导出</sys:String>
+    <sys:String x:Key="sentdicomoverthenetworkText">导航数据发送</sys:String>
+    <sys:String x:Key="configurationText">设置</sys:String>
+    <sys:String x:Key="testText">测试</sys:String>
+    <sys:String x:Key="projectortestText">投影测试</sys:String>
+    <sys:String x:Key="vocalitytestText">声音测试</sys:String>
+    <sys:String x:Key="feedbackbuttontestText">反馈按键测试</sys:String>
+    <sys:String x:Key="DicomconfigurationText">Dicom配置</sys:String>
+    <sys:String x:Key="localhostSCPText">本机SCP</sys:String>
+    <sys:String x:Key="directoryText">目录</sys:String>
+    <sys:String x:Key="modifydirectoryText">修改目录</sys:String>
+    <sys:String x:Key="remoteSCPText">远程SCP</sys:String>
+    <sys:String x:Key="IPaddressText">IP地址</sys:String>
+    <sys:String x:Key="portText">端口</sys:String>
+
+    <sys:String x:Key="addText">添加</sys:String>
+    <sys:String x:Key="updateText">更新</sys:String>
+   
+    <sys:String x:Key="verifyText">验证</sys:String>
+    <sys:String x:Key="systemparametersText">系统参数</sys:String>
+    <sys:String x:Key="appearanceconfigurationText">外观配置</sys:String>
+    <sys:String x:Key="selectcolorschemeText">选择配色方案</sys:String>
+    <sys:String x:Key="customText">自定义选择</sys:String>
+    <sys:String x:Key="backgroundText">背景</sys:String>
+    <sys:String x:Key="colorText">颜色</sys:String>
+    <sys:String x:Key="characterfontText">字体</sys:String>
+    <sys:String x:Key="hospitalinformationText">医院信息</sys:String>
+ 
+    <sys:String x:Key="addressText">地址</sys:String>
+    <sys:String x:Key="contactinformationText">联系方式</sys:String>
+    <sys:String x:Key="postcodeText">邮编</sys:String>
+    <sys:String x:Key="editText">编辑</sys:String>
+
+    <sys:String x:Key="pathconfigurationText">路径配置</sys:String>
+    <sys:String x:Key="databasepathText">数据库路径</sys:String>
+    <sys:String x:Key="datastoragepathText">数据存储路径</sys:String>
+    <sys:String x:Key="filestoragepathText">文件存储路径</sys:String>
+    <sys:String x:Key="startsetText">开始设置</sys:String>
+    <sys:String x:Key="projectorconfigurationText">投影仪配置</sys:String>
+    <sys:String x:Key="consoleportText">控制端口</sys:String>
+    <sys:String x:Key="inputselectionText">输入选择</sys:String>
+    <sys:String x:Key="VGAinputText">VGA输入</sys:String>
+    <sys:String x:Key="VideoinputText">Video输入</sys:String>
+    <sys:String x:Key="displayorientationText">显示方位</sys:String>
+    <sys:String x:Key="desktoprearprojectionText">桌面背投</sys:String>
+    <sys:String x:Key="desktopfrontprojectionText">桌面正投</sys:String>
+    <sys:String x:Key="liftingrearprojectionText">吊装背投</sys:String>
+    <sys:String x:Key="liftingfrontprojectionText">吊装正投</sys:String>
+ 
+    <sys:String x:Key="engineersetText">工程师设置</sys:String>
+    <sys:String x:Key="stimulusconfigurationText">刺激配置</sys:String>
+    <sys:String x:Key="VisualconfigurationText">视觉设置</sys:String>
+    <sys:String x:Key="HearingconfigurationText">听觉设置</sys:String>
+    <sys:String x:Key="MovementconfigurationText">运动设置</sys:String>
+    <sys:String x:Key="CharacterconfigurationText">文字设置</sys:String>
+    <sys:String x:Key="xmlpathText">xml路径</sys:String>
+    <sys:String x:Key="imagepathText">图片路径</sys:String>
+    <sys:String x:Key="stimulusnameText">刺激名称</sys:String>
+    <sys:String x:Key="submitText">提交</sys:String>
+    <sys:String x:Key="quitText">退出</sys:String>
+    <sys:String x:Key="shutdownpageText">关机页面</sys:String>
+    <sys:String x:Key="shutdownText">关机</sys:String>
+    <sys:String x:Key="turnoffthesoftwareonlyText">仅关闭软件</sys:String>
+
+    <sys:String x:Key="pseudocolorText">伪彩</sys:String>
+    <sys:String x:Key="HeadmovingcurveText">头动曲线</sys:String>
+    <sys:String x:Key="alignmentmethodText">配准方式</sys:String>
+    <sys:String x:Key="NoElecText">未上电</sys:String>
+
+    <sys:String x:Key="BroadcastpaceText">播放进度</sys:String>
+    <sys:String x:Key="playText">播　放</sys:String>
+    <sys:String x:Key="suspendText">暂　停</sys:String>
+    <sys:String x:Key="stopText">停　止</sys:String>
+    <sys:String x:Key="musicfilepathText">音频文件路径</sys:String>
+    <sys:String x:Key="PathSettingText">路径设置</sys:String>
+    <sys:String x:Key="SettingnosaveText">设置未保存</sys:String>
+    <sys:String x:Key="FarDICOMStorageSCPText">远程DICOM Storage SCP</sys:String>
+    <sys:String x:Key="NameText1">名称</sys:String>
+    <sys:String x:Key="AddText">添　加</sys:String>
+    <sys:String x:Key="UpadateText">更　新</sys:String>
+    <sys:String x:Key="CheckText">验　证</sys:String>
+
+
+   <sys:String x:Key="LocalDICOMStorageSCPText">本机DICOM Storage SCP</sys:String>
+    <sys:String x:Key="StartTestText">开始测试</sys:String>
+    <sys:String x:Key="StimulusButtonFacadeText">刺激按钮配置</sys:String>
+    <sys:String x:Key="AboutText">关于</sys:String>
+    <sys:String x:Key="ConfirmImportDataText1">导入数据确定</sys:String>
+    <sys:String x:Key="number1">张数</sys:String>
+    <sys:String x:Key="DateText1">日期</sys:String>
+    <sys:String x:Key="AllDateText">全部日期</sys:String>
+    <sys:String x:Key="In7DayText">七天内</sys:String>
+    <sys:String x:Key="In3DaysText">三天内</sys:String>
+    <sys:String x:Key="giveupText">放　弃</sys:String>
+    <sys:String x:Key="StopHandleText">停止处理</sys:String>
+    <sys:String x:Key="SendText">发送</sys:String>
+    <sys:String x:Key="MergeText">生成</sys:String>
+    <sys:String x:Key="DestinationText">目标</sys:String>
+		<sys:String x:Key="StandardText">标准</sys:String>
+    <sys:String x:Key="AffineText">Affine</sys:String>
+    <sys:String x:Key="BSplineText">BSpline</sys:String>
+    <sys:String x:Key="RigidText">Rigid</sys:String>
+  
+		<sys:String x:Key="ResampleText">重采样</sys:String>
+    <sys:String x:Key="FitSpaceText">适应空间</sys:String>
+    <sys:String x:Key="OriginTextText">原图</sys:String>
+    <sys:String x:Key="SpiltText">切割</sys:String>
+    <sys:String x:Key="RedirectionText">重定向</sys:String>
+    <sys:String x:Key="ProJectorControl_PromptText">请给扫描室内投影装置上电</sys:String>
+    <sys:String x:Key="StimulusSetup_PromptText">没有选中刺激，不能启动</sys:String>
+    <sys:String x:Key="ProcessRight_Prompt1Text">患者已执行刺激</sys:String>
+    <sys:String x:Key="ProcessRight_Prompt2Text">通用刺激</sys:String>
+    <sys:String x:Key="ProcessRight_IgnoreHintText">提示：前</sys:String>
+    <sys:String x:Key="ProcessRight_IgnoreHintTextEnd">秒不进行激活统计.</sys:String>
+    <sys:String x:Key="Bac1Text">背景1</sys:String>
+    <sys:String x:Key="bac2Text">背景2</sys:String>
+    <sys:String x:Key="FontColor1Text">字体颜色1</sys:String>
+    <sys:String x:Key="FontColor2Text">字体颜色2</sys:String>
+    <sys:String x:Key="ButtonColor1Text">按钮颜色1</sys:String>
+    <sys:String x:Key="ButtonColor2Text">按钮颜色2</sys:String>
+    <sys:String x:Key="ButtonColor3Text">按钮颜色3</sys:String>
+    <sys:String x:Key="ButtonBacText">按钮背景色</sys:String>
+    <sys:String x:Key="InputNameText">请输入要保存的名字 </sys:String>
+    <sys:String x:Key="TotalStimulusTimeText">刺激累计总时间 </sys:String>
+    <sys:String x:Key="AlreadyRunTimeText">已运行时间 </sys:String>
+    <sys:String x:Key="RemainTimeText">剩余时间 </sys:String>
+    <sys:String x:Key="LeisureTimeWaitText">正在空闲时间，等待核磁共振同步信号</sys:String>
+    <sys:String x:Key="SelectStimulusText">刺激选择</sys:String>
+    <sys:String x:Key="NullText">空</sys:String>
+    <sys:String x:Key="DisplayNameText">显示名称</sys:String>
+    <sys:String x:Key="DisplayIcoText">显示图标</sys:String>
+    <sys:String x:Key="DefaultText">默认</sys:String>
+    <sys:String x:Key="CurrentDiskText">当前光驱</sys:String>
+    <sys:String x:Key="SupportDiskTypeText">支持的光盘类型</sys:String>
+    <sys:String x:Key="CheckDiskText">检测光盘</sys:String>
+    <sys:String x:Key="CapcityText">容　　量</sys:String>
+    <sys:String x:Key="DiskLabelText">光盘卷标</sys:String>
+    <sys:String x:Key="EndDiskText">结束光盘（不可再写入）</sys:String>
+    <sys:String x:Key="EndandBoundText">结束时弹出</sys:String>
+    <sys:String x:Key="BurningText">刻  录</sys:String>
+    <sys:String x:Key="BurnStateText">刻录状态</sys:String>
+
+
+    <sys:String x:Key="linear drift Text">线性漂移</sys:String>
+    <sys:String x:Key="lineardriftText">线性漂移</sys:String>
+    <sys:String x:Key="LagrangepolynomialbeginText">拉格朗日多项式展开</sys:String>
+    <sys:String x:Key="HeadRealignmentText">头动校正</sys:String>
+    <sys:String x:Key="RepeatNumber999">重复次数为1-999的数字！</sys:String>
+    <sys:String x:Key="SuspendText">暂停</sys:String>
+    <sys:String x:Key="ContinueText">继续</sys:String>
+    <sys:String x:Key="unitmm">（单位/mm）</sys:String>
+    <sys:String x:Key="unitdegrees">（单位/Degrees）</sys:String>
+    <sys:String x:Key="Processinging">正在处理</sys:String>
+    <sys:String x:Key="NowSelectText">当前选择</sys:String>
+    <sys:String x:Key="AlreadyDealedText">已经处理</sys:String>
+    <sys:String x:Key="NoDealedText">没有处理</sys:String>
+    <sys:String x:Key="SuccessMend">修改成功！</sys:String>
+    <sys:String x:Key="VerifyCDing">验证当前光盘...</sys:String>
+    <sys:String x:Key="FomattingCD">格式化光盘...</sys:String>
+    <sys:String x:Key="initalizehardware">初始化硬件...</sys:String>
+    <sys:String x:Key="Optimizationlaser">优化激光强度...</sys:String>
+    <sys:String x:Key="AlreadyDoneText">已完成</sys:String>
+    <sys:String x:Key="NowburningText">正在完成刻录 ...</sys:String>
+    <sys:String x:Key="NowcheckingText">正在验证</sys:String>
+    <sys:String x:Key="Areyousure">您是否确定将</sys:String>
+    <sys:String x:Key="putinhandleText">应用到处理中来</sys:String>
+    <sys:String x:Key="ManText">男</sys:String>
+    <sys:String x:Key="WomanText">女</sys:String>
+    <sys:String x:Key="NostartingupText">未开机</sys:String>
+    <sys:String x:Key="PleaseopenprojectordeviceText">请打开扫描室内投影装置</sys:String>
+    <sys:String x:Key="alignmentimageText">配准图</sys:String>
+    <sys:String x:Key="AlreadystartupText">已开机</sys:String>
+    <sys:String x:Key="ProjectorisnormalText">投影装置状态正常</sys:String>
+    <sys:String x:Key="NowpoweringoffText">正关机</sys:String>
+    <sys:String x:Key="ProjectorispoweringoffText">投影装置正在关机</sys:String>
+    <sys:String x:Key="SelectsignalText">选信号</sys:String>
+    <sys:String x:Key="projectorisselectingsignalText">投影装置正在选择信号</sys:String>
+    <sys:String x:Key="NowstartingText">正启动</sys:String>
+    <sys:String x:Key="ProjectordeviceisstartingText">投影装置正在启动</sys:String>
+    <sys:String x:Key="NowsavingtaskfileText">正在保存task文件...</sys:String>
+    <sys:String x:Key="HeadRealignmentisfinishingText">头动校正完成...</sys:String>
+    <sys:String x:Key="NowActivatingstatistics">正在进行激活统计...</sys:String>
+    <sys:String x:Key="Activatestatisticsdone">激活统计完成...</sys:String>
+    <sys:String x:Key="RegPostoperativeImage">正在配准术后图像...</sys:String>
+    <sys:String x:Key="RegPreoperativeImage">正在配准术前图像...</sys:String>
+    <sys:String x:Key="Imagealignmentfdone">图像配准完成...</sys:String>
+    <sys:String x:Key="Nowsectedstimulustart">已经选中刺激，可以启动</sys:String>
+    <sys:String x:Key="Alreadyselect">已经选中</sys:String>
+    <sys:String x:Key="stimuluscanstart">刺激，可以启动。鼠标右键点击刺激按钮可以查看详细介绍。</sys:String>
+    <sys:String x:Key="Stimulusing">正在刺激中....</sys:String>
+    <sys:String x:Key="DoingheadrealignmentText">正在进行头动校正...</sys:String>
+    <sys:String x:Key="TRValueText">TR值不能为非整数！</sys:String>
+    <sys:String x:Key="datadelete">数据删除</sys:String>
+    <sys:String x:Key="Confirmdeletedata">删除数据确定</sys:String>
+    <sys:String x:Key="Medianotsupport">媒体不被支持!</sys:String>
+    <sys:String x:Key="Selectburningdata">请选择需要刻录的数据</sys:String>
+    <sys:String x:Key="LeftText">左</sys:String>
+    <sys:String x:Key="rightText">右</sys:String>
+    <sys:String x:Key="ChangeLanguage">切换多语言</sys:String>
+    <sys:String x:Key="synchro">同步</sys:String>
+    <sys:String x:Key="mirrordisplay">镜像显示</sys:String>
+
+
+    <sys:String x:Key="Message1">是否要关闭病人对话框？</sys:String>
+    <sys:String x:Key="Message2">是否要放弃？</sys:String>
+    <sys:String x:Key="Message3">患者信息为空，是否要自动生成患者编号？</sys:String>
+    <sys:String x:Key="Message4">您没有选中任何数据</sys:String>
+    <sys:String x:Key="Message5">刺激已终止</sys:String>
+    <sys:String x:Key="Message6">请确认投影设备已开机，选择是否继续进行？</sys:String>
+    <sys:String x:Key="Message7">请确认核磁共振设备同步信号已准备好！</sys:String>
+    <sys:String x:Key="Message8">该设备不支持刻录</sys:String>
+    <sys:String x:Key="Message9">不支持该光盘！</sys:String>
+    <sys:String x:Key="Message10">刻录出现问题！未将对象引用到对象的实例！</sys:String>
+    <sys:String x:Key="Message11">Verfication Faied!</sys:String>
+    <sys:String x:Key="Message12">请选择一个系列！</sys:String>
+    <sys:String x:Key="Message13">没有更改！</sys:String>
+    <sys:String x:Key="Message14">没有选中你要保存的文件！</sys:String>
+    <sys:String x:Key="Message15">没有选中要删除的配色方案！</sys:String>
+    <sys:String x:Key="EnterSaveFileText">请输入要保存的名字 </sys:String>
+    <sys:String x:Key="Message16">保存成功！</sys:String>
+    <sys:String x:Key="Message17">没有选中数据</sys:String>
+    <sys:String x:Key="Message18">是否执行删除操作?</sys:String>
+    <sys:String x:Key="Message19">该操作将删除该患者以前生成的报告。</sys:String>
+    <sys:String x:Key="Message20">请确认或者先取消并备份！</sys:String>
+    <sys:String x:Key="Message21">本条记录无日期</sys:String>
+    <sys:String x:Key="Message22">不合法路径</sys:String>
+    <sys:String x:Key="Message23">成功输出！</sys:String>
+    <sys:String x:Key="Message24">错误</sys:String>
+    <sys:String x:Key="Message25">请安装 IMAPI2</sys:String>
+    <sys:String x:Key="Message26">IDiscFormat2Data写入失败</sys:String>
+    <sys:String x:Key="Message27">刻录已完成！</sys:String>
+    <sys:String x:Key="Message28">刻录出现错误！</sys:String>
+    <sys:String x:Key="Message29">刻录</sys:String>
+    <sys:String x:Key="Message30">创建光盘文件系统错误</sys:String>
+    <sys:String x:Key="Message31">无法获取支持的类型</sys:String>
+    <sys:String x:Key="Message32">无法检测光盘</sys:String>
+    <sys:String x:Key="Message33">未能打开帮助文件 </sys:String>
+    <sys:String x:Key="Message34">MR图最多只能存在一个！</sys:String>
+    <sys:String x:Key="Message35">术前CT图像最多只能存在一个！</sys:String>
+    <sys:String x:Key="Message35000">术后CT图像最多只能存在一个！</sys:String>
+    <sys:String x:Key="Message36">重复次数请输入整数！</sys:String>
+    <sys:String x:Key="Message37">设置已保存</sys:String>
+    <sys:String x:Key="Message38">请输入保存方案的名字</sys:String>
+    <sys:String x:Key="Message39">请确认磁共振设备同步信号已准备好! </sys:String>
+    <sys:String x:Key="Message40">数据连接失败，，请确认数据库文件和密码设置是否正确!En</sys:String>
+    <sys:String x:Key="Message41">停止刺激</sys:String>
+    <sys:String x:Key="Message42">结束测试</sys:String>
+    <sys:String x:Key="Message43">请选中要删除的行！</sys:String>
+    <sys:String x:Key="Message44">头动曲线如上所示，请确认是否继续进行处理?</sys:String>
+    <sys:String x:Key="Message45">如果发现问题请联系美德医疗的售后电话15816858957，谢谢！</sys:String>
+    <sys:String x:Key="Message46">打开USB Key失败， 且没有找到注册文件!</sys:String>
+    <sys:String x:Key="Messgae47">打开USB Key失败， 错误的注册文件!</sys:String>
+    <sys:String x:Key="Message48">未注册的USB Key!</sys:String>
+    <sys:String x:Key="Message49">刻录出现问题！</sys:String>
+    <sys:String x:Key="Message50">不能删除当前选中患者信息。</sys:String>
+    <sys:String x:Key="Message51">是否从StorageSCP目录删除导入的数据？删除之后将不能再次导入。</sys:String>
+    <sys:String x:Key="Message52">请选择正确的目录!</sys:String>
+    <sys:String x:Key="Message53">闪烁频率为1-10的数字！</sys:String>
+    <sys:String x:Key="Message54">保存默认处理参数成功!</sys:String>
+    <sys:String x:Key="Message55">验证失败！</sys:String>
+    <sys:String x:Key="Message56">储存失败！</sys:String>
+    <sys:String x:Key="Message57">储存成功！</sys:String>
+    <sys:String x:Key="Message58">数据库或Viewer不存在或有问题！</sys:String>
+    <sys:String x:Key="Message59">显示设置</sys:String>
+    <sys:String x:Key="Message60">方式选择</sys:String>
+    <sys:String x:Key="Message61">自动设置桌面</sys:String>
+    <sys:String x:Key="Message62">手动设置桌面</sys:String>
+    <sys:String x:Key="Message63">正在发送DICOM数据...</sys:String>
+    <sys:String x:Key="Message64">停止发送</sys:String>
+    <sys:String x:Key="Message65">不进行激活统计的时间(秒)</sys:String>
+		<sys:String x:Key="Message66">预热时间(秒)</sys:String>
+		<sys:String x:Key="Message67">此删除操作会删除磁盘上的数据文件，请再次确认。</sys:String>
+		<sys:String x:Key="Message68">生成失败！</sys:String>
+		<sys:String x:Key="Message69">生成成功！</sys:String>
+		<sys:String x:Key="Message70">正在生成DICOM数据...</sys:String>
+		<sys:String x:Key="Message71">停止生成</sys:String>
+		<sys:String x:Key="Message72">正在查询数据...</sys:String>
+		<sys:String x:Key="Message73">正在导入数据...</sys:String>
+		<sys:String x:Key="Message74">正在处理数据...</sys:String>
+		<sys:String x:Key="Message75">数据处理完成...</sys:String>
+		<sys:String x:Key="Message76">输入的患者ID不合法或者在系统中已经存在.</sys:String>
+		<sys:String x:Key="Message77">数据不符合处理条件...</sys:String>
+		<sys:String x:Key="Message78">ProtocolName.xml不合法，请检查！</sys:String>
+
+		<sys:String x:Key="Message10000">导航模块只能发送已经处理的功能像！</sys:String>
+
+
+
+
+
+
+    <sys:Double x:Key="TextBlockStyle1FontsizeFontSize">26</sys:Double>
+    <sys:Double x:Key="TextBlockStyle2FontSize">15</sys:Double>
+    <sys:Double x:Key="TextBlockStyle3FontSize">15</sys:Double>
+    <sys:Double x:Key="TextBlockStyle4FontSize">15</sys:Double>
+    <sys:Double x:Key="TextBoxStyle1FontSize">13</sys:Double>
+    <sys:Double x:Key="CheckBoxStyle1FontSize">15</sys:Double>
+    <sys:Double x:Key="ComboBoxStyle1FontSize">13</sys:Double>
+    <sys:Double x:Key="ComboBoxStyle2FontSize">13</sys:Double>
+    <sys:Double x:Key="ButtonTextBlockStyle1FontSize">30</sys:Double>
+    <sys:Double x:Key="ButtonTextBlockStyle22FontSize">30</sys:Double>
+    <sys:Double x:Key="ButtonTextBlockStyle33FontSize">30</sys:Double>
+    <sys:Double x:Key="ButtonTextBlockStyle1_selectedFontSize">30</sys:Double>
+    <sys:Double x:Key="ButtonTextBlockStyle2FontSize">24</sys:Double>
+    <sys:Double x:Key="myItemStyleFontSize">14</sys:Double>
+    <sys:Double x:Key="ListViewHeadStyleColumnFontSize">20</sys:Double>
+    <sys:Double x:Key="RightButton1FontSize">18</sys:Double>
+    <sys:Double x:Key="RightTextBox1FontSize">16</sys:Double>
+    <sys:Double x:Key="RightTextBlock1FontSize">18</sys:Double>
+    <sys:Double x:Key="DialogButtonFontSize">16</sys:Double>
+    <sys:Double x:Key="DialogTextBlockFontSize">16</sys:Double>
+    <sys:Double x:Key="DialogLabelFontSize">16</sys:Double>
+    <sys:Double x:Key="RightLabelFontSize">18</sys:Double>
+    <sys:Double x:Key="DialogTextBoxFontSize">16</sys:Double>
+    <sys:Double x:Key="BigButtonFontSize">60</sys:Double>
+
+
+            <Style x:Key="TextBlockStyle4" TargetType="TextBlock">
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Margin" Value="36,0,0,2" />
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="FontFamily" Value="Microsoft YaHei" />
+                <Setter Property="Foreground" Value="{DynamicResource TextColor1}" />
+            </Style>
+            <Style x:Key="TextBoxStyle1" TargetType="TextBox">
+                <!--  <Setter Property="HorizontalAlignment" Value="Right" />  -->
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Margin" Value="2,0,2,2" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="13" />
+                <Setter Property="FontFamily" Value="Microsoft YaHei" />
+                <Setter Property="Padding" Value="3,0" />
+                <Setter Property="Foreground" Value="{DynamicResource TextColor1}" />
+                <Setter Property="Background" Value="{DynamicResource BacGround2}" />
+            </Style>
+            <Style x:Key="CheckBoxStyle1" TargetType="CheckBox">
+                <Setter Property="Margin" Value="6,0,6,2" />
+                <!--  <Setter Property="HorizontalContentAlignment" Value="Center" />  -->
+                <Setter Property="FontSize" Value="15" />
+                <Setter Property="FontFamily" Value="Microsoft YaHei" />
+                <Setter Property="Background" Value="{DynamicResource BacGround2}" />
+            </Style>
+
+           <Style x:Key="ButtonTextBlockStyle2" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="5" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontFamily" Value="Microsoft YaHei" />
+            </Style>
+
+            <Style x:Key="RightButton1" TargetType="{x:Type Button}">
+             		<Setter Property="FontFamily" Value="Microsoft YaHei" />
+                <Setter Property="Height" Value="30" />
+                <Setter Property="Background" Value="{DynamicResource RightButtonBackground}" />
+                <Setter Property="FontSize" Value="28" />
+                <Setter Property="Foreground" Value="{DynamicResource TextColor1}" />
+                <Setter Property="Width" Value="107" />
+                <!--  <Setter Property="FontWeight" Value="Bold" />  -->
+            </Style>
+         
+            <Visibility x:Key="EnglishMain" >Hidden</Visibility>
+            <Visibility x:Key="ChineseMain" >Visible</Visibility>
+
+            <DataTemplate x:Key="StimulusMain">
+               
+                    <Grid Style="{StaticResource LeftButtonGrid}" >
+
+                        <TextBlock Style="{StaticResource ButtonTextBlockStyle1_selected}" Name="TextBlock1" >
+                        <Run Text="刺"  />
+                        <Run Text="激"/>
+                        <Run Text="控"  />
+                        <Run Text="制"/>
+                        </TextBlock>
+                    </Grid>
+              
+            </DataTemplate>
+           <DataTemplate x:Key="InitMain">
+                   <Grid Style="{StaticResource LeftButtonGrid}" >
+                        <TextBlock Style="{StaticResource ButtonTextBlockStyle1}" Name="TextBlock2">
+                    <Run Text="出"/>                    
+                    <Run Text="始"/>
+                    <Run Text="化"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+             <DataTemplate x:Key="OrderMain">
+                   <Grid Style="{StaticResource LeftButtonGrid}" >
+                        <TextBlock Style="{StaticResource ButtonTextBlockStyle1}" Name="TextBlock2">
+                     <Run Text="排"/>   
+                     <Run Text="班"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+
+             <DataTemplate x:Key="BedMain">
+                          <Grid Style="{StaticResource LeftButtonGrid}">
+                            <TextBlock Style="{StaticResource ButtonTextBlockStyle1}" Name="TextBlock4">
+                    <Run Text="排"/>   
+                     <Run Text="床"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+
+               <DataTemplate x:Key="ConfigMain">
+                          <Grid Style="{StaticResource LeftButtonGrid}">
+                            <TextBlock Style="{StaticResource ButtonTextBlockStyle1}" Name="TextBlock4">
+                     <Run Text="设"/>
+                    
+                    <Run Text="置"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+
+               <DataTemplate x:Key="CloseMain">
+                          <Grid Style="{StaticResource LeftButtonGrid}">
+                              <TextBlock Style="{StaticResource ButtonTextBlockStyle1}" Name="TextBlock4">
+                      <Run Text="退"/>
+                            
+                            <Run Text="出"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                    
+                    <DataTemplate x:Key="Mon">
+                          <Grid Style="{StaticResource LeftButtonGrid22}">
+                              <TextBlock Style="{StaticResource ButtonTextBlockStyle22}" Name="TextBlock4">
+                      <Run Text="周一"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                    
+                      <DataTemplate x:Key="Tue">
+                          <Grid Style="{StaticResource LeftButtonGrid22}">
+                              <TextBlock Style="{StaticResource ButtonTextBlockStyle22}" Name="TextBlock4">
+                      <Run Text="周二"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                    
+                      <DataTemplate x:Key="Wed">
+                          <Grid Style="{StaticResource LeftButtonGrid22}">
+                              <TextBlock Style="{StaticResource ButtonTextBlockStyle22}" Name="TextBlock4">
+                      <Run Text="周三"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                    
+                      <DataTemplate x:Key="Thu">
+                          <Grid Style="{StaticResource LeftButtonGrid22}">
+                              <TextBlock Style="{StaticResource ButtonTextBlockStyle22}" Name="TextBlock4">
+                      <Run Text="周四"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                    
+                      <DataTemplate x:Key="Fri">
+                          <Grid Style="{StaticResource LeftButtonGrid22}">
+                              <TextBlock Style="{StaticResource ButtonTextBlockStyle22}" Name="TextBlock4">
+                      <Run Text="周五"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                    
+                      <DataTemplate x:Key="Sta">
+                          <Grid Style="{StaticResource LeftButtonGrid22}">
+                              <TextBlock Style="{StaticResource ButtonTextBlockStyle22}" Name="TextBlock4">
+                      <Run Text="周六"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                    
+                      <DataTemplate x:Key="Sun">
+                          <Grid Style="{StaticResource LeftButtonGrid22}">
+                              <TextBlock Style="{StaticResource ButtonTextBlockStyle22}" Name="TextBlock4">
+                      <Run Text="周日"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                    
+                     <DataTemplate x:Key="AM">
+                          <Grid Style="{StaticResource LeftButtonGrid33}">
+                              <TextBlock Style="{StaticResource ButtonTextBlockStyle33}" Name="TextBlock4">
+                      <Run Text="上午"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                    
+                     <DataTemplate x:Key="PM">
+                          <Grid Style="{StaticResource LeftButtonGrid33}">
+                              <TextBlock Style="{StaticResource ButtonTextBlockStyle33}" Name="TextBlock4">
+                      <Run Text="下午"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                    
+                   <DataTemplate x:Key="EV">
+                          <Grid Style="{StaticResource LeftButtonGrid33}">
+                              <TextBlock Style="{StaticResource ButtonTextBlockStyle33}" Name="TextBlock4">
+                      <Run Text="晚上"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+
+  
+
+
+
+         
+
+    
+
+
+       
+
+
+
+
+
+    
+</ResourceDictionary>
