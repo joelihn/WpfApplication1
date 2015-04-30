@@ -10,89 +10,156 @@ using System;
 
 namespace WpfApplication1.DAOModule
 {
-    /// <summary>
-    /// 患者表
-    /// </summary>
-    public class FmriPatient
+
+    public class Bed
     {
-        public Int64 PatientId { get; set; } //TODO ?
-        public string PatientName { get; set; }
-        public string PatientDob { get; set; }
-        public string PatientGender { get; set; }
-        public string PatientHand { get; set; }
-        public string PatientRegesiterDate { get; set; }
-        public string PatientStudyDescription { get; set; }
-        public string PatientClinicDescription { get; set; }
+        public Int64 Id { get; set; }
+        public Int64 PatientRoomId { get; set; }
+        public string Name { get; set; }
+        public Int64 Type { get; set; }
+        public bool IsAvailable { get; set; }
+        public bool IsOccupy { get; set; }
+        public string Description { get; set; }
+        public string Reserved { get; set; }
+    }
+
+    public class InfectType
+    {
+        public Int64 Id { get; set; }
+        public string Name { get; set; }
+        public Int64 Type { get; set; }
+        public string Description { get; set; }
+        public string Reserved { get; set; }
+    }
+
+    public class Interval
+    {
+        public Int64 Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Reserved { get; set; }
+    }
+
+    public class MedicalOrder
+    {
+        public Int64 Id { get; set; }
+        public Int64 PatientId { get; set; }
+        public Int64 TotalQuantity { get; set; }
+        public string TotalInterval { get; set; }
+        public Int64 HdfQuantity { get; set; }
+        public string HdfInterval { get; set; }
+        public Int64 HdhpQuantity { get; set; }
+        public string HdhpInterval { get; set; }
+        public string Duration { get; set; }
+        public string Description { get; set; }
+        public string Reserved1 { get; set; }
+        public string Reserved2 { get; set; }
+        public string Reserved3 { get; set; }
+        public string Reserved4 { get; set; }
+    }
+
+    public class Patient
+    {
+        public Int64 Id { get; set; } //TODO ?
+        public string PatientId { get; set; }
+        public string Name { get; set; }
+        public string Dob { get; set; }
+        public string Gender { get; set; }
+        public string Mobile { get; set; }
+        public string RegisitDate { get; set; }
+        public Int64 InfectType { get; set; }
+        public bool IsFixedBed { get; set; }
+        public Int64 BedId { get; set; }
+        public bool IsAssigned { get; set; }
+        public string Description { get; set; }
+        public string Reserved1 { get; set; }
+        public string Reserved2 { get; set; }
+    }
+
+    public class PatientArea
+    {
+        public Int64 Id { get; set; }
+        public string Name { get; set; }
+        public Int64 Type { get; set; }
+        public string Description { get; set; }
+        public string Reserved { get; set; }
+    }
+
+    public class PatientDepartment
+    {
+        public Int64 Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Reserved { get; set; }
+    }
+
+    public class PatientRoom
+    {
+        public Int64 Id { get; set; }
+        public Int64 PatientAreaId { get; set; }
+        public string Name { get; set; }
+        public Int64 Type { get; set; }
+        public string Description { get; set; }
+        public string Reserved { get; set; }
+    }
+
+    public class ScheduleTemplate
+    {
+        public Int64 Id { get; set; }
+        public Int64 PatientId { get; set; }
+        public string Date { get; set; }
+        public string Mon { get; set; }
+        public string Tue { get; set; }
+        public string Wed { get; set; }
+        public string Thu { get; set; }
+        public string Fri { get; set; }
+        public string Sta { get; set; }
+        public string Sun { get; set; }
+        public string NMon { get; set; }
+        public string NTue { get; set; }
+        public string NWed { get; set; }
+        public string NThu { get; set; }
+        public string NFri { get; set; }
+        public string NSta { get; set; }
+        public string NSun { get; set; }
+        public string Description { get; set; }
+        public string Reserved { get; set; }
+    }
+
+    public class ScheduleType
+    {
+        public Int64 Id { get; set; }
+        public string Name { get; set; }
+        public Int64 PatientId { get; set; }
+        public string TimeRange { get; set; }
+        public Int64 Type { get; set; }
+        public string Color { get; set; }
+        public string Description { get; set; }
+        public string Reserved { get; set; }
+    }
+
+    public class TreatType
+    {
+        public Int64 Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Reserved { get; set; }
     }
 
 
-    public enum SeriesType
+    public class TreatStatus
     {
-        AnatomyImage = 0,
-        FuctionImage = 1,
-        MergeImage
+        public Int64 Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Reserved { get; set; }
     }
 
-    /// <summary>
-    /// 序列表
-    /// </summary>
-    public class FMriSeries
-    {
-        public Int64 SeriesId { get; set; }
-        public Int64 SeriesPatientId { get; set; }
-        public string SeriesWw { get; set; }
-        public string SeriesWl { get; set; }
-        public string SeriesProtocolName { get; set; }
-        public string SeriesUId { get; set; }
-        public string SeriesTrValue { get; set; }
-        public string SeriesDescription { get; set; }
-        public string SeriesDateTime { get; set; }
-        public string SeriesImageDir { get; set; }
-        public SeriesType SeriesType { get; set; }
-        public Int64 SeriesImageCount { get; set; }
-        public bool SeriesProcessed { get; set; }
-    }
+    //public enum SeriesType
+    //{
+    //    AnatomyImage = 0,
+    //    FuctionImage = 1,
+    //    MergeImage
+    //}
 
-    /// <summary>
-    /// 处理记录表
-    /// </summary>
-    public class FMriProcess
-    {
-        public Int64 ProcessId { get; set; }
-        public Int64 ProcessSeriesId { get; set; }
-        public Int64 ProcessStimulusId { get; set; }
-        public string ProcessCorrespondingAnatomicImages { get; set; }
-        public Int64 ProcessStimulusTimes { get; set; }
-        public string ProcessStimulusName { get; set; }
-        public string ProcessAlgorithms { get; set; }
-        public string ProcessAlgorithmsParameters { get; set; }
-        public string ProcessResultImages { get; set; }
-        public string ProcessResultAdjustImages { get; set; }
-        public string ProcessHeadMotionFile { get; set; }
-        public string ProcessDateTime { get; set; }
-    }
-
-    /// <summary>
-    /// 刺激记录表
-    /// </summary>
-    public class FMriStimulus
-    {
-        public Int64 StimulusId { get; set; }
-        public Int64 StimulusPatientId { get; set; }
-        public string StimulusName { get; set; }
-        public string StimulusDateTime { get; set; }
-        public Int64 StimulusTimes { get; set; }
-        public string StimulusDescription { get; set; }
-    }
-
-    /// <summary>
-    /// 报告记录表
-    /// </summary>
-    public class FMriReport
-    {
-        public Int64 ReportId { get; set; }
-        public Int64 ReportPatientId { get; set; }
-        public string ReportDoc { get; set; }
-        public string ReportDate { get; set; }
-    }
 }
