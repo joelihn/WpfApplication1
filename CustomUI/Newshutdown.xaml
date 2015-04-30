@@ -1,0 +1,14 @@
+﻿<Window x:Class="WpfApplication1.CustomUI.Newshutdown" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:App="clr-namespace:WpfApplication1" Width="555" Height="248" WindowStyle="None" AllowsTransparency="True" BorderBrush="{x:Null}" Topmost="False" WindowStartupLocation="CenterScreen" Background="{x:Null}" ShowInTaskbar="False">
+	<Grid Height="160" Width="480" Style="{StaticResource DialogGridBottomBacGround}">
+		<TextBlock Text="{DynamicResource  shutdownpageText}" Height="36" VerticalAlignment="Top" PreviewMouseLeftButtonDown="TitleGridPreviewMouseLeftButtonDown" FontSize="20" Style="{StaticResource DialogTextBlock}" Padding="5,4" />
+		<Button Height="26" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" Width="50" Click="IconButton_Click">
+			<!--<Image Source="/fMRISystem;component/Resources/Close_.png" Stretch="UniformToFill" />-->
+		</Button>
+
+		<Grid Margin="5,36,5,5" Name="grid1" Style="{StaticResource GridBackGround1}">
+			<Button Content="{DynamicResource shutdownText}" HorizontalAlignment="Center" Margin="-280,0,0,0" Name="ShutDownButton" VerticalAlignment="Center" Width="100" Click="ShutDownButtonClick" Style="{StaticResource DialogButton}" FontSize="16" Height="40" />
+			<Button Content="{DynamicResource cancelText}" Margin="280,0,0,0" Name="CancelButton" VerticalAlignment="Center" Click="CancelButtonClick" Style="{StaticResource DialogButton}" Height="40" FontSize="16" HorizontalAlignment="Center" Width="100" />
+			<Button Content="{DynamicResource  turnoffthesoftwareonlyText}" HorizontalAlignment="Center" Margin="0,0,0,0" Name="OnlyShutdownButton" VerticalAlignment="Center" Width="100" Click="OnlyShutdownButtonClick" Style="{StaticResource DialogButton}" Height="40" FontSize="16" />
+		</Grid>
+	</Grid>
+</Window>
