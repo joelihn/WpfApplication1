@@ -16,9 +16,9 @@ using WpfApplication1.Utils;
 
 namespace WpfApplication1.DAOModule
 {
-    public class FmriComplexDao : IDisposable
+    public class ComplexDao : IDisposable
     {
-        public FmriComplexDao()
+        public ComplexDao()
         {
             try
             {
@@ -27,7 +27,7 @@ namespace WpfApplication1.DAOModule
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("FMRIComplexDao.cs-FMRIComplexDao", e);
+                MainWindow.Log.WriteErrorLog("ComplexDao.cs-ComplexDao", e);
             }
         }
 
@@ -59,7 +59,7 @@ namespace WpfApplication1.DAOModule
             {
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
-                    string sqlcommand = "SELECT IFNULL(max(_ROWID_) , 1) AS Id FROM  FMRI_PATIENT;";
+                    string sqlcommand = "SELECT IFNULL(max(_ROWID_) , 1) AS Id FROM  PATIENT;";
                     sqlcomm.CommandText = sqlcommand;
                     sqlcomm.CommandType = CommandType.Text;
                     SQLiteDataReader sqReader = sqlcomm.ExecuteReader();
@@ -71,16 +71,16 @@ namespace WpfApplication1.DAOModule
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("FMRIComplexDao.cs-GetMaxRowIdOfPatientTable", e);
+                MainWindow.Log.WriteErrorLog("ComplexDao.cs-GetMaxRowIdOfPatientTable", e);
             }
 
             return max;
         }
 
-        public List<FmriPatient> SelectFMriPatient(Dictionary<string, object> condition, DateTime begin,
+        public List<Patient> SelectFMriPatient(Dictionary<string, object> condition, DateTime begin,
                                                    DateTime endtemp)
         {
-            var list = new List<FmriPatient>();
+            var list = new List<Patient>();
             try
             {
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
@@ -90,29 +90,29 @@ namespace WpfApplication1.DAOModule
                     if (condition == null || condition.Count == 0)
                     {
                         sqlcomm.CommandText =
-                            "select * from FMRI_PATIENT where " + "PATIENT_REGESITER_DATE between '" +
+                            "select * from PATIENT where " + "REGISITDATE between '" +
                             begin.ToString("yyyy-MM-dd") +
-                            "' and  '" + end.ToString("yyyy-MM-dd") + "'" + "order by PATIENT_ID desc;";
-                        list = DatabaseOp.ExecuteQuery<FmriPatient>(sqlcomm);
+                            "' and  '" + end.ToString("yyyy-MM-dd") + "'" + "order by ID desc;";
+                        list = DatabaseOp.ExecuteQuery<Patient>(sqlcomm);
                         return list;
                     }
 
-                    string sqlcommand = "select * from FMRI_PATIENT where ";
+                    string sqlcommand = "select * from PATIENT where ";
                     TransferLikeParameteres(ref sqlcommand, "@", "and", condition, sqlcomm.Parameters);
                     sqlcommand = sqlcommand.Substring(0, sqlcommand.LastIndexOf("and"));
 
-                    sqlcommand += " and PATIENT_REGESITER_DATE between '" + begin.ToString("yyyy-MM-dd") +
+                    sqlcommand += " and REGISITDATE between '" + begin.ToString("yyyy-MM-dd") +
                                   "' and  '" + end.ToString("yyyy-MM-dd") + "'";
-                    sqlcommand += " order by PATIENT_ID desc; ";
+                    sqlcommand += " order by ID desc; ";
                     sqlcomm.CommandText = sqlcommand;
 
-                    list = DatabaseOp.ExecuteQuery<FmriPatient>(sqlcomm);
+                    list = DatabaseOp.ExecuteQuery<Patient>(sqlcomm);
                     return list;
                 }
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("FMRIComplexDao.cs-SelectFMriPatient", e);
+                MainWindow.Log.WriteErrorLog("ComplexDao.cs-SelectPatient", e);
                 return list;
             }
         }
@@ -126,7 +126,7 @@ namespace WpfApplication1.DAOModule
                 foreach (var condition in conditions)
                 {
                     sql += condition.Key + " like " + mark1 + condition.Key + " " + mark2 + " ";
-                    if (condition.Key.Equals("PATIENT_ID"))
+                    if (condition.Key.Equals("ID"))
                     {
                         int patientId = int.Parse(condition.Value.ToString());
                         parameters.AddWithValue(condition.Key, "%" + patientId + "%");
@@ -137,7 +137,7 @@ namespace WpfApplication1.DAOModule
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("FMRIComplexDao.cs-TransferLikeParameteres", e);
+                MainWindow.Log.WriteErrorLog("ComplexDao.cs-TransferLikeParameteres", e);
             }
         }
     }

@@ -19,9 +19,9 @@ namespace WpfApplication1.DAOModule
     /// <summary>
     ///   FmriPatientDao表的操作服务实现
     /// </summary>
-    public class FmriPatientDao : IDisposable
+    public class PatientDao : IDisposable
     {
-        public FmriPatientDao()
+        public PatientDao()
         {
             try
             {
@@ -30,7 +30,7 @@ namespace WpfApplication1.DAOModule
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("FMRIPatientDao.cs-FmriPatientDao", e);
+                MainWindow.Log.WriteErrorLog("PatientDao.cs-PatientDao", e);
             }
         }
 
@@ -49,7 +49,7 @@ namespace WpfApplication1.DAOModule
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("FMRIPatientDao.cs-Dispose", e);
+                MainWindow.Log.WriteErrorLog("PatientDao.cs-Dispose", e);
             }
         }
 
@@ -58,56 +58,69 @@ namespace WpfApplication1.DAOModule
         /// <summary>
         /// 插入数据
         /// </summary>
-        /// <param name="fmriPatient">Class instance of patient infomation</param>
+        /// <param name="patient">Class instance of patient infomation</param>
         /// <param name="scPatientId">Id of the last insert row id</param>
         /// <returns></returns>
-        public bool InsertFMriPatient(FmriPatient fmriPatient, ref int scPatientId)
+        public bool InsertPatient(Patient patient, ref int scPatientId)
         {
             try
             {
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO FMRI_PATIENT (PATIENT_NAME,PATIENT_DOB,PATIENT_GENDER,PATIENT_HAND,PATIENT_REGESITER_DATE,PATIENT_STUDY_DESCRIPTION,PATIENT_CLINIC_DESCRIPTION) VALUES (@PATIENT_NAME,@PATIENT_DOB,@PATIENT_GENDER,@PATIENT_HAND,@PATIENT_REGESITER_DATE,@PATIENT_STUDY_DESCRIPTION,@PATIENT_CLINIC_DESCRIPTION)";
-                    sqlcomm.Parameters.Add("@PATIENT_NAME", DbType.String);
-                    sqlcomm.Parameters["@PATIENT_NAME"].Value = fmriPatient.PatientName;
-                    sqlcomm.Parameters.Add("@PATIENT_DOB", DbType.String);
-                    sqlcomm.Parameters["@PATIENT_DOB"].Value = fmriPatient.PatientDob;
-                    sqlcomm.Parameters.Add("@PATIENT_GENDER", DbType.String);
-                    sqlcomm.Parameters["@PATIENT_GENDER"].Value = fmriPatient.PatientGender;
-                    sqlcomm.Parameters.Add("@PATIENT_HAND", DbType.String);
-                    sqlcomm.Parameters["@PATIENT_HAND"].Value = fmriPatient.PatientHand;
-                    sqlcomm.Parameters.Add("@PATIENT_REGESITER_DATE", DbType.String);
-                    sqlcomm.Parameters["@PATIENT_REGESITER_DATE"].Value = fmriPatient.PatientRegesiterDate;
-                    sqlcomm.Parameters.Add("@PATIENT_STUDY_DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@PATIENT_STUDY_DESCRIPTION"].Value = fmriPatient.PatientStudyDescription;
-                    sqlcomm.Parameters.Add("@PATIENT_CLINIC_DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@PATIENT_CLINIC_DESCRIPTION"].Value = fmriPatient.PatientClinicDescription;
+                        @"INSERT INTO PATIENT (PATIENTID,NAME,DOB,GENDER, MOBILE,REGISITDATE,INFECTTYPE,ISFIXEDBED,BEDID,ISASSIGNED,DESCRIPTION,RESERVED1,RESERVED2) VALUES 
+                        (@PATIENTID,@NAME,@DOB,@GENDER,@MOBILE,@REGISITDATE,@INFECTTYPE,@ISFIXEDBED,@BEDID,@ISASSIGNED,@DESCRIPTION,@RESERVED1,@RESERVED2)";
+                    sqlcomm.Parameters.Add("@PATIENTID", DbType.String);
+                    sqlcomm.Parameters["@PATIENTID"].Value = patient.PatientId;
+                    sqlcomm.Parameters.Add("@NAME", DbType.String);
+                    sqlcomm.Parameters["@NAME"].Value = patient.Name;
+                    sqlcomm.Parameters.Add("@DOB", DbType.String);
+                    sqlcomm.Parameters["@DOB"].Value = patient.Dob;
+                    sqlcomm.Parameters.Add("@GENDER", DbType.String);
+                    sqlcomm.Parameters["@GENDER"].Value = patient.Gender;
+                    sqlcomm.Parameters.Add("@MOBILE", DbType.String);
+                    sqlcomm.Parameters["@MOBILE"].Value = patient.Mobile;
+                    sqlcomm.Parameters.Add("@REGISITDATE", DbType.String);
+                    sqlcomm.Parameters["@REGISITDATE"].Value = patient.RegisitDate;
+                    sqlcomm.Parameters.Add("@INFECTTYPE", DbType.Int32);
+                    sqlcomm.Parameters["@INFECTTYPE"].Value = patient.InfectType;
+                    sqlcomm.Parameters.Add("@ISFIXEDBED", DbType.Boolean);
+                    sqlcomm.Parameters["@ISFIXEDBED"].Value = patient.IsFixedBed;
+                    sqlcomm.Parameters.Add("@BEDID", DbType.Int32);
+                    sqlcomm.Parameters["@BEDID"].Value = patient.BedId;
+                    sqlcomm.Parameters.Add("@ISASSIGNED", DbType.Boolean);
+                    sqlcomm.Parameters["@ISASSIGNED"].Value = patient.IsAssigned;
+                    sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
+                    sqlcomm.Parameters["@DESCRIPTION"].Value = patient.Description;
+                    sqlcomm.Parameters.Add("@RESERVED1", DbType.String);
+                    sqlcomm.Parameters["@RESERVED1"].Value = patient.Reserved1;
+                    sqlcomm.Parameters.Add("@RESERVED2", DbType.String);
+                    sqlcomm.Parameters["@RESERVED2"].Value = patient.Reserved2;
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
                     //set last insert id of this table this connection
                     SQLiteCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as FMRI_PATIENT;";
+                    comm.CommandText = "Select last_insert_rowid() as PATIENT;";
                     scPatientId = Convert.ToInt32(comm.ExecuteScalar());
                     comm.Dispose();
                 }
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("FMRIPatientDao.cs-InsertFMriPatient", e);
+                MainWindow.Log.WriteErrorLog("PatientDao.cs-InsertPatient", e);
                 return false;
             }
             return true;
         }
 
 
-        public bool UpdateFMriPatient(Dictionary<string, object> fields, Dictionary<string, object> condition)
+        public bool UpdatePatient(Dictionary<string, object> fields, Dictionary<string, object> condition)
         {
             try
             {
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
-                    string sqlcommand = "update FMRI_PATIENT set ";
+                    string sqlcommand = "update PATIENT set ";
                     var parameters = new Dictionary<string, object>();
                     DatabaseOp.TransferParameteres(ref sqlcommand, "@", ",", fields, sqlcomm.Parameters);
                     sqlcommand = sqlcommand.Substring(0, sqlcommand.LastIndexOf(","));
@@ -120,37 +133,37 @@ namespace WpfApplication1.DAOModule
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("FMRIPatientDao.cs-UpdateFMriPatient", e);
+                MainWindow.Log.WriteErrorLog("PatientDao.cs-UpdatePatient", e);
                 return false;
             }
             return true;
         }
 
 
-        public bool DeleteFMriPatient(int scPatientId)
+        public bool DeletePatient(int scPatientId)
         {
             try
             {
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"DELETE FROM FMRI_PATIENT WHERE PATIENT_ID = @PATIENT_ID";
-                    sqlcomm.Parameters.Add("@PATIENT_ID", DbType.Int32);
-                    sqlcomm.Parameters["@PATIENT_ID"].Value = scPatientId;
+                        @"DELETE FROM PATIENT WHERE ID = @ID";
+                    sqlcomm.Parameters.Add("@ID", DbType.Int32);
+                    sqlcomm.Parameters["@ID"].Value = scPatientId;
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
                 }
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("FMRIPatientDao.cs-DeleteFMriPatient", e);
+                MainWindow.Log.WriteErrorLog("PatientDao.cs-DeletePatient", e);
                 return false;
             }
             return true;
         }
 
-        public List<FmriPatient> SelectFMriPatient(Dictionary<string, object> condition)
+        public List<Patient> SelectPatient(Dictionary<string, object> condition)
         {
-            var list = new List<FmriPatient>();
+            var list = new List<Patient>();
             try
             {
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
@@ -158,23 +171,23 @@ namespace WpfApplication1.DAOModule
                     if (condition == null || condition.Count == 0)
                     {
                         sqlcomm.CommandText =
-                            "select * from FMRI_PATIENT order by PATIENT_ID desc;";
-                        list = DatabaseOp.ExecuteQuery<FmriPatient>(sqlcomm);
+                            "select * from PATIENT order by ID desc;";
+                        list = DatabaseOp.ExecuteQuery<Patient>(sqlcomm);
                         return list;
                     }
-                    string sqlcommand = "select * from FMRI_PATIENT where ";
+                    string sqlcommand = "select * from PATIENT where ";
                     DatabaseOp.TransferParameteres(ref sqlcommand, "@", "and", condition, sqlcomm.Parameters);
                     sqlcommand = sqlcommand.Substring(0, sqlcommand.LastIndexOf("and"));
-                    sqlcommand += " order by PATIENT_ID desc";
+                    sqlcommand += " order by ID desc";
                     sqlcomm.CommandText = sqlcommand;
 
-                    list = DatabaseOp.ExecuteQuery<FmriPatient>(sqlcomm);
+                    list = DatabaseOp.ExecuteQuery<Patient>(sqlcomm);
                     return list;
                 }
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("FMRIPatientDao.cs-SelectFMriPatient", e);
+                MainWindow.Log.WriteErrorLog("PatientDao.cs-SelectPatient", e);
                 return list;
             }
         }
