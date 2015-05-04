@@ -69,30 +69,34 @@ namespace WpfApplication1
                 }
             }
 
-            using (var bedDao = new BedDao())
-            {
-                var bed = new WpfApplication1.DAOModule.Bed();
-                bed.PatientRoomId = 1;
-                bed.Name = "床位1";
-                bed.Type = 0;
-                bed.IsAvailable = true;
-                bed.IsOccupy = false;
-                bed.Description = "描述";
-                bed.Reserved = "保留字段";
+            //TODO test all database table access operation
+            #region
+            //using (var bedDao = new BedDao())
+            //{
+            //    var bed = new WpfApplication1.DAOModule.Bed();
+            //    bed.PatientRoomId = 1;
+            //    bed.Name = "床位1";
+            //    bed.Type = 0;
+            //    bed.IsAvailable = true;
+            //    bed.IsOccupy = false;
+            //    bed.Description = "描述";
+            //    bed.Reserved = "保留字段";
 
-                int lastInsertId = -1;
-                bedDao.InsertBed(bed, ref lastInsertId);
+            //    int lastInsertId = -1;
+            //    bedDao.InsertBed(bed, ref lastInsertId);
 
-                var condition = new Dictionary<string, object>();
-                condition["NAME"] = "床位1";
-                var list = bedDao.SelectBed(condition);
+            //    var condition = new Dictionary<string, object>();
+            //    condition["NAME"] = "床位1";
+            //    var list = bedDao.SelectBed(condition);
 
-                var fields = new Dictionary<string, object>();
-                condition["DESCIRPTION"] = "描述描述";
-                bedDao.UpdateBed(fields, condition);
+            //    var fields = new Dictionary<string, object>();
+            //    fields["DESCRIPTION"] = "描述描述";
+            //    bedDao.UpdateBed(fields, condition);
 
-                bedDao.DeleteBed((int)list[0].Id);
-            }
+            //    bedDao.DeleteBed((int)list[0].Id);
+            //}
+            #endregion
+           
 
             initContent = new Init(this);
             orderContent = new Order(this);
