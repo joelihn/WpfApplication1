@@ -80,10 +80,21 @@
     <Compile Include="CustomUI\RemindMessageBox2.xaml.cs">
       <DependentUpon>RemindMessageBox2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DAOModule\BedDao.cs" />
     <Compile Include="DAOModule\ComplexDao.cs" />
     <Compile Include="DAOModule\DatabaseOp.cs" />
     <Compile Include="DAOModule\DataStruct.cs" />
+    <Compile Include="DAOModule\InfectTypeDao.cs" />
+    <Compile Include="DAOModule\IntervalDao.cs" />
+    <Compile Include="DAOModule\MedicalOrderDao.cs" />
+    <Compile Include="DAOModule\PatientAreaDao.cs" />
     <Compile Include="DAOModule\PatientDao.cs" />
+    <Compile Include="DAOModule\PatientDepartmentDao.cs" />
+    <Compile Include="DAOModule\PatientRoomDao.cs" />
+    <Compile Include="DAOModule\ScheduleTemplateDao.cs" />
+    <Compile Include="DAOModule\ScheduleTypeDao.cs" />
+    <Compile Include="DAOModule\TreatStatusDao.cs" />
+    <Compile Include="DAOModule\TreatTypeDao.cs" />
     <Compile Include="Utils\Const.cs" />
     <Compile Include="Utils\Utils.cs" />
     <Page Include="Bed.xaml">
