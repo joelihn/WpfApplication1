@@ -50,7 +50,7 @@ namespace WpfApplication1.DAOModule
         /// 插入数据
         /// </summary>
         /// <param name="infectType">Class instance of infectType infomation</param>
-        /// <param name="scinfectType">Id of the last insert row id</param>
+        /// <param name="scinfectTypeId">Id of the last insert row id</param>
         /// <returns></returns>
         public bool InsertInfectType(InfectType infectType, ref int scinfectTypeId)
         {

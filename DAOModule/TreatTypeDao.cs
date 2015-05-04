@@ -20,7 +20,7 @@ namespace WpfApplication1.DAOModule
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("TreatTypeDao.cs-InfectTypeDao", e);
+                MainWindow.Log.WriteErrorLog("TreatTypeDao.cs-TreatTypeDao", e);
             }
         }
 

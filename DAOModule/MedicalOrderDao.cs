@@ -49,7 +49,7 @@ namespace WpfApplication1.DAOModule
         /// 插入数据
         /// </summary>
         /// <param name="medicalOrder">Class instance of Medical Order infomation</param>
-        /// <param name="scintervalId">Id of the last insert row id</param>
+        /// <param name="scId">Id of the last insert row id</param>
         /// <returns></returns>
         public bool InsertInfectType(MedicalOrder medicalOrder, ref int scId)
         {
