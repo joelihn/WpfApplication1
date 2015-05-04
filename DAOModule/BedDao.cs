@@ -9,7 +9,7 @@ using WpfApplication1.Utils;
 
 namespace WpfApplication1.DAOModule
 {
-    class BedDao
+    class BedDao : IDisposable
     {
 
         public BedDao()

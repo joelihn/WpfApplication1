@@ -140,7 +140,6 @@
       <DependentUpon>Config.xaml</DependentUpon>
     </Compile>
     <Compile Include="ConfigModule\Facade.cs" />
-    <Compile Include="ConfigModule\SystemConfig.cs" />
     <Compile Include="Init.xaml.cs">
       <DependentUpon>Init.xaml</DependentUpon>
     </Compile>

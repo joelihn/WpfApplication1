@@ -29,28 +29,28 @@ namespace WpfApplication1
             InitializeComponent();
             Basewindow = window;
 
-            BedData orderdata = new BedData();
-            orderdata.Name = "张三";
-            Beddatalist.Add(orderdata);
+            BedData bedData = new BedData();
+            bedData.Name = "张三";
+            Beddatalist.Add(bedData);
 
-            BedData orderdata1 = new BedData();
-            orderdata1.Name = "李四";
+            BedData bedData1 = new BedData();
+            bedData1.Name = "李四";
 
-            Beddatalist.Add(orderdata1);
-            Beddatalist.Add(orderdata);
-            Beddatalist.Add(orderdata1);
-            Beddatalist.Add(orderdata);
-            Beddatalist.Add(orderdata1);
-            Beddatalist.Add(orderdata);
-            Beddatalist.Add(orderdata1);
-            Beddatalist.Add(orderdata);
-            Beddatalist.Add(orderdata1);
-            Beddatalist.Add(orderdata);
-            Beddatalist.Add(orderdata1);
-            Beddatalist.Add(orderdata);
-            Beddatalist.Add(orderdata1);
-            Beddatalist.Add(orderdata);
-            Beddatalist.Add(orderdata1);
+            Beddatalist.Add(bedData1);
+            Beddatalist.Add(bedData);
+            Beddatalist.Add(bedData1);
+            Beddatalist.Add(bedData);
+            Beddatalist.Add(bedData1);
+            Beddatalist.Add(bedData);
+            Beddatalist.Add(bedData1);
+            Beddatalist.Add(bedData);
+            Beddatalist.Add(bedData1);
+            Beddatalist.Add(bedData);
+            Beddatalist.Add(bedData1);
+            Beddatalist.Add(bedData);
+            Beddatalist.Add(bedData1);
+            Beddatalist.Add(bedData);
+            Beddatalist.Add(bedData1);
         }
     }
 

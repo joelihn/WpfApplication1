@@ -9,7 +9,7 @@ using WpfApplication1.Utils;
 
 namespace WpfApplication1.DAOModule
 {
-    class PatientRoomDao
+    class PatientRoomDao : IDisposable
     {
         public PatientRoomDao()
         {
