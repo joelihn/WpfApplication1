@@ -517,9 +517,8 @@
            <DataTemplate x:Key="InitMain">
                    <Grid Style="{StaticResource LeftButtonGrid}" >
                         <TextBlock Style="{StaticResource ButtonTextBlockStyle1}" Name="TextBlock2">
-                    <Run Text="出"/>                    
-                    <Run Text="始"/>
-                    <Run Text="化"/>
+                    <Run Text="登"/>                    
+                    <Run Text="记"/>
                             </TextBlock>
                         </Grid>
                     </DataTemplate>

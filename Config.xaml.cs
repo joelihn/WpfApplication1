@@ -26,5 +26,6 @@ namespace WpfApplication1
             InitializeComponent();
             Basewindow = window;
         }
+
     }
 }

@@ -71,8 +71,29 @@
     <Compile Include="CustomUI\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomUI\CBed.xaml.cs">
+      <DependentUpon>CBed.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomUI\CInfectType.xaml.cs">
+      <DependentUpon>CInfectType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomUI\CInterval.xaml.cs">
+      <DependentUpon>CInterval.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomUI\CTreatStatus.xaml.cs">
+      <DependentUpon>CTreatStatus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomUI\CTreatType.xaml.cs">
+      <DependentUpon>CTreatType.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomUI\Newshutdown.xaml.cs">
       <DependentUpon>Newshutdown.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomUI\CPatientArea.xaml.cs">
+      <DependentUpon>CPatientArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomUI\CPatientRoom.xaml.cs">
+      <DependentUpon>CPatientRoom.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomUI\RemindMessageBox1.xaml.cs">
       <DependentUpon>RemindMessageBox1.xaml</DependentUpon>
@@ -109,9 +130,37 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="CustomUI\CBed.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomUI\CInfectType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomUI\CInterval.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomUI\CTreatStatus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomUI\CTreatType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomUI\Newshutdown.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="CustomUI\CPatientArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomUI\CPatientRoom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomUI\RemindMessageBox1.xaml">
       <Generator>MSBuild:Compile</Generator>

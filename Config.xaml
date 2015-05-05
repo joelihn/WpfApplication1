@@ -3,19 +3,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:customui="clr-namespace:WpfApplication1.CustomUI"
              mc:Ignorable="d" 
-             d:DesignHeight="1024" d:DesignWidth="974">
+             d:DesignHeight="1024" d:DesignWidth="1230">
     <Grid>
-        <Label Content="Config" HorizontalAlignment="Left" Margin="309,188,0,0" VerticalAlignment="Top">
-            <Label.Foreground>
-                
-                
-                
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Black" Offset="0"/>
-                    <GradientStop Color="White" Offset="1"/>
-                </LinearGradientBrush>
-            </Label.Foreground>
-        </Label>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*" />
+            <RowDefinition Height="5*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="90" />
+            <ColumnDefinition Width="400" />
+            <ColumnDefinition Width="120" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.RowSpan="2"  Grid.Column="1" >
+            <StackPanel Width="400" Margin="0,0,0,0">
+                <customui:CPatientArea x:Name="cPatientArea" Height="250" />
+                <customui:CPatientRoom x:Name="cPatientRoom" Height="350" />
+                <customui:CBed x:Name="cBed" Height="424" />
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="0" Grid.RowSpan="2"  Grid.Column="3" >
+            <StackPanel Width="400" Margin="0,0,0,0">
+                <customui:CInfectType x:Name="cInfectType" Height="250" />
+                <customui:CInterval x:Name="cInterval" Height="250" />
+                <customui:CTreatType x:Name="cTreatType" Height="250" />
+                <customui:CTreatStatus x:Name="cTreatStatus" Height="250" />
+            </StackPanel>
+        </Grid>
     </Grid>
+
+
+
 </UserControl>
