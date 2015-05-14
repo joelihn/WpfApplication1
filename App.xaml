@@ -258,7 +258,7 @@
 
             <Style x:Key="ListViewHeadStyleColumn" TargetType="{x:Type GridViewColumnHeader}">
                 <Setter Property="Background" Value="#FFF1F1F1" />
-                <Setter Property="Height" Value="80" />
+                <Setter Property="Height" Value="60" />
                 <Setter Property="FontSize" Value="{DynamicResource  ListViewHeadStyleColumnFontSize}" />
                 <Setter Property="FontFamily" Value="Microsoft YaHei" />
             </Style>

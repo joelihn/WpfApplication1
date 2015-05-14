@@ -13,7 +13,10 @@
     <sys:String x:Key="Nametext">姓名</sys:String>
     <sys:String x:Key="Sextext">性别</sys:String>
     <sys:String x:Key="Agetext">年龄</sys:String>
-    <sys:String x:Key="Handtext">利手</sys:String>
+    <sys:String x:Key="Mobiletext">电话</sys:String>
+    <sys:String x:Key="InfectTypetext">感染类型</sys:String>
+    <sys:String x:Key="IsFixedBedtext">固定床位</sys:String>
+    <sys:String x:Key="IsAssignedtext">是否排班</sys:String>
     <sys:String x:Key="Datetext">登记日期</sys:String>
 
     <sys:String x:Key="Remind2">是否要放弃？</sys:String>
@@ -442,7 +445,7 @@
     <sys:Double x:Key="ButtonTextBlockStyle1_selectedFontSize">30</sys:Double>
     <sys:Double x:Key="ButtonTextBlockStyle2FontSize">24</sys:Double>
     <sys:Double x:Key="myItemStyleFontSize">14</sys:Double>
-    <sys:Double x:Key="ListViewHeadStyleColumnFontSize">20</sys:Double>
+    <sys:Double x:Key="ListViewHeadStyleColumnFontSize">16</sys:Double>
     <sys:Double x:Key="RightButton1FontSize">18</sys:Double>
     <sys:Double x:Key="RightTextBox1FontSize">16</sys:Double>
     <sys:Double x:Key="RightTextBlock1FontSize">18</sys:Double>

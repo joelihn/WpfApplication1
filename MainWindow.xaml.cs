@@ -102,7 +102,7 @@ namespace WpfApplication1
             orderContent = new Order(this);
             bedContent = new Bed(this);
             configContent = new Config(this);
-
+            this.RightContent.Content = initContent;
         }
 
         private void InitButton_Click(object sender, RoutedEventArgs e)

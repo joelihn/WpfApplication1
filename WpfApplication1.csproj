@@ -101,6 +101,9 @@
     <Compile Include="CustomUI\RemindMessageBox2.xaml.cs">
       <DependentUpon>RemindMessageBox2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomUI\RemindMessageBox3.xaml.cs">
+      <DependentUpon>RemindMessageBox3.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DAOModule\BedDao.cs" />
     <Compile Include="DAOModule\ComplexDao.cs" />
     <Compile Include="DAOModule\DatabaseOp.cs" />
@@ -170,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="CustomUI\RemindMessageBox3.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Init.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -235,6 +242,12 @@
     </None>
   </ItemGroup>
   <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\ArrowDown.png" />
+    <Resource Include="Resources\ArrowLeft.png" />
+    <Resource Include="Resources\ArrowRight.png" />
+    <Resource Include="Resources\ArrowUp.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

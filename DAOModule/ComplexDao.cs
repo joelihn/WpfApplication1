@@ -77,7 +77,7 @@ namespace WpfApplication1.DAOModule
             return max;
         }
 
-        public List<Patient> SelectFMriPatient(Dictionary<string, object> condition, DateTime begin,
+        public List<Patient> SelectPatient(Dictionary<string, object> condition, DateTime begin,
                                                    DateTime endtemp)
         {
             var list = new List<Patient>();
