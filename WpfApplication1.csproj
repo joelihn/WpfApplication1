@@ -119,6 +119,7 @@
     <Compile Include="DAOModule\ScheduleTypeDao.cs" />
     <Compile Include="DAOModule\TreatStatusDao.cs" />
     <Compile Include="DAOModule\TreatTypeDao.cs" />
+    <Compile Include="DataStructures\PatientSchedule.cs" />
     <Compile Include="Utils\Const.cs" />
     <Compile Include="Utils\Utils.cs" />
     <Page Include="Bed.xaml">
@@ -241,7 +242,27 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\AM_HD.png" />
+    <Resource Include="Resources\A_ORG.png" />
+    <Resource Include="Resources\AM_HDF.png" />
+    <Resource Include="Resources\E_HD.png" />
+    <Resource Include="Resources\E_HP.png" />
+    <Resource Include="Resources\E_ORG.png" />
+    <Resource Include="Resources\E_HDF.png" />
+    <Resource Include="Resources\PM_HD.png" />
+    <Resource Include="Resources\p_green-.png" />
+    <Resource Include="Resources\P_ORG.png" />
+    <Resource Include="Resources\PM_HDF.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\AM_HP.png" />
+    <Resource Include="Resources\f_blue.png" />
+    <Resource Include="Resources\PM_HP.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\N_N.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\ArrowDown.png" />
     <Resource Include="Resources\ArrowLeft.png" />
