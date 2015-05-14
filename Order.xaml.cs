@@ -285,11 +285,11 @@ namespace WpfApplication1
                     PatientItemList[index].WedNode1 = GetNextItem(curItem, mouseButton);
                     break;
 
-                case "The0":
+                case "Thu0":
                     curItem = PatientItemList[index].ThuNode0;
                     PatientItemList[index].ThuNode0 = GetNextItem(curItem, mouseButton);
                     break;
-                case "The1":
+                case "Thu1":
                     curItem = PatientItemList[index].ThuNode1;
                     PatientItemList[index].ThuNode1 = GetNextItem(curItem, mouseButton);
                     break;
