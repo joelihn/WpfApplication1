@@ -62,7 +62,7 @@ namespace WpfApplication1.DAOModule
                         (@NAME,@TYPE,@DESCRIPTION,@RESERVED)";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
                     sqlcomm.Parameters["@NAME"].Value = patientArea.Name;
-                    sqlcomm.Parameters.Add("@TYPE", DbType.Int32);
+                    sqlcomm.Parameters.Add("@TYPE", DbType.String);
                     sqlcomm.Parameters["@TYPE"].Value = patientArea.Type;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
                     sqlcomm.Parameters["@DESCRIPTION"].Value = patientArea.Description;
@@ -112,7 +112,7 @@ namespace WpfApplication1.DAOModule
         }
 
 
-        public bool DeletePatientArea(int scId)
+        public bool DeletePatientArea(long scId)
         {
             try
             {
