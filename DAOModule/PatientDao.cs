@@ -68,8 +68,8 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO PATIENT (PATIENTID,NAME,DOB,GENDER, MOBILE,ORDER,STATUS.REGISITDATE,INFECTTYPE,ISFIXEDBED,BEDID,ISASSIGNED,DESCRIPTION,RESERVED1,RESERVED2) VALUES 
-                        (@PATIENTID,@NAME,@DOB,@GENDER,@MOBILE,@ORDER,@STATUS,@REGISITDATE,@INFECTTYPE,@ISFIXEDBED,@BEDID,@ISASSIGNED,@DESCRIPTION,@RESERVED1,@RESERVED2)";
+                        @"INSERT INTO PATIENT (PATIENTID,NAME,DOB,GENDER, MOBILE, MEDICALORDER, STATUS,REGISITDATE,INFECTTYPE,ISFIXEDBED,BEDID,ISASSIGNED,DESCRIPTION,RESERVED1,RESERVED2) VALUES 
+                        (@PATIENTID,@NAME,@DOB,@GENDER,@MOBILE,@MEDICALORDER,@STATUS,@REGISITDATE,@INFECTTYPE,@ISFIXEDBED,@BEDID,@ISASSIGNED,@DESCRIPTION,@RESERVED1,@RESERVED2)";
                     sqlcomm.Parameters.Add("@PATIENTID", DbType.String);
                     sqlcomm.Parameters["@PATIENTID"].Value = patient.PatientId;
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
@@ -80,8 +80,8 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters["@GENDER"].Value = patient.Gender;
                     sqlcomm.Parameters.Add("@MOBILE", DbType.String);
                     sqlcomm.Parameters["@MOBILE"].Value = patient.Mobile;
-                    sqlcomm.Parameters.Add("@ORDER", DbType.String);
-                    sqlcomm.Parameters["@ORDER"].Value = patient.Order;
+                    sqlcomm.Parameters.Add("@MEDICALORDER", DbType.String);
+                    sqlcomm.Parameters["@MEDICALORDER"].Value = patient.Order;
                     sqlcomm.Parameters.Add("@STATUS", DbType.String);
                     sqlcomm.Parameters["@STATUS"].Value = patient.Status;
                     sqlcomm.Parameters.Add("@REGISITDATE", DbType.String);

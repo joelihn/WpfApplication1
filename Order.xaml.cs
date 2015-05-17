@@ -32,6 +32,7 @@ namespace WpfApplication1
         {
             InitializeComponent();
             Basewindow = window;
+            this.PatientlistView.ItemsSource = PatientList;
         }
 
         private void TimeRadioButton1_Click(object sender, RoutedEventArgs e)
@@ -556,5 +557,38 @@ namespace WpfApplication1
             }
         }
 
+        private void Order_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+            try
+            {
+                PatientList.Clear();
+                using (PatientDao patientDao = new PatientDao())
+                {
+
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    var list = patientDao.SelectPatient(condition);
+                    foreach (Patient type in list)
+                    {
+                        PatientInfo patientInfo = new PatientInfo();
+                        patientInfo.PatientName = type.Name;
+                        patientInfo.PatientDob = type.Dob;
+                        patientInfo.PatientPatientId = type.PatientId;
+                        patientInfo.PatientGender = type.Gender;
+                        patientInfo.PatientMobile = type.Mobile;
+                        patientInfo.PatientRegesiterDate = type.RegisitDate;
+                        patientInfo.PatientIsFixedBed = type.IsFixedBed;
+                        patientInfo.PatientIsAssigned = type.IsAssigned;
+                        patientInfo.PatientDescription = type.Description;
+                        PatientList.Add(patientInfo);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
+            }
+
+        }
     }
 }
