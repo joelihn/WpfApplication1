@@ -4,11 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="280" d:DesignWidth="500">
+             d:DesignHeight="240" d:DesignWidth="500">
     <Grid>
         <StackPanel Margin="0,0">
             <TextBlock Name="TitleTextBlock" Margin="0" HorizontalAlignment="Center" Style="{StaticResource TextBlockStyle1}" Text="房间信息" />
-            <ListView x:Name="ListViewPatientArea" Height="150" Margin="0,0,0,0" Style="{StaticResource ListViewStyle}"
+            <ListView x:Name="ListViewPatientArea" Height="110" Margin="0,0,0,0" Style="{StaticResource ListViewStyle}"
             	VerticalAlignment="Top" FontSize="16" Loaded="ListViewCPatientRoom_OnLoaded"  SelectionChanged="ListViewCPatientRoom_OnSelectionChanged">
                 <ListView.View>
                     <GridView>

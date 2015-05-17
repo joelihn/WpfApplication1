@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:customui="clr-namespace:WpfApplication1.CustomUI"
              mc:Ignorable="d" 
-             d:DesignHeight="1024" d:DesignWidth="1230">
-    <Grid>
+             d:DesignHeight="1024" d:DesignWidth="1150">
+    <Grid  Style="{StaticResource GridBackGround1}">
         <Grid.RowDefinitions>
             <RowDefinition Height="5*" />
             <RowDefinition Height="5*" />
@@ -21,16 +21,17 @@
         <Grid Grid.Row="0" Grid.RowSpan="2"  Grid.Column="1" >
             <StackPanel Width="400" Margin="0,0,0,0">
                 <customui:CPatientArea x:Name="cPatientArea" Height="250" />
-                <customui:CPatientRoom x:Name="cPatientRoom" Height="350" />
-                <customui:CBed x:Name="cBed" Height="424" />
+                <customui:CPatientRoom x:Name="cPatientRoom" Height="250" />
+                <customui:CBed x:Name="cBed" Height="250" />
+                <customui:CInfectType x:Name="cInfectType" Height="250" />
             </StackPanel>
         </Grid>
 
         <Grid Grid.Row="0" Grid.RowSpan="2"  Grid.Column="3" >
             <StackPanel Width="400" Margin="0,0,0,0">
-                <customui:CInfectType x:Name="cInfectType" Height="250" />
                 <customui:CInterval x:Name="cInterval" Height="250" />
                 <customui:CTreatType x:Name="cTreatType" Height="250" />
+                <customui:CTreatMethod x:Name="cTreatMethode" Height="250" />
                 <customui:CTreatStatus x:Name="cTreatStatus" Height="250" />
             </StackPanel>
         </Grid>

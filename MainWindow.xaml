@@ -7,11 +7,12 @@
         <Viewbox Stretch="Fill" Name="OverAllViewBox" >
             <Grid Height="1024" Width="1280">
             <Grid.RowDefinitions>
-                    <RowDefinition Height="1.8*" />
-                    <RowDefinition Height="1.8*" />
-                    <RowDefinition Height="1.8*" />
-                    <RowDefinition Height="1.8*" />
-                    <RowDefinition Height="1.8*" />
+                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="1.5*" />
+                    <RowDefinition Height="1.5*" />
                     <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -36,13 +37,15 @@
                 </Button>
                 <Button Style="{StaticResource ButtonStyle1}" Name="OrderButton" Grid.Row="1" Click="OrderButton_Click"  ContentTemplate="{DynamicResource OrderMain}">
                 </Button>
-                <Button Style="{StaticResource ButtonStyle1}" Name="BedButton" Grid.Row="2" Click="BedButton_Click"  ContentTemplate="{DynamicResource BedMain}">
+                <Button Style="{StaticResource ButtonStyle1}" Name="SheduleButton" Grid.Row="2" Click="SheduleButton_Click"  ContentTemplate="{DynamicResource SheduleMain}">
                 </Button>
-                <Button Style="{StaticResource ButtonStyle1}" Name="ConfigButton" Grid.Row="3" Click="ConfigButton_Click"  ContentTemplate="{DynamicResource ConfigMain}">
+                <Button Style="{StaticResource ButtonStyle1}" Name="BedButton" Grid.Row="3" Click="BedButton_Click"  ContentTemplate="{DynamicResource BedMain}">
                 </Button>
-                <Button Style="{StaticResource ButtonStyle1}" Name="CloseButton" Grid.Row="4" Click="CloseButton_Click"  ContentTemplate="{DynamicResource CloseMain}">
+                <Button Style="{StaticResource ButtonStyle1}" Name="ConfigButton" Grid.Row="4" Click="ConfigButton_Click"  ContentTemplate="{DynamicResource ConfigMain}">
                 </Button>
-                <ContentControl Name="RightContent" Grid.Column="1"  Grid.RowSpan="6" Foreground="GreenYellow"></ContentControl>
+                <Button Style="{StaticResource ButtonStyle1}" Name="CloseButton" Grid.Row="5" Click="CloseButton_Click"  ContentTemplate="{DynamicResource CloseMain}">
+                </Button>
+                <ContentControl Name="RightContent" Grid.Column="1"  Grid.RowSpan="7" Foreground="GreenYellow"></ContentControl>
             </Grid>
     </Viewbox>
     </Grid>

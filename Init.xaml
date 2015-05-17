@@ -188,6 +188,8 @@
                         <CheckBox Name="IsFixedBedCheckBox" HorizontalAlignment="Right" Content="是否固定床位" Margin="0,85,265,0"  Width="150" VerticalAlignment="Top"  Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
                         <CheckBox Name="IsAssignedCheckBox" Visibility="Hidden" HorizontalAlignment="Right" Content="是否已经排班" Margin="0,85,15,0" Width="150" VerticalAlignment="Top"  Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
                         <DatePicker Height="27" HorizontalAlignment="Right" Margin="0,50,20,0" VerticalAlignment="Top" Width="150" Name="AddTimeDate" FontSize="16" VerticalContentAlignment="Center" Padding="3,0" TabIndex="20011" IsTabStop="True" />
+                        <TextBlock HorizontalAlignment="Right" Margin="0,85,179,0" Text="治疗状态" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
+                        <ComboBox Name="StatusComboBox" Margin="0,85,20,0" HorizontalAlignment="Right" Width="150" VerticalAlignment="Top" Text="" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20007" IsTabStop="True" ItemsSource="{Binding}" />
                         <Button Content="{DynamicResource  giveupText}" HorizontalAlignment="Right" Margin="0,144,15,0" Name="AddCancelButton" VerticalAlignment="Top" Click="ButtonNewCancelClick" Style="{StaticResource DialogButton}" TabIndex="20017" />
                     </Grid>
                 </Grid>

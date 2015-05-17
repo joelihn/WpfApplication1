@@ -528,12 +528,19 @@
              <DataTemplate x:Key="OrderMain">
                    <Grid Style="{StaticResource LeftButtonGrid}" >
                         <TextBlock Style="{StaticResource ButtonTextBlockStyle1}" Name="TextBlock2">
+                     <Run Text="医"/>   
+                     <Run Text="嘱"/>
+                            </TextBlock>
+                        </Grid>
+                    </DataTemplate>
+							<DataTemplate x:Key="SheduleMain">
+                   <Grid Style="{StaticResource LeftButtonGrid}" >
+                        <TextBlock Style="{StaticResource ButtonTextBlockStyle1}" Name="TextBlock2">
                      <Run Text="排"/>   
                      <Run Text="班"/>
                             </TextBlock>
                         </Grid>
                     </DataTemplate>
-
              <DataTemplate x:Key="BedMain">
                           <Grid Style="{StaticResource LeftButtonGrid}">
                             <TextBlock Style="{StaticResource ButtonTextBlockStyle1}" Name="TextBlock4">

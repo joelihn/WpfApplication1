@@ -31,6 +31,7 @@ namespace WpfApplication1
             
         private Init initContent;
         private Order orderContent;
+        private Shedule sheduleContent;
         private Bed bedContent;
         private Config configContent;
 
@@ -100,6 +101,7 @@ namespace WpfApplication1
 
             initContent = new Init(this);
             orderContent = new Order(this);
+            sheduleContent = new Shedule(this);
             bedContent = new Bed(this);
             configContent = new Config(this);
             this.RightContent.Content = initContent;
@@ -113,6 +115,11 @@ namespace WpfApplication1
         private void OrderButton_Click(object sender, RoutedEventArgs e)
         {
             this.RightContent.Content = orderContent;
+        }
+
+        private void SheduleButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.RightContent.Content = sheduleContent;
         }
 
         private void BedButton_Click(object sender, RoutedEventArgs e)

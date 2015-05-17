@@ -66,6 +66,8 @@ namespace WpfApplication1.DAOModule
         public string Dob { get; set; }
         public string Gender { get; set; }
         public string Mobile { get; set; }
+        public string Order { get; set; }
+        public string Status { get; set; }
         public string RegisitDate { get; set; }
         public Int64 InfectType { get; set; }
         public bool IsFixedBed { get; set; }
@@ -138,6 +140,15 @@ namespace WpfApplication1.DAOModule
         public string Reserved { get; set; }
     }
 
+    public class TreatMethod
+    {
+        public Int64 Id { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string Description { get; set; }
+        public string Reserved { get; set; }
+    }
+
     public class TreatType
     {
         public Int64 Id { get; set; }
@@ -145,7 +156,6 @@ namespace WpfApplication1.DAOModule
         public string Description { get; set; }
         public string Reserved { get; set; }
     }
-
 
     public class TreatStatus
     {

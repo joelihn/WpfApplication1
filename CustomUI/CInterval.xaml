@@ -4,10 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="240" d:DesignWidth="400">
+             d:DesignHeight="240" d:DesignWidth="500">
     <Grid>
         <StackPanel Margin="0,0">
-            <TextBlock Name="TitleTextBlock" Margin="0" HorizontalAlignment="Center" Style="{StaticResource TextBlockStyle1}" Text="间隔类型" />
+            <TextBlock Name="TitleTextBlock" Margin="0" HorizontalAlignment="Center" Style="{StaticResource TextBlockStyle1}" Text="医嘱参数" />
             <ListView x:Name="ListViewPatientArea" Height="110" Margin="0,0,0,0" Style="{StaticResource ListViewStyle}"
             	VerticalAlignment="Top" FontSize="16" Loaded="ListViewCInterval_OnLoaded"  SelectionChanged="ListViewCInterval_OnSelectionChanged">
                 <ListView.View>

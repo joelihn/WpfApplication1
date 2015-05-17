@@ -80,6 +80,9 @@
     <Compile Include="CustomUI\CInterval.xaml.cs">
       <DependentUpon>CInterval.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomUI\CTreatMethod.xaml.cs">
+      <DependentUpon>CTreatMethod.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomUI\CTreatStatus.xaml.cs">
       <DependentUpon>CTreatStatus.xaml</DependentUpon>
     </Compile>
@@ -117,9 +120,13 @@
     <Compile Include="DAOModule\PatientRoomDao.cs" />
     <Compile Include="DAOModule\ScheduleTemplateDao.cs" />
     <Compile Include="DAOModule\ScheduleTypeDao.cs" />
+    <Compile Include="DAOModule\TreatMethodDao.cs" />
     <Compile Include="DAOModule\TreatStatusDao.cs" />
     <Compile Include="DAOModule\TreatTypeDao.cs" />
     <Compile Include="DataStructures\PatientSchedule.cs" />
+    <Compile Include="Order.xaml.cs">
+      <DependentUpon>Order.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\Const.cs" />
     <Compile Include="Utils\Utils.cs" />
     <Page Include="Bed.xaml">
@@ -143,6 +150,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomUI\CInterval.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomUI\CTreatMethod.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -209,10 +220,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Shedule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Order.xaml.cs">
-      <DependentUpon>Order.xaml</DependentUpon>
+    <Compile Include="Shedule.xaml.cs">
+      <DependentUpon>Shedule.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
