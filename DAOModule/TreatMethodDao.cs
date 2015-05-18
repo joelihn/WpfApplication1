@@ -9,7 +9,7 @@ using WpfApplication1.Utils;
 
 namespace WpfApplication1.DAOModule
 {
-    class TreatMethodDao
+    class TreatMethodDao : IDisposable
     {
         public TreatMethodDao()
         {
@@ -58,12 +58,12 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO TREATMETHOD (NAME,TYPE,DESCRIPTION,RESERVED) VALUES 
-                        (@NAME,@TYPE,@DESCRIPTION,@RESERVED)";
+                        @"INSERT INTO TREATMETHOD (NAME,TREATTYPEID,DESCRIPTION,RESERVED) VALUES 
+                        (@NAME,@TREATTYPEID,@DESCRIPTION,@RESERVED)";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
                     sqlcomm.Parameters["@NAME"].Value = treatMethod.Name;
-                    sqlcomm.Parameters.Add("@TYPE", DbType.String);
-                    sqlcomm.Parameters["@TYPE"].Value = treatMethod.Name;
+                    sqlcomm.Parameters.Add("@TREATTYPEID", DbType.Int32);
+                    sqlcomm.Parameters["@TREATTYPEID"].Value = treatMethod.TreatTypeId;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
                     sqlcomm.Parameters["@DESCRIPTION"].Value = treatMethod.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
@@ -112,7 +112,7 @@ namespace WpfApplication1.DAOModule
         }
 
 
-        public bool DeleteTreatMethod(int scId)
+        public bool DeleteTreatMethod(Int64 scId)
         {
             try
             {

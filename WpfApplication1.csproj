@@ -77,8 +77,8 @@
     <Compile Include="CustomUI\CInfectType.xaml.cs">
       <DependentUpon>CInfectType.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomUI\CInterval.xaml.cs">
-      <DependentUpon>CInterval.xaml</DependentUpon>
+    <Compile Include="CustomUI\CMedicalOrderPara.xaml.cs">
+      <DependentUpon>CMedicalOrderPara.xaml</DependentUpon>
     </Compile>
     <Compile Include="CustomUI\CTreatMethod.xaml.cs">
       <DependentUpon>CTreatMethod.xaml</DependentUpon>
@@ -112,7 +112,7 @@
     <Compile Include="DAOModule\DatabaseOp.cs" />
     <Compile Include="DAOModule\DataStruct.cs" />
     <Compile Include="DAOModule\InfectTypeDao.cs" />
-    <Compile Include="DAOModule\IntervalDao.cs" />
+    <Compile Include="DAOModule\MedicalOrderParaDao.cs" />
     <Compile Include="DAOModule\MedicalOrderDao.cs" />
     <Compile Include="DAOModule\PatientAreaDao.cs" />
     <Compile Include="DAOModule\PatientDao.cs" />
@@ -149,7 +149,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CustomUI\CInterval.xaml">
+    <Page Include="CustomUI\CMedicalOrderPara.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

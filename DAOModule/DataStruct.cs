@@ -31,7 +31,7 @@ namespace WpfApplication1.DAOModule
         public string Reserved { get; set; }
     }
 
-    public class Interval
+    public class MedicalOrderPara
     {
         public Int64 Id { get; set; }
         public string Name { get; set; }
@@ -144,7 +144,7 @@ namespace WpfApplication1.DAOModule
     {
         public Int64 Id { get; set; }
         public string Name { get; set; }
-        public string Type { get; set; }
+        public Int64 TreatTypeId { get; set; }
         public string Description { get; set; }
         public string Reserved { get; set; }
     }

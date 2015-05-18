@@ -9,9 +9,9 @@ using WpfApplication1.Utils;
 
 namespace WpfApplication1.DAOModule
 {
-    class IntervalDao : IDisposable
+    class MedicalOrderParaDao : IDisposable
     {
-        public IntervalDao()
+        public MedicalOrderParaDao()
         {
             try
             {
@@ -20,7 +20,7 @@ namespace WpfApplication1.DAOModule
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("IntervalDao.cs-IntervalDao", e);
+                MainWindow.Log.WriteErrorLog("MedicalOrderParaDao.cs-MedicalOrderParaDao", e);
             }
         }
 
@@ -51,14 +51,14 @@ namespace WpfApplication1.DAOModule
         /// <param name="interval">Class instance of infectType infomation</param>
         /// <param name="scintervalId">Id of the last insert row id</param>
         /// <returns></returns>
-        public bool InsertInterval(Interval interval, ref int scintervalId)
+        public bool InsertInterval(MedicalOrderPara interval, ref int scintervalId)
         {
             try
             {
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO INFECTTYPE (NAME,TYPE,DESCRIPTION,RESERVED) VALUES 
+                        @"INSERT INTO MEDICALORDERPARA (NAME,TYPE,DESCRIPTION,RESERVED) VALUES 
                         (@NAME,@TYPE,@DESCRIPTION,@RESERVED)";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
                     sqlcomm.Parameters["@NAME"].Value = interval.Name;
@@ -72,14 +72,14 @@ namespace WpfApplication1.DAOModule
 
                     //set last insert id of this table this connection
                     SQLiteCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as INTERVAL;";
+                    comm.CommandText = "Select last_insert_rowid() as MEDICALORDERPARA;";
                     scintervalId = Convert.ToInt32(comm.ExecuteScalar());
                     comm.Dispose();
                 }
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("IntervalDao.cs-InsertInterval", e);
+                MainWindow.Log.WriteErrorLog("MedicalOrderParaDao.cs-Insert", e);
                 return false;
             }
             return true;
@@ -92,7 +92,7 @@ namespace WpfApplication1.DAOModule
             {
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
-                    string sqlcommand = "update INTERVAL set ";
+                    string sqlcommand = "update MEDICALORDERPARA set ";
                     var parameters = new Dictionary<string, object>();
                     DatabaseOp.TransferParameteres(ref sqlcommand, "@", ",", fields, sqlcomm.Parameters);
                     sqlcommand = sqlcommand.Substring(0, sqlcommand.LastIndexOf(","));
@@ -105,21 +105,21 @@ namespace WpfApplication1.DAOModule
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("IntervalDao.cs-UpdateInterval", e);
+                MainWindow.Log.WriteErrorLog("MedicalOrderParaDao.cs-Update", e);
                 return false;
             }
             return true;
         }
 
 
-        public bool DeleteInterval(int scIntervalId)
+        public bool DeleteInterval(Int64 scIntervalId)
         {
             try
             {
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"DELETE FROM INTERVAL WHERE ID = @ID";
+                        @"DELETE FROM MEDICALORDERPARA WHERE ID = @ID";
                     sqlcomm.Parameters.Add("@ID", DbType.Int32);
                     sqlcomm.Parameters["@ID"].Value = scIntervalId;
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
@@ -127,15 +127,15 @@ namespace WpfApplication1.DAOModule
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("IntervalDao.cs-DeleteInterval", e);
+                MainWindow.Log.WriteErrorLog("MedicalOrderParaDao.cs-Delete", e);
                 return false;
             }
             return true;
         }
 
-        public List<Interval> SelectInterval(Dictionary<string, object> condition)
+        public List<MedicalOrderPara> SelectInterval(Dictionary<string, object> condition)
         {
-            var list = new List<Interval>();
+            var list = new List<MedicalOrderPara>();
             try
             {
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
@@ -143,23 +143,23 @@ namespace WpfApplication1.DAOModule
                     if (condition == null || condition.Count == 0)
                     {
                         sqlcomm.CommandText =
-                            "select * from INTERVAL order by ID desc;";
-                        list = DatabaseOp.ExecuteQuery<Interval>(sqlcomm);
+                            "select * from MEDICALORDERPARA order by ID desc;";
+                        list = DatabaseOp.ExecuteQuery<MedicalOrderPara>(sqlcomm);
                         return list;
                     }
-                    string sqlcommand = "select * from INTERVAL where ";
+                    string sqlcommand = "select * from MEDICALORDERPARA where ";
                     DatabaseOp.TransferParameteres(ref sqlcommand, "@", "and", condition, sqlcomm.Parameters);
                     sqlcommand = sqlcommand.Substring(0, sqlcommand.LastIndexOf("and"));
                     sqlcommand += " order by ID desc";
                     sqlcomm.CommandText = sqlcommand;
 
-                    list = DatabaseOp.ExecuteQuery<Interval>(sqlcomm);
+                    list = DatabaseOp.ExecuteQuery<MedicalOrderPara>(sqlcomm);
                     return list;
                 }
             }
             catch (Exception e)
             {
-                MainWindow.Log.WriteErrorLog("IntervalDao.cs-SelectInterval", e);
+                MainWindow.Log.WriteErrorLog("MedicalOrderParaDao.cs-Select", e);
                 return list;
             }
         }

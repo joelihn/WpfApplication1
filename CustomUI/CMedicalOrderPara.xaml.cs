@@ -19,48 +19,48 @@ using WpfApplication1.DAOModule;
 namespace WpfApplication1.CustomUI
 {
     /// <summary>
-    /// Interaction logic for CInfectType.xaml
+    /// Interaction logic for CInterval.xaml
     /// </summary>
-    public partial class CInfectType : UserControl
+    public partial class CMedicalOrderPara : UserControl
     {
-        public ObservableCollection<InfectTypeData> Datalist = new ObservableCollection<InfectTypeData>();
+        public ObservableCollection<MedicalOrderParaData> Datalist = new ObservableCollection<MedicalOrderParaData>();
 
-        public CInfectType()
+        public CMedicalOrderPara()
         {
             InitializeComponent();
             this.ListView1.ItemsSource = Datalist;
         }
 
-        private void ListViewCInfectType_OnLoaded(object sender, RoutedEventArgs e)
+        private void ListViewCInterval_OnLoaded(object sender, RoutedEventArgs e)
         {
+            //throw new NotImplementedException();
             //throw new NotImplementedException();
             try
             {
-                using (var infectTypeDao = new InfectTypeDao())
+                using (var medicalOrderParaDao = new MedicalOrderParaDao())
                 {
                     Datalist.Clear();
-                    var infectType = new InfectType();
                     var condition = new Dictionary<string, object>();
-                    var list = infectTypeDao.SelectInfectType(condition);
+                    var list = medicalOrderParaDao.SelectInterval(condition);
                     foreach (var type in list)
                     {
-                        var infectTypeData = new InfectTypeData
+                        var medicalOrderParaData = new MedicalOrderParaData
                         {
                             Id = type.Id,
                             Name = type.Name,
                             Description = type.Description
                         };
-                        Datalist.Add(infectTypeData);
+                        Datalist.Add(medicalOrderParaData);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MainWindow.Log.WriteInfoConsole("In CInfectType.xaml.cs:ListViewCInfectType_OnLoaded exception messsage: " + ex.Message);
+                MainWindow.Log.WriteInfoConsole("In CMedicalOrderPara.xaml.cs:ListViewCTreatType_OnLoaded exception messsage: " + ex.Message);
             }
         }
 
-        private void ListViewCInfectType_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListViewCInterval_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //throw new NotImplementedException();
             if (ListView1.SelectedIndex >= 0)
@@ -75,32 +75,31 @@ namespace WpfApplication1.CustomUI
             //throw new NotImplementedException();
             try
             {
-                using (var infectTypeDao = new InfectTypeDao())
+                using (var medicalOrderParaDao = new MedicalOrderParaDao())
                 {
-                    var infectType = new InfectType();
-                    infectType.Name = this.NameTextBox.Text;
-                    infectType.Description = this.DescriptionTextBox.Text;
+                    var medicalOrderPara = new MedicalOrderPara();
+                    medicalOrderPara.Name = this.NameTextBox.Text;
+                    medicalOrderPara.Description = this.DescriptionTextBox.Text;
                     int lastInsertId = -1;
-                    infectTypeDao.InsertInfectType(infectType, ref lastInsertId);
+                    medicalOrderParaDao.InsertInterval(medicalOrderPara, ref lastInsertId);
                     //UI
-                    var infectTypeData = new InfectTypeData();
-                    infectTypeData.Id = infectType.Id;
-                    infectTypeData.Name = infectType.Name;
-                    infectTypeData.Description = infectType.Description;
-                    Datalist.Add(infectTypeData);
+                    var medicalOrderParaData = new MedicalOrderParaData();
+                    medicalOrderParaData.Id = medicalOrderPara.Id;
+                    medicalOrderParaData.Name = medicalOrderPara.Name;
+                    medicalOrderParaData.Description = medicalOrderPara.Description;
+                    Datalist.Add(medicalOrderParaData);
                 }
             }
             catch (Exception ex)
             {
-                MainWindow.Log.WriteInfoConsole("In CInfectType.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
+                MainWindow.Log.WriteInfoConsole("In CMedicalOrderPara.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
             }
-            
         }
 
         private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
-            using (var infectTypeDao = new InfectTypeDao())
+             using (var medicalOrderParaDao = new MedicalOrderParaDao())
             {
                 var condition = new Dictionary<string, object>();
                 condition["ID"] = Datalist[ListView1.SelectedIndex].Id;
@@ -108,55 +107,60 @@ namespace WpfApplication1.CustomUI
                 var fileds = new Dictionary<string, object>();
                 fileds["NAME"] = NameTextBox.Text;
                 fileds["DESCRIPTION"] = DescriptionTextBox.Text;
-                infectTypeDao.UpdateInfectType(fileds, condition);
+                medicalOrderParaDao.UpdateInterval(fileds, condition);
                 RefreshData();
             }
         }
 
-        private void RefreshData()
+          private void RefreshData()
         {
             try
             {
-                using (var infectTypeDao = new InfectTypeDao())
+                using (var medicalOrderParaDao = new MedicalOrderParaDao())
                 {
                     Datalist.Clear();
-                    
+
                     var condition = new Dictionary<string, object>();
-                    var list = infectTypeDao.SelectInfectType(condition);
+                    var list = medicalOrderParaDao.SelectInterval(condition);
                     foreach (var pa in list)
                     {
-                        var infectTypeData = new InfectTypeData();
-                        infectTypeData.Id = pa.Id;
-                        infectTypeData.Name = pa.Name;
-                        infectTypeData.Description = pa.Description;
-                        Datalist.Add(infectTypeData);
+                        var medicalOrderParaData = new MedicalOrderParaData();
+                        medicalOrderParaData.Id = pa.Id;
+                        medicalOrderParaData.Name = pa.Name;
+                        medicalOrderParaData.Description = pa.Description;
+                        Datalist.Add(medicalOrderParaData);
                     }
                 }
             }
             catch (Exception ex)
             {
-                MainWindow.Log.WriteInfoConsole("In CInfectType.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
+                MainWindow.Log.WriteInfoConsole("In CMedicalOrderPara.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
             }
         }
 
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
-            using (var infectTypeDao = new InfectTypeDao())
+             using (var medicalOrderParaDao = new MedicalOrderParaDao())
             {
-                infectTypeDao.DeleteInfectType(Datalist[ListView1.SelectedIndex].Id);
+                medicalOrderParaDao.DeleteInterval(Datalist[ListView1.SelectedIndex].Id);
                 RefreshData();
             }
         }
+
+        private void CMedicalOrderPara_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
     }
 
-    public class InfectTypeData : INotifyPropertyChanged
+    public class MedicalOrderParaData : INotifyPropertyChanged
     {
         private Int64 _id;
         private string _name;
         private string _description;
 
-        public InfectTypeData()
+        public MedicalOrderParaData()
         {
         }
 
