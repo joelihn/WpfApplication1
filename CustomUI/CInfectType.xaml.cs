@@ -36,16 +36,20 @@ namespace WpfApplication1.CustomUI
             //throw new NotImplementedException();
             try
             {
-                using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                using (var infectTypeDao = new InfectTypeDao())
                 {
-                    InfectType infectType = new InfectType();
-                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    Datalist.Clear();
+                    var infectType = new InfectType();
+                    var condition = new Dictionary<string, object>();
                     var list = infectTypeDao.SelectInfectType(condition);
-                    foreach (InfectType type in list)
+                    foreach (var type in list)
                     {
-                        InfectTypeData infectTypeData = new InfectTypeData();
-                        infectTypeData.Name = type.Name;
-                        infectTypeData.Description = type.Description;
+                        var infectTypeData = new InfectTypeData
+                        {
+                            Id = type.Id,
+                            Name = type.Name,
+                            Description = type.Description
+                        };
                         Datalist.Add(infectTypeData);
                     }
                 }
@@ -59,6 +63,11 @@ namespace WpfApplication1.CustomUI
         private void ListViewCInfectType_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //throw new NotImplementedException();
+            if (ListView1.SelectedIndex >= 0)
+            {
+                NameTextBox.Text = Datalist[ListView1.SelectedIndex].Name;
+                DescriptionTextBox.Text = Datalist[ListView1.SelectedIndex].Description;
+            }
         }
 
         private void AddButton_OnClick(object sender, RoutedEventArgs e)
@@ -66,15 +75,16 @@ namespace WpfApplication1.CustomUI
             //throw new NotImplementedException();
             try
             {
-                using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                using (var infectTypeDao = new InfectTypeDao())
                 {
-                    InfectType infectType = new InfectType();
+                    var infectType = new InfectType();
                     infectType.Name = this.NameTextBox.Text;
                     infectType.Description = this.DescriptionTextBox.Text;
                     int lastInsertId = -1;
                     infectTypeDao.InsertInfectType(infectType, ref lastInsertId);
                     //UI
-                    InfectTypeData infectTypeData = new InfectTypeData();
+                    var infectTypeData = new InfectTypeData();
+                    infectTypeData.Id = infectType.Id;
                     infectTypeData.Name = infectType.Name;
                     infectTypeData.Description = infectType.Description;
                     Datalist.Add(infectTypeData);
@@ -90,27 +100,75 @@ namespace WpfApplication1.CustomUI
         private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
-          
+            using (var infectTypeDao = new InfectTypeDao())
+            {
+                var condition = new Dictionary<string, object>();
+                condition["ID"] = Datalist[ListView1.SelectedIndex].Id;
+
+                var fileds = new Dictionary<string, object>();
+                fileds["NAME"] = NameTextBox.Text;
+                fileds["DESCRIPTION"] = DescriptionTextBox.Text;
+                infectTypeDao.UpdateInfectType(fileds, condition);
+                RefreshData();
+            }
+        }
+
+        private void RefreshData()
+        {
+            try
+            {
+                using (var infectTypeDao = new InfectTypeDao())
+                {
+                    Datalist.Clear();
+                    
+                    var condition = new Dictionary<string, object>();
+                    var list = infectTypeDao.SelectInfectType(condition);
+                    foreach (var pa in list)
+                    {
+                        var infectTypeData = new InfectTypeData();
+                        infectTypeData.Id = pa.Id;
+                        infectTypeData.Name = pa.Name;
+                        infectTypeData.Description = pa.Description;
+                        Datalist.Add(infectTypeData);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CInfectType.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
+            }
         }
 
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
+            using (var infectTypeDao = new InfectTypeDao())
+            {
+                infectTypeDao.DeleteInfectType(Datalist[ListView1.SelectedIndex].Id);
+                RefreshData();
+            }
         }
     }
 
     public class InfectTypeData : INotifyPropertyChanged
     {
+        private Int64 _id;
         private string _name;
         private string _description;
 
         public InfectTypeData()
         {
-            Sequence = 0;
         }
 
-        public int Sequence { get; set; }
-
+        public Int64 Id
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                OnPropertyChanged("Id");
+            }
+        }
 
         public string Name
         {
@@ -118,7 +176,7 @@ namespace WpfApplication1.CustomUI
             set
             {
                 _name = value;
-                OnPropertyChanged("name");
+                OnPropertyChanged("Name");
             }
         }
 
@@ -128,7 +186,7 @@ namespace WpfApplication1.CustomUI
             set
             {
                 _description = value;
-                OnPropertyChanged("description");
+                OnPropertyChanged("Description");
             }
         }
 

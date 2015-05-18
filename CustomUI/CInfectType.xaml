@@ -6,6 +6,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="240" d:DesignWidth="500">
     <UserControl.Resources>
+        <DataTemplate x:Key="Id">
+            <TextBlock Text="{Binding Id}" />
+        </DataTemplate>
         <DataTemplate x:Key="Name">
             <TextBlock  Text="{Binding Name}" />
         </DataTemplate>
@@ -13,13 +16,14 @@
             <TextBlock Text="{Binding Description}" />
         </DataTemplate>
     </UserControl.Resources>
-    <Grid>
+    <Grid  Style="{StaticResource GridBackGround1}">
         <StackPanel Margin="0,0">
             <TextBlock Name="TitleTextBlock" Margin="0" HorizontalAlignment="Center" Style="{StaticResource TextBlockStyle1}" Text="感染类型" />
             <ListView x:Name="ListView1" ItemsSource="{Binding}" Height="110" Margin="0,0,0,0" Style="{StaticResource ListViewStyle}"
             	VerticalAlignment="Top" FontSize="16" Loaded="ListViewCInfectType_OnLoaded"  SelectionChanged="ListViewCInfectType_OnSelectionChanged">
                 <ListView.View>
                     <GridView>
+                        <GridViewColumn Width="80" CellTemplate="{StaticResource Id}" Header="编号" />
                         <GridViewColumn Width="120" CellTemplate="{StaticResource Name}" Header="名称" />
                         <!--<GridViewColumn Width="100" DisplayMemberBinding="{Binding XPath=Type}" Header="类型" />-->
                         <GridViewColumn Width="240" CellTemplate="{StaticResource Description}" Header="描述" />

@@ -4,18 +4,36 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="240" d:DesignWidth="500">
-    <Grid>
+             d:DesignHeight="240" d:DesignWidth="500" Loaded="CPatientRoom_OnLoaded">
+    <UserControl.Resources>
+        <DataTemplate x:Key="Id">
+            <TextBlock Text="{Binding Id}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Name">
+            <TextBlock  Text="{Binding Name}" />
+        </DataTemplate>
+        <DataTemplate x:Key="PatientArea">
+            <TextBlock  Text="{Binding PatientArea}" />
+        </DataTemplate>
+        <DataTemplate x:Key="InfectType">
+            <TextBlock  Text="{Binding InfectType}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Description">
+            <TextBlock Text="{Binding Description}" />
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid Style="{StaticResource GridBackGround1}" >
         <StackPanel Margin="0,0">
             <TextBlock Name="TitleTextBlock" Margin="0" HorizontalAlignment="Center" Style="{StaticResource TextBlockStyle1}" Text="房间信息" />
-            <ListView x:Name="ListViewPatientArea" Height="110" Margin="0,0,0,0" Style="{StaticResource ListViewStyle}"
+            <ListView x:Name="ListView1"  ItemsSource="{Binding}" Height="110" Margin="0,0,0,0" Style="{StaticResource ListViewStyle}"
             	VerticalAlignment="Top" FontSize="16" Loaded="ListViewCPatientRoom_OnLoaded"  SelectionChanged="ListViewCPatientRoom_OnSelectionChanged">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="80" DisplayMemberBinding="{Binding XPath=Name}" Header="名称" />
-                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding XPath=PatientArea}" Header="病区" />
-                        <GridViewColumn Width="100" DisplayMemberBinding="{Binding XPath=Type}" Header="类型" />
-                        <GridViewColumn Width="200" DisplayMemberBinding="{Binding XPath=Description}" Header="描述" />
+                        <GridViewColumn Width="80" CellTemplate="{StaticResource Id}" Header="编号" />
+                        <GridViewColumn Width="80" CellTemplate="{StaticResource Name}" Header="名称" />
+                        <GridViewColumn Width="100" CellTemplate="{StaticResource PatientArea}" Header="病区" />
+                        <GridViewColumn Width="100" CellTemplate="{StaticResource InfectType}" Header="类型" />
+                        <GridViewColumn Width="200" CellTemplate="{StaticResource Description}" Header="描述" />
                     </GridView>
                 </ListView.View>
             </ListView>
@@ -27,8 +45,10 @@
             </Grid>
             <Grid Margin="0,0,0,10">
                 <TextBox Name="NameTextBox" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
-                <TextBox Name="PatientAreaTextBox" Width="80" Margin="100,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
-                <TextBox Name="TypeTextBox" Width="80" Margin="200,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
+                <!--<TextBox Name="PatientAreaTextBox" Width="80" Margin="100,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />-->
+                <ComboBox Name="ComboBoxPatientArea" FontSize="16"  Height="27"  Width="75" Margin="100,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
+                <!--<TextBox Name="TypeTextBox" Width="80" Margin="200,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />-->
+                <ComboBox Name="ComboBoxInfectType" FontSize="16"  Height="27"  Width="75" Margin="200,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
                 <TextBox Name="DescriptionTextBox" Width="100" Margin="300,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
             </Grid>
             <Grid>

@@ -111,7 +111,7 @@ namespace WpfApplication1.DAOModule
         }
 
 
-        public bool DeleteInfectType(int scInfectTypeId)
+        public bool DeleteInfectType(Int64 scInfectTypeId)
         {
             try
             {

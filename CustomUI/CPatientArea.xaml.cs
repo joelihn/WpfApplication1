@@ -44,7 +44,6 @@ namespace WpfApplication1.CustomUI
                 using (PatientAreaDao patientAreaDao = new PatientAreaDao())
                 {
                     Datalist.Clear();
-                    PatientArea patientArea = new PatientArea();
                     Dictionary<string, object> condition = new Dictionary<string, object>();
                     var list = patientAreaDao.SelectPatientArea(condition);
                     foreach (PatientArea pa in list)
@@ -60,7 +59,7 @@ namespace WpfApplication1.CustomUI
             }
             catch (Exception ex)
             {
-                MainWindow.Log.WriteInfoConsole("In CInfectType.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
+                MainWindow.Log.WriteInfoConsole("In CPatientArea.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
             }
         }
 
@@ -71,7 +70,6 @@ namespace WpfApplication1.CustomUI
                 using (PatientAreaDao patientAreaDao = new PatientAreaDao())
                 {
                     Datalist.Clear();
-                    PatientArea patientArea = new PatientArea();
                     Dictionary<string, object> condition = new Dictionary<string, object>();
                     var list = patientAreaDao.SelectPatientArea(condition);
                     foreach (PatientArea pa in list)
@@ -87,7 +85,7 @@ namespace WpfApplication1.CustomUI
             }
             catch (Exception ex)
             {
-                MainWindow.Log.WriteInfoConsole("In CInfectType.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
+                MainWindow.Log.WriteInfoConsole("In CPatientArea.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
             }
         }
 
@@ -126,7 +124,7 @@ namespace WpfApplication1.CustomUI
             }
             catch (Exception ex)
             {
-                MainWindow.Log.WriteInfoConsole("In CInfectType.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
+                MainWindow.Log.WriteInfoConsole("In CPatientArea.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
             }
 
         }
@@ -134,12 +132,12 @@ namespace WpfApplication1.CustomUI
         private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
-            using (PatientAreaDao patientAreaDao = new PatientAreaDao())
+            using (var patientAreaDao = new PatientAreaDao())
             {
-                Dictionary<string,object> condition = new Dictionary<string, object>();
+                var condition = new Dictionary<string, object>();
                 condition["ID"] = Datalist[ListViewPatientArea.SelectedIndex].Id;
 
-                Dictionary<string, object> fileds = new Dictionary<string, object>();
+                var fileds = new Dictionary<string, object>();
                 fileds["NAME"] = NameTextBox.Text;
                 fileds["TYPE"] = TypeComboBox.Text;
                 fileds["DESCRIPTION"] =DescriptionTextBox.Text;
@@ -151,7 +149,7 @@ namespace WpfApplication1.CustomUI
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
-            using (PatientAreaDao patientAreaDao = new PatientAreaDao())
+            using (var patientAreaDao = new PatientAreaDao())
             {
                 patientAreaDao.DeletePatientArea(Datalist[ListViewPatientArea.SelectedIndex].Id);
                 RefreshData();
@@ -187,7 +185,7 @@ namespace WpfApplication1.CustomUI
             set
             {
                 _name = value;
-                OnPropertyChanged("name");
+                OnPropertyChanged("Name");
             }
         }
 
@@ -197,7 +195,7 @@ namespace WpfApplication1.CustomUI
             set
             {
                 _type = value;
-                OnPropertyChanged("type");
+                OnPropertyChanged("Type");
             }
         }
 
@@ -207,7 +205,7 @@ namespace WpfApplication1.CustomUI
             set
             {
                 _description = value;
-                OnPropertyChanged("description");
+                OnPropertyChanged("Description");
             }
         }
 

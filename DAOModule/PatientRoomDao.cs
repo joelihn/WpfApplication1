@@ -58,14 +58,14 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO PATIENTROOM (PATIENTAREAID,NAME,TYPE,DESCRIPTION,RESERVED) VALUES 
-                        (@PATIENTAREAID,@NAME,@TYPE,@DESCRIPTION,@RESERVED)";
+                        @"INSERT INTO PATIENTROOM (PATIENTAREAID,NAME,INFECTTYPEID,DESCRIPTION,RESERVED) VALUES 
+                        (@PATIENTAREAID,@NAME,@INFECTTYPEID,@DESCRIPTION,@RESERVED)";
                     sqlcomm.Parameters.Add("@PATIENTAREAID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTAREAID"].Value = patientRoom.PatientAreaId;
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
                     sqlcomm.Parameters["@NAME"].Value = patientRoom.Name;
-                    sqlcomm.Parameters.Add("@TYPE", DbType.Int32);
-                    sqlcomm.Parameters["@TYPE"].Value = patientRoom.Type;
+                    sqlcomm.Parameters.Add("@INFECTTYPEID", DbType.Int32);
+                    sqlcomm.Parameters["@INFECTTYPEID"].Value = patientRoom.InfectTypeId;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
                     sqlcomm.Parameters["@DESCRIPTION"].Value = patientRoom.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
@@ -114,7 +114,7 @@ namespace WpfApplication1.DAOModule
         }
 
 
-        public bool DeletePatientRoom(int scId)
+        public bool DeletePatientRoom(Int64 scId)
         {
             try
             {

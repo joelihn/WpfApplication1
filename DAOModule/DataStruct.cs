@@ -100,7 +100,7 @@ namespace WpfApplication1.DAOModule
         public Int64 Id { get; set; }
         public Int64 PatientAreaId { get; set; }
         public string Name { get; set; }
-        public Int64 Type { get; set; }
+        public Int64 InfectTypeId { get; set; }
         public string Description { get; set; }
         public string Reserved { get; set; }
     }
