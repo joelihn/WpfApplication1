@@ -12,6 +12,12 @@
         <DataTemplate x:Key="Name">
             <TextBlock  Text="{Binding Name}" />
         </DataTemplate>
+        <DataTemplate x:Key="Type">
+            <TextBlock  Text="{Binding Type}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Count">
+            <TextBlock  Text="{Binding Count}" />
+        </DataTemplate>
         <DataTemplate x:Key="Description">
             <TextBlock Text="{Binding Description}" />
         </DataTemplate>
@@ -25,6 +31,8 @@
                     <GridView>
                         <GridViewColumn Width="80" CellTemplate="{StaticResource Id}" Header="编号" />
                         <GridViewColumn Width="80" CellTemplate="{StaticResource Name}" Header="名称" />
+                        <GridViewColumn Width="80" CellTemplate="{StaticResource Type}" Header="类型" />
+                        <GridViewColumn Width="80" CellTemplate="{StaticResource Count}" Header="数量" />
                         <!--<GridViewColumn Width="100" DisplayMemberBinding="{Binding XPath=Type}" Header="类型" />-->
                         <GridViewColumn Width="200" CellTemplate="{StaticResource Description}" Header="描述" />
                     </GridView>
@@ -33,12 +41,16 @@
             <Grid>
                 <TextBlock Width="73" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="名称" />
                 <!--<TextBlock Width="73" Margin="140,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="类型" />-->
-                <TextBlock Width="73" Margin="140,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="描述" />
+                <TextBlock Width="73"  Margin="120,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="类型" />
+                <TextBlock Width="73"  Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="数量" />
+                <TextBlock Width="73" Margin="360,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="描述" />
             </Grid>
             <Grid Margin="0,0,0,10">
                 <TextBox Name="NameTextBox" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
                 <!--<TextBox Name="TypeTextBox" Width="100" Margin="150,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />-->
-                <TextBox Name="DescriptionTextBox" Width="100" Margin="150,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
+                <ComboBox Name="ComboBoxType" Margin="120,0,0,0" FontSize="16"  Height="27"  Width="75" HorizontalAlignment="Left" VerticalAlignment="Top"  />
+                <TextBox Name="CountTextBox" Width="100" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
+                <TextBox Name="DescriptionTextBox" Width="100" Margin="360,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
             </Grid>
             <Grid>
                 <Button Name="AddButton" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddButton_OnClick"  Content="{DynamicResource  AddText}" Style="{StaticResource RightButton1}" />

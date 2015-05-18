@@ -58,12 +58,14 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO MEDICALORDERPARA (NAME,TYPE,DESCRIPTION,RESERVED) VALUES 
-                        (@NAME,@TYPE,@DESCRIPTION,@RESERVED)";
+                        @"INSERT INTO MEDICALORDERPARA (NAME,TYPE,COUNT,DESCRIPTION,RESERVED) VALUES 
+                        (@NAME,@TYPE,@COUNT,@DESCRIPTION,@RESERVED)";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
                     sqlcomm.Parameters["@NAME"].Value = interval.Name;
-                    sqlcomm.Parameters.Add("@TYPE", DbType.Int32);
+                    sqlcomm.Parameters.Add("@TYPE", DbType.String);
                     sqlcomm.Parameters["@TYPE"].Value = interval.Type;
+                    sqlcomm.Parameters.Add("@COUNT", DbType.Int32);
+                    sqlcomm.Parameters["@COUNT"].Value = interval.Count;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
                     sqlcomm.Parameters["@DESCRIPTION"].Value = interval.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);

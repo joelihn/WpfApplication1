@@ -48,6 +48,8 @@ namespace WpfApplication1.CustomUI
                         {
                             Id = type.Id,
                             Name = type.Name,
+                            Type=type.Type,
+                            Count = type.Count,
                             Description = type.Description
                         };
                         Datalist.Add(medicalOrderParaData);
@@ -66,6 +68,8 @@ namespace WpfApplication1.CustomUI
             if (ListView1.SelectedIndex >= 0)
             {
                 NameTextBox.Text = Datalist[ListView1.SelectedIndex].Name;
+                ComboBoxType.Text = Datalist[ListView1.SelectedIndex].Type;
+                CountTextBox.Text = Datalist[ListView1.SelectedIndex].Count.ToString();
                 DescriptionTextBox.Text = Datalist[ListView1.SelectedIndex].Description;
             }
         }
@@ -79,6 +83,8 @@ namespace WpfApplication1.CustomUI
                 {
                     var medicalOrderPara = new MedicalOrderPara();
                     medicalOrderPara.Name = this.NameTextBox.Text;
+                    medicalOrderPara.Type = this.ComboBoxType.Text;
+                    medicalOrderPara.Count = Int32.Parse(this.CountTextBox.Text);
                     medicalOrderPara.Description = this.DescriptionTextBox.Text;
                     int lastInsertId = -1;
                     medicalOrderParaDao.InsertInterval(medicalOrderPara, ref lastInsertId);
@@ -86,6 +92,8 @@ namespace WpfApplication1.CustomUI
                     var medicalOrderParaData = new MedicalOrderParaData();
                     medicalOrderParaData.Id = medicalOrderPara.Id;
                     medicalOrderParaData.Name = medicalOrderPara.Name;
+                    medicalOrderParaData.Type = medicalOrderPara.Type;
+                    medicalOrderParaData.Count = medicalOrderPara.Count;
                     medicalOrderParaData.Description = medicalOrderPara.Description;
                     Datalist.Add(medicalOrderParaData);
                 }
@@ -106,6 +114,8 @@ namespace WpfApplication1.CustomUI
 
                 var fileds = new Dictionary<string, object>();
                 fileds["NAME"] = NameTextBox.Text;
+                fileds["TYPE"] = ComboBoxType.Text;
+                fileds["COUNT"] = Int32.Parse(CountTextBox.Text);
                 fileds["DESCRIPTION"] = DescriptionTextBox.Text;
                 medicalOrderParaDao.UpdateInterval(fileds, condition);
                 RefreshData();
@@ -127,6 +137,8 @@ namespace WpfApplication1.CustomUI
                         var medicalOrderParaData = new MedicalOrderParaData();
                         medicalOrderParaData.Id = pa.Id;
                         medicalOrderParaData.Name = pa.Name;
+                        medicalOrderParaData.Type = pa.Type;
+                        medicalOrderParaData.Count = pa.Count;
                         medicalOrderParaData.Description = pa.Description;
                         Datalist.Add(medicalOrderParaData);
                     }
@@ -151,6 +163,9 @@ namespace WpfApplication1.CustomUI
         private void CMedicalOrderPara_OnLoaded(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
+            this.ComboBoxType.Items.Clear();
+            this.ComboBoxType.Items.Add("周");
+            this.ComboBoxType.Items.Add("月");
         }
     }
 
@@ -158,6 +173,8 @@ namespace WpfApplication1.CustomUI
     {
         private Int64 _id;
         private string _name;
+        private string _type;
+        private Int64 _count;
         private string _description;
 
         public MedicalOrderParaData()
@@ -181,6 +198,26 @@ namespace WpfApplication1.CustomUI
             {
                 _name = value;
                 OnPropertyChanged("Name");
+            }
+        }
+
+        public string Type
+        {
+            get { return _type; }
+            set
+            {
+                _type = value;
+                OnPropertyChanged("Type");
+            }
+        }
+
+        public Int64 Count
+        {
+            get { return _count; }
+            set
+            {
+                _count = value;
+                OnPropertyChanged("Count");
             }
         }
 
