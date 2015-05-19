@@ -16,7 +16,7 @@ namespace WpfApplication1.DAOModule
         public Int64 Id { get; set; }
         public Int64 PatientRoomId { get; set; }
         public string Name { get; set; }
-        public Int64 Type { get; set; }
+        public Int64 TreatMethodId { get; set; }
         public bool IsAvailable { get; set; }
         public bool IsOccupy { get; set; }
         public string Description { get; set; }

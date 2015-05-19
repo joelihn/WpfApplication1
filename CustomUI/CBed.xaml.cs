@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApplication1.DAOModule;
 
 namespace WpfApplication1.CustomUI
 {
@@ -20,34 +23,385 @@ namespace WpfApplication1.CustomUI
     /// </summary>
     public partial class CBed : UserControl
     {
+        public ObservableCollection<BedData> Datalist = new ObservableCollection<BedData>();
+
         public CBed()
         {
             InitializeComponent();
+            this.ListView1.ItemsSource = Datalist;
         }
 
         private void ListViewCBed_OnLoaded(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
+            #region refresh data list
+            try
+            {
+                using (var bedDao = new BedDao())
+                {
+                    Datalist.Clear();
+                    var condition = new Dictionary<string, object>();
+                    var list = bedDao.SelectBed(condition);
+                    foreach (var pa in list)
+                    {
+                        var bedData = new BedData();
+                        bedData.Id = pa.Id;
+                        bedData.Name = pa.Name;
+                        {
+                            using (var patientRoomDao = new PatientRoomDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.PatientRoomId;
+                                var arealist = patientRoomDao.SelectPatientRoom(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    bedData.PatientRoom = arealist[0].Name;
+                                }
+                            }
+                        }
+                        {
+                            using (var treatMethodDao = new TreatMethodDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.TreatMethodId;
+                                var arealist = treatMethodDao.SelectTreatMethod(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    bedData.TreatMethod = arealist[0].Name;
+                                }
+                            }
+                        }
+                        bedData.IsAvailable = pa.IsAvailable;
+                        bedData.IsOccupy = pa.IsOccupy;
+                        bedData.Description = pa.Description;
+                        Datalist.Add(bedData);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CBed.xaml.cs:ListViewCPatientRoom_OnLoaded 3 exception messsage: " + ex.Message);
+            }
+            #endregion
         }
 
         private void ListViewCBed_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //throw new NotImplementedException();
+            if (ListView1.SelectedIndex >= 0)
+            {
+                NameTextBox.Text = Datalist[ListView1.SelectedIndex].Name;
+                ComboBoxPatientRoom.Text = Datalist[ListView1.SelectedIndex].PatientRoom;
+                ComboBoxType.Text = Datalist[ListView1.SelectedIndex].TreatMethod;
+                CheckBoxIsAvailable.IsChecked = Datalist[ListView1.SelectedIndex].IsAvailable;
+                CheckBoxIsOccupy.IsChecked = Datalist[ListView1.SelectedIndex].IsOccupy;
+                DescriptionTextBox.Text = Datalist[ListView1.SelectedIndex].Description;
+            }
         }
 
         private void AddButton_OnClick(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
+            try
+            {
+                using (var bedDao = new BedDao())
+                {
+                    var bed = new DAOModule.Bed();
+                    bed.Name = this.NameTextBox.Text;
+
+                    var condition = new Dictionary<string, object>();
+                    using (var patientRoomDao = new PatientRoomDao())
+                    {
+                        condition.Clear();
+                        condition["Name"] = ComboBoxPatientRoom.Text;
+                        var arealist = patientRoomDao.SelectPatientRoom(condition);
+                        if (arealist.Count == 1)
+                        {
+                            bed.PatientRoomId = arealist[0].Id;
+                        }
+                    }
+                    using (var treatMethodDao = new TreatMethodDao())
+                    {
+                        condition.Clear();
+                        condition["Name"] = ComboBoxType.Text;
+                        var arealist = treatMethodDao.SelectTreatMethod(condition);
+                        if (arealist.Count == 1)
+                        {
+                            bed.TreatMethodId = arealist[0].Id;
+                        }
+                    }
+                    var isChecked = this.CheckBoxIsAvailable.IsChecked;
+                    if (isChecked != null)
+                        bed.IsAvailable = (bool)isChecked;
+                    isChecked = this.CheckBoxIsOccupy.IsChecked;
+                    if (isChecked != null)
+                        bed.IsOccupy = (bool)isChecked;
+                    bed.Description = this.DescriptionTextBox.Text;
+                    int lastInsertId = -1;
+                    bedDao.InsertBed(bed, ref lastInsertId);
+                    //UI
+                    BedData bedData = new BedData();
+                    bedData.Id = bed.Id;
+                    bedData.Name = bed.Name;
+                    bedData.PatientRoom = ComboBoxPatientRoom.Text;
+                    bedData.TreatMethod = ComboBoxType.Text;
+                    bedData.IsAvailable = bed.IsAvailable;
+                    bedData.IsOccupy = bed.IsOccupy;
+                    bedData.Description = bed.Description;
+                    Datalist.Add(bedData);
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CBed.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
+            }
         }
 
         private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
+            using (var bedDao = new BedDao())
+            {
+                var condition = new Dictionary<string, object>();
+                condition["ID"] = Datalist[ListView1.SelectedIndex].Id;
+
+                var fileds = new Dictionary<string, object>();
+                fileds["NAME"] = NameTextBox.Text;
+
+                var condition2 = new Dictionary<string, object>();
+                using (var patientRoomDao = new PatientRoomDao())
+                {
+                    condition2.Clear();
+                    condition2["Name"] = ComboBoxPatientRoom.Text;
+                    var arealist = patientRoomDao.SelectPatientRoom(condition2);
+                    if (arealist.Count == 1)
+                    {
+                        fileds["PATIENTROOMID"] = arealist[0].Id;
+                    }
+                }
+                using (var treatMethodDao = new TreatMethodDao())
+                {
+                    condition2.Clear();
+                    condition2["Name"] = ComboBoxType.Text;
+                    var arealist = treatMethodDao.SelectTreatMethod(condition2);
+                    if (arealist.Count == 1)
+                    {
+                        fileds["TREATMETHODID"] = arealist[0].Id;
+                    }
+                }
+                fileds["ISAVAILABLE"] = CheckBoxIsAvailable.IsChecked;
+                fileds["ISOCCUPY"] = CheckBoxIsOccupy.IsChecked;
+                fileds["DESCRIPTION"] = DescriptionTextBox.Text;
+                bedDao.UpdateBed(fileds, condition);
+                RefreshData();
+            }
+        }
+
+        private void RefreshData()
+        {
+            try
+            {
+                using (var bedDao = new BedDao())
+                {
+                    Datalist.Clear();
+                    var condition = new Dictionary<string, object>();
+                    var list = bedDao.SelectBed(condition);
+                    foreach (DAOModule.Bed pa in list)
+                    {
+                        var bedData = new BedData();
+                        bedData.Id = pa.Id;
+                        bedData.Name = pa.Name;
+                        {
+                            using (var patientRoomDao = new PatientRoomDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.PatientRoomId;
+                                var arealist = patientRoomDao.SelectPatientRoom(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    bedData.PatientRoom = arealist[0].Name;
+                                }
+                            }
+                        }
+                        {
+                            using (var treatMethodDao = new TreatMethodDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.TreatMethodId;
+                                var arealist = treatMethodDao.SelectTreatMethod(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    bedData.TreatMethod = arealist[0].Name;
+                                }
+                            }
+                        }
+                        bedData.IsAvailable = pa.IsAvailable;
+                        bedData.IsOccupy = pa.IsOccupy;
+                        bedData.Description = pa.Description;
+                        Datalist.Add(bedData);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CBed.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
+            }
         }
 
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
+            using (var bedDao = new BedDao())
+            {
+                bedDao.DeleteBed(Datalist[ListView1.SelectedIndex].Id);
+                RefreshData();
+            }
+        }
+
+        private void CBed_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+            #region fill patientarea combox items
+            this.ComboBoxPatientRoom.Items.Clear();
+            try
+            {
+                using (var patientRoomDao = new PatientRoomDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    var list = patientRoomDao.SelectPatientRoom(condition);
+                    foreach (PatientRoom pa in list)
+                    {
+                        this.ComboBoxPatientRoom.Items.Add(pa.Name);
+                    }
+                    if (list.Count > 0)
+                        this.ComboBoxPatientRoom.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CBed.xaml.cs:ListViewCPatientRoom_OnLoaded 1 exception messsage: " + ex.Message);
+            }
+            #endregion
+
+            #region fill infecttype combox items
+            this.ComboBoxType.Items.Clear();
+            try
+            {
+                using (var treatMethodDao = new TreatMethodDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    var list = treatMethodDao.SelectTreatMethod(condition);
+                    foreach (var pa in list)
+                    {
+                        this.ComboBoxType.Items.Add(pa.Name);
+                    }
+                    if (list.Count > 0)
+                        this.ComboBoxType.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CBed.xaml.cs:ListViewCPatientRoom_OnLoaded 2 exception messsage: " + ex.Message);
+            }
+            #endregion
+        }
+    }
+
+    public class BedData : INotifyPropertyChanged
+    {
+        private Int64 _id;
+        private string _name;
+        private string _patientRoom;
+        private string _treatMethod;
+        private bool _isAvailable;
+        private bool _isOccupy;
+        private string _description;
+
+        public BedData()
+        {
+        }
+
+
+        public Int64 Id
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                OnPropertyChanged("Id");
+            }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
+        public string PatientRoom
+        {
+            get { return _patientRoom; }
+            set
+            {
+                _patientRoom = value;
+                OnPropertyChanged("PatientRoom");
+            }
+        }
+
+        public string TreatMethod
+        {
+            get { return _treatMethod; }
+            set
+            {
+                _treatMethod = value;
+                OnPropertyChanged("TreatMethod");
+            }
+        }
+
+        public bool IsAvailable
+        {
+            get { return _isAvailable; }
+            set
+            {
+                _isAvailable = value;
+                OnPropertyChanged("IsAvailable");
+            }
+        }
+
+        public bool IsOccupy
+        {
+            get { return _isOccupy; }
+            set
+            {
+                _isOccupy = value;
+                OnPropertyChanged("Occupy");
+            }
+        }
+
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                _description = value;
+                OnPropertyChanged("Description");
+            }
+        }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        private void OnPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
         }
     }
 }

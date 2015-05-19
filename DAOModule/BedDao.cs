@@ -59,14 +59,14 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO BED (PATIENTROOMID,NAME,TYPE,ISAVAILABLE, ISOCCUPY,DESCRIPTION,RESERVED) VALUES 
-                        (@PATIENTROOMID,@NAME,@TYPE,@ISAVAILABLE,@ISOCCUPY,@DESCRIPTION,@RESERVED)";
+                        @"INSERT INTO BED (PATIENTROOMID,NAME,TREATMETHODID,ISAVAILABLE, ISOCCUPY,DESCRIPTION,RESERVED) VALUES 
+                        (@PATIENTROOMID,@NAME,@TREATMETHODID,@ISAVAILABLE,@ISOCCUPY,@DESCRIPTION,@RESERVED)";
                     sqlcomm.Parameters.Add("@PATIENTROOMID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTROOMID"].Value = bed.PatientRoomId;
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
                     sqlcomm.Parameters["@NAME"].Value = bed.Name;
-                    sqlcomm.Parameters.Add("@TYPE", DbType.Int32);
-                    sqlcomm.Parameters["@TYPE"].Value = bed.Type;
+                    sqlcomm.Parameters.Add("@TREATMETHODID", DbType.Int32);
+                    sqlcomm.Parameters["@TREATMETHODID"].Value = bed.TreatMethodId;
                     sqlcomm.Parameters.Add("@ISAVAILABLE", DbType.Boolean);
                     sqlcomm.Parameters["@ISAVAILABLE"].Value = bed.IsAvailable;
                     sqlcomm.Parameters.Add("@ISOCCUPY", DbType.Boolean);
@@ -119,7 +119,7 @@ namespace WpfApplication1.DAOModule
         }
 
 
-        public bool DeleteBed(int scBedId)
+        public bool DeleteBed(Int64 scBedId)
         {
             try
             {

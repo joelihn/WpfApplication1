@@ -1181,6 +1181,24 @@ namespace WpfApplication1
                 MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded InfectType ComboxItem exception messsage: " + ex.Message);
             }
 
+            try
+            {
+                using (var treatStatusDao = new TreatStatusDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    var list = treatStatusDao.SelectTreatStatus(condition);
+                    StatusComboBox.Items.Clear();
+                    foreach (var type in list)
+                    {
+                        StatusComboBox.Items.Add(type.Name);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded TreatStatus ComboxItem exception messsage: " + ex.Message);
+            }
+
             this.SexComboBox.Items.Clear();
             this.SexComboBox.Items.Add("男");
             this.SexComboBox.Items.Add("女");

@@ -110,7 +110,7 @@ namespace WpfApplication1.DAOModule
         }
 
 
-        public bool DeleteTreatStatus(int scId)
+        public bool DeleteTreatStatus(Int64 scId)
         {
             try
             {
