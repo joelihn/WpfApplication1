@@ -30,8 +30,11 @@
         <DataTemplate x:Key="date">
             <TextBlock x:Name="textlockdate" Text="{Binding PatientRegesiterDate}" />
         </DataTemplate>
-        <DataTemplate x:Key="InfectType">
-            <TextBlock x:Name="textboxInfectType" Text="{Binding PatientInfectType}" />
+        <DataTemplate x:Key="InfectTypeId">
+            <TextBlock x:Name="textboxInfectType" Text="{Binding PatientInfectTypeId}" />
+        </DataTemplate>
+        <DataTemplate x:Key="TreatStatusId">
+            <TextBlock x:Name="textboxTreatStatusId" Text="{Binding PatientTreatStatusId}" />
         </DataTemplate>
         <DataTemplate x:Key="IsFixedBed">
             <CheckBox x:Name="textboxIsFixedBed" IsChecked="{Binding PatientIsFixedBed}" />
@@ -118,12 +121,21 @@
                                             </StackPanel>
                                         </Grid>
                                     </GridViewColumn>
-                                    <GridViewColumn Width="70" CellTemplate="{StaticResource InfectType}">
+                                    <GridViewColumn Width="70" CellTemplate="{StaticResource InfectTypeId}">
                                         <Grid Tag="5">
                                             <StackPanel Orientation="Horizontal">
 
                                                 <TextBlock Text="{DynamicResource InfectTypetext}" />
-                                                <Image Source="Resources/ArrowDown.png" Name="ArrowInfectType" Visibility="Hidden" />
+                                                <Image Source="Resources/ArrowDown.png" Name="ArrowInfectTypeId" Visibility="Hidden" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </GridViewColumn>
+                                    <GridViewColumn Width="70" CellTemplate="{StaticResource TreatStatusId}">
+                                        <Grid Tag="5">
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <TextBlock Text="{DynamicResource TreatStatustext}" />
+                                                <Image Source="Resources/ArrowDown.png" Name="ArrowTreatStatusId" Visibility="Hidden" />
                                             </StackPanel>
                                         </Grid>
                                     </GridViewColumn>

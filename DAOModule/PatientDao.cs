@@ -68,8 +68,8 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO PATIENT (PATIENTID,NAME,DOB,GENDER, MOBILE, MEDICALORDER, STATUS,REGISITDATE,INFECTTYPE,ISFIXEDBED,BEDID,ISASSIGNED,DESCRIPTION,RESERVED1,RESERVED2) VALUES 
-                        (@PATIENTID,@NAME,@DOB,@GENDER,@MOBILE,@MEDICALORDER,@STATUS,@REGISITDATE,@INFECTTYPE,@ISFIXEDBED,@BEDID,@ISASSIGNED,@DESCRIPTION,@RESERVED1,@RESERVED2)";
+                        @"INSERT INTO PATIENT (PATIENTID,NAME,DOB,GENDER, MOBILE, MEDICALORDER, TREATSTATUSID,REGISITDATE,INFECTTYPEID,ISFIXEDBED,BEDID,ISASSIGNED,DESCRIPTION,RESERVED1,RESERVED2) VALUES 
+                        (@PATIENTID,@NAME,@DOB,@GENDER,@MOBILE,@MEDICALORDER,@TREATSTATUSID,@REGISITDATE,@INFECTTYPEID,@ISFIXEDBED,@BEDID,@ISASSIGNED,@DESCRIPTION,@RESERVED1,@RESERVED2)";
                     sqlcomm.Parameters.Add("@PATIENTID", DbType.String);
                     sqlcomm.Parameters["@PATIENTID"].Value = patient.PatientId;
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
@@ -82,12 +82,12 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters["@MOBILE"].Value = patient.Mobile;
                     sqlcomm.Parameters.Add("@MEDICALORDER", DbType.String);
                     sqlcomm.Parameters["@MEDICALORDER"].Value = patient.Order;
-                    sqlcomm.Parameters.Add("@STATUS", DbType.String);
-                    sqlcomm.Parameters["@STATUS"].Value = patient.Status;
+                    sqlcomm.Parameters.Add("@TREATSTATUSID", DbType.Int32);
+                    sqlcomm.Parameters["@TREATSTATUSID"].Value = patient.TreatStatusId;
                     sqlcomm.Parameters.Add("@REGISITDATE", DbType.String);
                     sqlcomm.Parameters["@REGISITDATE"].Value = patient.RegisitDate;
-                    sqlcomm.Parameters.Add("@INFECTTYPE", DbType.Int32);
-                    sqlcomm.Parameters["@INFECTTYPE"].Value = patient.InfectType;
+                    sqlcomm.Parameters.Add("@INFECTTYPEID", DbType.Int32);
+                    sqlcomm.Parameters["@INFECTTYPEID"].Value = patient.InfectTypeId;
                     sqlcomm.Parameters.Add("@ISFIXEDBED", DbType.Boolean);
                     sqlcomm.Parameters["@ISFIXEDBED"].Value = patient.IsFixedBed;
                     sqlcomm.Parameters.Add("@BEDID", DbType.Int32);

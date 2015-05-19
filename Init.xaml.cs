@@ -72,6 +72,7 @@ namespace WpfApplication1
             InfectTypeComboBox.IsEnabled = true;
             AddTimeDate.IsEnabled = true;
             DescriptionTextBox.IsEnabled = true;
+            StatusComboBox.IsEnabled = true;
 
             NewButton.IsEnabled = false;
             CheckButton.IsEnabled = false;
@@ -83,16 +84,16 @@ namespace WpfApplication1
                 a.IsEnabled = false;
             }
 
-            int lastInsertId = -1;
-            using (var patientDao = new PatientDao())
-            {
-                var patient = new Patient();
-                patient.Name = "";
-                patient.PatientId = "";
-                patient.RegisitDate = "";
-                patientDao.InsertPatient(patient, ref lastInsertId);
-            }
-            AddIDTextBox.Text = lastInsertId.ToString("D8");
+            //int lastInsertId = -1;
+            //using (var patientDao = new PatientDao())
+            //{
+            //    var patient = new Patient();
+            //    patient.Name = "";
+            //    patient.PatientId = "";
+            //    patient.RegisitDate = "";
+            //    patientDao.InsertPatient(patient, ref lastInsertId);
+            //}
+            //AddIDTextBox.Text = lastInsertId.ToString("D8");
             NewButton.IsEnabled = false;
             CheckButton.IsEnabled = false;
             EditButton.IsEnabled = false;
@@ -107,6 +108,7 @@ namespace WpfApplication1
             SexComboBox.Text = "";
             InfectTypeComboBox.Text = "";
             DescriptionTextBox.Text = "";
+            StatusComboBox.Text = "";
             AddTimeDate.SelectedDate = DateTime.Now;
         }
 
@@ -135,6 +137,7 @@ namespace WpfApplication1
                 InfectTypeComboBox.IsEnabled = true;
                 AddTimeDate.IsEnabled = true;
                 DescriptionTextBox.IsEnabled = true;
+                StatusComboBox.IsEnabled = true;
                 AddSaveButton.Visibility = Visibility.Visible;
 
 
@@ -234,6 +237,8 @@ namespace WpfApplication1
                     informatian.PatientDescription = patient.Description;
                     informatian.PatientId = patient.Id.ToString("D8");
                     informatian.PatientName = patient.Name;
+                    informatian.PatientInfectTypeId = patient.InfectTypeId;
+                    informatian.PatientTreatStatusId = patient.TreatStatusId;
 
                     DateTime displaytime;
                     try
@@ -348,6 +353,8 @@ namespace WpfApplication1
                     informatian.PatientPatientId = fmriPatient.PatientId;
                     informatian.PatientName = fmriPatient.Name;
                     informatian.PatientRegesiterDate = fmriPatient.RegisitDate;
+                    informatian.PatientInfectTypeId = fmriPatient.InfectTypeId;
+                    informatian.PatientTreatStatusId = fmriPatient.TreatStatusId;
                     PatientList.Add(informatian);
                 }
             }
@@ -403,7 +410,8 @@ namespace WpfApplication1
                         ArrowID.Visibility = Visibility.Visible;
                         ArrowName.Visibility = Visibility.Hidden;
                         ArrowAge.Visibility = Visibility.Hidden;
-                        ArrowInfectType.Visibility = Visibility.Hidden;
+                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
+                        ArrowTreatStatusId.Visibility = Visibility.Hidden;
                         ArrowIsAssigned.Visibility = Visibility.Hidden;
                         ArrowIsFixedBed.Visibility = Visibility.Hidden;
                         ArrowDate.Visibility = Visibility.Hidden;
@@ -444,7 +452,8 @@ namespace WpfApplication1
                         ArrowID.Visibility = Visibility.Visible;
                         ArrowName.Visibility = Visibility.Hidden;
                         ArrowAge.Visibility = Visibility.Hidden;
-                        ArrowInfectType.Visibility = Visibility.Hidden;
+                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
+                        ArrowTreatStatusId.Visibility = Visibility.Hidden;
                         ArrowIsAssigned.Visibility = Visibility.Hidden;
                         ArrowIsFixedBed.Visibility = Visibility.Hidden;
                         ArrowDate.Visibility = Visibility.Hidden;
@@ -485,7 +494,8 @@ namespace WpfApplication1
                         ArrowID.Visibility = Visibility.Hidden;
                         ArrowPatientID.Visibility = Visibility.Hidden;
                         ArrowAge.Visibility = Visibility.Hidden;
-                        ArrowInfectType.Visibility = Visibility.Hidden;
+                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
+                        ArrowTreatStatusId.Visibility = Visibility.Hidden;
                         ArrowIsAssigned.Visibility = Visibility.Hidden;
                         ArrowIsFixedBed.Visibility = Visibility.Hidden;
                         ArrowDate.Visibility = Visibility.Hidden;
@@ -526,7 +536,8 @@ namespace WpfApplication1
                         ArrowPatientID.Visibility = Visibility.Hidden;
                         ArrowName.Visibility = Visibility.Hidden;
                         ArrowAge.Visibility = Visibility.Hidden;
-                        ArrowInfectType.Visibility = Visibility.Hidden;
+                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
+                        ArrowTreatStatusId.Visibility = Visibility.Hidden;
                         ArrowIsAssigned.Visibility = Visibility.Hidden;
                         ArrowIsFixedBed.Visibility = Visibility.Hidden;
                         ArrowDate.Visibility = Visibility.Hidden;
@@ -568,7 +579,8 @@ namespace WpfApplication1
                         ArrowID.Visibility = Visibility.Hidden;
                         ArrowName.Visibility = Visibility.Hidden;
                         ArrowPatientID.Visibility = Visibility.Hidden;
-                        ArrowInfectType.Visibility = Visibility.Hidden;
+                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
+                        ArrowTreatStatusId.Visibility = Visibility.Hidden;
                         ArrowIsAssigned.Visibility = Visibility.Hidden;
                         ArrowIsFixedBed.Visibility = Visibility.Hidden;
                         ArrowDate.Visibility = Visibility.Hidden;
@@ -603,7 +615,8 @@ namespace WpfApplication1
                             sortDirection = ListSortDirection.Descending;
                         }
                         bindingProperty = "PatientHand";
-                        ArrowInfectType.Visibility = Visibility.Visible;
+                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
+                        ArrowTreatStatusId.Visibility = Visibility.Hidden;
                         ArrowIsAssigned.Visibility = Visibility.Hidden;
                         ArrowIsFixedBed.Visibility = Visibility.Hidden;
                         ArrowSex.Visibility = Visibility.Hidden;
@@ -616,15 +629,15 @@ namespace WpfApplication1
                             ((Image)((StackPanel)((Grid)clickedColumn.Header).Children[0]).Children[1]).Source.
                                 ToString() == "pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png")
                         {
-                            ArrowInfectType.Source =
+                            ArrowInfectTypeId.Source =
                                 new BitmapImage(
                                     new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png",
                                             UriKind.RelativeOrAbsolute));
                         }
-                        else if (ArrowInfectType.Source.ToString() ==
+                        else if (ArrowInfectTypeId.Source.ToString() ==
                                  "pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png")
                         {
-                            ArrowInfectType.Source =
+                            ArrowInfectTypeId.Source =
                                 new BitmapImage(
                                     new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png",
                                             UriKind.RelativeOrAbsolute));
@@ -643,7 +656,8 @@ namespace WpfApplication1
                             sortDirection = ListSortDirection.Descending;
                         }
                         bindingProperty = "PatientHand";
-                        ArrowInfectType.Visibility = Visibility.Hidden;
+                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
+                        ArrowTreatStatusId.Visibility = Visibility.Hidden;
                         ArrowIsAssigned.Visibility = Visibility.Hidden;
                         ArrowIsFixedBed.Visibility = Visibility.Visible;
                         ArrowSex.Visibility = Visibility.Hidden;
@@ -661,7 +675,7 @@ namespace WpfApplication1
                                     new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png",
                                             UriKind.RelativeOrAbsolute));
                         }
-                        else if (ArrowInfectType.Source.ToString() ==
+                        else if (ArrowInfectTypeId.Source.ToString() ==
                                  "pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png")
                         {
                             ArrowIsFixedBed.Source =
@@ -683,7 +697,8 @@ namespace WpfApplication1
                             sortDirection = ListSortDirection.Descending;
                         }
                         bindingProperty = "PatientHand";
-                        ArrowInfectType.Visibility = Visibility.Hidden;
+                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
+                        ArrowTreatStatusId.Visibility = Visibility.Hidden;
                         ArrowIsAssigned.Visibility = Visibility.Hidden;
                         ArrowIsFixedBed.Visibility = Visibility.Visible;
                         ArrowSex.Visibility = Visibility.Hidden;
@@ -701,7 +716,7 @@ namespace WpfApplication1
                                     new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png",
                                             UriKind.RelativeOrAbsolute));
                         }
-                        else if (ArrowInfectType.Source.ToString() ==
+                        else if (ArrowInfectTypeId.Source.ToString() ==
                                  "pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png")
                         {
                             ArrowIsAssigned.Source =
@@ -729,7 +744,8 @@ namespace WpfApplication1
                         ArrowID.Visibility = Visibility.Hidden;
                         ArrowName.Visibility = Visibility.Hidden;
                         ArrowPatientID.Visibility = Visibility.Hidden;
-                        ArrowInfectType.Visibility = Visibility.Hidden;
+                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
+                        ArrowTreatStatusId.Visibility = Visibility.Hidden;
                         ArrowIsAssigned.Visibility = Visibility.Hidden;
                         ArrowIsFixedBed.Visibility = Visibility.Hidden;
 
@@ -759,7 +775,8 @@ namespace WpfApplication1
                         ArrowID.Visibility = Visibility.Hidden;
                         ArrowName.Visibility = Visibility.Hidden;
                         ArrowPatientID.Visibility = Visibility.Hidden;
-                        ArrowInfectType.Visibility = Visibility.Hidden;
+                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
+                        ArrowTreatStatusId.Visibility = Visibility.Hidden;
                         ArrowIsAssigned.Visibility = Visibility.Hidden;
                         ArrowIsFixedBed.Visibility = Visibility.Hidden;
                         return;
@@ -903,6 +920,17 @@ namespace WpfApplication1
                         return;
                     }
 
+                    int lastInsertId = -1;
+                    using (var patientDao = new PatientDao())
+                    {
+                        var patient = new Patient();
+                        patient.Name = "";
+                        patient.PatientId = "";
+                        patient.RegisitDate = "";
+                        patientDao.InsertPatient(patient, ref lastInsertId);
+                    }
+                    AddIDTextBox.Text = lastInsertId.ToString("D8");
+
                     using (var patientDao = new PatientDao())
                     {
                         var fields = new Dictionary<string, object>();
@@ -945,7 +973,7 @@ namespace WpfApplication1
                             PatientRegesiterDate =
                                 ((DateTime)AddTimeDate.SelectedDate).ToString("yyyy-MM-dd"),
                             PatientDescription = DescriptionTextBox.Text,
-                            PatientInfectType = (string)InfectTypeComboBox.SelectedValue,
+                            PatientInfectTypeId = (string)InfectTypeComboBox.SelectedValue,
                             PatientPatientId = AddPatientIDTextBox.Text,
                             PatientMobile = MobileTextBox.Text,
                            
@@ -1024,7 +1052,7 @@ namespace WpfApplication1
                             PatientDob = AddAgeTextBox.Text,
                             PatientRegesiterDate = AddTimeDate.Text,
                             PatientDescription = DescriptionTextBox.Text,
-                            PatientInfectType = (string)InfectTypeComboBox.SelectedValue,
+                            PatientInfectTypeId = (string)InfectTypeComboBox.SelectedValue,
                             PatientPatientId = AddPatientIDTextBox.Text,
                         };
 
@@ -1213,7 +1241,8 @@ namespace WpfApplication1
         public string PatientGender { get; set; }
         public string PatientMobile { get; set; }
         public string PatientRegesiterDate { get; set; }
-        public string PatientInfectType { get; set; }
+        public Int64 PatientInfectTypeId { get; set; }
+        public Int64 PatientTreatStatusId { get; set; }
         public bool PatientIsFixedBed { get; set; }
         public string PatientBedId { get; set; }
         public bool PatientIsAssigned { get; set; }
