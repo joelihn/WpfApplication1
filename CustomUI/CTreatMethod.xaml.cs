@@ -9,12 +9,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApplication1.DAOModule;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace WpfApplication1.CustomUI
 {
@@ -60,6 +62,11 @@ namespace WpfApplication1.CustomUI
                                 }
                             }
                         }
+                        string bgColor = pa.BgColor;
+                        if(bgColor != "" && bgColor != null)
+                            treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
+                        else
+                            treatMethodData.BgColor = Brushes.LightGray;
                         treatMethodData.Description = pa.Description;
                         Datalist.Add(treatMethodData);
                     }
@@ -105,6 +112,7 @@ namespace WpfApplication1.CustomUI
                         }
                     }
                     treatMethod.Description = this.DescriptionTextBox.Text;
+                    treatMethod.BgColor = ((SolidColorBrush)Buttonrectangle.Fill).Color.ToString();
                     int lastInsertId = -1;
                     treatMethodDao.InsertTreatMethod(treatMethod, ref lastInsertId);
                     //UI
@@ -113,6 +121,7 @@ namespace WpfApplication1.CustomUI
                     treatMethodData.Name = treatMethod.Name;
                     treatMethodData.Type = ComboBoxTreatType.Text;
                     treatMethodData.Description = treatMethod.Description;
+                    treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(treatMethod.BgColor)); 
                     Datalist.Add(treatMethodData);
                 }
             }
@@ -146,6 +155,8 @@ namespace WpfApplication1.CustomUI
                 }
 
                 fileds["DESCRIPTION"] = DescriptionTextBox.Text;
+
+                fileds["BGCOLOR"] = ((SolidColorBrush)Buttonrectangle.Fill).Color.ToString();
                 treatMethodDao.UpdateTreatMethod(fileds, condition);
                 RefreshData();
             }
@@ -179,6 +190,7 @@ namespace WpfApplication1.CustomUI
                         }
                         
                         treatMethodData.Description = pa.Description;
+                        treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(pa.BgColor)); 
                         Datalist.Add(treatMethodData);
                     }
                 }
@@ -199,6 +211,15 @@ namespace WpfApplication1.CustomUI
             }
         }
 
+        private void Button4rectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var dalog = new ColorDialog();
+            if (dalog.ShowDialog() == DialogResult.OK)
+            {
+                ((Rectangle)sender).Fill =
+                    new SolidColorBrush(Color.FromRgb(dalog.Color.R, dalog.Color.G, dalog.Color.B));
+            }
+        }
         private void CTreatMethod_OnLoaded(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
@@ -232,11 +253,21 @@ namespace WpfApplication1.CustomUI
         private string _name;
         private string _type;
         private string _description;
+        private Brush _bgColor;
 
         public TreatMethodData()
         {
         }
 
+        public Brush BgColor
+        {
+            get { return _bgColor; }
+            set
+            {
+                _bgColor = value;
+                OnPropertyChanged("RectColor");
+            }
+        }
         public Int64 Id
         {
             get { return _id; }

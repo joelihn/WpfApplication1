@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:wpfApplication1="clr-namespace:WpfApplication1"
              mc:Ignorable="d" 
-             d:DesignHeight="1024" d:DesignWidth="1230">
+             d:DesignHeight="1024" d:DesignWidth="1230" Loaded="UserControl_Loaded">
     <UserControl.Resources>
         <DataTemplate x:Key="Name">
             <TextBlock Text="{Binding Name}" />

@@ -58,8 +58,8 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO TREATMETHOD (NAME,TREATTYPEID,DESCRIPTION,RESERVED) VALUES 
-                        (@NAME,@TREATTYPEID,@DESCRIPTION,@RESERVED)";
+                        @"INSERT INTO TREATMETHOD (NAME,TREATTYPEID,DESCRIPTION,RESERVED,BGCOLOR) VALUES 
+                        (@NAME,@TREATTYPEID,@DESCRIPTION,@RESERVED,@BGCOLOR)";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
                     sqlcomm.Parameters["@NAME"].Value = treatMethod.Name;
                     sqlcomm.Parameters.Add("@TREATTYPEID", DbType.Int32);
@@ -68,6 +68,7 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters["@DESCRIPTION"].Value = treatMethod.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
                     sqlcomm.Parameters["@RESERVED"].Value = treatMethod.Reserved;
+                    sqlcomm.Parameters["@BGCOLOR"].Value = treatMethod.BgColor;
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
                     //set last insert id of this table this connection

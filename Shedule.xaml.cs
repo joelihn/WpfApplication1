@@ -19,7 +19,9 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls.Primitives;
+using WpfApplication1.CustomUI;
 using WpfApplication1.DataStructures;
+using WpfApplication1.DAOModule;
 
 namespace WpfApplication1
 {
@@ -43,7 +45,7 @@ namespace WpfApplication1
             //string color = (string)System.Windows.Application.Current.Resources["ysq"];
 
             InitDay();
-            InitCureTypeDictionary();
+            //InitCureTypeDictionary();
             SetBinding();
 
             Basewindow = mainWindow;
@@ -392,32 +394,143 @@ namespace WpfApplication1
         public void SetBinding()
         {
             ListBox1.ItemsSource = ListboxItemStatusesList;
+            LoadTratementConifg();
+            //ListboxItemStatus status = new ListboxItemStatus();
+            //status.PatientID = 1;
+            //status.PatientName = "zhangsan";
 
-            ListboxItemStatus status = new ListboxItemStatus();
-            status.PatientID = 1;
-            status.PatientName = "zhangsan";
-            //status.CurrentWeek.day1.Content;
-            //status.CurrentWeek.day1.BgColor;
-            
-            Week week = new Week();
-            week.days[0].Content = "AM";
-            week.days[0].BgColor = Brushes.SeaGreen;
+            //Week week = new Week();
+            //week.days[0].Content = "AM";
+            //week.days[0].BgColor = Brushes.SeaGreen;
 
-            Week week1 = new Week();
-            week1.days[0].Content = "PM";
-            week1.days[0].BgColor = Brushes.GreenYellow;
+            //Week week1 = new Week();
+            //week1.days[0].Content = "PM";
+            //week1.days[0].BgColor = Brushes.GreenYellow;
 
-            status.CurrentWeek = week;
-            status.NextWeek = week1;
-            ListboxItemStatusesList.Add(status);
+            //status.CurrentWeek = week;
+            //status.NextWeek = week1;
+            //ListboxItemStatusesList.Add(status);
 
 
-            ListboxItemStatus status1 = new ListboxItemStatus();
-            status1.PatientID = 1;
-            status1.PatientName = "lisi";
-            ListboxItemStatusesList.Add(status1);
+            //ListboxItemStatus status1 = new ListboxItemStatus();
+            //status1.PatientID = 1;
+            //status1.PatientName = "lisi";
+            //ListboxItemStatusesList.Add(status1);
 
         }
+
+        private void LoadTratementConifg()
+        {
+            try
+            {
+                using (var methodDao = new TreatMethodDao())
+                {
+                    //Datalist.Clear();
+                    CureTypeDictionary.Clear();
+                    var condition = new Dictionary<string, object>();
+                    var list = methodDao.SelectTreatMethod(condition);
+                    foreach (var pa in list)
+                    {
+                        var treatMethodData = new TreatMethodData();
+                        treatMethodData.Id = pa.Id;
+                        treatMethodData.Name = pa.Name;
+                        {
+                            using (var treatTypeDao = new TreatTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.TreatTypeId;
+                                var arealist = treatTypeDao.SelectTreatType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatMethodData.Type = arealist[0].Name;
+                                }
+                            }
+                        }
+                        string bgColor = pa.BgColor;
+                        if (bgColor != "" && bgColor != null)
+                            treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
+                        else
+                            treatMethodData.BgColor = Brushes.LightGray;
+
+
+                        treatMethodData.Description = pa.Description;
+
+                        CureTypeDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
+                        //Datalist.Add(treatMethodData);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:ListViewCPatientRoom_OnLoaded 3 exception messsage: " + ex.Message);
+            }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadTratementConifg();
+            try
+            {
+                //PatientList.Clear();
+                ListboxItemStatusesList.Clear();
+                using (PatientDao patientDao = new PatientDao())
+                {
+
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    var list = patientDao.SelectPatient(condition);
+                    foreach (Patient type in list)
+                    {
+                        PatientInfo patientInfo = new PatientInfo();
+                        patientInfo.PatientId = type.Id;
+                        patientInfo.PatientName = type.Name;
+                        patientInfo.PatientDob = type.Dob;
+                        patientInfo.PatientPatientId = type.PatientId;
+                        patientInfo.PatientGender = type.Gender;
+                        patientInfo.PatientMobile = type.Mobile;
+                        {
+                            using (var infectTypeDao = new InfectTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = type.InfectTypeId;
+                                var arealist = infectTypeDao.SelectInfectType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    patientInfo.PatientInfectType = arealist[0].Name;
+                                }
+                            }
+                        }
+                        {
+                            using (var treatStatusDao = new TreatStatusDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = type.TreatStatusId;
+                                var arealist = treatStatusDao.SelectTreatStatus(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    patientInfo.PatientTreatStatus = arealist[0].Name;
+                                }
+                            }
+                        }
+                        patientInfo.PatientRegesiterDate = type.RegisitDate;
+                        patientInfo.PatientIsFixedBed = type.IsFixedBed;
+                        patientInfo.PatientIsAssigned = type.IsAssigned;
+                        patientInfo.PatientDescription = type.Description;
+
+                        ListboxItemStatus status = new ListboxItemStatus();
+                        status.PatientID = patientInfo.PatientId;
+                        status.PatientName = patientInfo.PatientName;
+                        ListboxItemStatusesList.Add(status);
+                        //PatientList.Add(patientInfo);
+                    }
+                }
+                ListBox1.Items.Refresh();
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
+            }
+        }
+        
 
 
     }
@@ -425,7 +538,7 @@ namespace WpfApplication1
 
     public class ListboxItemStatus:INotifyPropertyChanged
     {
-        public int PatientID
+        public long PatientID
         {
             get { return patientID; }
             set { patientID = value; }
@@ -438,7 +551,7 @@ namespace WpfApplication1
         public Week CurrentWeek { get; set; }
         public Week NextWeek { get; set; }
         
-        private int patientID;
+        private long patientID;
         private string patientName;
 
         public ListboxItemStatus()
