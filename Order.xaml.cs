@@ -122,7 +122,7 @@ namespace WpfApplication1
                     informatian.PatientMobile = fmriPatient.Mobile;
                     informatian.PatientPatientId = fmriPatient.PatientId.ToString();
                     informatian.PatientDescription = fmriPatient.Description;
-                    informatian.PatientId = fmriPatient.Id.ToString("D8");
+                    informatian.PatientId = fmriPatient.Id;
                     informatian.PatientPatientId = fmriPatient.PatientId;
                     informatian.PatientName = fmriPatient.Name;
                     informatian.PatientRegesiterDate = fmriPatient.RegisitDate;
@@ -571,6 +571,7 @@ namespace WpfApplication1
                     foreach (Patient type in list)
                     {
                         PatientInfo patientInfo = new PatientInfo();
+                        patientInfo.PatientId = type.Id;
                         patientInfo.PatientName = type.Name;
                         patientInfo.PatientDob = type.Dob;
                         patientInfo.PatientPatientId = type.PatientId;

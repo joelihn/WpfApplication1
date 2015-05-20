@@ -128,7 +128,7 @@ namespace WpfApplication1
                 NewOrEditFlag = 2;
                 grid1.IsEnabled = true;
 
-                AddIDTextBox.Text = PatientList[PatientlistView.SelectedIndex].PatientId;
+                AddIDTextBox.Text = PatientList[PatientlistView.SelectedIndex].PatientId.ToString();
 
                 Add_NameTextBox.IsEnabled = true;
                 DescriptionTextBox.IsEnabled = true;
@@ -180,7 +180,7 @@ namespace WpfApplication1
                     return;
                 }
 
-                int id = int.Parse(((PatientInfo)PatientlistView.Items[i]).PatientId);
+                int id = int.Parse(((PatientInfo)PatientlistView.Items[i]).PatientId.ToString());
 
                 using (var patientDao = new PatientDao())
                 {
@@ -235,7 +235,7 @@ namespace WpfApplication1
                     informatian.PatientPatientId = patient.PatientId.ToString();
                     informatian.PatientMobile = patient.Mobile;
                     informatian.PatientDescription = patient.Description;
-                    informatian.PatientId = patient.Id.ToString("D8");
+                    informatian.PatientId = patient.Id;
                     informatian.PatientName = patient.Name;
                     {
                         using (var infectTypeDao = new InfectTypeDao())
@@ -289,7 +289,7 @@ namespace WpfApplication1
                 if (NewOrEditFlag != 1)
                 {
                     AddIDTextBox.Text = "";
-                    AddIDTextBox.Text = PatientList[PatientlistView.SelectedIndex].PatientId;
+                    AddIDTextBox.Text = PatientList[PatientlistView.SelectedIndex].PatientId.ToString();
                 }
                 else
                 {
@@ -305,6 +305,8 @@ namespace WpfApplication1
                     AddTimeDate.Text = (string)FindResource("Message21");
                     MainWindow.Log.WriteErrorLog(AddTimeDate.Text);
                 }
+                AddPatientIDTextBox.Text = PatientList[PatientlistView.SelectedIndex].PatientPatientId;
+                MobileTextBox.Text = PatientList[PatientlistView.SelectedIndex].PatientMobile;
                 InfectTypeComboBox.Text = PatientList[PatientlistView.SelectedIndex].PatientInfectType;
                 StatusComboBox.Text = PatientList[PatientlistView.SelectedIndex].PatientTreatStatus;
                 IsFixedBedCheckBox.IsChecked = PatientList[PatientlistView.SelectedIndex].PatientIsFixedBed;
@@ -373,7 +375,7 @@ namespace WpfApplication1
                     informatian.PatientMobile = fmriPatient.Mobile;
                     informatian.PatientPatientId = fmriPatient.PatientId.ToString();
                     informatian.PatientDescription = fmriPatient.Description;
-                    informatian.PatientId = fmriPatient.Id.ToString("D8");
+                    informatian.PatientId = fmriPatient.Id;
                     informatian.PatientPatientId = fmriPatient.PatientId;
                     informatian.PatientName = fmriPatient.Name;
                     informatian.PatientRegesiterDate = fmriPatient.RegisitDate;
@@ -865,7 +867,7 @@ namespace WpfApplication1
             {
                 NewOrEditFlag = 3;
                 grid1.IsEnabled = true;
-                AddIDTextBox.Text = PatientList[PatientlistView.SelectedIndex].PatientId;
+                AddIDTextBox.Text = PatientList[PatientlistView.SelectedIndex].PatientId.ToString();
 
                 Add_NameTextBox.IsEnabled = false;
                 DescriptionTextBox.IsEnabled = false;
@@ -1038,7 +1040,7 @@ namespace WpfApplication1
                         var newinformation = new PatientInfo
                         {
                             PatientName = Add_NameTextBox.Text,
-                            PatientId = AddIDTextBox.Text,
+                            PatientId = Int64.Parse(AddIDTextBox.Text),
                             PatientGender = (string)SexComboBox.SelectedValue,
                             PatientDob = AddAgeTextBox.Text,
                             PatientRegesiterDate =
@@ -1060,13 +1062,13 @@ namespace WpfApplication1
                 }
                 else if (NewOrEditFlag == 2)
                 {
-                    if (!CheckPatientPatientIdValidity(AddPatientIDTextBox.Text))
-                    {
-                        var myRemindMessageBox = new RemindMessageBox1();
-                        myRemindMessageBox.remindText.Text = (string)FindResource("Message76");
-                        myRemindMessageBox.ShowDialog();
-                        return;
-                    }
+                    //if (!CheckPatientPatientIdValidity(AddPatientIDTextBox.Text))
+                    //{
+                    //    var myRemindMessageBox = new RemindMessageBox1();
+                    //    myRemindMessageBox.remindText.Text = (string)FindResource("Message76");
+                    //    myRemindMessageBox.ShowDialog();
+                    //    return;
+                    //}
                     var deleteOriginalReportRemind = new RemindMessageBox2();
                     // deleteOriginalReportRemind.MainGrid.Height = (int)(deleteOriginalReportRemind.MainGrid.Height * 1.15);
                     deleteOriginalReportRemind.textBlock1.Text = (string)FindResource("Message19") +
@@ -1118,13 +1120,13 @@ namespace WpfApplication1
                         //fields["PATIENT_ID"] = int.Parse(((PatientInfo)PatientlistView.Items[i]).PatientId); 
 
                         var condition = new Dictionary<string, object>();
-                        condition["ID"] = int.Parse(((PatientInfo)PatientlistView.Items[i]).PatientId);
+                        condition["ID"] = ((PatientInfo)PatientlistView.Items[i]).PatientId;
                         string Path = ConstDefinition.ImageDataDir + "\\" +
-                                      Int32.Parse(((PatientInfo)PatientlistView.Items[i]).PatientId).ToString("D8");
+                                      ((PatientInfo)PatientlistView.Items[i]).PatientId.ToString("D8");
                         if (Directory.Exists(Path))
                         {
                             string PathRTF1 = ConstDefinition.ImageDataDir + "\\" +
-                                              Int32.Parse(((PatientInfo)PatientlistView.Items[i]).PatientId).ToString(
+                                              ((PatientInfo)PatientlistView.Items[i]).PatientId.ToString(
                                                   "D8") +
                                               "\\report.rtf";
 
@@ -1271,6 +1273,7 @@ namespace WpfApplication1
                     foreach (Patient type in list)
                     {
                         PatientInfo patientInfo = new PatientInfo();
+                        patientInfo.PatientId = type.Id;
                         patientInfo.PatientName = type.Name;
                         patientInfo.PatientDob = type.Dob;
                         patientInfo.PatientPatientId = type.PatientId;
@@ -1359,26 +1362,141 @@ namespace WpfApplication1
 
     public class PatientInfo : INotifyPropertyChanged
     {
-        private string _patiendid;
-        public string PatientName { get; set; }
-        public string PatientDob { get; set; }
-        public string PatientGender { get; set; }
-        public string PatientMobile { get; set; }
-        public string PatientRegesiterDate { get; set; }
-        public string PatientInfectType { get; set; }
-        public string PatientTreatStatus { get; set; }
-        public bool PatientIsFixedBed { get; set; }
-        public string PatientBedId { get; set; }
-        public bool PatientIsAssigned { get; set; }
-        public string PatientDescription { get; set; }
-        public string PatientPatientId { get; set; }
-        public string PatientId
+        private Int64 _patientId;
+        private string _patientName;
+        private string _patientDob;
+        private string _patientGender;
+        private string _patientMobile;
+        private string _patientRegesiterDate;
+        private string _patientInfectType;
+        private string _patientTreatStatus;
+        private bool _patientIsFixedBed;
+        private string _patientBedId;
+        private bool _patientIsAssigned;
+        private string _patientDescription;
+        private string _patientPatientId;
+     
+        public Int64 PatientId
         {
-            get { return _patiendid; }
+            get { return _patientId; }
             set
             {
-                _patiendid = value;
+                _patientId = value;
                 OnPropertyChanged("PatientId");
+            }
+        }
+        public string PatientName
+        {
+            get { return _patientName; }
+            set
+            {
+                _patientName = value;
+                OnPropertyChanged("PatientName");
+            }
+        }
+        public string PatientDob
+        {
+            get { return _patientDob; }
+            set
+            {
+                _patientDob = value;
+                OnPropertyChanged("PatientDob");
+            }
+        }
+        public string PatientGender
+        {
+            get { return _patientGender; }
+            set
+            {
+                _patientGender = value;
+                OnPropertyChanged("PatientGender");
+            }
+        }
+        public string PatientMobile
+        {
+            get { return _patientMobile; }
+            set
+            {
+                _patientMobile = value;
+                OnPropertyChanged("PatientMobile");
+            }
+        }
+
+        public string PatientRegesiterDate
+        {
+            get { return _patientRegesiterDate; }
+            set
+            {
+                _patientRegesiterDate = value;
+                OnPropertyChanged("PatientRegesiterDate");
+            }
+        }
+
+        public string PatientInfectType
+        {
+            get { return _patientInfectType; }
+            set
+            {
+                _patientInfectType = value;
+                OnPropertyChanged("PatientInfectType");
+            }
+        }
+
+        public string PatientTreatStatus
+        {
+            get { return _patientTreatStatus; }
+            set
+            {
+                _patientTreatStatus = value;
+                OnPropertyChanged("PatientTreatStatus");
+            }
+        }
+
+        public bool PatientIsFixedBed
+        {
+            get { return _patientIsFixedBed; }
+            set
+            {
+                _patientIsFixedBed = value;
+                OnPropertyChanged("PatientIsFixedBed");
+            }
+        }
+        public string PatientBedId
+        {
+            get { return _patientBedId; }
+            set
+            {
+                _patientBedId = value;
+                OnPropertyChanged("PatientBedId");
+            }
+        }
+        public bool PatientIsAssigned
+        {
+            get { return _patientIsAssigned; }
+            set
+            {
+                _patientIsAssigned = value;
+                OnPropertyChanged("PatientIsAssigned");
+            }
+        }
+
+        public string PatientDescription
+        {
+            get { return _patientDescription; }
+            set
+            {
+                _patientDescription = value;
+                OnPropertyChanged("PatientDescription");
+            }
+        }
+
+        public string PatientPatientId
+        {
+            get { return _patientPatientId; }
+            set
+            {
+                _patientPatientId = value;
+                OnPropertyChanged("PatientPatientId");
             }
         }
 
