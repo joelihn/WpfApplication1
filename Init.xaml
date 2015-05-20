@@ -30,11 +30,11 @@
         <DataTemplate x:Key="date">
             <TextBlock x:Name="textlockdate" Text="{Binding PatientRegesiterDate}" />
         </DataTemplate>
-        <DataTemplate x:Key="InfectTypeId">
-            <TextBlock x:Name="textboxInfectType" Text="{Binding PatientInfectTypeId}" />
+        <DataTemplate x:Key="InfectType">
+            <TextBlock x:Name="textboxInfectType" Text="{Binding PatientInfectType}" />
         </DataTemplate>
-        <DataTemplate x:Key="TreatStatusId">
-            <TextBlock x:Name="textboxTreatStatusId" Text="{Binding PatientTreatStatusId}" />
+        <DataTemplate x:Key="TreatStatus">
+            <TextBlock x:Name="textboxTreatStatusId" Text="{Binding PatientTreatStatus}" />
         </DataTemplate>
         <DataTemplate x:Key="IsFixedBed">
             <CheckBox x:Name="textboxIsFixedBed" IsChecked="{Binding PatientIsFixedBed}" />
@@ -121,7 +121,7 @@
                                             </StackPanel>
                                         </Grid>
                                     </GridViewColumn>
-                                    <GridViewColumn Width="70" CellTemplate="{StaticResource InfectTypeId}">
+                                    <GridViewColumn Width="70" CellTemplate="{StaticResource InfectType}">
                                         <Grid Tag="5">
                                             <StackPanel Orientation="Horizontal">
 
@@ -130,7 +130,7 @@
                                             </StackPanel>
                                         </Grid>
                                     </GridViewColumn>
-                                    <GridViewColumn Width="70" CellTemplate="{StaticResource TreatStatusId}">
+                                    <GridViewColumn Width="70" CellTemplate="{StaticResource TreatStatus}">
                                         <Grid Tag="5">
                                             <StackPanel Orientation="Horizontal">
 

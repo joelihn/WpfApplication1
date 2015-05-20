@@ -105,10 +105,10 @@ namespace WpfApplication1
             AddPatientIDTextBox.Text = "";
             Add_NameTextBox.Text = "";
             AddAgeTextBox.Text = "";
-            SexComboBox.Text = "";
-            InfectTypeComboBox.Text = "";
+            SexComboBox.SelectedIndex = 0;
+            InfectTypeComboBox.SelectedIndex = 0;
             DescriptionTextBox.Text = "";
-            StatusComboBox.Text = "";
+            StatusComboBox.SelectedIndex = 0;
             AddTimeDate.SelectedDate = DateTime.Now;
         }
 
@@ -237,8 +237,30 @@ namespace WpfApplication1
                     informatian.PatientDescription = patient.Description;
                     informatian.PatientId = patient.Id.ToString("D8");
                     informatian.PatientName = patient.Name;
-                    informatian.PatientInfectTypeId = patient.InfectTypeId;
-                    informatian.PatientTreatStatusId = patient.TreatStatusId;
+                    {
+                        using (var infectTypeDao = new InfectTypeDao())
+                        {
+                            condition.Clear();
+                            condition["ID"] = patient.InfectTypeId;
+                            var arealist = infectTypeDao.SelectInfectType(condition);
+                            if (arealist.Count == 1)
+                            {
+                                informatian.PatientInfectType = arealist[0].Name;
+                            }
+                        }
+                    }
+                    {
+                        using (var treatStatusDao = new TreatStatusDao())
+                        {
+                            condition.Clear();
+                            condition["ID"] = patient.TreatStatusId;
+                            var arealist = treatStatusDao.SelectTreatStatus(condition);
+                            if (arealist.Count == 1)
+                            {
+                                informatian.PatientTreatStatus = arealist[0].Name;
+                            }
+                        }
+                    }
 
                     DateTime displaytime;
                     try
@@ -283,7 +305,9 @@ namespace WpfApplication1
                     AddTimeDate.Text = (string)FindResource("Message21");
                     MainWindow.Log.WriteErrorLog(AddTimeDate.Text);
                 }
-
+                InfectTypeComboBox.Text = PatientList[PatientlistView.SelectedIndex].PatientInfectType;
+                StatusComboBox.Text = PatientList[PatientlistView.SelectedIndex].PatientTreatStatus;
+                IsFixedBedCheckBox.IsChecked = PatientList[PatientlistView.SelectedIndex].PatientIsFixedBed;
                 DescriptionTextBox.Text = PatientList[PatientlistView.SelectedIndex].PatientDescription;
                 if (PatientList[PatientlistView.SelectedIndex].PatientGender == (string)FindResource("ManText"))
                 {
@@ -353,8 +377,30 @@ namespace WpfApplication1
                     informatian.PatientPatientId = fmriPatient.PatientId;
                     informatian.PatientName = fmriPatient.Name;
                     informatian.PatientRegesiterDate = fmriPatient.RegisitDate;
-                    informatian.PatientInfectTypeId = fmriPatient.InfectTypeId;
-                    informatian.PatientTreatStatusId = fmriPatient.TreatStatusId;
+                    {
+                        using (var infectTypeDao = new InfectTypeDao())
+                        {
+                            condition.Clear();
+                            condition["ID"] = fmriPatient.InfectTypeId;
+                            var arealist = infectTypeDao.SelectInfectType(condition);
+                            if (arealist.Count == 1)
+                            {
+                                informatian.PatientInfectType = arealist[0].Name;
+                            }
+                        }
+                    }
+                    {
+                        using (var treatStatusDao = new TreatStatusDao())
+                        {
+                            condition.Clear();
+                            condition["ID"] = fmriPatient.TreatStatusId;
+                            var arealist = treatStatusDao.SelectTreatStatus(condition);
+                            if (arealist.Count == 1)
+                            {
+                                informatian.PatientTreatStatus = arealist[0].Name;
+                            }
+                        }
+                    }
                     PatientList.Add(informatian);
                 }
             }
@@ -826,6 +872,7 @@ namespace WpfApplication1
                 AddAgeTextBox.IsEnabled = false;
                 SexComboBox.IsEnabled = false;
                 InfectTypeComboBox.IsEnabled = false;
+                StatusComboBox.IsEnabled = false;
                 AddTimeDate.IsEnabled = false;
                 DescriptionTextBox.IsEnabled = false;
 
@@ -941,7 +988,31 @@ namespace WpfApplication1
                         fields["PATIENTID"] = AddPatientIDTextBox.Text;
                         fields["GENDER"] = SexComboBox.SelectedValue;
                         fields["MOBILE"] = MobileTextBox.Text;
-                        fields["INFECTTYPE"] = InfectTypeComboBox.SelectedValue;
+                        //fields["INFECTTYPEID"] = InfectTypeComboBox.SelectedValue;
+                        //fields["TREATSTATUSID"] = StatusComboBox.SelectedValue;
+                        var condition2 = new Dictionary<string, object>();
+                        using (var infectTypeDao = new InfectTypeDao())
+                        {
+                            condition2.Clear();
+                            condition2["Name"] = InfectTypeComboBox.Text;
+                            var arealist = infectTypeDao.SelectInfectType(condition2);
+                            if (arealist.Count == 1)
+                            {
+                                fields["INFECTTYPEID"] = arealist[0].Id;
+                            }
+                        }
+                       
+                        using (var treatStatusDao = new TreatStatusDao())
+                        {
+                            condition2.Clear();
+                            condition2["Name"] = StatusComboBox.Text;
+                            var arealist = treatStatusDao.SelectTreatStatus(condition2);
+                            if (arealist.Count == 1)
+                            {
+                                fields["TREATSTATUSID"] = arealist[0].Id;
+                            }
+                        }
+                       
                         fields["ISFIXEDBED"] = IsFixedBedCheckBox.IsChecked;
                         fields["ISASSIGNED"] = false;
                         if (AddTimeDate.SelectedDate != null)
@@ -973,11 +1044,14 @@ namespace WpfApplication1
                             PatientRegesiterDate =
                                 ((DateTime)AddTimeDate.SelectedDate).ToString("yyyy-MM-dd"),
                             PatientDescription = DescriptionTextBox.Text,
-                            PatientInfectTypeId = (string)InfectTypeComboBox.SelectedValue,
+                            PatientInfectType = (string)InfectTypeComboBox.SelectedValue,
+                            PatientTreatStatus = (string)StatusComboBox.SelectedValue,
+
                             PatientPatientId = AddPatientIDTextBox.Text,
                             PatientMobile = MobileTextBox.Text,
                            
                         };
+
 
 
                         PatientList.Insert(0, newinformation);
@@ -1010,11 +1084,33 @@ namespace WpfApplication1
                         fields["DESCRIPTION"] = DescriptionTextBox.Text;
                         fields["DOB"] = AddAgeTextBox.Text;
                         fields["GENDER"] = SexComboBox.SelectedValue;
-                        fields["INFECTTYPE"] = InfectTypeComboBox.SelectedValue;
+                       // fields["INFECTTYPE"] = InfectTypeComboBox.SelectedValue;
                         fields["PATIENTID"] = AddPatientIDTextBox.Text;
-                        fields["INFECTTYPE"] = InfectTypeComboBox.SelectedValue;
+                        //fields["INFECTTYPE"] = InfectTypeComboBox.SelectedValue;
+                        var condition2 = new Dictionary<string, object>();
+                        using (var infectTypeDao = new InfectTypeDao())
+                        {
+                            condition2.Clear();
+                            condition2["Name"] = InfectTypeComboBox.Text;
+                            var arealist = infectTypeDao.SelectInfectType(condition2);
+                            if (arealist.Count == 1)
+                            {
+                                fields["INFECTTYPEID"] = arealist[0].Id;
+                            }
+                        }
+
+                        using (var treatStatusDao = new TreatStatusDao())
+                        {
+                            condition2.Clear();
+                            condition2["Name"] = StatusComboBox.Text;
+                            var arealist = treatStatusDao.SelectTreatStatus(condition2);
+                            if (arealist.Count == 1)
+                            {
+                                fields["TREATSTATUSID"] = arealist[0].Id;
+                            }
+                        }
                         fields["ISFIXEDBED"] = IsFixedBedCheckBox.IsChecked;
-                        fields["ISASSIGNED"] = IsAssignedCheckBox.IsChecked;
+                        //fields["ISASSIGNED"] = IsAssignedCheckBox.IsChecked;
                         DateTime dateTime = DateTime.Parse(AddTimeDate.Text);
                         fields["REGISITDATE"] = dateTime.ToString("yyyy-MM-dd");
 
@@ -1052,7 +1148,8 @@ namespace WpfApplication1
                             PatientDob = AddAgeTextBox.Text,
                             PatientRegesiterDate = AddTimeDate.Text,
                             PatientDescription = DescriptionTextBox.Text,
-                            PatientInfectTypeId = (string)InfectTypeComboBox.SelectedValue,
+                            PatientInfectType = (string)InfectTypeComboBox.SelectedValue,
+                            PatientTreatStatus = (string)StatusComboBox.SelectedValue,
                             PatientPatientId = AddPatientIDTextBox.Text,
                         };
 
@@ -1179,6 +1276,30 @@ namespace WpfApplication1
                         patientInfo.PatientPatientId = type.PatientId;
                         patientInfo.PatientGender = type.Gender;
                         patientInfo.PatientMobile = type.Mobile;
+                        {
+                            using (var infectTypeDao = new InfectTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = type.InfectTypeId;
+                                var arealist = infectTypeDao.SelectInfectType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    patientInfo.PatientInfectType = arealist[0].Name;
+                                }
+                            }
+                        }
+                        {
+                            using (var treatStatusDao = new TreatStatusDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = type.TreatStatusId;
+                                var arealist = treatStatusDao.SelectTreatStatus(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    patientInfo.PatientTreatStatus = arealist[0].Name;
+                                }
+                            }
+                        }
                         patientInfo.PatientRegesiterDate = type.RegisitDate;
                         patientInfo.PatientIsFixedBed = type.IsFixedBed;
                         patientInfo.PatientIsAssigned = type.IsAssigned;
@@ -1202,6 +1323,7 @@ namespace WpfApplication1
                     {
                         InfectTypeComboBox.Items.Add(type.Name);
                     }
+                    InfectTypeComboBox.SelectedIndex = 0;
                 }
             }
             catch (Exception ex)
@@ -1220,6 +1342,7 @@ namespace WpfApplication1
                     {
                         StatusComboBox.Items.Add(type.Name);
                     }
+                    StatusComboBox.SelectedIndex = 0;
                 }
             }
             catch (Exception ex)
@@ -1230,6 +1353,7 @@ namespace WpfApplication1
             this.SexComboBox.Items.Clear();
             this.SexComboBox.Items.Add("男");
             this.SexComboBox.Items.Add("女");
+            SexComboBox.SelectedIndex = 0;
         }
     }
 
@@ -1241,8 +1365,8 @@ namespace WpfApplication1
         public string PatientGender { get; set; }
         public string PatientMobile { get; set; }
         public string PatientRegesiterDate { get; set; }
-        public Int64 PatientInfectTypeId { get; set; }
-        public Int64 PatientTreatStatusId { get; set; }
+        public string PatientInfectType { get; set; }
+        public string PatientTreatStatus { get; set; }
         public bool PatientIsFixedBed { get; set; }
         public string PatientBedId { get; set; }
         public bool PatientIsAssigned { get; set; }
