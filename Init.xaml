@@ -37,13 +37,13 @@
             <TextBlock x:Name="textboxTreatStatusId" Text="{Binding PatientTreatStatus}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientIsFixedBed">
-            <CheckBox x:Name="textboxIsFixedBed" IsChecked="{Binding PatientIsFixedBed}" />
+            <CheckBox IsEnabled="False" x:Name="textboxIsFixedBed" IsChecked="{Binding PatientIsFixedBed}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientBedId">
             <TextBlock x:Name="textboxBedId" Text="{Binding PatientBedId}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientIsAssigned">
-            <CheckBox x:Name="textboxIsAssigned" IsChecked="{Binding PatientIsAssigned}" />
+            <CheckBox IsEnabled="False" x:Name="textboxIsAssigned" IsChecked="{Binding PatientIsAssigned}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientClinicDescription">
             <TextBlock x:Name="textlockdescription" Text="{Binding PatientClinicDescription}" />
@@ -171,8 +171,8 @@
                             </ListView.View>
                         </ListView>
                         <RadioButton Content="{DynamicResource  AllDateText}" Style="{StaticResource RadioButtonStyle1}" HorizontalAlignment="Left" Margin="239,57,0,0" Name="TimeRadioButton1" VerticalAlignment="Top" FontSize="16" GroupName="TimeSelecet" Click="TimeRadioButton1_Click" TabIndex="10005" />
-                        <RadioButton Content="{DynamicResource  In7DayText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" HorizontalAlignment="Left" Margin="392,57,0,0" Name="TimeRadioButton2" VerticalAlignment="Top" GroupName="TimeSelecet" IsChecked="True" Click="TimeRadioButton1_Click" TabIndex="10006" />
-                        <RadioButton Content="{DynamicResource  In3DaysText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" Margin="545,57,0,0" Name="TimeRadioButton3" VerticalAlignment="Top" GroupName="TimeSelecet" IsChecked="True" Click="TimeRadioButton1_Click" HorizontalAlignment="Left" TabIndex="10007" />
+                        <RadioButton Content="{DynamicResource  In7DayText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" HorizontalAlignment="Left" Margin="392,57,0,0" Name="TimeRadioButton2" VerticalAlignment="Top"  GroupName="TimeSelecet"  Click="TimeRadioButton1_Click" TabIndex="10006" />
+                        <RadioButton Content="{DynamicResource  In3DaysText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" Margin="545,57,0,0" Name="TimeRadioButton3" VerticalAlignment="Top" GroupName="TimeSelecet"  IsChecked="True" Click="TimeRadioButton1_Click" HorizontalAlignment="Left" TabIndex="10007" />
                         <DatePicker HorizontalAlignment="Left" Style="{StaticResource DatePickerStyle}" Margin="480,20,0,0" Name="EndatePicker" VerticalAlignment="Top" Width="130" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" VerticalContentAlignment="Center" Padding="3,0" TabIndex="10004" OpacityMask="{x:Null}"></DatePicker>
                     </Grid>
                     <Rectangle Height="4" HorizontalAlignment="Stretch" Margin="0,572,0,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" Fill="Black" StrokeThickness="1" IsHitTestVisible="True" />

@@ -33,6 +33,9 @@ namespace WpfApplication1
             InitializeComponent();
             Basewindow = window;
             this.PatientlistView.ItemsSource = PatientList;
+
+            EndatePicker.Text = DateTime.Now.ToString();
+            BeginDatePicker.Text = (DateTime.Now - TimeSpan.FromDays(3)).ToString();
         }
 
         private void TimeRadioButton1_Click(object sender, RoutedEventArgs e)

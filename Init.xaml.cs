@@ -39,6 +39,10 @@ namespace WpfApplication1
             InitializeComponent();
             Basewindow = window;
             this.PatientlistView.ItemsSource = PatientList;
+
+            EndatePicker.Text = DateTime.Now.ToString();
+            BeginDatePicker.Text = (DateTime.Now - TimeSpan.FromDays(3)).ToString();
+            AddTimeDate.Text = "dateTimeString";
         }
 
         private void BeginDatePicker_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -55,7 +59,7 @@ namespace WpfApplication1
             {
                 TimeRadioButton1.IsChecked = false;
                 TimeRadioButton2.IsChecked = false;
-                TimeRadioButton3.IsChecked = false;
+                TimeRadioButton3.IsChecked = true;
             }
         }
 
@@ -132,6 +136,8 @@ namespace WpfApplication1
 
                 Add_NameTextBox.IsEnabled = true;
                 DescriptionTextBox.IsEnabled = true;
+                MobileTextBox.IsEnabled = true;
+                IsFixedBedCheckBox.IsEnabled=true;
                 AddAgeTextBox.IsEnabled = true;
                 SexComboBox.IsEnabled = true;
                 InfectTypeComboBox.IsEnabled = true;
@@ -873,6 +879,8 @@ namespace WpfApplication1
                 DescriptionTextBox.IsEnabled = false;
                 AddAgeTextBox.IsEnabled = false;
                 SexComboBox.IsEnabled = false;
+                MobileTextBox.IsEnabled = false;
+                IsFixedBedCheckBox.IsEnabled = false;
                 InfectTypeComboBox.IsEnabled = false;
                 StatusComboBox.IsEnabled = false;
                 AddTimeDate.IsEnabled = false;

@@ -34,7 +34,7 @@
             <TextBlock x:Name="textboxInfectType" Text="{Binding PatientInfectType}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientIsFixedBed">
-            <CheckBox x:Name="textboxIsFixedBed" IsChecked="{Binding PatientIsFixedBed}" />
+            <CheckBox IsEnabled="False" x:Name="textboxIsFixedBed" IsChecked="{Binding PatientIsFixedBed}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientTreatStatus">
             <TextBlock x:Name="textboxTreatStatusId" Text="{Binding PatientTreatStatus}" />
@@ -43,7 +43,7 @@
             <TextBlock x:Name="textboxBedId" Text="{Binding PatientBedId}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientIsAssigned">
-            <CheckBox x:Name="textboxIsAssigned" IsChecked="{Binding PatientIsAssigned}" />
+            <CheckBox IsEnabled="False" x:Name="textboxIsAssigned" IsChecked="{Binding PatientIsAssigned}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientClinicDescription">
             <TextBlock x:Name="textlockdescription" Text="{Binding PatientClinicDescription}" />
