@@ -30,7 +30,7 @@ namespace WpfApplication1
     {
         public MainWindow Basewindow;
         public int NewOrEditFlag; //1是新建，2是编辑，3是查看
-        public int[] Paixiflag = new int[6] { 0, 0, 0, 0, 0, 0 };
+        public int[] Paixiflag = new int[11] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         public ObservableCollection<PatientInfo> PatientList = new ObservableCollection<PatientInfo>();
         public CollectionViewSource PatientListViewSource = new CollectionViewSource();
         public int selectoperation;
@@ -384,6 +384,7 @@ namespace WpfApplication1
                     informatian.PatientId = fmriPatient.Id;
                     informatian.PatientPatientId = fmriPatient.PatientId;
                     informatian.PatientName = fmriPatient.Name;
+                    informatian.PatientIsFixedBed = fmriPatient.IsFixedBed;
                     informatian.PatientRegesiterDate = fmriPatient.RegisitDate;
                     {
                         using (var infectTypeDao = new InfectTypeDao())
@@ -460,7 +461,7 @@ namespace WpfApplication1
                             sortDirection = ListSortDirection.Descending;
                         }
                         bindingProperty = "PatientId";
-                        ArrowPatientID.Visibility = Visibility.Visible;
+                        ArrowPatientID.Visibility = Visibility.Hidden;
                         ArrowID.Visibility = Visibility.Visible;
                         ArrowName.Visibility = Visibility.Hidden;
                         ArrowAge.Visibility = Visibility.Hidden;
@@ -473,65 +474,23 @@ namespace WpfApplication1
 
                         if (
                             ((Image)((StackPanel)((Grid)clickedColumn.Header).Children[0]).Children[1]).Source.
-                                ToString() == "pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png")
+                                ToString() == "pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png")
                         {
                             ArrowID.Source =
                                 new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png",
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png",
                                             UriKind.RelativeOrAbsolute));
                         }
                         else if (ArrowID.Source.ToString() ==
-                                 "pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png")
+                                 "pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png")
                         {
                             ArrowID.Source =
                                 new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png",
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png",
                                             UriKind.RelativeOrAbsolute));
                         }
                     }
                     else if (clickedColumn.Header is Grid && columnflag == 1)
-                    {
-                        if (Paixiflag[0] == 0)
-                        {
-                            Paixiflag[0] = 1;
-                            sortDirection = ListSortDirection.Ascending;
-                        }
-                        else
-                        {
-                            Paixiflag[0] = 0;
-                            sortDirection = ListSortDirection.Descending;
-                        }
-                        bindingProperty = "PatientId";
-                        ArrowPatientID.Visibility = Visibility.Visible;
-                        ArrowID.Visibility = Visibility.Visible;
-                        ArrowName.Visibility = Visibility.Hidden;
-                        ArrowAge.Visibility = Visibility.Hidden;
-                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
-                        ArrowTreatStatusId.Visibility = Visibility.Hidden;
-                        ArrowIsAssigned.Visibility = Visibility.Hidden;
-                        ArrowIsFixedBed.Visibility = Visibility.Hidden;
-                        ArrowDate.Visibility = Visibility.Hidden;
-                        ArrowSex.Visibility = Visibility.Hidden;
-                        //TODO: 20130923
-                        if (
-                          ((Image)((StackPanel)((Grid)clickedColumn.Header).Children[0]).Children[1]).Source.
-                              ToString() == "pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png")
-                        {
-                            ArrowPatientID.Source =
-                                new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png",
-                                            UriKind.RelativeOrAbsolute));
-                        }
-                        else if (ArrowPatientID.Source.ToString() ==
-                                 "pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png")
-                        {
-                            ArrowPatientID.Source =
-                                new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png",
-                                            UriKind.RelativeOrAbsolute));
-                        }
-                    }
-                    else if (clickedColumn.Header is Grid && columnflag == 2)
                     {
                         if (Paixiflag[1] == 0)
                         {
@@ -544,6 +503,48 @@ namespace WpfApplication1
                             sortDirection = ListSortDirection.Descending;
                         }
                         bindingProperty = "PatientPatientId";
+                        ArrowPatientID.Visibility = Visibility.Visible;
+                        ArrowID.Visibility = Visibility.Hidden;
+                        ArrowName.Visibility = Visibility.Hidden;
+                        ArrowAge.Visibility = Visibility.Hidden;
+                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
+                        ArrowTreatStatusId.Visibility = Visibility.Hidden;
+                        ArrowIsAssigned.Visibility = Visibility.Hidden;
+                        ArrowIsFixedBed.Visibility = Visibility.Hidden;
+                        ArrowDate.Visibility = Visibility.Hidden;
+                        ArrowSex.Visibility = Visibility.Hidden;
+                        //TODO: 20130923
+                        if (
+                          ((Image)((StackPanel)((Grid)clickedColumn.Header).Children[0]).Children[1]).Source.
+                              ToString() == "pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png")
+                        {
+                            ArrowPatientID.Source =
+                                new BitmapImage(
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png",
+                                            UriKind.RelativeOrAbsolute));
+                        }
+                        else if (ArrowPatientID.Source.ToString() ==
+                                 "pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png")
+                        {
+                            ArrowPatientID.Source =
+                                new BitmapImage(
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png",
+                                            UriKind.RelativeOrAbsolute));
+                        }
+                    }
+                    else if (clickedColumn.Header is Grid && columnflag == 2)
+                    {
+                        if (Paixiflag[2] == 0)
+                        {
+                            Paixiflag[2] = 1;
+                            sortDirection = ListSortDirection.Ascending;
+                        }
+                        else
+                        {
+                            Paixiflag[2] = 0;
+                            sortDirection = ListSortDirection.Descending;
+                        }
+                        bindingProperty = "PatientName";
                         ArrowName.Visibility = Visibility.Visible;
                         ArrowID.Visibility = Visibility.Hidden;
                         ArrowPatientID.Visibility = Visibility.Hidden;
@@ -556,32 +557,32 @@ namespace WpfApplication1
                         ArrowSex.Visibility = Visibility.Hidden;
                         if (
                             ((Image)((StackPanel)((Grid)clickedColumn.Header).Children[0]).Children[1]).Source.
-                                ToString() == "pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png")
+                                ToString() == "pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png")
                         {
                             ArrowName.Source =
                                 new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png",
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png",
                                             UriKind.RelativeOrAbsolute));
                         }
                         else if (ArrowName.Source.ToString() ==
-                                 "pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png")
+                                 "pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png")
                         {
                             ArrowName.Source =
                                 new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png",
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png",
                                             UriKind.RelativeOrAbsolute));
                         }
                     }
                     else if (clickedColumn.Header is Grid && columnflag == 3)
                     {
-                        if (Paixiflag[2] == 0)
+                        if (Paixiflag[3] == 0)
                         {
-                            Paixiflag[2] = 1;
+                            Paixiflag[3] = 1;
                             sortDirection = ListSortDirection.Ascending;
                         }
                         else
                         {
-                            Paixiflag[2] = 0;
+                            Paixiflag[3] = 0;
                             sortDirection = ListSortDirection.Descending;
                         }
                         bindingProperty = "PatientGender";
@@ -599,32 +600,32 @@ namespace WpfApplication1
 
                         if (
                             ((Image)((StackPanel)((Grid)clickedColumn.Header).Children[0]).Children[1]).Source.
-                                ToString() == "pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png")
+                                ToString() == "pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png")
                         {
                             ArrowSex.Source =
                                 new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png",
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png",
                                             UriKind.RelativeOrAbsolute));
                         }
                         else if (ArrowSex.Source.ToString() ==
-                                 "pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png")
+                                 "pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png")
                         {
                             ArrowSex.Source =
                                 new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png",
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png",
                                             UriKind.RelativeOrAbsolute));
                         }
                     }
                     else if (clickedColumn.Header is Grid && columnflag == 4)
                     {
-                        if (Paixiflag[3] == 0)
+                        if (Paixiflag[4] == 0)
                         {
-                            Paixiflag[3] = 1;
+                            Paixiflag[4] = 1;
                             sortDirection = ListSortDirection.Ascending;
                         }
                         else
                         {
-                            Paixiflag[3] = 0;
+                            Paixiflag[4] = 0;
                             sortDirection = ListSortDirection.Descending;
                         }
                         bindingProperty = "PatientDob";
@@ -640,36 +641,36 @@ namespace WpfApplication1
                         ArrowDate.Visibility = Visibility.Hidden;
                         if (
                             ((Image)((StackPanel)((Grid)clickedColumn.Header).Children[0]).Children[1]).Source.
-                                ToString() == "pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png")
+                                ToString() == "pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png")
                         {
                             ArrowAge.Source =
                                 new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png",
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png",
                                             UriKind.RelativeOrAbsolute));
                         }
                         else if (ArrowAge.Source.ToString() ==
-                                 "pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png")
+                                 "pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png")
                         {
                             ArrowAge.Source =
                                 new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png",
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png",
                                             UriKind.RelativeOrAbsolute));
                         }
                     }
                     else if (clickedColumn.Header is Grid && columnflag == 5)
                     {
-                        if (Paixiflag[4] == 0)
+                        if (Paixiflag[5] == 0)
                         {
-                            Paixiflag[4] = 1;
+                            Paixiflag[5] = 1;
                             sortDirection = ListSortDirection.Ascending;
                         }
                         else
                         {
-                            Paixiflag[4] = 0;
+                            Paixiflag[5] = 0;
                             sortDirection = ListSortDirection.Descending;
                         }
-                        bindingProperty = "PatientHand";
-                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
+                        bindingProperty = "PatientInfectType";
+                        ArrowInfectTypeId.Visibility = Visibility.Visible;
                         ArrowTreatStatusId.Visibility = Visibility.Hidden;
                         ArrowIsAssigned.Visibility = Visibility.Hidden;
                         ArrowIsFixedBed.Visibility = Visibility.Hidden;
@@ -681,35 +682,76 @@ namespace WpfApplication1
                         ArrowDate.Visibility = Visibility.Hidden;
                         if (
                             ((Image)((StackPanel)((Grid)clickedColumn.Header).Children[0]).Children[1]).Source.
-                                ToString() == "pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png")
+                                ToString() == "pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png")
                         {
                             ArrowInfectTypeId.Source =
                                 new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png",
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png",
                                             UriKind.RelativeOrAbsolute));
                         }
                         else if (ArrowInfectTypeId.Source.ToString() ==
-                                 "pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png")
+                                 "pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png")
                         {
                             ArrowInfectTypeId.Source =
                                 new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png",
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png",
                                             UriKind.RelativeOrAbsolute));
                         }
                     }
-                    else if (clickedColumn.Header is Grid && columnflag == 5)
+                    else if (clickedColumn.Header is Grid && columnflag == 6)
                     {
-                        if (Paixiflag[4] == 0)
+                        if (Paixiflag[6] == 0)
                         {
-                            Paixiflag[4] = 1;
+                            Paixiflag[6] = 1;
                             sortDirection = ListSortDirection.Ascending;
                         }
                         else
                         {
-                            Paixiflag[4] = 0;
+                            Paixiflag[6] = 0;
                             sortDirection = ListSortDirection.Descending;
                         }
-                        bindingProperty = "PatientHand";
+                        bindingProperty = "PatientTreatStatus";
+                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
+                        ArrowTreatStatusId.Visibility = Visibility.Visible;
+                        ArrowIsAssigned.Visibility = Visibility.Hidden;
+                        ArrowIsFixedBed.Visibility = Visibility.Hidden;
+                        ArrowSex.Visibility = Visibility.Hidden;
+                        ArrowID.Visibility = Visibility.Hidden;
+                        ArrowName.Visibility = Visibility.Hidden;
+                        ArrowAge.Visibility = Visibility.Hidden;
+                        ArrowPatientID.Visibility = Visibility.Hidden;
+                        ArrowDate.Visibility = Visibility.Hidden;
+                        if (
+                            ((Image)((StackPanel)((Grid)clickedColumn.Header).Children[0]).Children[1]).Source.
+                                ToString() == "pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png")
+                        {
+                            ArrowTreatStatusId.Source =
+                                new BitmapImage(
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png",
+                                            UriKind.RelativeOrAbsolute));
+                        }
+                        else if (ArrowTreatStatusId.Source.ToString() ==
+                                 "pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png")
+                        {
+                            ArrowTreatStatusId.Source =
+                                new BitmapImage(
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png",
+                                            UriKind.RelativeOrAbsolute));
+                        }
+                    }
+                    else if (clickedColumn.Header is Grid && columnflag == 7)
+                    {
+                        if (Paixiflag[7] == 0)
+                        {
+                            Paixiflag[7] = 1;
+                            sortDirection = ListSortDirection.Ascending;
+                        }
+                        else
+                        {
+                            Paixiflag[7] = 0;
+                            sortDirection = ListSortDirection.Descending;
+                        }
+                        bindingProperty = "PatientIsFixedBed";
                         ArrowInfectTypeId.Visibility = Visibility.Hidden;
                         ArrowTreatStatusId.Visibility = Visibility.Hidden;
                         ArrowIsAssigned.Visibility = Visibility.Hidden;
@@ -722,73 +764,74 @@ namespace WpfApplication1
                         ArrowDate.Visibility = Visibility.Hidden;
                         if (
                             ((Image)((StackPanel)((Grid)clickedColumn.Header).Children[0]).Children[1]).Source.
-                                ToString() == "pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png")
+                                ToString() == "pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png")
                         {
                             ArrowIsFixedBed.Source =
                                 new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png",
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png",
                                             UriKind.RelativeOrAbsolute));
                         }
-                        else if (ArrowInfectTypeId.Source.ToString() ==
-                                 "pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png")
+                        else if (ArrowIsFixedBed.Source.ToString() ==
+                                 "pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png")
                         {
                             ArrowIsFixedBed.Source =
                                 new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png",
-                                            UriKind.RelativeOrAbsolute));
-                        }
-                    }
-                    else if (clickedColumn.Header is Grid && columnflag == 5)
-                    {
-                        if (Paixiflag[4] == 0)
-                        {
-                            Paixiflag[4] = 1;
-                            sortDirection = ListSortDirection.Ascending;
-                        }
-                        else
-                        {
-                            Paixiflag[4] = 0;
-                            sortDirection = ListSortDirection.Descending;
-                        }
-                        bindingProperty = "PatientHand";
-                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
-                        ArrowTreatStatusId.Visibility = Visibility.Hidden;
-                        ArrowIsAssigned.Visibility = Visibility.Hidden;
-                        ArrowIsFixedBed.Visibility = Visibility.Visible;
-                        ArrowSex.Visibility = Visibility.Hidden;
-                        ArrowID.Visibility = Visibility.Hidden;
-                        ArrowName.Visibility = Visibility.Hidden;
-                        ArrowAge.Visibility = Visibility.Hidden;
-                        ArrowPatientID.Visibility = Visibility.Hidden;
-                        ArrowDate.Visibility = Visibility.Hidden;
-                        if (
-                            ((Image)((StackPanel)((Grid)clickedColumn.Header).Children[0]).Children[1]).Source.
-                                ToString() == "pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png")
-                        {
-                            ArrowIsAssigned.Source =
-                                new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png",
-                                            UriKind.RelativeOrAbsolute));
-                        }
-                        else if (ArrowInfectTypeId.Source.ToString() ==
-                                 "pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png")
-                        {
-                            ArrowIsAssigned.Source =
-                                new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png",
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png",
                                             UriKind.RelativeOrAbsolute));
                         }
                     }
                     else if (clickedColumn.Header is Grid && columnflag == 8)
                     {
-                        if (Paixiflag[5] == 0)
+                        if (Paixiflag[8] == 0)
                         {
-                            Paixiflag[5] = 1;
+                            Paixiflag[8] = 1;
                             sortDirection = ListSortDirection.Ascending;
                         }
                         else
                         {
-                            Paixiflag[5] = 0;
+                            Paixiflag[8] = 0;
+                            sortDirection = ListSortDirection.Descending;
+                        }
+                        bindingProperty = "PatientIsAssigned";
+                        ArrowDate.Visibility = Visibility.Hidden;
+                        ArrowAge.Visibility = Visibility.Hidden;
+                        ArrowSex.Visibility = Visibility.Hidden;
+                        ArrowID.Visibility = Visibility.Hidden;
+                        ArrowName.Visibility = Visibility.Hidden;
+                        ArrowPatientID.Visibility = Visibility.Hidden;
+                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
+                        ArrowTreatStatusId.Visibility = Visibility.Hidden;
+                        ArrowIsAssigned.Visibility = Visibility.Visible;
+                        ArrowIsFixedBed.Visibility = Visibility.Hidden;
+
+                        if (
+                            ((Image)((StackPanel)((Grid)clickedColumn.Header).Children[0]).Children[1]).Source.
+                                ToString() == "pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png")
+                        {
+                            ArrowIsAssigned.Source =
+                                new BitmapImage(
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png",
+                                            UriKind.RelativeOrAbsolute));
+                        }
+                        else if (ArrowIsAssigned.Source.ToString() ==
+                                 "pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png")
+                        {
+                            ArrowIsAssigned.Source =
+                                new BitmapImage(
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png",
+                                            UriKind.RelativeOrAbsolute));
+                        }
+                    }
+                    else if (clickedColumn.Header is Grid && columnflag == 9)
+                    {
+                        if (Paixiflag[9] == 0)
+                        {
+                            Paixiflag[9] = 1;
+                            sortDirection = ListSortDirection.Ascending;
+                        }
+                        else
+                        {
+                            Paixiflag[9] = 0;
                             sortDirection = ListSortDirection.Descending;
                         }
                         bindingProperty = "PatientRegesiterDate";
@@ -805,19 +848,61 @@ namespace WpfApplication1
 
                         if (
                             ((Image)((StackPanel)((Grid)clickedColumn.Header).Children[0]).Children[1]).Source.
-                                ToString() == "pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png")
+                                ToString() == "pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png")
                         {
                             ArrowDate.Source =
                                 new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png",
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png",
                                             UriKind.RelativeOrAbsolute));
                         }
                         else if (ArrowDate.Source.ToString() ==
-                                 "pack://application:,,,/fMRISystem;component/Resources/ArrowUp.png")
+                                 "pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png")
                         {
                             ArrowDate.Source =
                                 new BitmapImage(
-                                    new Uri("pack://application:,,,/fMRISystem;component/Resources/ArrowDown.png",
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png",
+                                            UriKind.RelativeOrAbsolute));
+                        }
+                    }
+                    else if (clickedColumn.Header is Grid && columnflag == 10)
+                    {
+                        if (Paixiflag[10] == 0)
+                        {
+                            Paixiflag[10] = 1;
+                            sortDirection = ListSortDirection.Ascending;
+                        }
+                        else
+                        {
+                            Paixiflag[10] = 0;
+                            sortDirection = ListSortDirection.Descending;
+                        }
+                        bindingProperty = "PatientDescription";
+                        ArrowDate.Visibility = Visibility.Hidden;
+                        ArrowAge.Visibility = Visibility.Hidden;
+                        ArrowSex.Visibility = Visibility.Hidden;
+                        ArrowID.Visibility = Visibility.Hidden;
+                        ArrowName.Visibility = Visibility.Hidden;
+                        ArrowPatientID.Visibility = Visibility.Hidden;
+                        ArrowInfectTypeId.Visibility = Visibility.Hidden;
+                        ArrowTreatStatusId.Visibility = Visibility.Hidden;
+                        ArrowIsAssigned.Visibility = Visibility.Hidden;
+                        ArrowIsFixedBed.Visibility = Visibility.Hidden;
+
+                        if (
+                            ((Image)((StackPanel)((Grid)clickedColumn.Header).Children[0]).Children[1]).Source.
+                                ToString() == "pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png")
+                        {
+                            ArrowDate.Source =
+                                new BitmapImage(
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png",
+                                            UriKind.RelativeOrAbsolute));
+                        }
+                        else if (ArrowDate.Source.ToString() ==
+                                 "pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png")
+                        {
+                            ArrowDate.Source =
+                                new BitmapImage(
+                                    new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png",
                                             UriKind.RelativeOrAbsolute));
                         }
                     }

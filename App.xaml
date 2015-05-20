@@ -235,7 +235,7 @@
                 <Setter Property="HorizontalAlignment" Value="Center" />
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="Padding" Value="0" />
-                <Setter Property="Height" Value="75" />
+                <Setter Property="Height" Value="20" />
                 <Setter Property="FontSize" Value="{DynamicResource  myItemStyleFontSize}" />
                 <Setter Property="BorderThickness" Value="0" />
                 <Style.Triggers>
@@ -258,7 +258,7 @@
 
             <Style x:Key="ListViewHeadStyleColumn" TargetType="{x:Type GridViewColumnHeader}">
                 <Setter Property="Background" Value="#FFF1F1F1" />
-                <Setter Property="Height" Value="60" />
+                <Setter Property="Height" Value="30" />
                 <Setter Property="FontSize" Value="{DynamicResource  ListViewHeadStyleColumnFontSize}" />
                 <Setter Property="FontFamily" Value="Microsoft YaHei" />
             </Style>

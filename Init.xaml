@@ -16,37 +16,37 @@
             <TextBlock x:Name="textlockPatientID" Text="{Binding PatientPatientId}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientName">
-            <TextBlock x:Name="textlockname" Text="{Binding PatientName}" />
+            <TextBlock x:Name="textlockname" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientName}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientDob">
-            <TextBlock x:Name="textlockage" Text="{Binding PatientDob}" />
+            <TextBlock x:Name="textlockage" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientDob}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientGender">
-            <TextBlock x:Name="textlocksex" Text="{Binding PatientGender}" />
+            <TextBlock x:Name="textlocksex" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientGender}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientMobile">
-            <TextBlock x:Name="textlockMobile" Text="{Binding PatientMobile}" />
+            <TextBlock x:Name="textlockMobile" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientMobile}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientRegesiterDate">
-            <TextBlock x:Name="textlockdate" Text="{Binding PatientRegesiterDate}" />
+            <TextBlock x:Name="textlockdate" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientRegesiterDate}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientInfectType">
-            <TextBlock x:Name="textboxInfectType" Text="{Binding PatientInfectType}" />
+            <TextBlock x:Name="textboxInfectType" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientInfectType}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientTreatStatus">
-            <TextBlock x:Name="textboxTreatStatusId" Text="{Binding PatientTreatStatus}" />
+            <TextBlock x:Name="textboxTreatStatusId" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientTreatStatus}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientIsFixedBed">
-            <CheckBox IsEnabled="False" x:Name="textboxIsFixedBed" IsChecked="{Binding PatientIsFixedBed}" />
+            <CheckBox IsEnabled="False" x:Name="textboxIsFixedBed" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding PatientIsFixedBed}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientBedId">
-            <TextBlock x:Name="textboxBedId" Text="{Binding PatientBedId}" />
+            <TextBlock x:Name="textboxBedId" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientBedId}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientIsAssigned">
-            <CheckBox IsEnabled="False" x:Name="textboxIsAssigned" IsChecked="{Binding PatientIsAssigned}" />
+            <CheckBox IsEnabled="False" x:Name="textboxIsAssigned" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding PatientIsAssigned}" />
         </DataTemplate>
-        <DataTemplate x:Key="PatientClinicDescription">
-            <TextBlock x:Name="textlockdescription" Text="{Binding PatientClinicDescription}" />
+        <DataTemplate x:Key="PatientDescription">
+            <TextBlock x:Name="textlockdescription" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientDescription}" />
         </DataTemplate>
 
 
@@ -131,7 +131,7 @@
                                         </Grid>
                                     </GridViewColumn>
                                     <GridViewColumn Width="70" CellTemplate="{StaticResource PatientTreatStatus}">
-                                        <Grid Tag="5">
+                                        <Grid Tag="6">
                                             <StackPanel Orientation="Horizontal">
 
                                                 <TextBlock Text="{DynamicResource TreatStatustext}" />
@@ -140,7 +140,7 @@
                                         </Grid>
                                     </GridViewColumn>
                                     <GridViewColumn Width="90" CellTemplate="{StaticResource PatientIsFixedBed}">
-                                        <Grid Tag="6">
+                                        <Grid Tag="7">
                                             <StackPanel Orientation="Horizontal">
 
                                                 <TextBlock Text="{DynamicResource IsFixedBedtext}" />
@@ -149,7 +149,7 @@
                                         </Grid>
                                     </GridViewColumn>
                                     <GridViewColumn Width="90" CellTemplate="{StaticResource PatientIsAssigned}">
-                                        <Grid Tag="7">
+                                        <Grid Tag="8">
                                             <StackPanel Orientation="Horizontal">
 
                                                 <TextBlock Text="{DynamicResource IsAssignedtext}" />
@@ -158,7 +158,7 @@
                                         </Grid>
                                     </GridViewColumn>
                                     <GridViewColumn Width="90" CellTemplate="{StaticResource PatientRegesiterDate}">
-                                        <Grid Tag="8">
+                                        <Grid Tag="9">
                                             <StackPanel Orientation="Horizontal">
 
                                                 <TextBlock Text="{DynamicResource Datetext}" />
@@ -166,7 +166,16 @@
                                             </StackPanel>
                                         </Grid>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource  descriptionText}" Width="345" CellTemplate="{StaticResource PatientClinicDescription}"></GridViewColumn>
+                                    <!--<GridViewColumn Width="90" CellTemplate="{StaticResource PatientRegesiterDate}">
+                                        <Grid Tag="9">
+                                            <StackPanel Orientation="Horizontal">
+
+                                                <TextBlock Text="{DynamicResource Datetext}" />
+                                                <Image Source="Resources/ArrowDown.png" Name="ArrowDe" Visibility="Hidden" />
+                                            </StackPanel>
+                                        </Grid>
+                                    </GridViewColumn>-->
+                                    <GridViewColumn Header="{DynamicResource  descriptionText}" Width="345" CellTemplate="{StaticResource PatientDescription}"></GridViewColumn>
                                 </GridView>
                             </ListView.View>
                         </ListView>
