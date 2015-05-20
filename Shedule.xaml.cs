@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Windows.Controls.Primitives;
 using WpfApplication1.DataStructures;
 
@@ -30,83 +31,20 @@ namespace WpfApplication1
         public MainWindow Basewindow;
         
         public List<PatientSchedule> PatientScheduleList = new List<PatientSchedule>();
-        public List<PatientItem> PatientItemList = new List<PatientItem>();
 
-        public Dictionary<string ,string > IcomDictionary = new Dictionary<string, string>();
-        
-        
+        public Dictionary<string, Color> CureTypeDictionary = new Dictionary<string, Color>();
+
+        //public ObservableCollection<ListboxItemStatus> ListboxItemStatusesList = new ObservableCollection<ListboxItemStatus>();
+        public List<ListboxItemStatus> ListboxItemStatusesList = new List<ListboxItemStatus>();
         public Shedule(MainWindow mainWindow)
         {
             InitializeComponent();
-            //ListBox1.ItemsSource = PatientScheduleList;
-            ListBox1.ItemsSource = PatientItemList;
 
-           /* PatientSchedule schedule = new PatientSchedule();
-            schedule.PatientID = 1;
-            schedule.PatientName = "zhangsan";
-            PatientScheduleList.Add(schedule);
-
-            PatientSchedule schedule1 = new PatientSchedule();
-            schedule1.PatientID = 2;
-            schedule1.PatientName = "lisi";
-            PatientScheduleList.Add(schedule1);*/
-
-            PatientItem schedule = new PatientItem();
-            schedule.PatientID = 1;
-            schedule.PatientName = "zhangsan";
-            schedule.SunNode0 = "/Resources/AM_HD.png";
-            schedule.SunNode1 = "/Resources/E_HP.png";
-
-            schedule.MonNode0 = "/Resources/AM_HD.png";
-            schedule.MonNode1 = "/Resources/E_HP.png";
-
-            schedule.TueNode0 = "/Resources/AM_HD.png";
-            schedule.TueNode1 = "/Resources/E_HP.png";
-
-            schedule.WedNode0 = "/Resources/AM_HD.png";
-            schedule.WedNode1 = "/Resources/E_HP.png";
-
-            schedule.ThuNode0 = "/Resources/AM_HD.png";
-            schedule.ThuNode1 = "/Resources/E_HP.png";
-
-            schedule.FriNode0 = "/Resources/AM_HD.png";
-            schedule.FriNode1 = "/Resources/E_HP.png";
-
-            schedule.SatNode0 = "/Resources/AM_HD.png";
-            schedule.SatNode1 = "/Resources/E_HP.png";
-
-            PatientItemList.Add(schedule);
-
-
-            PatientItem schedule1 = new PatientItem();
-            schedule1.PatientID = 2;
-            schedule1.PatientName = "lisi";
-            schedule1.SunNode0 = "/Resources/N_N.png";
-            schedule1.SunNode1 = "/Resources/N_N.png";
-
-            schedule1.MonNode0 = "/Resources/N_N.png";
-            schedule1.MonNode1 = "/Resources/N_N.png";
-
-            schedule1.TueNode0 = "/Resources/N_N.png";
-            schedule1.TueNode1 = "/Resources/N_N.png";
-
-            schedule1.WedNode0 = "/Resources/N_N.png";
-            schedule1.WedNode1 = "/Resources/N_N.png";
-
-            schedule1.ThuNode0 = "/Resources/N_N.png";
-            schedule1.ThuNode1 = "/Resources/N_N.png";
-
-            schedule1.FriNode0 = "/Resources/N_N.png";
-            schedule1.FriNode1 = "/Resources/N_N.png";
-
-            schedule1.SatNode0 = "/Resources/N_N.png";
-            schedule1.SatNode1 = "/Resources/N_N.png";
-            PatientItemList.Add(schedule1);
-
-
-            string color = (string)System.Windows.Application.Current.Resources["ysq"];
+            //string color = (string)System.Windows.Application.Current.Resources["ysq"];
 
             InitDay();
+            InitCureTypeDictionary();
+            SetBinding();
 
             Basewindow = mainWindow;
         }
@@ -137,27 +75,46 @@ namespace WpfApplication1
             }
         }
 
-        private void InitIcomDictionary()
+        private void InitCureTypeDictionary()
         {
-            IcomDictionary.Add("AM_HD", "/Resources/AM_HD.png");
-            IcomDictionary.Add("AM_HDF", "/Resources/AM_HDF.png");
-            IcomDictionary.Add("AM_HP", "/Resources/AM_HP.png");
-
-            IcomDictionary.Add("PM_HD", "/Resources/PM_HD.png");
-            IcomDictionary.Add("PM_HDF", "/Resources/PM_HDF.png");
-            IcomDictionary.Add("PM_HP", "/Resources/PM_HP.png");
-
-            IcomDictionary.Add("E_HD", "/Resources/E_HD.png");
-            IcomDictionary.Add("E_HDF", "/Resources/E_HDF.png");
-            IcomDictionary.Add("E_HP", "/Resources/E_HP.png");
+            CureTypeDictionary.Add("HD", Colors.Red);
+            CureTypeDictionary.Add("HP", Colors.BlueViolet);
+            CureTypeDictionary.Add("HDF", Colors.Chartreuse);
 
         }
 
-        private string GetNextItem(string curItem, MouseButton mouseButton)
+        public string StrColorConverter( Color color)
         {
-            string name = System.IO.Path.GetFileNameWithoutExtension(curItem);
-            string ret = "";
-            string[] str = name.Split('_');
+            foreach (var v in CureTypeDictionary)
+            {
+                if (v.Value == color)
+                    return v.Key;
+            }
+            return "";
+        }
+        public string StrColorConverter(Brush brush)
+        {
+            Color color = ((SolidColorBrush)brush).Color;
+            foreach (var v in CureTypeDictionary)
+            {
+                if (v.Value == color)
+                    return v.Key;
+            }
+            return "";
+        }
+        public Color StrColorConverter(string str)
+        {
+            if (str == "")
+                return Colors.Transparent;
+            return CureTypeDictionary[str];
+        }
+
+       /* private string GetNextItem(string mark, MouseButton mouseButton)
+        {
+            ListboxItemStatus listboxItem = ListboxItemStatusesList[index];
+            //string name = System.IO.Path.GetFileNameWithoutExtension(curItem);
+            //string ret = "";
+            string[] str = mark.Split('/');
 
             if (str.Length != 2)
                 return ret;
@@ -215,7 +172,7 @@ namespace WpfApplication1
             else
                 ret = "/Resources/" + time + "_" + type + ".png";
             return ret;
-        }
+        }*/
 
         private void ButtonBase_OnClick(object sender, MouseButtonEventArgs e)
         {
@@ -224,136 +181,188 @@ namespace WpfApplication1
             int index = ListBox1.SelectedIndex;
             if ( index == -1 ) 
                 return;
-            //string source = ((Image)btn.Content).Source.ToString();
-            //MessageBox.Show(source);
 
-            ChangeItems(index, tag, e.ChangedButton);
-            /*if (e.ChangedButton == MouseButton.Left)
-            {
-                
-                ChangeAmOrPm( index , tag);
-                //MessageBox.Show( tag + " Left");
-            }
-            else if (e.ChangedButton == MouseButton.Right)
-            {
-                ChangeHemodialysisItem();
-                MessageBox.Show( tag + " Right");
-            }*/
-
-
+            ChangeButtonStauts(index, tag, e.ChangedButton);
             
         }
 
-        private void ChangeItems(int index, string tag, MouseButton mouseButton)
+        private Point GetWeekAndDay( string tag )
         {
-            string curItem = "";
+            Point point = new Point(0,0);
             switch (tag)
             {
-                case "Sun0":
-                    curItem = PatientItemList[index].SunNode0;
-                    PatientItemList[index].SunNode0 = GetNextItem(curItem, mouseButton);
-                    break;
-                case "Sun1":
-                    curItem = PatientItemList[index].SunNode1;
-                    PatientItemList[index].SunNode1 = GetNextItem(curItem, mouseButton);
-                    break;
-
                 case "Mon0":
-                    curItem = PatientItemList[index].MonNode0;
-                    PatientItemList[index].MonNode0 = GetNextItem(curItem, mouseButton);
+                    point = new Point(0, 0);
                     break;
-                case "Mon1":
-                    curItem = PatientItemList[index].MonNode1;
-                    PatientItemList[index].MonNode1 = GetNextItem(curItem, mouseButton);
+                case "Tue0":
+                    point = new Point(0, 1);
+                    break;
+                case "Wed0":
+                    point = new Point(0, 2);
+                    break;
+                case "Thu0":
+                    point = new Point(0, 3);
+                    break;
+                case "Fri0":
+                    point = new Point(0, 4);
+                    break;
+                case "Sta0":
+                    point = new Point(0, 5);
+                    break;
+                case "Sun0":
+                    point = new Point(0, 6);
                     break;
 
-                case "Tue0":
-                    curItem = PatientItemList[index].TueNode0;
-                    PatientItemList[index].TueNode0 = GetNextItem(curItem, mouseButton);
+
+                case "Mon1":
+                    point = new Point(1, 0);
                     break;
                 case "Tue1":
-                    curItem = PatientItemList[index].TueNode1;
-                    PatientItemList[index].TueNode1 = GetNextItem(curItem, mouseButton);
-                    break;
-
-                case "Wed0":
-                    curItem = PatientItemList[index].WedNode0;
-                    PatientItemList[index].WedNode0 = GetNextItem(curItem, mouseButton);
+                    point = new Point(1, 1);
                     break;
                 case "Wed1":
-                    curItem = PatientItemList[index].WedNode1;
-                    PatientItemList[index].WedNode1 = GetNextItem(curItem, mouseButton);
-                    break;
-
-                case "Thu0":
-                    curItem = PatientItemList[index].ThuNode0;
-                    PatientItemList[index].ThuNode0 = GetNextItem(curItem, mouseButton);
+                    point = new Point(1, 2);
                     break;
                 case "Thu1":
-                    curItem = PatientItemList[index].ThuNode1;
-                    PatientItemList[index].ThuNode1 = GetNextItem(curItem, mouseButton);
-                    break;
-
-                case "Fri0":
-                    curItem = PatientItemList[index].FriNode0;
-                    PatientItemList[index].FriNode0 = GetNextItem(curItem, mouseButton);
+                    point = new Point(1, 3);
                     break;
                 case "Fri1":
-                    curItem = PatientItemList[index].FriNode1;
-                    PatientItemList[index].FriNode1 = GetNextItem(curItem, mouseButton);
-                    break;
-
-                case "Sta0":
-                    curItem = PatientItemList[index].SatNode0;
-                    PatientItemList[index].SatNode0 = GetNextItem(curItem, mouseButton);
+                    point = new Point(1, 4);
                     break;
                 case "Sta1":
-                    curItem = PatientItemList[index].SatNode1;
-                    PatientItemList[index].SatNode1 = GetNextItem(curItem, mouseButton);
+                    point = new Point(1, 5);
                     break;
-
+                case "Sun1":
+                    point = new Point(1, 6);
+                    break;
                 default:
                     break;
+            }
+            return point;
+        }
 
+        private Brush GetNextBrush( Brush brush)
+        {
+            Color color = ((SolidColorBrush)brush).Color;
+            int n = 0;
+            foreach (var v in CureTypeDictionary)
+            {
+                if (v.Value == color)
+                {
+                    break;
+                }
+                n++;
+            }
+
+            int count = n+1;
+            if (count >= CureTypeDictionary.Count )
+            {
+                count = 0;
+            }
+
+            n = 0;
+            foreach (var v in CureTypeDictionary)
+            {
+                if (n == count)
+                {
+                    return new SolidColorBrush(v.Value);
+                }
+                n++;
+            }
+            return null;
+
+        }
+
+        private string GetNextTime(string time)
+        {
+            string ret = "";
+            switch (time)
+            {
+                case "AM":
+                    ret = "PM";
+                    break;
+                case "PM":
+                    ret = "E";
+                    break;
+                case "E":
+                    ret = "";
+                    break;
+                case "":
+                    ret = "AM";
+                    break;
+                default:
+                    ret = "";
+                    break;
+                    
+            }
+
+            return ret;
+        }
+        private void ChangeButtonStauts(int index, string tag, MouseButton mouseButton )
+        {
+            Point column = GetWeekAndDay(tag);
+            int week = (int)column.X;
+            int day = (int)column.Y;
+
+            ListboxItemStatus listboxItem = ListboxItemStatusesList[index];
+            string time;
+            Brush type;
+
+            if (week == 0)
+            {
+                time = listboxItem.CurrentWeek.days[day].Content;
+                type = listboxItem.CurrentWeek.days[day].BgColor;
+            }
+            else
+            {
+                time = listboxItem.NextWeek.days[day].Content;
+                type = listboxItem.NextWeek.days[day].BgColor;
+            }
+
+            if (mouseButton == MouseButton.Left)
+            {
+                time = GetNextTime(time);
+                if (week == 0)
+                {
+                    listboxItem.CurrentWeek.days[day].Content = time;
+                }
+                else
+                {
+                    listboxItem.NextWeek.days[day].Content = time;
+                }
+                if (time == "")
+                {
+                    if (week == 0)
+                    {
+                        listboxItem.CurrentWeek.days[day].BgColor = Brushes.LightGray;
+                    }
+                    else
+                    {
+                        listboxItem.NextWeek.days[day].BgColor = Brushes.LightGray;
+                    }
+                    
+                }
+            }
+            else
+            {
+                type = GetNextBrush(type);
+                if (time == "")
+                    return;
+                if (week == 0)
+                {
+                    listboxItem.CurrentWeek.days[day].BgColor = type;
+                }
+                else
+                {
+                    listboxItem.NextWeek.days[day].BgColor = type;
+                }
             }
             
+            ListboxItemStatusesList[index] = listboxItem;
             ListBox1.Items.Refresh();
 
-            
         }
 
-        private void ChangeHemodialysisItem()
-        {
-            
-        }
-
-        private void Tesetbtn_OnMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            //if (e.ClickCount == 2)
-            {
-                if (e.ChangedButton == MouseButton.Left)
-                {
-                    MessageBox.Show("left");
-                }
-                else if (e.ChangedButton == MouseButton.Right)
-                {
-                    MessageBox.Show("right");
-                }
-            }
-            //throw new NotImplementedException();
-        }
-
-        private void Tesetbtn_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                MessageBox.Show("left");
-            }
-            else if (e.ChangedButton == MouseButton.Right)
-            {
-                MessageBox.Show("right");
-            }
-        }
 
         private void BtnDay_OnClick(object sender, RoutedEventArgs e)
         {
@@ -380,65 +389,152 @@ namespace WpfApplication1
             }
         }
 
-    }
+        public void SetBinding()
+        {
+            ListBox1.ItemsSource = ListboxItemStatusesList;
 
-    public class PatientItem
-    {
-        public int PatientID { get; set; }
-        public string PatientName { get; set; }
+            ListboxItemStatus status = new ListboxItemStatus();
+            status.PatientID = 1;
+            status.PatientName = "zhangsan";
+            //status.CurrentWeek.day1.Content;
+            //status.CurrentWeek.day1.BgColor;
+            
+            Week week = new Week();
+            week.days[0].Content = "AM";
+            week.days[0].BgColor = Brushes.SeaGreen;
 
-        public string SunNode0 { get; set; }
-        public string SunNode1 { get; set; }
+            Week week1 = new Week();
+            week1.days[0].Content = "PM";
+            week1.days[0].BgColor = Brushes.GreenYellow;
 
-
-
-        public string MonNode0 { get; set; }
-        public string MonNode1 { get; set; }
-
-
-
-        public string TueNode0 { get; set; }
-        public string TueNode1 { get; set; }
-
-
-        public string WedNode0 { get; set; }
-        public string WedNode1 { get; set; }
+            status.CurrentWeek = week;
+            status.NextWeek = week1;
+            ListboxItemStatusesList.Add(status);
 
 
+            ListboxItemStatus status1 = new ListboxItemStatus();
+            status1.PatientID = 1;
+            status1.PatientName = "lisi";
+            ListboxItemStatusesList.Add(status1);
 
-        public string ThuNode0 { get; set; }
-        public string ThuNode1 { get; set; }
-
-
-        public string FriNode0 { get; set; }
-        public string FriNode1 { get; set; }
-
-
-        public string SatNode0 { get; set; }
-        public string SatNode1 { get; set; }
-
-
+        }
 
 
     }
 
-    public struct ButtonNode
+
+    public class ListboxItemStatus:INotifyPropertyChanged
     {
-        //public string path { get; set; }
-        public HemodialysisItemIcon CurrentWeekStauts { get; set; }
-        public AmOrPmIcon NetxweekStauts { get; set; }
+        public int PatientID
+        {
+            get { return patientID; }
+            set { patientID = value; }
+        }
+        public string PatientName
+        {
+            get { return patientName; }
+            set { patientName = value; }
+        }
+        public Week CurrentWeek { get; set; }
+        public Week NextWeek { get; set; }
+        
+        private int patientID;
+        private string patientName;
+
+        public ListboxItemStatus()
+        {
+            CurrentWeek = new Week();
+            NextWeek = new Week();
+
+        }
+
+        /*public ButtonStatus SunNode0 { get; set; }
+        public ButtonStatus SunNode1 { get; set; }
+
+        public ButtonStatus MonNode0 { get; set; }
+        public ButtonStatus MonNode1 { get; set; }
+
+        public ButtonStatus TueNode0 { get; set; }
+        public ButtonStatus TueNode1 { get; set; }
+
+        public ButtonStatus WedNode0 { get; set; }
+        public ButtonStatus WedNode1 { get; set; }
+
+        public ButtonStatus ThuNode0 { get; set; }
+        public ButtonStatus ThuNode1 { get; set; }
+
+        public ButtonStatus FriNode0 { get; set; }
+        public ButtonStatus FriNode1 { get; set; }
+
+        public ButtonStatus SatNode0 { get; set; }
+        public ButtonStatus SatNode1 { get; set; }*/
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            var handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
-    public struct HemodialysisItemIcon
-    {
-        public HemodialysisItem hemodialysisItem { get; set; }
-        public string iconSource { get; set; }
-    }
 
-    public struct AmOrPmIcon
+    public class Week
     {
-        public AmOrPm amOrPm { get; set; }
-        public string iconSource { get; set; }
+/*
+        public ButtonStatus day0 { get; set; }
+        public ButtonStatus day1 { get; set; }
+        public ButtonStatus day2 { get; set; }
+        public ButtonStatus day3 { get; set; }
+        public ButtonStatus day4 { get; set; }
+        public ButtonStatus day5 { get; set; }
+        public ButtonStatus day6 { get; set; }
+        public ButtonStatus day7 { get; set; }*/
+
+        public List<ButtonStatus> days { get; set; }
+
+        public Week()
+        {
+/*
+            this.day0 = new ButtonStatus();
+            this.day1 = new ButtonStatus();
+            this.day2 = new ButtonStatus();
+            this.day3 = new ButtonStatus();
+            this.day4 = new ButtonStatus();
+            this.day5 = new ButtonStatus();
+            this.day6 = new ButtonStatus();
+            this.day7 = new ButtonStatus();*/
+            this.days = new List<ButtonStatus>(7);
+            for (int n = 0; n < 7; n++)
+            {
+                days.Add(new ButtonStatus());
+            }
+            //days[0].Content = "AM";
+
+        }
+
+    }
+    public class ButtonStatus
+    {
+
+        public string Content { get; set; }
+        public Brush BgColor { get; set; }
+
+        public ButtonStatus(string _content, Color _backColor)
+        {
+            this.Content = _content;
+            this.BgColor = new SolidColorBrush(_backColor);
+        }
+
+        public ButtonStatus()
+        {
+            this.Content = "";
+            //this.BgColor = new SolidColorBrush(Colors.Transparent);
+            this.BgColor = new SolidColorBrush(Colors.LightGray);
+        }
+
+
     }
 
 
