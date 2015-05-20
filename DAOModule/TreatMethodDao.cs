@@ -68,6 +68,7 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters["@DESCRIPTION"].Value = treatMethod.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
                     sqlcomm.Parameters["@RESERVED"].Value = treatMethod.Reserved;
+                    sqlcomm.Parameters.Add("@BGCOLOR", DbType.String);
                     sqlcomm.Parameters["@BGCOLOR"].Value = treatMethod.BgColor;
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
