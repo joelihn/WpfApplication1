@@ -110,7 +110,7 @@ namespace WpfApplication1.DAOModule
     {
         public Int64 Id { get; set; }
         public Int64 PatientId { get; set; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
         public string Method { get; set; }
         public string AmPmE { get; set; }
         public string Description { get; set; }

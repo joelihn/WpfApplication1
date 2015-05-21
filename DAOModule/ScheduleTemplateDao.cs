@@ -62,7 +62,7 @@ namespace WpfApplication1.DAOModule
                         (@PATIENTID,@DATE,@AMPME,@METHOD,@DESCRIPTION,@RESERVED)";
                     sqlcomm.Parameters.Add("@PATIENTID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTID"].Value = scheduleTemplate.PatientId;
-                    sqlcomm.Parameters.Add("@DATE", DbType.Date);
+                    sqlcomm.Parameters.Add("@DATE", DbType.String);
                     sqlcomm.Parameters["@DATE"].Value = scheduleTemplate.Date;
                     sqlcomm.Parameters.Add("@AMPME", DbType.String);
                     sqlcomm.Parameters["@AMPME"].Value = scheduleTemplate.AmPmE;

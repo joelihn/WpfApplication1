@@ -488,7 +488,7 @@ namespace WpfApplication1
                     {
                         Hemodialysy hemodialysy = new Hemodialysy();
 
-                        hemodialysy.dialysisTime = new DialysisTime(type.Date, type.AmPmE);
+                        hemodialysy.dialysisTime = new DialysisTime(DateTime.Parse(type.Date), type.AmPmE);
                         hemodialysy.hemodialysisItem = type.Method;
 
                         patientSchedule.Hemodialysis.Add(hemodialysy);
@@ -523,7 +523,7 @@ namespace WpfApplication1
 
                                 Dictionary<string, object> condition1 = new Dictionary<string, object>();
                                 condition1["PatientId"] = patientID.ToString();
-                                condition1["Date"] = day.dateTime.Date;
+                                condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
                                 var list = scheduleDao.SelectScheduleTemplate(condition1);
 
                                 if(list!=null&&list.Count!=0)
@@ -531,7 +531,7 @@ namespace WpfApplication1
 
                                     var fileds = new Dictionary<string, object>();
                                     //fileds["DATE"] = day.dateTime.Date;
-                                    condition["Date"] = day.dateTime.Date;
+                                    condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
                                     fileds["AMPME"] = day.Content;
                                     fileds["METHOD"] = StrColorConverter(day.BgColor);
                                     scheduleDao.UpdateScheduleTemplate(fileds, condition);
@@ -540,7 +540,7 @@ namespace WpfApplication1
                                 {
                                     ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
                                     scheduleTemplate.PatientId = patientID;
-                                    scheduleTemplate.Date = day.dateTime.Date;
+                                    scheduleTemplate.Date = day.dateTime.ToString("yyyy-MM-dd");
                                     scheduleTemplate.AmPmE = day.Content;
                                     scheduleTemplate.Method = StrColorConverter(day.BgColor);
                                     int ret = -1;

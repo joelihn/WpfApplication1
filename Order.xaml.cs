@@ -770,21 +770,21 @@ namespace WpfApplication1
                     var list = methodDao.SelectTreatMethod(condition);
                     foreach (var pa in list)
                     {
-                        var treatMethodData = new TreatMethodData();
-                        treatMethodData.Id = pa.Id;
-                        treatMethodData.Name = pa.Name;
-                        {
-                            using (var treatTypeDao = new TreatTypeDao())
-                            {
-                                condition.Clear();
-                                condition["ID"] = pa.TreatTypeId;
-                                var arealist = treatTypeDao.SelectTreatType(condition);
-                                if (arealist.Count == 1)
-                                {
-                                    treatMethodData.Type = arealist[0].Name;
-                                }
-                            }
-                        }
+                        //var treatMethodData = new TreatMethodData();
+                        //treatMethodData.Id = pa.Id;
+                        //treatMethodData.Name = pa.Name;
+                        //{
+                        //    using (var treatTypeDao = new TreatTypeDao())
+                        //    {
+                        //        condition.Clear();
+                        //        condition["ID"] = pa.TreatTypeId;
+                        //        var arealist = treatTypeDao.SelectTreatType(condition);
+                        //        if (arealist.Count == 1)
+                        //        {
+                        //            treatMethodData.Type = arealist[0].Name;
+                        //        }
+                        //    }
+                        //}
                         TreatMentList.Add(new TreatMent(pa.Name));
                     }
                 }
