@@ -8,35 +8,56 @@ namespace WpfApplication1.DataStructures
 {
     public class PatientSchedule
     {
-        public int PatientID { get; set; }
-        public string PatientName{ get; set; }
+        public long PatientID { get; set; }
+        //public string PatientName{ get; set; }
         public List<Hemodialysy> Hemodialysis { get; set; }
 
+        public PatientSchedule( long patientID )
+        {
+            PatientID = patientID;
+            //PatientName = "";
+            Hemodialysis = new List<Hemodialysy>();
+        }
+
     }
 
-    public struct Hemodialysy
+    public class Hemodialysy
     {
-        public HemodialysisItem hemodialysisItem { get; set; }
+        public string hemodialysisItem { get; set; }
         public DialysisTime dialysisTime { get; set; }
 
+        public Hemodialysy()
+        {
+            hemodialysisItem = "";
+            dialysisTime = new DialysisTime();
+        }
+
+        public Hemodialysy( string treatMent, DateTime dateTime, string ampme )
+        {
+            hemodialysisItem = treatMent;
+            dialysisTime = new DialysisTime(dateTime, ampme);
+        }
+
     }
 
-    public struct DialysisTime
+    public class DialysisTime
     {
         public DateTime dateTime { get; set; }
-        public AmOrPm AmPm { get; set; }
+        public string AmPmE { get; set; }
+
+        public DialysisTime()
+        {
+            dateTime = new DateTime();
+            AmPmE = "";
+        }
+
+        public DialysisTime(DateTime dateTime, string ampme)
+        {
+            dateTime = dateTime;
+            AmPmE = ampme;
+        }
 
     }
-    public enum HemodialysisItem
-    {
-        HDF = 0,
-        HD, 
-        HDHP
-    }
 
-    public enum AmOrPm
-    {
-        AM = 0, 
-        PM
-    }
+
 }

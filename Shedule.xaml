@@ -286,6 +286,7 @@
         </Style>
     </UserControl.Resources>
     <StackPanel>
+        <Button Height="30" Click="Button_Click"></Button>
         <Grid x:Name ="GridDay" Height="70">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -311,5 +312,6 @@
         <ListBox  Name="ListBox1" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="1024"
                      ItemContainerStyle="{DynamicResource ListBoxItemStyle2}" ItemsSource="{Binding}" >
         </ListBox>
+        
     </StackPanel>
 </UserControl>

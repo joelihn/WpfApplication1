@@ -110,21 +110,9 @@ namespace WpfApplication1.DAOModule
     {
         public Int64 Id { get; set; }
         public Int64 PatientId { get; set; }
-        public string Date { get; set; }
-        public string Mon { get; set; }
-        public string Tue { get; set; }
-        public string Wed { get; set; }
-        public string Thu { get; set; }
-        public string Fri { get; set; }
-        public string Sta { get; set; }
-        public string Sun { get; set; }
-        public string NMon { get; set; }
-        public string NTue { get; set; }
-        public string NWed { get; set; }
-        public string NThu { get; set; }
-        public string NFri { get; set; }
-        public string NSta { get; set; }
-        public string NSun { get; set; }
+        public DateTime Date { get; set; }
+        public string Method { get; set; }
+        public string AmPmE { get; set; }
         public string Description { get; set; }
         public string Reserved { get; set; }
     }

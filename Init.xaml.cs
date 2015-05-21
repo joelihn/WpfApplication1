@@ -1152,6 +1152,24 @@ namespace WpfApplication1
                         PatientList.Insert(0, newinformation);
                         PatientlistView.SelectedIndex = 0;
                     }
+
+                    try
+                    {
+                        using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                        {
+                            ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
+                            scheduleTemplate.PatientId = Int64.Parse(AddIDTextBox.Text);
+
+
+                            int ret = -1;
+                            scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MainWindow.Log.WriteInfoConsole("In init.xaml.cs: ButtonNewSaveClick insert patient exception messsage: " + ex.Message);
+                    }
+
                 }
                 else if (NewOrEditFlag == 2)
                 {

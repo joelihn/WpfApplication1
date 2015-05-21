@@ -58,43 +58,16 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO SCHEDULETEMPLATE (PATIENTID,DATE,MON,TUE,WED,THU,FRI,STA,SUN,NMON,NTUE,NWED,NTHU,NFRI,NSTA,NSUN,DESCRIPTION,RESERVED) VALUES 
-                        (@PATIENTID,@DATE,@MON,@TUE,@WED,@THU,@FRI,@STA,@SUN,@NMON,@NTUE,@NWED,@NTHU,@NFRI,@NSTA,@NSUN,@DESCRIPTION,@RESERVED)";
+                        @"INSERT INTO SCHEDULETEMPLATE (PATIENTID,DATE,AMPME,METHOD,DESCRIPTION,RESERVED) VALUES 
+                        (@PATIENTID,@DATE,@AMPME,@METHOD,@DESCRIPTION,@RESERVED)";
                     sqlcomm.Parameters.Add("@PATIENTID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTID"].Value = scheduleTemplate.PatientId;
-                    sqlcomm.Parameters.Add("@DATE", DbType.String);
+                    sqlcomm.Parameters.Add("@DATE", DbType.Date);
                     sqlcomm.Parameters["@DATE"].Value = scheduleTemplate.Date;
-
-                    sqlcomm.Parameters.Add("@MON", DbType.Int32);
-                    sqlcomm.Parameters["@MON"].Value = scheduleTemplate.Mon;
-                    sqlcomm.Parameters.Add("@TUE", DbType.String);
-                    sqlcomm.Parameters["@TUE"].Value = scheduleTemplate.Tue;
-                    sqlcomm.Parameters.Add("@WED", DbType.String);
-                    sqlcomm.Parameters["@WED"].Value = scheduleTemplate.Wed;
-                    sqlcomm.Parameters.Add("@THU", DbType.String);
-                    sqlcomm.Parameters["@THU"].Value = scheduleTemplate.Thu;
-                    sqlcomm.Parameters.Add("@FRI", DbType.String);
-                    sqlcomm.Parameters["@FRI"].Value = scheduleTemplate.Fri;
-                    sqlcomm.Parameters.Add("@STA", DbType.String);
-                    sqlcomm.Parameters["@STA"].Value = scheduleTemplate.Sta;
-                    sqlcomm.Parameters.Add("@SUN", DbType.String);
-                    sqlcomm.Parameters["@SUN"].Value = scheduleTemplate.Sun;
-
-                    sqlcomm.Parameters.Add("@NMON", DbType.String);
-                    sqlcomm.Parameters["@NMON"].Value = scheduleTemplate.NMon;
-                    sqlcomm.Parameters.Add("@NTUE", DbType.String);
-                    sqlcomm.Parameters["@NTUE"].Value = scheduleTemplate.NTue;
-                    sqlcomm.Parameters.Add("@NWED", DbType.String);
-                    sqlcomm.Parameters["@NWED"].Value = scheduleTemplate.NWed;
-                    sqlcomm.Parameters.Add("@NTHU", DbType.String);
-                    sqlcomm.Parameters["@NTHU"].Value = scheduleTemplate.NThu;
-                    sqlcomm.Parameters.Add("@NFRI", DbType.String);
-                    sqlcomm.Parameters["@NFRI"].Value = scheduleTemplate.NFri;
-                    sqlcomm.Parameters.Add("@NSTA", DbType.String);
-                    sqlcomm.Parameters["@NSTA"].Value = scheduleTemplate.NSta;
-                    sqlcomm.Parameters.Add("@NSUN", DbType.String);
-                    sqlcomm.Parameters["@NSUN"].Value = scheduleTemplate.NSun;
-
+                    sqlcomm.Parameters.Add("@AMPME", DbType.String);
+                    sqlcomm.Parameters["@AMPME"].Value = scheduleTemplate.AmPmE;
+                    sqlcomm.Parameters.Add("@METHOD", DbType.String);
+                    sqlcomm.Parameters["@METHOD"].Value = scheduleTemplate.Method;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
                     sqlcomm.Parameters["@DESCRIPTION"].Value = scheduleTemplate.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);

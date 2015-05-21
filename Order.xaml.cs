@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApplication1.CustomUI;
 using WpfApplication1.DAOModule;
 
 namespace WpfApplication1
@@ -28,12 +29,16 @@ namespace WpfApplication1
         public int[] Paixiflag = new int[11] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         public ObservableCollection<PatientInfo> PatientList = new ObservableCollection<PatientInfo>();
         public CollectionViewSource PatientListViewSource = new CollectionViewSource();
+
+        public ObservableCollection<TreatOrder> TreatOrderList = new ObservableCollection<TreatOrder>();
+
+        public ObservableCollection<TreatMent> TreatMentList = new ObservableCollection<TreatMent>();
         public Order(MainWindow window)
         {
             InitializeComponent();
             Basewindow = window;
             this.PatientlistView.ItemsSource = PatientList;
-
+            this.MedicalOrderlistView.ItemsSource = TreatOrderList;
             EndatePicker.Text = DateTime.Now.ToString();
             BeginDatePicker.Text = (DateTime.Now - TimeSpan.FromDays(3)).ToString();
         }
@@ -681,6 +686,7 @@ namespace WpfApplication1
 
         private void Order_OnLoaded(object sender, RoutedEventArgs e)
         {
+            LoadTratementConifg();
             //throw new NotImplementedException();
             try
             {
@@ -736,6 +742,158 @@ namespace WpfApplication1
                 MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
             }
 
+        }
+
+        private void MedicalOrderlistView_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            TreatOrderList.Add(new TreatOrder());
+        }
+
+        private void CbTreatMathod_Initialized(object sender, EventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            foreach (var v in TreatMentList)
+            {
+                cb.Items.Add(v.TreatMethod);
+            }
+
+        }
+
+        private void LoadTratementConifg()
+        {
+            try
+            {
+                using (var methodDao = new TreatMethodDao())
+                {
+                    TreatMentList.Clear();
+                    var condition = new Dictionary<string, object>();
+                    var list = methodDao.SelectTreatMethod(condition);
+                    foreach (var pa in list)
+                    {
+                        var treatMethodData = new TreatMethodData();
+                        treatMethodData.Id = pa.Id;
+                        treatMethodData.Name = pa.Name;
+                        {
+                            using (var treatTypeDao = new TreatTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.TreatTypeId;
+                                var arealist = treatTypeDao.SelectTreatType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatMethodData.Type = arealist[0].Name;
+                                }
+                            }
+                        }
+                        TreatMentList.Add(new TreatMent(pa.Name));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:ListViewCPatientRoom_OnLoaded 3 exception messsage: " + ex.Message);
+            }
+        }
+
+    }
+
+    public class TreatOrder : INotifyPropertyChanged
+    {
+        private Int64 _id;
+        private string _treatMethod;
+        private string _type;
+        private int _treatTimes;
+
+        public TreatOrder()
+        {
+        }
+
+
+        public Int64 Id
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                OnPropertyChanged("Id");
+            }
+        }
+
+        public string TreatMethod
+        {
+            get { return _treatMethod; }
+            set
+            {
+                _treatMethod = value;
+                OnPropertyChanged("TreatMethod");
+            }
+        }
+
+        public string Type
+        {
+            get { return _type; }
+            set
+            {
+                _type = value;
+                OnPropertyChanged("Type");
+            }
+        }
+
+        public int TreatTimes
+        {
+            get { return _treatTimes; }
+            set
+            {
+                _treatTimes = value;
+                OnPropertyChanged("TreatTimes");
+            }
+        }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        private void OnPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+        }
+    }
+
+    public class TreatMent : INotifyPropertyChanged
+    {
+        private string _treatMethod;
+
+        public TreatMent()
+        {
+        }
+        public TreatMent( string str )
+        {
+            _treatMethod = str;
+        }
+
+        
+        public string TreatMethod
+        {
+            get { return _treatMethod; }
+            set
+            {
+                _treatMethod = value;
+                OnPropertyChanged("TreatMethod");
+            }
+        }
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        private void OnPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
         }
     }
 }
