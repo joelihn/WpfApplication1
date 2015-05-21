@@ -170,7 +170,7 @@
                         <RadioButton Content="{DynamicResource  In7DayText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" HorizontalAlignment="Left" Margin="392,57,0,0" Name="TimeRadioButton2" VerticalAlignment="Top" GroupName="TimeSelecet" IsChecked="True" Click="TimeRadioButton1_Click" TabIndex="10006" />
                         <RadioButton Content="{DynamicResource  In3DaysText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" Margin="545,57,0,0" Name="TimeRadioButton3" VerticalAlignment="Top" GroupName="TimeSelecet" IsChecked="True" Click="TimeRadioButton1_Click" HorizontalAlignment="Left" TabIndex="10007" />
                         <DatePicker HorizontalAlignment="Left" Style="{StaticResource DatePickerStyle}" Margin="480,20,0,0" Name="EndatePicker" VerticalAlignment="Top" Width="130" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" VerticalContentAlignment="Center" Padding="3,0" TabIndex="10004" OpacityMask="{x:Null}"></DatePicker>
-                        <ListView  Height="240" Margin="20,90,20,10" Name="MedicalOrderlistView" VerticalAlignment="Bottom" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}" MouseDoubleClick="PatientlistView_MouseDoubleClick" GridViewColumnHeader.Click="GridViewColumnHeader_Click" IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}" MouseRightButtonUp="MedicalOrderlistView_MouseRightButtonUp">
+                        <ListView  Height="190" Margin="20,0,20,60" Name="MedicalOrderlistView" VerticalAlignment="Bottom" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}" MouseDoubleClick="PatientlistView_MouseDoubleClick" GridViewColumnHeader.Click="GridViewColumnHeader_Click" IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}">
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
                                     <GridViewColumn Width="70">
@@ -183,7 +183,7 @@
                                         </Grid>
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding ID}" Width="70" Height="20" />
+                                                <TextBlock Text="{Binding Id}" Width="70" Height="20" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -213,7 +213,7 @@
                                         </Grid>
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <ComboBox  Text="{Binding Type}" Width="140" Height="20" />
+                                                <ComboBox Initialized="CbOrderPara_Initialized" Text="{Binding Type}" Width="140" Height="20" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -227,23 +227,28 @@
                                         </Grid>
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <ComboBox  Text="{Binding TreatTimes}" Width="140" Height="25" >
-                                                    <ComboBoxItem>1</ComboBoxItem>
-                                                    <ComboBoxItem>2</ComboBoxItem>
-                                                    <ComboBoxItem>3</ComboBoxItem>
-                                                </ComboBox>
+                                                <TextBox Text="{Binding TreatTimes}" Width="140" Height="25"></TextBox>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource  descriptionText}" Width="200" ></GridViewColumn>
+                                    <GridViewColumn Header="{DynamicResource  descriptionText}" Width="200" >
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding TreatTimes}" Width="140" Height="25"></TextBlock>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
                                 </GridView>
                             </ListView.View>
                         </ListView>
+                        <Button Content="{DynamicResource NewText}" Margin="0,730,582,0" x:Name="InquireButton_New" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="NewButton_Click" TabIndex="10008" />
+                        <Button Content="{DynamicResource saveText}" Margin="0,730,343,0" x:Name="InquireButton_Save" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="SaveButton_Click" TabIndex="10008" />
+                        <Button Content="{DynamicResource DelectText}" Margin="0,730,104,0" x:Name="InquireButton_Del" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="DelButton_Click" TabIndex="10008" />
                     </Grid>
                 </Grid>
             </Grid>
-            
+
         </Canvas>
-        
+
     </Viewbox>
 </UserControl>

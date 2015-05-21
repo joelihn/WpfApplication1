@@ -29,10 +29,10 @@ namespace WpfApplication1
         public int[] Paixiflag = new int[11] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         public ObservableCollection<PatientInfo> PatientList = new ObservableCollection<PatientInfo>();
         public CollectionViewSource PatientListViewSource = new CollectionViewSource();
-
         public ObservableCollection<TreatOrder> TreatOrderList = new ObservableCollection<TreatOrder>();
 
-        public ObservableCollection<TreatMent> TreatMentList = new ObservableCollection<TreatMent>();
+        public ObservableCollection<TreatMethodData> TreatMentList = new ObservableCollection<TreatMethodData>();
+        public ObservableCollection<MedicalOrderParaData> OrderParaList = new ObservableCollection<MedicalOrderParaData>();
         public Order(MainWindow window)
         {
             InitializeComponent();
@@ -90,6 +90,28 @@ namespace WpfApplication1
         {
             if (PatientlistView.SelectedIndex >= 0)
             {
+                int patientID = PatientlistView.SelectedIndex;
+                try
+                {
+
+                    using (var patientDao = new PatientDao())
+                    {
+                        var condition = new Dictionary<string, object>();
+                        condition["PATIENTID"] = PatientList[patientID].PatientId;
+                        List<Patient> list = patientDao.SelectPatient(condition);
+                        if (list.Count > 0)
+                        {
+                            string order = list[0].Order;
+                        }
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    MainWindow.Log.WriteErrorLog("Init.xaml.cs-CheckPatientPatientIdValidity", ex);
+                    //return false;
+                }
                
             }
         }
@@ -687,6 +709,7 @@ namespace WpfApplication1
         private void Order_OnLoaded(object sender, RoutedEventArgs e)
         {
             LoadTratementConifg();
+            LoadOrderParaConfig();
             //throw new NotImplementedException();
             try
             {
@@ -744,17 +767,23 @@ namespace WpfApplication1
 
         }
 
-        private void MedicalOrderlistView_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            TreatOrderList.Add(new TreatOrder());
-        }
 
         private void CbTreatMathod_Initialized(object sender, EventArgs e)
         {
             ComboBox cb = (ComboBox)sender;
             foreach (var v in TreatMentList)
             {
-                cb.Items.Add(v.TreatMethod);
+                cb.Items.Add(v.Name);
+            }
+
+        }
+
+        private void CbOrderPara_Initialized(object sender, EventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            foreach (var v in OrderParaList)
+            {
+                cb.Items.Add(v.Name);
             }
 
         }
@@ -770,22 +799,23 @@ namespace WpfApplication1
                     var list = methodDao.SelectTreatMethod(condition);
                     foreach (var pa in list)
                     {
-                        //var treatMethodData = new TreatMethodData();
-                        //treatMethodData.Id = pa.Id;
-                        //treatMethodData.Name = pa.Name;
-                        //{
-                        //    using (var treatTypeDao = new TreatTypeDao())
-                        //    {
-                        //        condition.Clear();
-                        //        condition["ID"] = pa.TreatTypeId;
-                        //        var arealist = treatTypeDao.SelectTreatType(condition);
-                        //        if (arealist.Count == 1)
-                        //        {
-                        //            treatMethodData.Type = arealist[0].Name;
-                        //        }
-                        //    }
-                        //}
-                        TreatMentList.Add(new TreatMent(pa.Name));
+                        var treatMethodData = new TreatMethodData();
+                        treatMethodData.Id = pa.Id;
+                        treatMethodData.Name = pa.Name;
+                        {
+                            using (var treatTypeDao = new TreatTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.TreatTypeId;
+                                var arealist = treatTypeDao.SelectTreatType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatMethodData.Type = arealist[0].Name;
+                                }
+                            }
+                        }
+
+                        TreatMentList.Add(treatMethodData);
                     }
                 }
             }
@@ -793,6 +823,78 @@ namespace WpfApplication1
             {
                 MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:ListViewCPatientRoom_OnLoaded 3 exception messsage: " + ex.Message);
             }
+        }
+
+        private void LoadOrderParaConfig()
+        {
+            try
+            {
+                using (var medicalOrderParaDao = new MedicalOrderParaDao())
+                {
+                    OrderParaList.Clear();
+                    var condition = new Dictionary<string, object>();
+                    var list = medicalOrderParaDao.SelectInterval(condition);
+                    foreach (var pa in list)
+                    {
+                        var medicalOrderParaData = new MedicalOrderParaData();
+                        medicalOrderParaData.Id = pa.Id;
+                        medicalOrderParaData.Name = pa.Name;
+                        medicalOrderParaData.Type = pa.Type;
+                        medicalOrderParaData.Count = pa.Count;
+                        medicalOrderParaData.Description = pa.Description;
+                        //Datalist.Add(medicalOrderParaData);
+                        //OrderParaList.Add(pa.Name);
+                        OrderParaList.Add(medicalOrderParaData);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:ListViewCPatientRoom_OnLoaded 3 exception messsage: " + ex.Message);
+            }
+        }
+
+        private void NewButton_Click(object sender, RoutedEventArgs e)
+        {
+            TreatOrderList.Add(new TreatOrder());
+        }
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            int index = PatientlistView.SelectedIndex;
+            //string MedicalOrder = "";
+            //foreach (var v in TreatOrderList)
+            //{
+            //    string str = v.TreatMethod + "/" + v.Type + "/" + v.TreatTimes;
+            //    MedicalOrder += str;
+            //    MedicalOrder += "#";
+            //}
+            //try
+            //{
+
+            //    using (var patientDao = new PatientDao())
+            //    {
+            //        var fields = new Dictionary<string, object>();
+            //        fields["MEDICALORDER"] = MedicalOrder;
+            //        var condition = new Dictionary<string, object>();
+            //        //condition["PatientID"] = int.Parse(AddIDTextBox.Text);
+            //        patientDao.UpdatePatient(fields, condition);
+
+            //    }
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    MainWindow.Log.WriteInfoConsole("In init.xaml.cs: ButtonNewSaveClick insert patient exception messsage: " + ex.Message);
+            //}
+
+
+        }
+        private void DelButton_Click(object sender, RoutedEventArgs e)
+        {
+            int index = MedicalOrderlistView.SelectedIndex;
+            if ( index == -1) return;
+            TreatOrderList.RemoveAt(index);
+            
         }
 
     }
@@ -862,38 +964,38 @@ namespace WpfApplication1
         }
     }
 
-    public class TreatMent : INotifyPropertyChanged
-    {
-        private string _treatMethod;
+    //public class TreatMent : INotifyPropertyChanged
+    //{
+    //    private string _treatMethod;
 
-        public TreatMent()
-        {
-        }
-        public TreatMent( string str )
-        {
-            _treatMethod = str;
-        }
+    //    public TreatMent()
+    //    {
+    //    }
+    //    public TreatMent( string str )
+    //    {
+    //        _treatMethod = str;
+    //    }
 
         
-        public string TreatMethod
-        {
-            get { return _treatMethod; }
-            set
-            {
-                _treatMethod = value;
-                OnPropertyChanged("TreatMethod");
-            }
-        }
-        #region INotifyPropertyChanged Members
+    //    public string TreatMethod
+    //    {
+    //        get { return _treatMethod; }
+    //        set
+    //        {
+    //            _treatMethod = value;
+    //            OnPropertyChanged("TreatMethod");
+    //        }
+    //    }
+    //    #region INotifyPropertyChanged Members
 
-        public event PropertyChangedEventHandler PropertyChanged;
+    //    public event PropertyChangedEventHandler PropertyChanged;
 
-        #endregion
+    //    #endregion
 
-        private void OnPropertyChanged(String info)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(info));
-        }
-    }
+    //    private void OnPropertyChanged(String info)
+    //    {
+    //        if (PropertyChanged != null)
+    //            PropertyChanged(this, new PropertyChangedEventArgs(info));
+    //    }
+    //}
 }
