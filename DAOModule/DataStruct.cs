@@ -67,7 +67,7 @@ namespace WpfApplication1.DAOModule
         public string Dob { get; set; }
         public string Gender { get; set; }
         public string Mobile { get; set; }
-        public string Order { get; set; }
+        public string Orders { get; set; }
         public Int64 TreatStatusId { get; set; }
         public string RegisitDate { get; set; }
         public Int64 InfectTypeId { get; set; }

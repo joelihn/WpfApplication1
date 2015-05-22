@@ -90,6 +90,7 @@ namespace WpfApplication1
         {
             if (PatientlistView.SelectedIndex >= 0)
             {
+                TreatOrderList.Clear();
                 int patientID = PatientlistView.SelectedIndex;
                 try
                 {
@@ -101,7 +102,23 @@ namespace WpfApplication1
                         List<Patient> list = patientDao.SelectPatient(condition);
                         if (list.Count > 0)
                         {
-                            string order = list[0].Order;
+                            string orders = list[0].Orders;
+                            string[] order = orders.Split('#');
+                            foreach (var s in order)
+                            {
+                                if (s != "")
+                                {
+                                    string[] details = s.Split('/');
+                                    if (details.Count() == 3)
+                                    {
+                                        var treat = new TreatOrder();
+                                        treat.TreatMethod = details[0];
+                                        treat.Type = details[1];
+                                        treat.TreatTimes = int.Parse(details[2]);
+                                        TreatOrderList.Add(treat);
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -856,36 +873,40 @@ namespace WpfApplication1
 
         private void NewButton_Click(object sender, RoutedEventArgs e)
         {
+            int index = PatientlistView.SelectedIndex;
+            if (index == -1) return;
             TreatOrderList.Add(new TreatOrder());
         }
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             int index = PatientlistView.SelectedIndex;
-            //string MedicalOrder = "";
-            //foreach (var v in TreatOrderList)
-            //{
-            //    string str = v.TreatMethod + "/" + v.Type + "/" + v.TreatTimes;
-            //    MedicalOrder += str;
-            //    MedicalOrder += "#";
-            //}
-            //try
-            //{
+            if (index == -1) return;
+            string MedicalOrder = "";
+            foreach (var v in TreatOrderList)
+            {
+                string str = v.TreatMethod + "/" + v.Type + "/" + v.TreatTimes;
+                MedicalOrder += str;
+                MedicalOrder += "#";
+            }
+            try
+            {
+                long patientID = PatientList[index].PatientId;
 
-            //    using (var patientDao = new PatientDao())
-            //    {
-            //        var fields = new Dictionary<string, object>();
-            //        fields["MEDICALORDER"] = MedicalOrder;
-            //        var condition = new Dictionary<string, object>();
-            //        //condition["PatientID"] = int.Parse(AddIDTextBox.Text);
-            //        patientDao.UpdatePatient(fields, condition);
+                using (var patientDao = new PatientDao())
+                {
+                    var fields = new Dictionary<string, object>();
+                    fields["ORDERS"] = MedicalOrder;
+                    var condition = new Dictionary<string, object>();
+                    condition["PatientID"] = patientID;
+                    patientDao.UpdatePatient(fields, condition);
 
-            //    }
+                }
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    MainWindow.Log.WriteInfoConsole("In init.xaml.cs: ButtonNewSaveClick insert patient exception messsage: " + ex.Message);
-            //}
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In init.xaml.cs: ButtonNewSaveClick insert patient exception messsage: " + ex.Message);
+            }
 
 
         }
@@ -909,6 +930,7 @@ namespace WpfApplication1
         public TreatOrder()
         {
         }
+
 
 
         public Int64 Id

@@ -80,8 +80,8 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters["@GENDER"].Value = patient.Gender;
                     sqlcomm.Parameters.Add("@MOBILE", DbType.String);
                     sqlcomm.Parameters["@MOBILE"].Value = patient.Mobile;
-                    sqlcomm.Parameters.Add("@MEDICALORDER", DbType.String);
-                    sqlcomm.Parameters["@MEDICALORDER"].Value = patient.Order;
+                    sqlcomm.Parameters.Add("@ORDERS", DbType.String);
+                    sqlcomm.Parameters["@ORDERS"].Value = patient.Orders;
                     sqlcomm.Parameters.Add("@TREATSTATUSID", DbType.Int32);
                     sqlcomm.Parameters["@TREATSTATUSID"].Value = patient.TreatStatusId;
                     sqlcomm.Parameters.Add("@REGISITDATE", DbType.String);

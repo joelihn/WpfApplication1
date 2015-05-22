@@ -170,10 +170,10 @@
                         <RadioButton Content="{DynamicResource  In7DayText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" HorizontalAlignment="Left" Margin="392,57,0,0" Name="TimeRadioButton2" VerticalAlignment="Top" GroupName="TimeSelecet" IsChecked="True" Click="TimeRadioButton1_Click" TabIndex="10006" />
                         <RadioButton Content="{DynamicResource  In3DaysText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" Margin="545,57,0,0" Name="TimeRadioButton3" VerticalAlignment="Top" GroupName="TimeSelecet" IsChecked="True" Click="TimeRadioButton1_Click" HorizontalAlignment="Left" TabIndex="10007" />
                         <DatePicker HorizontalAlignment="Left" Style="{StaticResource DatePickerStyle}" Margin="480,20,0,0" Name="EndatePicker" VerticalAlignment="Top" Width="130" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" VerticalContentAlignment="Center" Padding="3,0" TabIndex="10004" OpacityMask="{x:Null}"></DatePicker>
-                        <ListView  Height="190" Margin="20,0,20,60" Name="MedicalOrderlistView" VerticalAlignment="Bottom" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}" MouseDoubleClick="PatientlistView_MouseDoubleClick" GridViewColumnHeader.Click="GridViewColumnHeader_Click" IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}">
+                        <ListView  Height="190" Margin="20,0,20,60" Name="MedicalOrderlistView" VerticalAlignment="Bottom"  SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}" MouseDoubleClick="PatientlistView_MouseDoubleClick" GridViewColumnHeader.Click="GridViewColumnHeader_Click" IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}">
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
-                                    <GridViewColumn Width="70">
+                                    <GridViewColumn Width="20">
                                         <Grid Tag="0">
                                             <StackPanel Orientation="Horizontal">
 
@@ -183,7 +183,7 @@
                                         </Grid>
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding Id}" Width="70" Height="20" />
+                                                <TextBlock Text="{Binding Id}" Width="20" Height="20" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -198,7 +198,7 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <!--<ComboBox ItemsSource="{Binding TreatMentList}"  DisplayMemberPath="TreatMethod" Text="{Binding TreatMethod}" Width="140" Height="20" />-->
-                                                <ComboBox Initialized="CbTreatMathod_Initialized" Text="{Binding TreatMethod}" Width="140" Height="20" />
+                                                <ComboBox Initialized="CbTreatMathod_Initialized" SelectedValue="{Binding TreatMethod}" Width="140" Height="20" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -213,7 +213,7 @@
                                         </Grid>
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <ComboBox Initialized="CbOrderPara_Initialized" Text="{Binding Type}" Width="140" Height="20" />
+                                                <ComboBox Initialized="CbOrderPara_Initialized" SelectedValue="{Binding Type}" Width="140" Height="20" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
@@ -234,7 +234,7 @@
                                     <GridViewColumn Header="{DynamicResource  descriptionText}" Width="200" >
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="{Binding TreatTimes}" Width="140" Height="25"></TextBlock>
+                                                <TextBox Text="{Binding TreatTimes}" Width="140" Height="25"></TextBox>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
