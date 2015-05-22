@@ -37,8 +37,9 @@ namespace WpfApplication1
         public Dictionary<string, Color> CureTypeDictionary = new Dictionary<string, Color>();
         
         public List<ListboxItemStatus> ListboxItemStatusesList = new List<ListboxItemStatus>();
-        
-        
+        //public ObservableCollection<MedicalOrderParaData> OrderParaList = new ObservableCollection<MedicalOrderParaData>();
+        public ObservableCollection<TreatOrder> TreatOrderList = new ObservableCollection<TreatOrder>();
+
         public Shedule(MainWindow mainWindow)
         {
             InitializeComponent();
@@ -48,7 +49,7 @@ namespace WpfApplication1
             InitDay();
             //InitCureTypeDictionary();
             SetBinding();
-
+            //LoadOrderParaConfig();
             Basewindow = mainWindow;
         }
 
@@ -75,6 +76,54 @@ namespace WpfApplication1
                 case 5:
                     BtnSta.IsChecked = true;
                     break;
+            }
+        }
+
+
+        private void PatientlistView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ListBox1.SelectedIndex >= 0)
+            {
+                TreatOrderList.Clear();
+                long patientID = ListboxItemStatusesList[ListBox1.SelectedIndex].PatientID;
+                try
+                {
+
+                    using (var patientDao = new PatientDao())
+                    {
+                        var condition = new Dictionary<string, object>();
+                        condition["PATIENTID"] = patientID;
+                        List<Patient> list = patientDao.SelectPatient(condition);
+                        if (list.Count > 0)
+                        {
+                            string orders = list[0].Orders;
+                            string[] order = orders.Split('#');
+                            foreach (var s in order)
+                            {
+                                if (s != "")
+                                {
+                                    string[] details = s.Split('/');
+                                    if (details.Count() == 3)
+                                    {
+                                        var treat = new TreatOrder();
+                                        treat.TreatMethod = details[0];
+                                        treat.Type = details[1];
+                                        treat.TreatTimes = int.Parse(details[2]);
+                                        TreatOrderList.Add(treat);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    MainWindow.Log.WriteErrorLog("Init.xaml.cs-CheckPatientPatientIdValidity", ex);
+                    //return false;
+                }
+
             }
         }
 
@@ -298,6 +347,13 @@ namespace WpfApplication1
                     listboxItem.NextWeek.days[day].BgColor = type;
                 }
             }
+            if (CheckOrders())
+                listboxItem.Checks = "正常";
+            else
+            {
+                listboxItem.Checks = "异常";
+            }
+            
             
             ListboxItemStatusesList[index] = listboxItem;
             ListBox1.Items.Refresh();
@@ -405,9 +461,38 @@ namespace WpfApplication1
             }
         }
 
+        private bool CheckOrders()
+        {
+            int index = ListBox1.SelectedIndex;
+            if (index == -1) return false;
+            ListboxItemStatus patient = ListboxItemStatusesList[index];
+            if (ListboxItemStatusesList.Count == 0) return false;
+            bool ret = true;
+            if (TreatOrderList.Count == 0) return false;
+            foreach (var treatOrder in TreatOrderList)
+            {
+                string treat = treatOrder.TreatMethod;
+                int times = treatOrder.TreatTimes;
+                int count = 0;
+                for (int n = 0; n < 7; n++)
+                {
+                    if (treat == StrColorConverter(patient.CurrentWeek.days[n].BgColor) )
+                        count++;
+                    if (treat == StrColorConverter(patient.NextWeek.days[n].BgColor))
+                        count++;
+
+                }
+                if (count != times)
+                {
+                    ret = false;
+                }
+            }
+            return ret;
+
+        }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            GetPatientSchedule(0);
+            //GetPatientSchedule(0);
             LoadTratementConifg();
             try
             {
@@ -459,6 +544,26 @@ namespace WpfApplication1
                         ListboxItemStatus status = new ListboxItemStatus();
                         status.PatientID = patientInfo.PatientId;
                         status.PatientName = patientInfo.PatientName;
+                        PatientSchedule schedule = GetPatientSchedule(patientInfo.PatientId);
+
+                        //foreach (var day in status.CurrentWeek.days)
+                        for( int n = 0; n < 7; n++ )
+                        {
+                            foreach (var h in schedule.Hemodialysis)
+                            {
+                                if (h.dialysisTime.dateTime == status.CurrentWeek.days[n].dateTime.Date)
+                                {
+                                    status.CurrentWeek.days[n].Content = h.dialysisTime.AmPmE;
+                                    status.CurrentWeek.days[n].BgColor = new SolidColorBrush(StrColorConverter(h.hemodialysisItem));
+                                }
+                                if (h.dialysisTime.dateTime == status.NextWeek.days[n].dateTime.Date)
+                                {
+                                    status.NextWeek.days[n].Content = h.dialysisTime.AmPmE;
+                                    status.NextWeek.days[n].BgColor = new SolidColorBrush(StrColorConverter(h.hemodialysisItem));
+                                }
+                            }
+                        }
+                        
                         ListboxItemStatusesList.Add(status);
                         //PatientList.Add(patientInfo);
                     }
@@ -472,7 +577,7 @@ namespace WpfApplication1
         }
 
 
-        private void GetPatientSchedule( long _patientID )
+        private PatientSchedule GetPatientSchedule(long _patientID)
         {
             try
             {
@@ -488,16 +593,25 @@ namespace WpfApplication1
                     {
                         Hemodialysy hemodialysy = new Hemodialysy();
 
-                        hemodialysy.dialysisTime = new DialysisTime(DateTime.Parse(type.Date), type.AmPmE);
+                        /*DateTimeFormatInfo dtFormat = new DateTimeFormatInfo();
+
+                        dtFormat.ShortDatePattern = "yyyy-MM-dd";
+
+                        datetdt = Convert.ToDateTime(type.Date, dtFormat);*/
+                        DateTime dt = DateTime.Parse(type.Date);
+
+                        hemodialysy.dialysisTime = new DialysisTime(dt, type.AmPmE);
                         hemodialysy.hemodialysisItem = type.Method;
 
                         patientSchedule.Hemodialysis.Add(hemodialysy);
                     }
+                    return patientSchedule;
                 }
             }
             catch (Exception ex)
             {
                 MainWindow.Log.WriteInfoConsole("In PatientSchedule.xaml.cs:GetPatientSchedule select patient exception messsage: " + ex.Message);
+                return null;
             }
         }
 
@@ -513,8 +627,6 @@ namespace WpfApplication1
                         var condition = new Dictionary<string, object>();
                         condition["PatientID"] = patientID;
                         
-                        
-
                         foreach (var day in v.CurrentWeek.days)
                         {
                             
@@ -525,7 +637,7 @@ namespace WpfApplication1
                                 condition1["PatientId"] = patientID.ToString();
                                 condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
                                 var list = scheduleDao.SelectScheduleTemplate(condition1);
-
+                                
                                 if(list!=null&&list.Count!=0)
                                 {
 
@@ -548,6 +660,66 @@ namespace WpfApplication1
                                 }
 
 
+                            }
+                            else if (day.Content == "")
+                            {
+                                Dictionary<string, object> condition1 = new Dictionary<string, object>();
+                                condition1["PatientId"] = patientID.ToString();
+                                condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                var list = scheduleDao.SelectScheduleTemplate(condition1);
+                                foreach (var l in list)
+                                {
+                                    scheduleDao.DeleteScheduleTemplate((int)l.Id);
+                                }
+                            }
+
+                        }
+
+
+                        foreach (var day in v.NextWeek.days)
+                        {
+
+                            if (day.Content != "" && day.Content != null)
+                            {
+
+                                Dictionary<string, object> condition1 = new Dictionary<string, object>();
+                                condition1["PatientId"] = patientID.ToString();
+                                condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                var list = scheduleDao.SelectScheduleTemplate(condition1);
+
+                                if (list != null && list.Count != 0)
+                                {
+
+                                    var fileds = new Dictionary<string, object>();
+                                    //fileds["DATE"] = day.dateTime.Date;
+                                    condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                    fileds["AMPME"] = day.Content;
+                                    fileds["METHOD"] = StrColorConverter(day.BgColor);
+                                    scheduleDao.UpdateScheduleTemplate(fileds, condition);
+                                }
+                                else
+                                {
+                                    ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
+                                    scheduleTemplate.PatientId = patientID;
+                                    scheduleTemplate.Date = day.dateTime.ToString("yyyy-MM-dd");
+                                    scheduleTemplate.AmPmE = day.Content;
+                                    scheduleTemplate.Method = StrColorConverter(day.BgColor);
+                                    int ret = -1;
+                                    scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
+                                }
+
+
+                            }
+                            else if (day.Content == "")
+                            {
+                                Dictionary<string, object> condition1 = new Dictionary<string, object>();
+                                condition1["PatientId"] = patientID.ToString();
+                                condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                var list = scheduleDao.SelectScheduleTemplate(condition1);
+                                foreach (var l in list)
+                                {
+                                    scheduleDao.DeleteScheduleTemplate((int)l.Id);
+                                }
                             }
                         }
                         
@@ -580,11 +752,19 @@ namespace WpfApplication1
             get { return patientName; }
             set { patientName = value; }
         }
+
+        public string Checks
+        {
+            get { return checks; }
+            set { checks = value; }
+        }
+
         public Week CurrentWeek { get; set; }
         public Week NextWeek { get; set; }
         
         private long patientID;
         private string patientName;
+        private string checks;
 
         public ListboxItemStatus()
         {

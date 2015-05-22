@@ -180,7 +180,7 @@
                                     </Grid>
                                 </Border>
                                 <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,1,0" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Grid.Column="8">
-                                    <Label Content="Checks " HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                    <Label Content="{Binding Checks}" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                 </Border>
                                 <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Grid.Column="9">
                                     <Label Content="Bed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
@@ -310,7 +310,7 @@
             
         </Grid>
         <ListBox  Name="ListBox1" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="1024"
-                     ItemContainerStyle="{DynamicResource ListBoxItemStyle2}" ItemsSource="{Binding}" >
+                     ItemContainerStyle="{DynamicResource ListBoxItemStyle2}" ItemsSource="{Binding}" SelectionChanged="PatientlistView_SelectionChanged" >
         </ListBox>
         
     </StackPanel>

@@ -51,9 +51,9 @@ namespace WpfApplication1.DataStructures
             AmPmE = "";
         }
 
-        public DialysisTime(DateTime dateTime, string ampme)
+        public DialysisTime(DateTime _dateTime, string ampme)
         {
-            dateTime = dateTime;
+            dateTime = _dateTime;
             AmPmE = ampme;
         }
 
