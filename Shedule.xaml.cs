@@ -275,8 +275,10 @@ namespace WpfApplication1
                     MainWindow.Log.WriteErrorLog("Init.xaml.cs-CheckPatientPatientIdValidity", ex);
                     //return false;
                 }
-
+                UpdatePatientSchedule();
             }
+            
+            
         }
 
         private void InitCureTypeDictionary()
@@ -904,10 +906,6 @@ namespace WpfApplication1
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            UpdatePatientSchedule();
-        }
 
         private void BeginDatePicker_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -924,6 +922,111 @@ namespace WpfApplication1
                 TimeRadioButton1.IsChecked = false;
                 TimeRadioButton2.IsChecked = false;
                 TimeRadioButton3.IsChecked = true;
+            }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            UpdatePatientSchedule();
+        }
+        private void Button_Click1(object sender, RoutedEventArgs e)
+        {
+            PreWeek();
+        }
+
+
+        private void Button_Click2(object sender, RoutedEventArgs e)
+        {
+            NextWeek();
+        }
+
+        private void PreWeek()
+        {
+            //int index = ListBox1.SelectedIndex;
+            //if (index == -1) return;
+            //ListboxItemStatus listboxItem = ListboxItemStatusesList[index];
+            //listboxItem.PreWeek();
+            foreach (var v in ListboxItemStatusesList)
+            {
+                v.PreWeek();
+            }
+            RefreshListbox();
+        }
+
+        private void NextWeek()
+        {
+            //int index = ListBox1.SelectedIndex;
+            //if (index == -1) return;
+            foreach (var v in ListboxItemStatusesList)
+            {
+                v.NextWeek1();
+            }
+
+            RefreshListbox();
+        }
+
+
+        private void RefreshListbox()
+        {
+            try
+            {
+
+                foreach (var v in ListboxItemStatusesList)
+                {
+                    PatientSchedule schedule = GetPatientSchedule(v.PatientID);
+
+                    for (int n = 0; n < 7; n++)
+                    {
+                        foreach (var h in schedule.Hemodialysis)
+                        {
+
+                            {
+                                v.CurrentWeek.days[n].Content = "";
+                                v.CurrentWeek.days[n].BgColor = Brushes.LightGray;
+                            }
+
+                            {
+                                v.NextWeek.days[n].Content = "";
+                                v.NextWeek.days[n].BgColor = Brushes.LightGray;
+                            }
+                        }
+                    }
+
+                    //foreach (var day in status.CurrentWeek.days)
+                    for (int n = 0; n < 7; n++)
+                    {
+                        foreach (var h in schedule.Hemodialysis)
+                        {
+                            if (h.dialysisTime.dateTime == v.CurrentWeek.days[n].dateTime.Date)
+                            {
+                                v.CurrentWeek.days[n].Content = h.dialysisTime.AmPmE;
+                                v.CurrentWeek.days[n].BgColor = new SolidColorBrush(StrColorConverter(h.hemodialysisItem));
+                            }
+                            //else
+                            //{
+                            //    v.CurrentWeek.days[n].Content = "";
+                            //    v.CurrentWeek.days[n].BgColor = Brushes.LightGray;
+                            //}
+                            if (h.dialysisTime.dateTime == v.NextWeek.days[n].dateTime.Date)
+                            {
+                                v.NextWeek.days[n].Content = h.dialysisTime.AmPmE;
+                                v.NextWeek.days[n].BgColor = new SolidColorBrush(StrColorConverter(h.hemodialysisItem));
+                            }
+                            //else
+                            //{
+                            //    v.NextWeek.days[n].Content = "";
+                            //    v.NextWeek.days[n].BgColor = Brushes.LightGray;
+                            //}
+                        }
+                    }
+                }
+
+
+                ListBox1.Items.Refresh();
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
             }
         }
     }
@@ -973,6 +1076,23 @@ namespace WpfApplication1
             }
         }
 
+        public void PreWeek()
+        {
+            for (int n = 0; n < 7; n++)
+            {
+                CurrentWeek.days[n].dateTime = CurrentWeek.days[n].dateTime.AddDays(-7);
+                NextWeek.days[n].dateTime = NextWeek.days[n].dateTime.AddDays(-7);
+            }
+        }
+
+        public void NextWeek1()
+        {
+            for (int n = 0; n < 7; n++)
+            {
+                CurrentWeek.days[n].dateTime = CurrentWeek.days[n].dateTime.AddDays(7);
+                NextWeek.days[n].dateTime = NextWeek.days[n].dateTime.AddDays(7);
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

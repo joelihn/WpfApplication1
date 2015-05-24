@@ -320,7 +320,7 @@
             <RadioButton Content="{DynamicResource In3DaysText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" Margin="0,60,138,0" x:Name="TimeRadioButton3" VerticalAlignment="Top" GroupName="TimeSelecet"  IsChecked="True" Click="TimeRadioButton1_Click" HorizontalAlignment="Right" TabIndex="10007" />
 
         </Grid>
-        <Button Height="30" Click="Button_Click"/>
+        <Button Height="30" Click="Button_Click" Visibility="Collapsed"/>
         <Grid x:Name ="GridDay" Height="70" Style="{StaticResource GridBackGround1}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -334,16 +334,18 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <ToggleButton x:Name="BtnSun" Grid.Column="1"  Style="{DynamicResource ToggleButtonStyle}" Tag="周日" Click="BtnDay_OnClick"/>
-            <ToggleButton x:Name="BtnMon" Grid.Column="2"  Style="{DynamicResource ToggleButtonStyle}" Tag="周一" Click="BtnDay_OnClick"/>
-            <ToggleButton x:Name="BtnTue" Grid.Column="3"  Style="{DynamicResource ToggleButtonStyle}" Tag="周二" Click="BtnDay_OnClick"/>
-            <ToggleButton x:Name="BtnWed" Grid.Column="4"  Style="{DynamicResource ToggleButtonStyle}" Tag="周三" Click="BtnDay_OnClick"/>
-            <ToggleButton x:Name="BtnThe" Grid.Column="5"  Style="{DynamicResource ToggleButtonStyle}" Tag="周四" Click="BtnDay_OnClick"/>
-            <ToggleButton x:Name="BtnFri" Grid.Column="6"  Style="{DynamicResource ToggleButtonStyle}" Tag="周五" Click="BtnDay_OnClick"/>
-            <ToggleButton x:Name="BtnSta" Grid.Column="7"  Style="{DynamicResource ToggleButtonStyle}" Tag="周六" Click="BtnDay_OnClick"/>
+            <Button Content="前一周" Grid.Column="0" Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="Button_Click1" />
+            <ToggleButton x:Name="BtnSun" Grid.Column="7"  Style="{DynamicResource ToggleButtonStyle}" Tag="周日" Click="BtnDay_OnClick"/>
+            <ToggleButton x:Name="BtnMon" Grid.Column="1"  Style="{DynamicResource ToggleButtonStyle}" Tag="周一" Click="BtnDay_OnClick"/>
+            <ToggleButton x:Name="BtnTue" Grid.Column="2"  Style="{DynamicResource ToggleButtonStyle}" Tag="周二" Click="BtnDay_OnClick"/>
+            <ToggleButton x:Name="BtnWed" Grid.Column="3"  Style="{DynamicResource ToggleButtonStyle}" Tag="周三" Click="BtnDay_OnClick"/>
+            <ToggleButton x:Name="BtnThe" Grid.Column="4"  Style="{DynamicResource ToggleButtonStyle}" Tag="周四" Click="BtnDay_OnClick"/>
+            <ToggleButton x:Name="BtnFri" Grid.Column="5"  Style="{DynamicResource ToggleButtonStyle}" Tag="周五" Click="BtnDay_OnClick"/>
+            <ToggleButton x:Name="BtnSta" Grid.Column="6"  Style="{DynamicResource ToggleButtonStyle}" Tag="周六" Click="BtnDay_OnClick"/>
+            <Button Content="后一周" Grid.Column="8" Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="Button_Click2" />
 
         </Grid>
-        <ListBox  x:Name="ListBox1" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="400" 
+        <ListBox  x:Name="ListBox1" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="600" 
                      ItemContainerStyle="{DynamicResource ListBoxItemStyle2}" ItemsSource="{Binding}" SelectionChanged="PatientlistView_SelectionChanged" />
     </StackPanel>
 </UserControl>
