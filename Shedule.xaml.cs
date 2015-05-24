@@ -40,6 +40,7 @@ namespace WpfApplication1
         //public ObservableCollection<MedicalOrderParaData> OrderParaList = new ObservableCollection<MedicalOrderParaData>();
         public ObservableCollection<TreatOrder> TreatOrderList = new ObservableCollection<TreatOrder>();
 
+        public int selectoperation;
         public Shedule(MainWindow mainWindow)
         {
             InitializeComponent();
@@ -51,7 +52,158 @@ namespace WpfApplication1
             SetBinding();
             //LoadOrderParaConfig();
             Basewindow = mainWindow;
+
+            EndatePicker.Text = DateTime.Now.ToString();
+            BeginDatePicker.Text = (DateTime.Now - TimeSpan.FromDays(3)).ToString();
+
+            this.SexComboBox.Items.Clear();
+            this.SexComboBox.Items.Add("所有");
+            this.SexComboBox.Items.Add("男");
+            this.SexComboBox.Items.Add("女");
+            SexComboBox.SelectedIndex = 0;
         }
+
+        private void InquireButton_Click(object sender, RoutedEventArgs e)
+        {
+            ListboxItemStatusesList.Clear();
+            var begin = new DateTime();
+            var end = new DateTime();
+            if (!BeginDatePicker.Text.Equals(""))
+                begin = DateTime.Parse(BeginDatePicker.Text);
+            else
+                begin = DateTime.Now;
+            if (!EndatePicker.Text.Equals(""))
+                end = DateTime.Parse(EndatePicker.Text);
+            else
+                end = DateTime.Now;
+
+            TimeSpan timeSpan = end - begin;
+
+            using (var complexDao = new ComplexDao())
+            {
+                var condition = new Dictionary<string, object>();
+                if (!NameTextBox.Text.Equals(""))
+                    condition["NAME"] = NameTextBox.Text;
+                //if (!IDTextBox.Text.Equals(""))
+                //    condition["ID"] = IDTextBox.Text;
+                if (!PatientIDTextBox.Text.Equals(""))
+                    condition["PATIENTID"] = PatientIDTextBox.Text;
+
+                if (!InfectTypeComboBox.Text.Equals("所有"))
+                {
+
+                    var condition2 = new Dictionary<string, object>();
+                    using (var infectTypeDao = new InfectTypeDao())
+                    {
+                        condition2.Clear();
+                        condition2["Name"] = InfectTypeComboBox.Text;
+                        var arealist = infectTypeDao.SelectInfectType(condition2);
+                        if (arealist.Count == 1)
+                        {
+                            condition["INFECTTYPEID"] = arealist[0].Id;
+                        }
+                    }
+                    
+                }
+                
+
+                if (!SexComboBox.Text.Equals("所有"))
+                    condition["GENDER"] = SexComboBox.Text;
+
+
+                List<Patient> list = complexDao.SelectPatient(condition, begin, end);
+                foreach (Patient fmriPatient in list)
+                {
+                    var informatian = new PatientInfo();
+                    informatian.PatientDob = fmriPatient.Dob;
+                    informatian.PatientGender = fmriPatient.Gender;
+                    informatian.PatientMobile = fmriPatient.Mobile;
+                    informatian.PatientPatientId = fmriPatient.PatientId.ToString();
+                    informatian.PatientDescription = fmriPatient.Description;
+                    informatian.PatientId = fmriPatient.Id;
+                    informatian.PatientPatientId = fmriPatient.PatientId;
+                    informatian.PatientName = fmriPatient.Name;
+                    informatian.PatientIsFixedBed = fmriPatient.IsFixedBed;
+                    informatian.PatientRegesiterDate = fmriPatient.RegisitDate;
+                    {
+                        using (var infectTypeDao = new InfectTypeDao())
+                        {
+                            condition.Clear();
+                            condition["ID"] = fmriPatient.InfectTypeId;
+                            var arealist = infectTypeDao.SelectInfectType(condition);
+                            if (arealist.Count == 1)
+                            {
+                                informatian.PatientInfectType = arealist[0].Name;
+                            }
+                        }
+                    }
+                    {
+                        using (var treatStatusDao = new TreatStatusDao())
+                        {
+                            condition.Clear();
+                            condition["ID"] = fmriPatient.TreatStatusId;
+                            var arealist = treatStatusDao.SelectTreatStatus(condition);
+                            if (arealist.Count == 1)
+                            {
+                                informatian.PatientTreatStatus = arealist[0].Name;
+                            }
+                        }
+                    }
+
+                    ListboxItemStatus status = new ListboxItemStatus();
+                    status.PatientID = long.Parse(fmriPatient.PatientId);
+                    status.PatientName = fmriPatient.Name;
+                    PatientSchedule schedule = GetPatientSchedule(long.Parse(fmriPatient.PatientId));
+
+                    //foreach (var day in status.CurrentWeek.days)
+                    for (int n = 0; n < 7; n++)
+                    {
+                        foreach (var h in schedule.Hemodialysis)
+                        {
+                            if (h.dialysisTime.dateTime == status.CurrentWeek.days[n].dateTime.Date)
+                            {
+                                status.CurrentWeek.days[n].Content = h.dialysisTime.AmPmE;
+                                status.CurrentWeek.days[n].BgColor = new SolidColorBrush(StrColorConverter(h.hemodialysisItem));
+                            }
+                            if (h.dialysisTime.dateTime == status.NextWeek.days[n].dateTime.Date)
+                            {
+                                status.NextWeek.days[n].Content = h.dialysisTime.AmPmE;
+                                status.NextWeek.days[n].BgColor = new SolidColorBrush(StrColorConverter(h.hemodialysisItem));
+                            }
+                        }
+                    }
+
+                    ListboxItemStatusesList.Add(status);
+                }
+            }
+            ListBox1.Items.Refresh();
+        }
+
+        private void TimeRadioButton1_Click(object sender, RoutedEventArgs e)
+        {
+            selectoperation = 0;
+            EndatePicker.SelectedDate = DateTime.Now;
+            if (TimeRadioButton1.IsChecked == true)
+            {
+                BeginDatePicker.SelectedDate = DateTime.Parse("2012-01-01");
+            }
+            else if (TimeRadioButton2.IsChecked == true)
+            {
+                if (EndatePicker.SelectedDate != null)
+                {
+                    BeginDatePicker.SelectedDate = EndatePicker.SelectedDate - TimeSpan.FromDays(7);
+                }
+            }
+            else if (TimeRadioButton3.IsChecked == true)
+            {
+                if (EndatePicker.SelectedDate != null)
+                {
+                    BeginDatePicker.SelectedDate = EndatePicker.SelectedDate - TimeSpan.FromDays(3);
+                }
+            }
+            selectoperation = 1;
+        }
+
 
         private void InitDay()
         {
@@ -574,6 +726,26 @@ namespace WpfApplication1
             {
                 MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
             }
+
+            try
+            {
+                using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    var list = infectTypeDao.SelectInfectType(condition);
+                    InfectTypeComboBox.Items.Clear();
+                    InfectTypeComboBox.Items.Add("所有");
+                    foreach (InfectType type in list)
+                    {
+                        InfectTypeComboBox.Items.Add(type.Name);
+                    }
+                    InfectTypeComboBox.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Shedule.xaml.cs:Init_OnLoaded InfectType ComboxItem exception messsage: " + ex.Message);
+            }
         }
 
 
@@ -735,6 +907,24 @@ namespace WpfApplication1
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             UpdatePatientSchedule();
+        }
+
+        private void BeginDatePicker_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        private void EndatePicker_CalendarOpened(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void EndatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (selectoperation == 1)
+            {
+                TimeRadioButton1.IsChecked = false;
+                TimeRadioButton2.IsChecked = false;
+                TimeRadioButton3.IsChecked = true;
+            }
         }
     }
 
