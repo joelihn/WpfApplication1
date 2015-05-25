@@ -335,13 +335,28 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button Content="前一周" Grid.Column="0" Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="Button_Click1" />
-            <ToggleButton x:Name="BtnSun" Grid.Column="7"  Style="{DynamicResource ToggleButtonStyle}" Tag="周日" Click="BtnDay_OnClick"/>
-            <ToggleButton x:Name="BtnMon" Grid.Column="1"  Style="{DynamicResource ToggleButtonStyle}" Tag="周一" Click="BtnDay_OnClick"/>
-            <ToggleButton x:Name="BtnTue" Grid.Column="2"  Style="{DynamicResource ToggleButtonStyle}" Tag="周二" Click="BtnDay_OnClick"/>
-            <ToggleButton x:Name="BtnWed" Grid.Column="3"  Style="{DynamicResource ToggleButtonStyle}" Tag="周三" Click="BtnDay_OnClick"/>
-            <ToggleButton x:Name="BtnThe" Grid.Column="4"  Style="{DynamicResource ToggleButtonStyle}" Tag="周四" Click="BtnDay_OnClick"/>
-            <ToggleButton x:Name="BtnFri" Grid.Column="5"  Style="{DynamicResource ToggleButtonStyle}" Tag="周五" Click="BtnDay_OnClick"/>
-            <ToggleButton x:Name="BtnSta" Grid.Column="6"  Style="{DynamicResource ToggleButtonStyle}" Tag="周六" Click="BtnDay_OnClick"/>
+            <ToggleButton x:Name="BtnSun" Grid.Column="7"  Style="{DynamicResource ToggleButtonStyle}" Tag="周日" Click="BtnDay_OnClick">
+                <Label Name="lable6" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"></Label>
+            </ToggleButton>
+            <ToggleButton x:Name="BtnMon" Grid.Column="1"  Style="{DynamicResource ToggleButtonStyle}" Tag="周一" Click="BtnDay_OnClick">
+                <Label Name="lable0" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"></Label>
+            </ToggleButton>
+            <ToggleButton x:Name="BtnTue" Grid.Column="2"  Style="{DynamicResource ToggleButtonStyle}" Tag="周二" Click="BtnDay_OnClick">
+
+                <Label Name="lable1" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"></Label>
+            </ToggleButton>
+            <ToggleButton x:Name="BtnWed" Grid.Column="3"  Style="{DynamicResource ToggleButtonStyle}" Tag="周三" Click="BtnDay_OnClick">
+                <Label Name="lable2" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"></Label>
+            </ToggleButton>
+            <ToggleButton x:Name="BtnThe" Grid.Column="4"  Style="{DynamicResource ToggleButtonStyle}" Tag="周四" Click="BtnDay_OnClick">
+                <Label Name="lable3" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"></Label>
+            </ToggleButton>
+            <ToggleButton x:Name="BtnFri" Grid.Column="5"  Style="{DynamicResource ToggleButtonStyle}" Tag="周五" Click="BtnDay_OnClick">
+                <Label Name="lable4" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"></Label>
+            </ToggleButton>
+            <ToggleButton x:Name="BtnSta" Grid.Column="6"  Style="{DynamicResource ToggleButtonStyle}" Tag="周六" Click="BtnDay_OnClick">
+                <Label Name="lable5" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"></Label>
+            </ToggleButton>
             <Button Content="后一周" Grid.Column="8" Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="Button_Click2" />
 
         </Grid>

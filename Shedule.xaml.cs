@@ -40,6 +40,7 @@ namespace WpfApplication1
         public List<ListboxItemStatus> ListboxItemStatusesList = new List<ListboxItemStatus>();
         //public ObservableCollection<MedicalOrderParaData> OrderParaList = new ObservableCollection<MedicalOrderParaData>();
         public ObservableCollection<TreatOrder> TreatOrderList = new ObservableCollection<TreatOrder>();
+        public List<DateTime> dtlist = new List<DateTime>();
 
         public int selectoperation;
         public Shedule(MainWindow mainWindow)
@@ -546,6 +547,7 @@ namespace WpfApplication1
         {
             ListBox1.ItemsSource = ListboxItemStatusesList;
             LoadTratementConifg();
+            InitWeekWithDate();
             //ListboxItemStatus status = new ListboxItemStatus();
             //status.PatientID = 1;
             //status.PatientName = "zhangsan";
@@ -948,6 +950,23 @@ namespace WpfApplication1
                 v.PreWeek();
             }
             RefreshListbox();
+            PreWeekOnLabel();
+        }
+
+        private void PreWeekOnLabel()
+        {
+            for (int n = 0; n < 7; n++)
+            {
+                dtlist[n] = dtlist[n].AddDays(-7);
+            }
+
+            lable0.Content = dtlist[0].ToString("MM-dd");
+            lable1.Content = dtlist[1].ToString("MM-dd");
+            lable2.Content = dtlist[2].ToString("MM-dd");
+            lable3.Content = dtlist[3].ToString("MM-dd");
+            lable4.Content = dtlist[4].ToString("MM-dd");
+            lable5.Content = dtlist[5].ToString("MM-dd");
+            lable6.Content = dtlist[6].ToString("MM-dd");
         }
 
         private void NextWeek()
@@ -960,8 +979,47 @@ namespace WpfApplication1
             }
 
             RefreshListbox();
+            NextWeekOnLabel();
         }
 
+        private void NextWeekOnLabel()
+        {
+            for (int n = 0; n < 7; n++)
+            {
+                dtlist[n] = dtlist[n].AddDays(7);
+            }
+
+            lable0.Content = dtlist[0].ToString("MM-dd");
+            lable1.Content = dtlist[1].ToString("MM-dd");
+            lable2.Content = dtlist[2].ToString("MM-dd");
+            lable3.Content = dtlist[3].ToString("MM-dd");
+            lable4.Content = dtlist[4].ToString("MM-dd");
+            lable5.Content = dtlist[5].ToString("MM-dd");
+            lable6.Content = dtlist[6].ToString("MM-dd");
+            
+        }
+        private void InitWeekWithDate()
+        {
+            dtlist.Clear();
+            int weeknow = (int)DateTime.Now.DayOfWeek;
+            for (int n = 0; n < 7; n++)
+            {
+                dtlist.Add(DateTime.Now.AddDays(-weeknow + n));
+            }
+
+            lable0.Content = dtlist[0].ToString("MM-dd");
+            lable1.Content = dtlist[1].ToString("MM-dd");
+            lable2.Content = dtlist[2].ToString("MM-dd");
+            lable3.Content = dtlist[3].ToString("MM-dd");
+            lable4.Content = dtlist[4].ToString("MM-dd");
+            lable5.Content = dtlist[5].ToString("MM-dd");
+            lable6.Content = dtlist[6].ToString("MM-dd");
+            //for (int n = 0; n < 7; n++)
+            //{
+            //    CurrentWeek.days[n].dateTime = DateTime.Now.AddDays(-weeknow + n);
+            //    NextWeek.days[n].dateTime = DateTime.Now.AddDays(-weeknow + n + 7);
+            //}
+        }
 
         private void RefreshListbox()
         {
