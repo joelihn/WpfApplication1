@@ -276,7 +276,7 @@ namespace WpfApplication1
                     MainWindow.Log.WriteErrorLog("Init.xaml.cs-CheckPatientPatientIdValidity", ex);
                     //return false;
                 }
-                UpdatePatientSchedule();
+                //UpdatePatientSchedule();
             }
             
             
@@ -326,7 +326,7 @@ namespace WpfApplication1
                 return;
 
             ChangeButtonStauts(index, tag, e.ChangedButton);
-            
+            UpdatePatientSchedule();
         }
 
         private Point GetWeekAndDay( string tag )
@@ -797,110 +797,102 @@ namespace WpfApplication1
         {
             try
             {
+                 long selectPatientID = ListboxItemStatusesList[ListBox1.SelectedIndex].PatientID;
                 using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
                 {
                     foreach (var v in ListboxItemStatusesList)
                     {
                         long patientID = v.PatientID;
-                        var condition = new Dictionary<string, object>();
-                        condition["PatientID"] = patientID;
-                        
-                        foreach (var day in v.CurrentWeek.days)
+                        if (selectPatientID == patientID)
                         {
-                            
-                            if (day.Content != "" && day.Content != null)
+                            var condition = new Dictionary<string, object>();
+                            condition["PatientID"] = patientID;
+
+                            foreach (var day in v.CurrentWeek.days)
                             {
-
-                                Dictionary<string, object> condition1 = new Dictionary<string, object>();
-                                condition1["PatientId"] = patientID.ToString();
-                                condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
-                                var list = scheduleDao.SelectScheduleTemplate(condition1);
-                                
-                                if(list!=null&&list.Count!=0)
+                                if (day.Content != "" && day.Content != null)
                                 {
+                                    Dictionary<string, object> condition1 = new Dictionary<string, object>();
+                                    condition1["PatientId"] = patientID.ToString();
+                                    condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                    var list = scheduleDao.SelectScheduleTemplate(condition1);
 
-                                    var fileds = new Dictionary<string, object>();
-                                    //fileds["DATE"] = day.dateTime.Date;
-                                    condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
-                                    fileds["AMPME"] = day.Content;
-                                    fileds["METHOD"] = StrColorConverter(day.BgColor);
-                                    scheduleDao.UpdateScheduleTemplate(fileds, condition);
+                                    if (list != null && list.Count != 0)
+                                    {
+
+                                        var fileds = new Dictionary<string, object>();
+                                        //fileds["DATE"] = day.dateTime.Date;
+                                        condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                        fileds["AMPME"] = day.Content;
+                                        fileds["METHOD"] = StrColorConverter(day.BgColor);
+                                        scheduleDao.UpdateScheduleTemplate(fileds, condition);
+                                    }
+                                    else
+                                    {
+                                        ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
+                                        scheduleTemplate.PatientId = patientID;
+                                        scheduleTemplate.Date = day.dateTime.ToString("yyyy-MM-dd");
+                                        scheduleTemplate.AmPmE = day.Content;
+                                        scheduleTemplate.Method = StrColorConverter(day.BgColor);
+                                        int ret = -1;
+                                        scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
+                                    }
                                 }
-                                else
+                                else if (day.Content == "")
                                 {
-                                    ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
-                                    scheduleTemplate.PatientId = patientID;
-                                    scheduleTemplate.Date = day.dateTime.ToString("yyyy-MM-dd");
-                                    scheduleTemplate.AmPmE = day.Content;
-                                    scheduleTemplate.Method = StrColorConverter(day.BgColor);
-                                    int ret = -1;
-                                    scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
+                                    Dictionary<string, object> condition1 = new Dictionary<string, object>();
+                                    condition1["PatientId"] = patientID.ToString();
+                                    condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                    var list = scheduleDao.SelectScheduleTemplate(condition1);
+                                    foreach (var l in list)
+                                    {
+                                        scheduleDao.DeleteScheduleTemplate((int)l.Id);
+                                    }
                                 }
-
-
                             }
-                            else if (day.Content == "")
+
+                            foreach (var day in v.NextWeek.days)
                             {
-                                Dictionary<string, object> condition1 = new Dictionary<string, object>();
-                                condition1["PatientId"] = patientID.ToString();
-                                condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
-                                var list = scheduleDao.SelectScheduleTemplate(condition1);
-                                foreach (var l in list)
+                                if (day.Content != "" && day.Content != null)
                                 {
-                                    scheduleDao.DeleteScheduleTemplate((int)l.Id);
+                                    Dictionary<string, object> condition1 = new Dictionary<string, object>();
+                                    condition1["PatientId"] = patientID.ToString();
+                                    condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                    var list = scheduleDao.SelectScheduleTemplate(condition1);
+
+                                    if (list != null && list.Count != 0)
+                                    {
+                                        var fileds = new Dictionary<string, object>();
+                                        //fileds["DATE"] = day.dateTime.Date;
+                                        condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                        fileds["AMPME"] = day.Content;
+                                        fileds["METHOD"] = StrColorConverter(day.BgColor);
+                                        scheduleDao.UpdateScheduleTemplate(fileds, condition);
+                                    }
+                                    else
+                                    {
+                                        ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
+                                        scheduleTemplate.PatientId = patientID;
+                                        scheduleTemplate.Date = day.dateTime.ToString("yyyy-MM-dd");
+                                        scheduleTemplate.AmPmE = day.Content;
+                                        scheduleTemplate.Method = StrColorConverter(day.BgColor);
+                                        int ret = -1;
+                                        scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
+                                    }
                                 }
-                            }
-
-                        }
-
-
-                        foreach (var day in v.NextWeek.days)
-                        {
-
-                            if (day.Content != "" && day.Content != null)
-                            {
-
-                                Dictionary<string, object> condition1 = new Dictionary<string, object>();
-                                condition1["PatientId"] = patientID.ToString();
-                                condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
-                                var list = scheduleDao.SelectScheduleTemplate(condition1);
-
-                                if (list != null && list.Count != 0)
+                                else if (day.Content == "")
                                 {
-
-                                    var fileds = new Dictionary<string, object>();
-                                    //fileds["DATE"] = day.dateTime.Date;
-                                    condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
-                                    fileds["AMPME"] = day.Content;
-                                    fileds["METHOD"] = StrColorConverter(day.BgColor);
-                                    scheduleDao.UpdateScheduleTemplate(fileds, condition);
-                                }
-                                else
-                                {
-                                    ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
-                                    scheduleTemplate.PatientId = patientID;
-                                    scheduleTemplate.Date = day.dateTime.ToString("yyyy-MM-dd");
-                                    scheduleTemplate.AmPmE = day.Content;
-                                    scheduleTemplate.Method = StrColorConverter(day.BgColor);
-                                    int ret = -1;
-                                    scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
-                                }
-
-
-                            }
-                            else if (day.Content == "")
-                            {
-                                Dictionary<string, object> condition1 = new Dictionary<string, object>();
-                                condition1["PatientId"] = patientID.ToString();
-                                condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
-                                var list = scheduleDao.SelectScheduleTemplate(condition1);
-                                foreach (var l in list)
-                                {
-                                    scheduleDao.DeleteScheduleTemplate((int)l.Id);
+                                    Dictionary<string, object> condition1 = new Dictionary<string, object>();
+                                    condition1["PatientId"] = patientID.ToString();
+                                    condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                    var list = scheduleDao.SelectScheduleTemplate(condition1);
+                                    foreach (var l in list)
+                                    {
+                                        scheduleDao.DeleteScheduleTemplate((int)l.Id);
+                                    }
                                 }
                             }
                         }
-                        
                     }
                 }
             }
