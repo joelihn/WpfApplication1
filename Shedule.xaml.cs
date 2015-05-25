@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
+using System.Net.NetworkInformation;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls.Primitives;
 using WpfApplication1.CustomUI;
@@ -511,6 +512,7 @@ namespace WpfApplication1
             
             ListboxItemStatusesList[index] = listboxItem;
             ListBox1.Items.Refresh();
+            RefreshStatistics();
 
         }
 
@@ -748,6 +750,8 @@ namespace WpfApplication1
             {
                 MainWindow.Log.WriteInfoConsole("In Shedule.xaml.cs:Init_OnLoaded InfectType ComboxItem exception messsage: " + ex.Message);
             }
+
+            RefreshStatistics();
         }
 
 
@@ -928,6 +932,7 @@ namespace WpfApplication1
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             UpdatePatientSchedule();
+            //RefreshStatistics();
         }
         private void Button_Click1(object sender, RoutedEventArgs e)
         {
@@ -1027,6 +1032,122 @@ namespace WpfApplication1
             catch (Exception ex)
             {
                 MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
+            }
+        }
+
+        private void RefreshStatistics()
+        {
+            int dayofweek = (int)DateTime.Now.DayOfWeek;
+            //dayofweek = 0;
+            AmPanel.Children.Clear();
+            Label lbam = new Label();
+            lbam.HorizontalContentAlignment = HorizontalAlignment.Center;
+            lbam.VerticalContentAlignment = VerticalAlignment.Center;
+            lbam.Width = 40;
+            lbam.Content = "AM";
+            AmPanel.Children.Add(lbam);
+            Dictionary<string, int> AmDictionary = Statistics("AM", dayofweek);
+            foreach (var v in AmDictionary)
+            {
+                Rectangle rect = new Rectangle();
+                rect.Width = rect.Height = 28;
+                rect.Fill = (SolidColorBrush)new BrushConverter().ConvertFromString(v.Key);
+                rect.HorizontalAlignment = HorizontalAlignment.Left;
+                AmPanel.Children.Add(rect);
+
+                Label label = new Label();
+                label.HorizontalContentAlignment = HorizontalAlignment.Center;
+                label.VerticalContentAlignment = VerticalAlignment.Center;
+                label.Width = 40;
+                label.Content = v.Value;
+                AmPanel.Children.Add(label);
+            }
+
+
+            PmPanel.Children.Clear();
+            Label lbpm = new Label();
+            lbpm.HorizontalContentAlignment = HorizontalAlignment.Center;
+            lbpm.VerticalContentAlignment = VerticalAlignment.Center;
+            lbpm.Width = 40;
+            lbpm.Content = "PM";
+            PmPanel.Children.Add(lbpm);
+            Dictionary<string, int> PmDictionary = Statistics("PM", dayofweek);
+            foreach (var v in PmDictionary)
+            {
+                Rectangle rect = new Rectangle();
+                rect.Width = rect.Height = 28;
+                rect.Fill = (SolidColorBrush)new BrushConverter().ConvertFromString(v.Key);
+                rect.HorizontalAlignment = HorizontalAlignment.Left;
+                PmPanel.Children.Add(rect);
+
+                Label label = new Label();
+                label.HorizontalContentAlignment = HorizontalAlignment.Center;
+                label.VerticalContentAlignment = VerticalAlignment.Center;
+                label.Width = 40;
+                label.Content = v.Value;
+                PmPanel.Children.Add(label);
+            }
+
+            EPanel.Children.Clear();
+            Label lbe = new Label();
+            lbe.HorizontalContentAlignment = HorizontalAlignment.Center;
+            lbe.VerticalContentAlignment = VerticalAlignment.Center;
+            lbe.Width = 40;
+            lbe.Content = "E";
+            EPanel.Children.Add(lbe);
+            Dictionary<string, int> EDictionary = Statistics("E", dayofweek);
+            foreach (var v in EDictionary)
+            {
+                Rectangle rect = new Rectangle();
+                rect.Width = rect.Height = 28;
+                rect.Fill = (SolidColorBrush)new BrushConverter().ConvertFromString(v.Key);
+                rect.HorizontalAlignment = HorizontalAlignment.Left;
+                EPanel.Children.Add(rect);
+
+                Label label = new Label();
+                label.HorizontalContentAlignment = HorizontalAlignment.Center;
+                label.VerticalContentAlignment = VerticalAlignment.Center;
+                label.Width = 40;
+                label.Content = v.Value;
+                EPanel.Children.Add(label);
+            }
+            
+
+        }
+
+        private Dictionary<string, int> Statistics(string condition, int dayofweek )
+        {
+            try
+            {
+                
+                //Dictionary<Brush, int> dictionary = new Dictionary<Brush, int>();
+                Dictionary<string, int> dictionary = new Dictionary<string, int>();
+                foreach (var v in ListboxItemStatusesList)
+                {
+                    //PatientSchedule schedule = GetPatientSchedule(v.PatientID);
+                    string ampme = v.CurrentWeek.days[dayofweek].Content;
+                    //Brush bgBrush = v.CurrentWeek.days[dayofweek].BgColor;
+                    string bgBrush = v.CurrentWeek.days[dayofweek].BgColor.ToString();
+
+                    if (ampme == condition)
+                    {
+                        if (dictionary.ContainsKey(bgBrush) == false)
+                        {
+                            dictionary.Add(bgBrush, 1);
+                        }
+                        else
+                            dictionary[bgBrush]++;
+                    }
+                    //v.CurrentWeek.days[dayofweek].BgColor = Brushes.LightGray;
+                    //v.NextWeek.days[dayofweek].Content = "";
+                    //v.NextWeek.days[dayofweek].BgColor = Brushes.LightGray;
+                }
+                return dictionary;
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Statistics.xaml.cs:Statistics exception messsage: " + ex.Message);
+                return null;
             }
         }
     }

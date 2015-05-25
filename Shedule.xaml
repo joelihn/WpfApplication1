@@ -345,7 +345,21 @@
             <Button Content="后一周" Grid.Column="8" Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="Button_Click2" />
 
         </Grid>
-        <ListBox  x:Name="ListBox1" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="600" 
+        <ListBox  x:Name="ListBox1" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="720" 
                      ItemContainerStyle="{DynamicResource ListBoxItemStyle2}" ItemsSource="{Binding}" SelectionChanged="PatientlistView_SelectionChanged" />
+
+        <Grid Margin="0,0,0,0" Style="{StaticResource GridBackGround1}">
+            <StackPanel>
+                <StackPanel Name="AmPanel" Orientation="Horizontal" Height="50">
+                    <Label Width="40" Content="AM" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+                </StackPanel>
+                <StackPanel Name="PmPanel" Orientation="Horizontal" Height="50">
+                    <Label Width="40" Content="PM" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+                </StackPanel>
+                <StackPanel Name="EPanel" Orientation="Horizontal" Height="50">
+                    <Label Width="40" Content="E" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
     </StackPanel>
 </UserControl>
