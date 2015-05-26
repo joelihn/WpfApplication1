@@ -360,11 +360,39 @@
             <Button Content="后一周" Grid.Column="8" Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="Button_Click2" />
 
         </Grid>
-        <ListBox  x:Name="ListBox1" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="720" 
+        <ListBox  x:Name="ListBox1" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="700" 
                      ItemContainerStyle="{DynamicResource ListBoxItemStyle2}" ItemsSource="{Binding}" SelectionChanged="PatientlistView_SelectionChanged" />
 
-        <Grid Margin="0,0,0,0" Style="{StaticResource GridBackGround1}">
-            <StackPanel>
+        <Grid Name="StatisticsGrid" Margin="0,0,0,0" Style="{StaticResource GridBackGround1}" Height="170">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+        
+            <!--<StackPanel Grid.RowSpan="3" Grid.ColumnSpan="2">
                 <StackPanel Name="AmPanel" Orientation="Horizontal" Height="50">
                     <Label Width="40" Content="AM" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
                 </StackPanel>
@@ -374,7 +402,9 @@
                 <StackPanel Name="EPanel" Orientation="Horizontal" Height="50">
                     <Label Width="40" Content="E" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
                 </StackPanel>
-            </StackPanel>
+            </StackPanel>-->
+            
+
         </Grid>
     </StackPanel>
 </UserControl>

@@ -179,6 +179,7 @@ namespace WpfApplication1
                 }
             }
             ListBox1.Items.Refresh();
+            RefreshStatistics();
         }
 
         private void TimeRadioButton1_Click(object sender, RoutedEventArgs e)
@@ -488,6 +489,18 @@ namespace WpfApplication1
                     }
                     
                 }
+                if (time == "AM")
+                {
+                    if (week == 0)
+                    {
+                        listboxItem.CurrentWeek.days[day].BgColor = new SolidColorBrush(CureTypeDictionary.Values.First());
+                    }
+                    else
+                    {
+                        listboxItem.NextWeek.days[day].BgColor = new SolidColorBrush(CureTypeDictionary.Values.First());
+                    }
+
+                }
             }
             else
             {
@@ -721,7 +734,12 @@ namespace WpfApplication1
                                 }
                             }
                         }
-                        
+                        if (CheckOrders())
+                            status.Checks = "正常";
+                        else
+                        {
+                            status.Checks = "异常";
+                        }
                         ListboxItemStatusesList.Add(status);
                         //PatientList.Add(patientInfo);
                     }
@@ -951,6 +969,7 @@ namespace WpfApplication1
             }
             RefreshListbox();
             PreWeekOnLabel();
+            RefreshStatistics();
         }
 
         private void PreWeekOnLabel()
@@ -980,6 +999,7 @@ namespace WpfApplication1
 
             RefreshListbox();
             NextWeekOnLabel();
+            RefreshStatistics();
         }
 
         private void NextWeekOnLabel()
@@ -1085,7 +1105,7 @@ namespace WpfApplication1
             }
         }
 
-        private void RefreshStatistics()
+        /*private void RefreshStatistics()
         {
             int dayofweek = (int)DateTime.Now.DayOfWeek;
             //dayofweek = 0;
@@ -1163,8 +1183,121 @@ namespace WpfApplication1
             }
             
 
-        }
+        }*/
 
+        private void RefreshStatistics()
+        {
+            StatisticsGrid.Children.Clear();
+
+            Label label0 = new Label();
+            label0.HorizontalContentAlignment = HorizontalAlignment.Center;
+            label0.VerticalContentAlignment = VerticalAlignment.Center;
+            //label0.Height = label0.Width = 15;
+            label0.Content = "AM";
+            label0.HorizontalAlignment = HorizontalAlignment.Center;
+            label0.VerticalAlignment = VerticalAlignment.Center;
+
+            Label label1 = new Label();
+            label1.HorizontalContentAlignment = HorizontalAlignment.Center;
+            label1.VerticalContentAlignment = VerticalAlignment.Center;
+            //label1.Height = label1.Width = 15;
+            label1.Content = "PM";
+            label1.HorizontalAlignment = HorizontalAlignment.Center;
+            label1.VerticalAlignment = VerticalAlignment.Center;
+
+            Label label2 = new Label();
+            label2.HorizontalContentAlignment = HorizontalAlignment.Center;
+            label2.VerticalContentAlignment = VerticalAlignment.Center;
+            //label2.Height = label2.Width = 15;
+            label2.Content = "E";
+            label2.HorizontalAlignment = HorizontalAlignment.Center;
+            label2.VerticalAlignment = VerticalAlignment.Center;
+
+            Border border = new Border();
+            border.BorderBrush = Brushes.DodgerBlue;
+            border.BorderThickness = new Thickness(0, 1, 0, 1);
+            border.HorizontalAlignment = HorizontalAlignment.Stretch;
+            border.VerticalAlignment = VerticalAlignment.Stretch;
+
+            StatisticsGrid.Children.Add(label0);
+            StatisticsGrid.Children.Add(label1);
+            StatisticsGrid.Children.Add(label2);
+            StatisticsGrid.Children.Add(border);
+
+            label0.SetValue(Grid.RowProperty, 0);
+            label0.SetValue(Grid.ColumnProperty, 0);
+            label0.SetValue(Grid.ColumnSpanProperty, 2);
+
+            label1.SetValue(Grid.RowProperty, 1);
+            label1.SetValue(Grid.ColumnProperty, 0);
+            label1.SetValue(Grid.ColumnSpanProperty, 2);
+
+            label2.SetValue(Grid.RowProperty, 2);
+            label2.SetValue(Grid.ColumnProperty, 0);
+            label2.SetValue(Grid.ColumnSpanProperty, 2);
+
+            border.SetValue(Grid.RowProperty, 1);
+            border.SetValue(Grid.ColumnProperty, 0);
+            border.SetValue(Grid.ColumnSpanProperty, 20);
+
+            int dayofweek = (int)DateTime.Now.DayOfWeek;
+            string ampme = "";
+            for(int o = 0; o< 3; o++)
+            {
+                if (o == 0)
+                    ampme = "AM";
+                else if (o == 1)
+                    ampme = "PM";
+                else
+                    ampme = "E";
+                for (int m = 0; m < 2; m++)
+                {
+                    for (int n = 0; n < 7; n++)
+                    {
+                        Dictionary<string, int> dictionary = Statistics(ampme, n, m);
+                        StackPanel panel = new StackPanel();
+                        foreach (var v in dictionary)
+                        {
+                            StackPanel panel1 = new StackPanel();
+                            panel1.Orientation = Orientation.Horizontal;
+                            
+                            /*Rectangle rect = new Rectangle();
+                            rect.Width = rect.Height = 15;
+                            rect.Fill = (SolidColorBrush)new BrushConverter().ConvertFromString(v.Key);
+                            rect.HorizontalAlignment = HorizontalAlignment.Left;
+                            Label label = new Label();
+                            label.HorizontalContentAlignment = HorizontalAlignment.Center;
+                            label.VerticalContentAlignment = VerticalAlignment.Center;
+                            label.Content = v.Value;
+
+                            panel1.Children.Add(rect);
+                            panel1.Children.Add(label);*/
+
+                            Brush brush = (SolidColorBrush)new BrushConverter().ConvertFromString(v.Key);
+                            string mathod = StrColorConverter(brush);
+                            Label label = new Label();
+                            label.HorizontalContentAlignment = HorizontalAlignment.Center;
+                            label.VerticalContentAlignment = VerticalAlignment.Center;
+                            label.Content = mathod + "/" + v.Value;
+
+                            //panel1.Children.Add(rect);
+                            panel1.Children.Add(label);
+
+                            panel.Children.Add(panel1);
+
+                        }
+
+                        StatisticsGrid.Children.Add(panel);
+
+                        panel.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        panel.VerticalAlignment = VerticalAlignment.Stretch;
+                        panel.SetValue(Grid.RowProperty, o);
+                        panel.SetValue(Grid.ColumnProperty, n*2 + 2 + m);
+
+                    }
+                }
+            }
+        }
         private Dictionary<string, int> Statistics(string condition, int dayofweek )
         {
             try
@@ -1191,6 +1324,46 @@ namespace WpfApplication1
                     //v.CurrentWeek.days[dayofweek].BgColor = Brushes.LightGray;
                     //v.NextWeek.days[dayofweek].Content = "";
                     //v.NextWeek.days[dayofweek].BgColor = Brushes.LightGray;
+                }
+                return dictionary;
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Statistics.xaml.cs:Statistics exception messsage: " + ex.Message);
+                return null;
+            }
+        }
+
+        private Dictionary<string, int> Statistics(string condition, int dayofweek, int preOrNext)
+        {
+            try
+            {
+                Dictionary<string, int> dictionary = new Dictionary<string, int>();
+                foreach (var v in ListboxItemStatusesList)
+                {
+                    string ampme = "";
+                    string bgBrush = "";
+                    if (preOrNext == 0)
+                    {
+                        ampme = v.CurrentWeek.days[dayofweek].Content;
+                        bgBrush = v.CurrentWeek.days[dayofweek].BgColor.ToString();
+                    }
+                    else
+                    {
+                        ampme = v.NextWeek.days[dayofweek].Content;
+                        bgBrush = v.NextWeek.days[dayofweek].BgColor.ToString();
+                    }
+
+                    if (ampme == condition)
+                    {
+                        if (dictionary.ContainsKey(bgBrush) == false)
+                        {
+                            dictionary.Add(bgBrush, 1);
+                        }
+                        else
+                            dictionary[bgBrush]++;
+                    }
+
                 }
                 return dictionary;
             }
