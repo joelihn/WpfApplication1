@@ -332,7 +332,6 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button Content="前一周" Grid.Column="0" Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="Button_Click1" />
             <ToggleButton x:Name="BtnSun" Grid.Column="7"  Style="{DynamicResource ToggleButtonStyle}" Tag="周日" Click="BtnDay_OnClick">

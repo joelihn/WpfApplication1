@@ -46,7 +46,7 @@ namespace WpfApplication1
         public Shedule(MainWindow mainWindow)
         {
             InitializeComponent();
-
+            
             //string color = (string)System.Windows.Application.Current.Resources["ysq"];
 
             InitDay();
@@ -174,7 +174,12 @@ namespace WpfApplication1
                             }
                         }
                     }
-
+                    if (CheckOrders())
+                        status.Checks = "正常";
+                    else
+                    {
+                        status.Checks = "异常";
+                    }
                     ListboxItemStatusesList.Add(status);
                 }
             }
@@ -665,6 +670,9 @@ namespace WpfApplication1
         {
             //GetPatientSchedule(0);
             LoadTratementConifg();
+
+            //CopySchedule();
+            //return;
             try
             {
                 //PatientList.Clear();
@@ -1184,6 +1192,52 @@ namespace WpfApplication1
             
 
         }*/
+
+        private void CopySchedule( )
+        {
+            int dayOfWeek = (int)DateTime.Now.DayOfWeek;
+
+            //if (dayOfWeek != 0) return;
+
+            DateTime dtFrom = DateTime.Now.AddDays(-14);
+            DateTime dtTo = DateTime.Now.AddDays(-7);
+
+            using (var patientDao = new PatientDao())
+            {
+                var condition = new Dictionary<string, object>();
+                List<Patient> patientslist = patientDao.SelectPatient(condition);
+                if (patientslist.Count == 0) return;
+                ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao();
+                foreach (var patient in patientslist)
+                {
+                    PatientSchedule schedule = GetPatientSchedule(patient.Id);
+                    //List<Hemodialysy> newlist = new List<Hemodialysy>();
+                    foreach (var v in schedule.Hemodialysis)
+                    {
+                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom) >= 0 && DateTime.Compare(v.dialysisTime.dateTime, dtTo) <= 0)
+                        {
+                            Hemodialysy newHemodialysy = v;
+                            newHemodialysy.dialysisTime.dateTime = newHemodialysy.dialysisTime.dateTime.AddDays(14);
+                            //newlist.Add(newHemodialysy);
+                            //schedule.Hemodialysis.Add(newHemodialysy);
+                            ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
+                            scheduleTemplate.PatientId = patient.Id;
+                            scheduleTemplate.Date = v.dialysisTime.dateTime.AddDays(14).ToString("yyyy-MM-dd");
+                            scheduleTemplate.AmPmE = v.dialysisTime.AmPmE;
+                            scheduleTemplate.Method = v.hemodialysisItem;
+                            int ret = -1;
+                            scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
+
+                        }
+                    }
+                }
+            }
+
+            
+
+
+
+        }
 
         private void RefreshStatistics()
         {
