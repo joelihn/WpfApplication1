@@ -654,8 +654,9 @@ namespace WpfApplication1
         {
             int index = ListBox1.SelectedIndex;
             if (index == -1) return false;
-            ListboxItemStatus patient = ListboxItemStatusesList[index];
+            
             if (ListboxItemStatusesList.Count == 0) return false;
+            ListboxItemStatus patient = ListboxItemStatusesList[index];
             bool ret = true;
             if (TreatOrderList.Count == 0) return false;
             foreach (var treatOrder in TreatOrderList)
