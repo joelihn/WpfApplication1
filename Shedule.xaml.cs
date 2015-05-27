@@ -463,13 +463,13 @@ namespace WpfApplication1
 
             if (week == 0)
             {
-                MessageBox.Show(listboxItem.CurrentWeek.days[day].dateTime.ToString());
+                //MessageBox.Show(listboxItem.CurrentWeek.days[day].dateTime.ToString());
                 time = listboxItem.CurrentWeek.days[day].Content;
                 type = listboxItem.CurrentWeek.days[day].BgColor;
             }
             else
             {
-                MessageBox.Show(listboxItem.NextWeek.days[day].dateTime.ToString());
+                //MessageBox.Show(listboxItem.NextWeek.days[day].dateTime.ToString());
                 time = listboxItem.NextWeek.days[day].Content;
                 type = listboxItem.NextWeek.days[day].BgColor;
             }
@@ -1033,19 +1033,19 @@ namespace WpfApplication1
         private void InitWeekWithDate()
         {
             dtlist.Clear();
-            int weeknow = (int)DateTime.Now.DayOfWeek - 1;
+            int weeknow = (int)DateTime.Now.DayOfWeek;
             for (int n = 0; n < 7; n++)
             {
                 dtlist.Add(DateTime.Now.AddDays(-weeknow + n));
             }
 
-            lable0.Content = dtlist[0].ToString("MM-dd");
-            lable1.Content = dtlist[1].ToString("MM-dd");
-            lable2.Content = dtlist[2].ToString("MM-dd");
-            lable3.Content = dtlist[3].ToString("MM-dd");
-            lable4.Content = dtlist[4].ToString("MM-dd");
-            lable5.Content = dtlist[5].ToString("MM-dd");
-            lable6.Content = dtlist[6].ToString("MM-dd");
+            lable0.Content = dtlist[1].ToString("MM-dd");
+            lable1.Content = dtlist[2].ToString("MM-dd");
+            lable2.Content = dtlist[3].ToString("MM-dd");
+            lable3.Content = dtlist[4].ToString("MM-dd");
+            lable4.Content = dtlist[5].ToString("MM-dd");
+            lable5.Content = dtlist[6].ToString("MM-dd");
+            lable6.Content = dtlist[0].ToString("MM-dd");
             //for (int n = 0; n < 7; n++)
             //{
             //    CurrentWeek.days[n].dateTime = DateTime.Now.AddDays(-weeknow + n);
