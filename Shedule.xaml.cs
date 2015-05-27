@@ -335,8 +335,9 @@ namespace WpfApplication1
             if ( index == -1 ) 
                 return;
 
-            ChangeButtonStauts(index, tag, e.ChangedButton);
-            UpdatePatientSchedule();
+            bool ret = ChangeButtonStauts(index, tag, e.ChangedButton);
+            if(ret)
+                UpdatePatientSchedule();
         }
 
         private Point GetWeekAndDay( string tag )
@@ -451,7 +452,7 @@ namespace WpfApplication1
 
             return ret;
         }
-        private void ChangeButtonStauts(int index, string tag, MouseButton mouseButton )
+        private bool ChangeButtonStauts(int index, string tag, MouseButton mouseButton )
         {
             Point column = GetWeekAndDay(tag);
             int week = (int)column.X;
@@ -463,12 +464,20 @@ namespace WpfApplication1
 
             if (week == 0)
             {
+                if (DateTime.Compare(listboxItem.CurrentWeek.days[day].dateTime, DateTime.Now) < 0)
+                {
+                    return false;
+                }
                 //MessageBox.Show(listboxItem.CurrentWeek.days[day].dateTime.ToString());
                 time = listboxItem.CurrentWeek.days[day].Content;
                 type = listboxItem.CurrentWeek.days[day].BgColor;
             }
             else
             {
+                if (DateTime.Compare(listboxItem.NextWeek.days[day].dateTime, DateTime.Now) < 0)
+                {
+                    return false;
+                }
                 //MessageBox.Show(listboxItem.NextWeek.days[day].dateTime.ToString());
                 time = listboxItem.NextWeek.days[day].Content;
                 type = listboxItem.NextWeek.days[day].BgColor;
@@ -514,7 +523,7 @@ namespace WpfApplication1
             {
                 type = GetNextBrush(type);
                 if (time == "")
-                    return;
+                    return false;
                 if (week == 0)
                 {
                     listboxItem.CurrentWeek.days[day].BgColor = type;
@@ -535,7 +544,7 @@ namespace WpfApplication1
             ListboxItemStatusesList[index] = listboxItem;
             ListBox1.Items.Refresh();
             RefreshStatistics();
-
+            return true;
         }
 
 
@@ -567,6 +576,7 @@ namespace WpfApplication1
         public void SetBinding()
         {
             ListBox1.ItemsSource = ListboxItemStatusesList;
+            CopySchedule();
             LoadTratementConifg();
             InitWeekWithDate();
             //ListboxItemStatus status = new ListboxItemStatus();
@@ -1201,7 +1211,7 @@ namespace WpfApplication1
         {
             int dayOfWeek = (int)DateTime.Now.DayOfWeek;
 
-            //if (dayOfWeek != 0) return;
+            if (dayOfWeek != 1) return;
 
             DateTime dtFrom = DateTime.Now.AddDays(-14);
             DateTime dtTo = DateTime.Now.AddDays(-7);

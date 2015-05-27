@@ -173,7 +173,7 @@
                         <ListView  Height="190" Margin="20,0,20,60" Name="MedicalOrderlistView" VerticalAlignment="Bottom"  SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}" MouseDoubleClick="PatientlistView_MouseDoubleClick" GridViewColumnHeader.Click="GridViewColumnHeader_Click" IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}">
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
-                                    <GridViewColumn Width="20">
+                                    <!--<GridViewColumn Width="20">
                                         <Grid Tag="0">
                                             <StackPanel Orientation="Horizontal">
 
@@ -186,8 +186,8 @@
                                                 <TextBlock Text="{Binding Id}" Width="20" Height="20" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="150" >
+                                    </GridViewColumn>-->
+                                    <GridViewColumn Width="242" >
                                         <Grid Tag="1">
                                             <StackPanel Orientation="Horizontal">
 
@@ -198,11 +198,12 @@
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <!--<ComboBox ItemsSource="{Binding TreatMentList}"  DisplayMemberPath="TreatMethod" Text="{Binding TreatMethod}" Width="140" Height="20" />-->
-                                                <ComboBox Initialized="CbTreatMathod_Initialized" SelectedValue="{Binding TreatMethod}" Width="140" Height="20" />
+                                                <ComboBox Initialized="CbTreatMathod_Initialized" SelectedValue="{Binding TreatMethod}" Width="242" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Width="150">
+                                    
+                                    <GridViewColumn Width="242">
 
                                         <Grid Tag="2">
                                             <StackPanel Orientation="Horizontal">
@@ -213,11 +214,11 @@
                                         </Grid>
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <ComboBox Initialized="CbOrderPara_Initialized" SelectedValue="{Binding Type}" Width="140" Height="20" />
+                                                <ComboBox Initialized="CbOrderPara_Initialized" SelectedValue="{Binding Type}" Width="242" Height="20" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Width="150">
+                                    <GridViewColumn Width="242">
                                         <Grid Tag="3">
                                             <StackPanel Orientation="Horizontal">
 
@@ -227,17 +228,17 @@
                                         </Grid>
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBox Text="{Binding TreatTimes}" Width="140" Height="25"></TextBox>
+                                                <TextBox Text="{Binding TreatTimes}" Width="242" Height="25"></TextBox>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="{DynamicResource  descriptionText}" Width="200" >
+                                    <!--<GridViewColumn Header="{DynamicResource  descriptionText}" Width="200" >
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBox Text="{Binding TreatTimes}" Width="140" Height="25"></TextBox>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
+                                    </GridViewColumn>-->
                                 </GridView>
                             </ListView.View>
                         </ListView>
