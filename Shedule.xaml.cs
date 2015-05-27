@@ -222,18 +222,21 @@ namespace WpfApplication1
                     BtnSun.IsChecked = true;
                     break;
                 case 1:
-                    BtnTue.IsChecked = true;
+                    BtnMon.IsChecked = true;
                     break;
                 case 2:
-                    BtnWed.IsChecked = true;
+                    BtnTue.IsChecked = true;
                     break;
                 case 3:
-                    BtnThe.IsChecked = true;
+                    BtnWed.IsChecked = true;
                     break;
                 case 4:
-                    BtnFri.IsChecked = true;
+                    BtnThe.IsChecked = true;
                     break;
                 case 5:
+                    BtnFri.IsChecked = true;
+                    break;
+                case 6:
                     BtnSta.IsChecked = true;
                     break;
             }
@@ -460,13 +463,13 @@ namespace WpfApplication1
 
             if (week == 0)
             {
-                //MessageBox.Show(listboxItem.CurrentWeek.days[day].dateTime.ToString());
+                MessageBox.Show(listboxItem.CurrentWeek.days[day].dateTime.ToString());
                 time = listboxItem.CurrentWeek.days[day].Content;
                 type = listboxItem.CurrentWeek.days[day].BgColor;
             }
             else
             {
-                //MessageBox.Show(listboxItem.NextWeek.days[day].dateTime.ToString());
+                MessageBox.Show(listboxItem.NextWeek.days[day].dateTime.ToString());
                 time = listboxItem.NextWeek.days[day].Content;
                 type = listboxItem.NextWeek.days[day].BgColor;
             }
@@ -951,8 +954,9 @@ namespace WpfApplication1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            UpdatePatientSchedule();
+            //UpdatePatientSchedule();
             //RefreshStatistics();
+            CopySchedule();
         }
         private void Button_Click1(object sender, RoutedEventArgs e)
         {
@@ -1029,7 +1033,7 @@ namespace WpfApplication1
         private void InitWeekWithDate()
         {
             dtlist.Clear();
-            int weeknow = (int)DateTime.Now.DayOfWeek;
+            int weeknow = (int)DateTime.Now.DayOfWeek - 1;
             for (int n = 0; n < 7; n++)
             {
                 dtlist.Add(DateTime.Now.AddDays(-weeknow + n));
@@ -1216,8 +1220,9 @@ namespace WpfApplication1
                     {
                         if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom) >= 0 && DateTime.Compare(v.dialysisTime.dateTime, dtTo) <= 0)
                         {
-                            Hemodialysy newHemodialysy = v;
-                            newHemodialysy.dialysisTime.dateTime = newHemodialysy.dialysisTime.dateTime.AddDays(14);
+                            //Hemodialysy newHemodialysy = new Hemodialysy();
+                            //newHemodialysy = v;
+                            //newHemodialysy.dialysisTime.dateTime = v.dialysisTime.dateTime.AddDays(14);
                             //newlist.Add(newHemodialysy);
                             //schedule.Hemodialysis.Add(newHemodialysy);
                             ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
@@ -1466,7 +1471,7 @@ namespace WpfApplication1
 
         private void InitWeekWithDate()
         {
-            int weeknow = (int)DateTime.Now.DayOfWeek;
+            int weeknow = (int)DateTime.Now.DayOfWeek-1;
             for (int n = 0; n < 7; n++)
             {
                 CurrentWeek.days[n].dateTime = DateTime.Now.AddDays(-weeknow + n);

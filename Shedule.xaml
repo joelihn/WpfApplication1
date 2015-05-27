@@ -54,7 +54,6 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
-                                    <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <Border BorderThickness="0,0,1,0" Height="Auto" Width="Auto" Grid.ColumnSpan="1" BorderBrush="{TemplateBinding BorderBrush}">
                                     <Label HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Content="{Binding PatientName}"/>
@@ -181,10 +180,14 @@
                                     </Grid>
                                 </Border>
                                 <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0,0,1,0" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Grid.Column="8">
-                                    <Label Content="{Binding Checks}" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                </Border>
-                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Grid.Column="9">
-                                    <Label Content="Bed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                    <Grid HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Label Content="{Binding Checks}" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                        <Label Content="Bed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.ColumnSpan="2" Grid.Column="1"/>
+                                    </Grid>
                                 </Border>
                             </Grid>
                         </Border>
@@ -216,15 +219,6 @@
             <Style.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
             </Style.Resources>
-        </Style>
-        <Style x:Key="ButtonFocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle StrokeDashArray="1 2" StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" Margin="2"/>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
         </Style>
         <LinearGradientBrush x:Key="ButtonNormalBackground" EndPoint="0,1" StartPoint="0,0">
             <GradientStop Color="#F3F3F3" Offset="0"/>
@@ -320,7 +314,7 @@
             <RadioButton Content="{DynamicResource In3DaysText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" Margin="0,60,138,0" x:Name="TimeRadioButton3" VerticalAlignment="Top" GroupName="TimeSelecet"  IsChecked="True" Click="TimeRadioButton1_Click" HorizontalAlignment="Right" TabIndex="10007" />
 
         </Grid>
-        <Button Height="30" Click="Button_Click" Visibility="Collapsed"/>
+        <Button Height="30" Click="Button_Click" Visibility="Visible"/>
         <Grid x:Name ="GridDay" Height="70" Style="{StaticResource GridBackGround1}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -359,13 +353,11 @@
             <Button Content="后一周" Grid.Column="8" Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="Button_Click2" />
 
         </Grid>
-        <ListBox  x:Name="ListBox1" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="700" 
+        <ListBox Background="{DynamicResource BacGround1}" x:Name="ListBox1" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="650" 
                      ItemContainerStyle="{DynamicResource ListBoxItemStyle2}" ItemsSource="{Binding}" SelectionChanged="PatientlistView_SelectionChanged" />
 
-        <Grid Name="StatisticsGrid" Margin="0,0,0,0" Style="{StaticResource GridBackGround1}" Height="170">
+        <Grid Name="StatisticsGrid" Margin="0,0,0,0" Style="{StaticResource GridBackGround1}" Height="230">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
