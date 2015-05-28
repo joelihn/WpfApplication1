@@ -181,7 +181,8 @@ namespace WpfApplication1
                             }
                         }
                     }
-                    if (CheckOrders())
+
+                    if (CheckOrders(fmriPatient.Id))
                         status.Checks = "正常";
                     else
                     {
@@ -249,6 +250,54 @@ namespace WpfApplication1
             }
         }
 
+        private void InitTreatOrderList( long _patientID )
+        {
+            TreatOrderList.Clear();
+            try
+            {
+
+                using (var patientDao = new PatientDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["ID"] = _patientID;
+                    List<Patient> list = patientDao.SelectPatient(condition);
+                    if (list.Count > 0)
+                    {
+                        string orders = list[0].Orders;
+                        string[] order = orders.Split('#');
+                        foreach (var s in order)
+                        {
+                            if (s != "")
+                            {
+                                string[] details = s.Split('/');
+                                if (details.Count() == 3)
+                                {
+                                    var treat = new TreatOrder();
+                                    treat.TreatMethod = details[0];
+
+                                    var medicalOrderParaDao = new MedicalOrderParaDao();
+                                    var condition1 = new Dictionary<string, object>();
+                                    condition1["ID"] = details[1];
+                                    var list1 = medicalOrderParaDao.SelectInterval(condition1);
+
+
+                                    //treat.Type = details[1];
+                                    treat.Type = list1[0].Type;
+                                    treat.TreatTimes = int.Parse(details[2]);
+                                    TreatOrderList.Add(treat);
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteErrorLog("Init.xaml.cs-CheckPatientPatientIdValidity", ex);
+            }
+        }
 
         private void PatientlistView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -351,8 +400,19 @@ namespace WpfApplication1
                 return;
 
             bool ret = ChangeButtonStauts(index, tag, e.ChangedButton);
-            if(ret)
+            if (ret)
+            {
                 UpdatePatientSchedule();
+                if (CheckOrders())
+                    ListboxItemStatusesList[index].Checks = "正常";
+                else
+                {
+                    ListboxItemStatusesList[index].Checks = "异常";
+                }
+
+                ListBox1.Items.Refresh();
+            }
+                
         }
 
         private Point GetWeekAndDay( string tag )
@@ -548,17 +608,15 @@ namespace WpfApplication1
                     listboxItem.NextWeek.days[day].BgColor = type;
                 }
             }
-            if (CheckOrders())
-                listboxItem.Checks = "正常";
-            else
-            {
-                listboxItem.Checks = "异常";
-            }
+            
             
             
             ListboxItemStatusesList[index] = listboxItem;
             ListBox1.Items.Refresh();
             RefreshStatistics();
+
+
+            
             return true;
         }
 
@@ -752,6 +810,91 @@ namespace WpfApplication1
             return ret;
 
         }
+
+        private bool CheckOrders(long _PatientID )
+        {
+            PatientSchedule schedule = GetPatientSchedule(_PatientID);
+            bool ret = true;
+            InitTreatOrderList(_PatientID);
+            if (TreatOrderList.Count == 0) return false;
+            foreach (var treatOrder in TreatOrderList)
+            {
+                //string treat = treatOrder.TreatMethod;
+                //int times = treatOrder.TreatTimes;
+                //int count = 0;
+                //for (int n = 0; n < 7; n++)
+                //{
+                //    if (treat == StrColorConverter(patient.CurrentWeek.days[n].BgColor) )
+                //        count++;
+                //    if (treat == StrColorConverter(patient.NextWeek.days[n].BgColor))
+                //        count++;
+
+                //}
+                //if (count != times)
+                //{
+                //    ret = false;
+                //}
+
+                string treat = treatOrder.TreatMethod;
+                string type = treatOrder.Type;
+                int times = treatOrder.TreatTimes;
+                int count = 0;
+                if (type == "周")
+                {
+                    /*for (int n = 0; n < 7; n++)
+                    {
+                        if (treat == StrColorConverter(patient.CurrentWeek.days[n].BgColor))
+                            count++;
+                        if (treat == StrColorConverter(patient.NextWeek.days[n].BgColor))
+                            count++;
+
+                    }*/
+                    /*int month = DateTime.Now.Month;
+                    int year = DateTime.Now.Year;
+                    int day = DateTime.Now.Day;
+                    int dure = DateTime.DaysInMonth(year, month);*/
+                    int dayofweek = (int)DateTime.Now.DayOfWeek - 1;
+                    DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
+                    DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 14);
+                    foreach (var v in schedule.Hemodialysis)
+                    {
+                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 &&
+                            DateTime.Compare(v.dialysisTime.dateTime, dtTo.Date) <= 0)
+                        {
+                            if (treat == v.hemodialysisItem)
+                                count++;
+                        }
+                    }
+                }
+                else if (type == "月")
+                {
+                    int month = DateTime.Now.Month;
+                    int year = DateTime.Now.Year;
+                    int day = DateTime.Now.Day;
+                    int dure = DateTime.DaysInMonth(year, month);
+                    DateTime dtFrom = DateTime.Now.Date.AddDays(-day + 1);
+                    DateTime dtTo = DateTime.Now.Date.AddDays(-day + dure);
+
+
+                    foreach (var v in schedule.Hemodialysis)
+                    {
+                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 &&
+                            DateTime.Compare(v.dialysisTime.dateTime, dtTo.Date) <= 0)
+                        {
+                            if (treat == v.hemodialysisItem)
+                                count++;
+                        }
+                    }
+                }
+                if (count != times)
+                {
+                    ret = false;
+                }
+            }
+            return ret;
+
+        }
+
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             //GetPatientSchedule(0);
@@ -833,7 +976,7 @@ namespace WpfApplication1
                                 }
                             }
                         }
-                        if (CheckOrders())
+                        if (CheckOrders(patientInfo.PatientId))
                             status.Checks = "正常";
                         else
                         {
