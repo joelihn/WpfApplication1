@@ -119,7 +119,7 @@ namespace WpfApplication1
                 if (!SexComboBox.Text.Equals("所有"))
                     condition["GENDER"] = SexComboBox.Text;
 
-
+                condition["TREATSTATUSID"] = 1;
                 List<Patient> list = complexDao.SelectPatient(condition, begin, end);
                 foreach (Patient fmriPatient in list)
                 {
@@ -247,6 +247,56 @@ namespace WpfApplication1
                 case 6:
                     BtnSta.IsChecked = true;
                     break;
+            }
+        }
+
+
+        private List<string> GetUnCopyOrder(long _patientID)
+        {
+            List<string> ret = new List<string>();
+            try
+            {
+
+                using (var patientDao = new PatientDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["ID"] = _patientID;
+                    List<Patient> list = patientDao.SelectPatient(condition);
+                    if (list.Count > 0)
+                    {
+                        string orders = list[0].Orders;
+                        string[] order = orders.Split('#');
+                        foreach (var s in order)
+                        {
+                            if (s != "")
+                            {
+                                string[] details = s.Split('/');
+                                if (details.Count() == 3)
+                                {
+                                    var treat = new TreatOrder();
+                                    treat.TreatMethod = details[0];
+
+                                    var medicalOrderParaDao = new MedicalOrderParaDao();
+                                    var condition1 = new Dictionary<string, object>();
+                                    condition1["ID"] = details[1];
+                                    var list1 = medicalOrderParaDao.SelectInterval(condition1);
+
+
+                                    treat.Type = list1[0].Type;
+                                    if (treat.Type == "月")
+                                        ret.Add(treat.TreatMethod);
+                                }
+                            }
+                        }
+                    }
+                }
+                return ret;
+
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteErrorLog("Init.xaml.cs-CheckPatientPatientIdValidity", ex);
+                return null;
             }
         }
 
@@ -539,7 +589,7 @@ namespace WpfApplication1
 
             if (week == 0)
             {
-                if (DateTime.Compare(listboxItem.CurrentWeek.days[day].dateTime, DateTime.Now) < 0)
+                if (DateTime.Compare(listboxItem.CurrentWeek.days[day].dateTime.Date, DateTime.Now.Date) < 0)
                 {
                     return true;
                 }
@@ -549,7 +599,7 @@ namespace WpfApplication1
             }
             else
             {
-                if (DateTime.Compare(listboxItem.NextWeek.days[day].dateTime, DateTime.Now) < 0)
+                if (DateTime.Compare(listboxItem.NextWeek.days[day].dateTime.Date, DateTime.Now.Date) < 0)
                 {
                     return true;
                 }
@@ -912,6 +962,7 @@ namespace WpfApplication1
 
                     Dictionary<string, object> condition = new Dictionary<string, object>();
                     //var list = patientDao.SelectPatient(condition);
+                    condition["TREATSTATUSID"] = 1;
                     var end = DateTime.Now;
                     var begin = end.AddMonths(-1);
                     List<Patient> list = patientDao.SelectPatient(condition, begin, end);
@@ -1440,6 +1491,7 @@ namespace WpfApplication1
             using (var patientDao = new PatientDao())
             {
                 var condition = new Dictionary<string, object>();
+                condition["TREATSTATUSID"] = 1;
                 List<Patient> patientslist = patientDao.SelectPatient(condition);
                 if (patientslist.Count == 0) return;
                 ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao();
@@ -1447,7 +1499,7 @@ namespace WpfApplication1
                 {
                     //if (patient.Id != 17) continue;
                     PatientSchedule schedule = GetPatientSchedule(patient.Id);
-                    
+                    List<string> uncopyed =  GetUnCopyOrder(patient.Id);
                     //List<Hemodialysy> newlist = new List<Hemodialysy>();
                     foreach (var v in schedule.Hemodialysis)
                     {
@@ -1472,7 +1524,8 @@ namespace WpfApplication1
                                 scheduleTemplate.AmPmE = v.dialysisTime.AmPmE;
                                 scheduleTemplate.Method = v.hemodialysisItem;
                                 int ret = -1;
-                                scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
+                                if (!uncopyed.Contains(scheduleTemplate.Method))
+                                    scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
                             }
 
                         }
