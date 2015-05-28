@@ -33,7 +33,6 @@
         </DataTemplate>
         <wpfApplication1:BackgroundConverter x:Key="bgc" />
         <Style x:Key="ListBoxItemStyle2" TargetType="{x:Type ListBoxItem}">
-
             <Setter Property="Background" Value="{DynamicResource BacGround1}"/>
             <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
             <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
@@ -215,6 +214,10 @@
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Background" Value="LightBlue" />
                 </Trigger>
+                <DataTrigger Binding="{Binding IsMouseOver,RelativeSource={RelativeSource Self}}" 
+                         Value="True">
+                    <Setter Property="IsSelected" Value="True" />
+                </DataTrigger>
             </Style.Triggers>
             <Style.Resources>
                 <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
