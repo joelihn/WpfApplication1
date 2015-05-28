@@ -113,7 +113,17 @@ namespace WpfApplication1
                                     {
                                         var treat = new TreatOrder();
                                         treat.TreatMethod = details[0];
-                                        treat.Type = details[1];
+                                        
+                                        var medicalOrderParaDao = new MedicalOrderParaDao();
+                                        var condition1 = new Dictionary<string, object>();
+                                        condition1["ID"] = details[1];
+                                        var list1 = medicalOrderParaDao.SelectInterval(condition1);
+                                        //string type = list1[0].Type;
+                                        //string count = list1[0].Count.ToString();
+                                        
+                                        
+                                        //treat.Type = details[1];
+                                        treat.Type = list1[0].Name;
                                         treat.TreatTimes = int.Parse(details[2]);
                                         TreatOrderList.Add(treat);
                                     }
@@ -884,7 +894,13 @@ namespace WpfApplication1
             string MedicalOrder = "";
             foreach (var v in TreatOrderList)
             {
-                string str = v.TreatMethod + "/" + v.Type + "/" + v.TreatTimes;
+                var medicalOrderParaDao = new MedicalOrderParaDao();
+                var condition1 = new Dictionary<string, object>();
+                condition1["NAME"] = v.Type;
+                var list1 = medicalOrderParaDao.SelectInterval(condition1);
+                                        
+
+                string str = v.TreatMethod + "/" + list1[0].Id + "/" + v.TreatTimes;
                 MedicalOrder += str;
                 MedicalOrder += "#";
             }
