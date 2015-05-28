@@ -98,7 +98,7 @@ namespace WpfApplication1
                     using (var patientDao = new PatientDao())
                     {
                         var condition = new Dictionary<string, object>();
-                        condition["PATIENTID"] = PatientList[patientID].PatientId;
+                        condition["ID"] = PatientList[patientID].PatientId;
                         List<Patient> list = patientDao.SelectPatient(condition);
                         if (list.Count > 0)
                         {
@@ -897,7 +897,7 @@ namespace WpfApplication1
                     var fields = new Dictionary<string, object>();
                     fields["ORDERS"] = MedicalOrder;
                     var condition = new Dictionary<string, object>();
-                    condition["PatientID"] = patientID;
+                    condition["ID"] = patientID;
                     patientDao.UpdatePatient(fields, condition);
 
                 }
