@@ -1215,8 +1215,8 @@ namespace WpfApplication1
             //return;
             if (dayOfWeek != 1) return;
 
-            DateTime dtFrom = DateTime.Now.AddDays(-14);
-            DateTime dtTo = DateTime.Now.AddDays(-7);
+            DateTime dtFrom = DateTime.Now.AddDays(-7);
+            DateTime dtTo = DateTime.Now.AddDays(-1);
 
             using (var patientDao = new PatientDao())
             {
@@ -1226,24 +1226,35 @@ namespace WpfApplication1
                 ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao();
                 foreach (var patient in patientslist)
                 {
+                    //if (patient.Id != 17) continue;
                     PatientSchedule schedule = GetPatientSchedule(patient.Id);
+                    
                     //List<Hemodialysy> newlist = new List<Hemodialysy>();
                     foreach (var v in schedule.Hemodialysis)
                     {
-                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom) >= 0 && DateTime.Compare(v.dialysisTime.dateTime, dtTo) <= 0)
+                        
+                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 && DateTime.Compare(v.dialysisTime.dateTime, dtTo.Date) <= 0)
                         {
                             //Hemodialysy newHemodialysy = new Hemodialysy();
                             //newHemodialysy = v;
                             //newHemodialysy.dialysisTime.dateTime = v.dialysisTime.dateTime.AddDays(14);
                             //newlist.Add(newHemodialysy);
                             //schedule.Hemodialysis.Add(newHemodialysy);
-                            ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
-                            scheduleTemplate.PatientId = patient.Id;
-                            scheduleTemplate.Date = v.dialysisTime.dateTime.AddDays(14).ToString("yyyy-MM-dd");
-                            scheduleTemplate.AmPmE = v.dialysisTime.AmPmE;
-                            scheduleTemplate.Method = v.hemodialysisItem;
-                            int ret = -1;
-                            scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
+
+                            Dictionary<string, object> condition1 = new Dictionary<string, object>();
+                            condition1["PatientId"] = patient.Id;
+                            condition1["Date"] = v.dialysisTime.dateTime.AddDays(14).ToString("yyyy-MM-dd");
+                            var list = scheduleDao.SelectScheduleTemplate(condition1);
+                            if( list == null || list.Count == 0)
+                            {
+                                ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
+                                scheduleTemplate.PatientId = patient.Id;
+                                scheduleTemplate.Date = v.dialysisTime.dateTime.AddDays(14).ToString("yyyy-MM-dd");
+                                scheduleTemplate.AmPmE = v.dialysisTime.AmPmE;
+                                scheduleTemplate.Method = v.hemodialysisItem;
+                                int ret = -1;
+                                scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
+                            }
 
                         }
                     }
