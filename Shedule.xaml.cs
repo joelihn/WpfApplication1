@@ -153,9 +153,9 @@ namespace WpfApplication1
                     }
 
                     ListboxItemStatus status = new ListboxItemStatus();
-                    status.PatientID = long.Parse(fmriPatient.PatientId);
+                    status.PatientID = (fmriPatient.Id);
                     status.PatientName = fmriPatient.Name;
-                    PatientSchedule schedule = GetPatientSchedule(long.Parse(fmriPatient.PatientId));
+                    PatientSchedule schedule = GetPatientSchedule((fmriPatient.Id));
 
                     //foreach (var day in status.CurrentWeek.days)
                     for (int n = 0; n < 7; n++)
@@ -255,7 +255,7 @@ namespace WpfApplication1
                     using (var patientDao = new PatientDao())
                     {
                         var condition = new Dictionary<string, object>();
-                        condition["PATIENTID"] = patientID;
+                        condition["ID"] = patientID;
                         List<Patient> list = patientDao.SelectPatient(condition);
                         if (list.Count > 0)
                         {
@@ -685,6 +685,7 @@ namespace WpfApplication1
             //GetPatientSchedule(0);
             LoadTratementConifg();
 
+            ListBox1.SelectedIndex = -1;
             //CopySchedule();
             //return;
             try
