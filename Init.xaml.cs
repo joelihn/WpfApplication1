@@ -359,7 +359,13 @@ namespace WpfApplication1
                 end = DateTime.Now;
 
             TimeSpan timeSpan = end - begin;
-
+            if (timeSpan.Days > 90)
+            {
+                var a = new RemindMessageBox1();
+                a.remindText.Text = "查询间隔最多不能超过90天.";
+                a.ShowDialog();
+                return;
+            }
             using (var complexDao = new ComplexDao())
             {
                 var condition = new Dictionary<string, object>();
@@ -1376,11 +1382,14 @@ namespace WpfApplication1
             try
             {
                 PatientList.Clear();
-                using (PatientDao patientDao = new PatientDao())
+                using (ComplexDao patientDao = new ComplexDao())
                 {
 
                     Dictionary<string, object> condition = new Dictionary<string, object>();
-                    var list = patientDao.SelectPatient(condition);
+                    //var list = patientDao.SelectPatient(condition);
+                    var end = DateTime.Now;
+                    var begin = end.AddMonths(-1);
+                    List<Patient> list = patientDao.SelectPatient(condition, begin, end);
                     foreach (Patient type in list)
                     {
                         PatientInfo patientInfo = new PatientInfo();
