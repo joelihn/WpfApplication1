@@ -174,7 +174,7 @@ namespace WpfApplication1
                     condition["ID"] = IDTextBox.Text;
                 if (!PatientIDTextBox.Text.Equals(""))
                     condition["PATIENTID"] = PatientIDTextBox.Text;
-
+                condition["TREATSTATUSID"] = 1;
                 PatientList.Clear();
 
                 List<Patient> list = complexDao.SelectPatient(condition, begin, end);
@@ -752,6 +752,7 @@ namespace WpfApplication1
                 {
 
                     Dictionary<string, object> condition = new Dictionary<string, object>();
+                    condition["TREATSTATUSID"] = 1;
                     //var list = patientDao.SelectPatient(condition);
                     var end = DateTime.Now;
                     var begin = end.AddMonths(-1);

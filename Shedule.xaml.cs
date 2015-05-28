@@ -443,6 +443,7 @@ namespace WpfApplication1
         
         private void ButtonBase_OnClick(object sender, MouseButtonEventArgs e)
         {
+            //DateTime dtTime1 = DateTime.Now;
             Button btn = (Button) sender;
             string tag = (string) btn.Tag;
             int index = ListBox1.SelectedIndex;
@@ -450,9 +451,15 @@ namespace WpfApplication1
                 return;
 
             bool ret = ChangeButtonStauts(index, tag, e.ChangedButton);
+            //DateTime dtTime2 = DateTime.Now;
+            //TimeSpan tsSpan1 = dtTime2 - dtTime1;
+           // MainWindow.Log.WriteInfoLog("tsSpan1 is: " + tsSpan1.Milliseconds);
             if (ret)
             {
                 UpdatePatientSchedule();
+                //DateTime dtTime3 = DateTime.Now;
+                // tsSpan2 = dtTime3 - dtTime2;
+                //MainWindow.Log.WriteInfoLog("tsSpan2 is: " + tsSpan2.Milliseconds);
                 if (CheckOrders())
                     ListboxItemStatusesList[index].Checks = "正常";
                 else
@@ -662,7 +669,7 @@ namespace WpfApplication1
             
             
             ListboxItemStatusesList[index] = listboxItem;
-            ListBox1.Items.Refresh();
+            //ListBox1.Items.Refresh();
             RefreshStatistics();
 
 
