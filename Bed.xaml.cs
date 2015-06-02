@@ -36,7 +36,7 @@ namespace WpfApplication1
             InitializeComponent();
             Basewindow = window;
             this.PatientlistView.ItemsSource = BedPatientList;
-
+            this.BedListBox.ItemsSource = BedPatientList;
             EndatePicker.Text = DateTime.Now.ToString();
             BeginDatePicker.Text = (DateTime.Now - TimeSpan.FromDays(3)).ToString();
 
@@ -217,7 +217,7 @@ namespace WpfApplication1
 
         private void PatientlistView_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            this.PatientlistView.Drop(this.PatientlistView.SelectedItem, DragDropEffects.Move);
+            //this.PatientlistView.Drop(this.PatientlistView.SelectedItem, DragDropEffects.Move);
         }
     }
 
@@ -243,13 +243,49 @@ namespace WpfApplication1
         public string Name { get; set; }
         public string PatientId { get; set; }
 
-        //public string Mon { get; set; }
-        //public string Tue { get; set; }
-        //public string Wed { get; set; }
-        //public string Thu { set; get; }
-        //public string Fri { set; get; }
-        //public string Sta { set; get; }
-        //public string Sun { set; get; }
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        private void OnPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
+        }
+    }
+
+    public class BedInfo : INotifyPropertyChanged //这个是用户数据的数据源
+    {
+        private Int64 _id;
+        private int _roomID;
+        private string _bedName;
+        private string _patientName;
+        private Brush _titleBrush;
+        private Brush _bedBrush;
+        private int _infcetionType;
+        
+        
+
+
+        public BedInfo()
+        {
+            Name = "";
+
+        }
+        public Int64 Id
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                OnPropertyChanged("Id");
+            }
+        }
+
+        public string Name { get; set; }
+        public string PatientId { get; set; }
 
         #region INotifyPropertyChanged Members
 
@@ -263,4 +299,5 @@ namespace WpfApplication1
                 PropertyChanged(this, new PropertyChangedEventArgs(info));
         }
     }
+
 }

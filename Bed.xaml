@@ -16,6 +16,51 @@
             <TextBlock Text="{Binding PatientId}" />
         </DataTemplate>
 
+        <Style x:Key="ListBoxItemStyle1" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Padding" Value="0,0,0,0"/>
+            <Setter Property="Height" Value="155"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="Margin" Value="20,20"/>
+            
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="3*"/>
+                                </Grid.RowDefinitions>
+                                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Stretch" Height="Auto" RadiusY="16.226" RadiusX="16.226" Grid.RowSpan="2" Stroke="Black" VerticalAlignment="Stretch"/>
+                                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Stretch" Height="Auto" RadiusY="0" RadiusX="0" Stroke="Black" VerticalAlignment="Stretch" Width="Auto"/>
+                                <Label Content="BedNum" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="PatientInfo" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="true"/>
+                                    <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <StackPanel>
         <Grid Height="1024" x:Name="TopGrid" Margin="0,0,0,0"  Style="{StaticResource GridBackGround1}">
@@ -41,44 +86,51 @@
             <RadioButton Content="{DynamicResource AllDateText}" Style="{StaticResource RadioButtonStyle1}" HorizontalAlignment="Right" Margin="0,60,358,0" x:Name="TimeRadioButton1" VerticalAlignment="Top" FontSize="16" GroupName="TimeSelecet" Click="TimeRadioButton1_Click" TabIndex="10005" />
             <RadioButton Content="{DynamicResource In7DayText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" HorizontalAlignment="Right" Margin="0,60,240,0" x:Name="TimeRadioButton2" VerticalAlignment="Top"  GroupName="TimeSelecet"  Click="TimeRadioButton1_Click" TabIndex="10006" />
             <RadioButton Content="{DynamicResource In3DaysText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" Margin="0,60,138,0" x:Name="TimeRadioButton3" VerticalAlignment="Top" GroupName="TimeSelecet"  IsChecked="True" Click="TimeRadioButton1_Click" HorizontalAlignment="Right" TabIndex="10007" />
-            <ListView  ItemsSource="{Binding}" Width="180" HorizontalAlignment="Left" Height="925" Margin="0,100,0,0" Name="PatientlistView" VerticalAlignment="Top" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}"  IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}" DragOver="PatientlistView_DragOver" DragEnter="PatientlistView_DragEnter">
-                <ListView.View>
-                    <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
-                        <GridViewColumn Width="0" CellTemplate="{StaticResource Id}">
-                            <Grid Tag="0">
-                                <StackPanel Orientation="Horizontal">
-
-                                    <TextBlock Text="{DynamicResource IDtext}" />
-                                    <Image Source="Resources/ArrowDown.png" Name="ArrowID" Visibility="Hidden" />
-                                </StackPanel>
-                            </Grid>
-                        </GridViewColumn>
-                        <GridViewColumn Width="80" CellTemplate="{StaticResource Name}">
-
-                            <Grid Tag="2">
-                                <StackPanel Orientation="Horizontal">
-
-                                    <TextBlock Text="{DynamicResource Nametext}" />
-                                    <Image Source="Resources/ArrowDown.png" Name="ArrowName" Visibility="Hidden" />
-                                </StackPanel>
-                            </Grid>
-
-                        </GridViewColumn>
-                        <GridViewColumn Width="80" CellTemplate="{StaticResource PatientId}">
-                            <Grid Tag="1">
-                                <StackPanel Orientation="Horizontal">
-
-                                    <TextBlock Text="{DynamicResource PatientIDtext}" />
-                                    <Image Source="Resources/ArrowDown.png" Name="ArrowPatientID" Visibility="Hidden" />
-                                </StackPanel>
-                            </Grid>
-                        </GridViewColumn>
-
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            
             <Button Name="Button1" Content="Button" HorizontalAlignment="Left" Margin="611,285,0,0" VerticalAlignment="Top" Width="126" Height="174" DragEnter="Button_DragEnter" Drop="Button_Drop"/>
+            <StackPanel Orientation="Horizontal">
+                <ListView  ItemsSource="{Binding}" Width="180" HorizontalAlignment="Left" Height="925" Name="PatientlistView" VerticalAlignment="Bottom" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}"  IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}" DragOver="PatientlistView_DragOver" DragEnter="PatientlistView_DragEnter">
+                    <ListView.View>
+                        <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
+                            <GridViewColumn Width="0" CellTemplate="{StaticResource Id}">
+                                <Grid Tag="0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{DynamicResource IDtext}" />
+                                        <Image Source="Resources/ArrowDown.png" Name="ArrowID" Visibility="Hidden" />
+                                    </StackPanel>
+                                </Grid>
+                            </GridViewColumn>
+                            <GridViewColumn Width="80" CellTemplate="{StaticResource Name}">
+                                <Grid Tag="2">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{DynamicResource Nametext}" />
+                                        <Image Source="Resources/ArrowDown.png" Name="ArrowName" Visibility="Hidden" />
+                                    </StackPanel>
+                                </Grid>
 
+                            </GridViewColumn>
+                            <GridViewColumn Width="80" CellTemplate="{StaticResource PatientId}">
+                                <Grid Tag="1">
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <TextBlock Text="{DynamicResource PatientIDtext}" />
+                                        <Image Source="Resources/ArrowDown.png" Name="ArrowPatientID" Visibility="Hidden" />
+                                    </StackPanel>
+                                </Grid>
+                            </GridViewColumn>
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <ListBox AllowDrop="True" x:Name="BedListBox" Height="925" Width="870" VerticalAlignment="Bottom" ItemContainerStyle="{DynamicResource ListBoxItemStyle1}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+            </StackPanel>
+            
         </Grid>
     </StackPanel>
 </UserControl>
