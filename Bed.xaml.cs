@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,15 +29,16 @@ namespace WpfApplication1
         public MainWindow Basewindow;
         public int selectoperation;
         //public ObservableCollection<BedData> Beddatalist = new ObservableCollection<BedData>();
-
+        private DataFormat format = DataFormats.GetDataFormat("DragDropItemsControl");
         public ObservableCollection<BedPatientData> BedPatientList = new ObservableCollection<BedPatientData>();
+        public ObservableCollection<BedInfo> BedInfoList = new ObservableCollection<BedInfo>();
 
         public Bed(MainWindow window)
         {
             InitializeComponent();
             Basewindow = window;
             this.PatientlistView.ItemsSource = BedPatientList;
-            this.BedListBox.ItemsSource = BedPatientList;
+            this.BedListBox.ItemsSource = BedInfoList;
             EndatePicker.Text = DateTime.Now.ToString();
             BeginDatePicker.Text = (DateTime.Now - TimeSpan.FromDays(3)).ToString();
 
@@ -45,6 +47,7 @@ namespace WpfApplication1
             this.SexComboBox.Items.Add("男");
             this.SexComboBox.Items.Add("女");
             SexComboBox.SelectedIndex = 0;
+            this.Button1.AllowDrop = true;
         }
 
         private void PatientlistView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -85,7 +88,7 @@ namespace WpfApplication1
                 condition["TREATSTATUSID"] = 1;
                 condition["ISASSIGNED"] = 0;
                 BedPatientList.Clear();
-
+                
                 List<Patient> list = complexDao.SelectPatient(condition, begin, end);
                 foreach (Patient fmriPatient in list)
                 {
@@ -94,6 +97,7 @@ namespace WpfApplication1
                     informatian.PatientId = fmriPatient.PatientId;
                     informatian.Name = fmriPatient.Name;
                     BedPatientList.Add(informatian);
+                    
                 }
             }
         }
@@ -166,6 +170,7 @@ namespace WpfApplication1
             }
 
             BedPatientList.Clear();
+            BedInfoList.Clear();
             using (ComplexDao patientDao = new ComplexDao())
             {
 
@@ -186,7 +191,10 @@ namespace WpfApplication1
 
 
                     BedPatientList.Add(patientInfo);
-                    //PatientList.Add(patientInfo);
+                    BedInfo bedInfo = new BedInfo();
+                    bedInfo.BedName = "A17";
+                    bedInfo.TreatMethod = "HD";
+                    BedInfoList.Add(bedInfo);
                 }
             }
 
@@ -205,21 +213,85 @@ namespace WpfApplication1
             this.PatientlistView.Items.Remove(data);
         }
 
-        private void PatientlistView_DragOver(object sender, DragEventArgs e)
+        private void PreviewDragEnter_Event(object sender, DragEventArgs e)
         {
-            e.Effects = System.Windows.DragDropEffects.Move;
+            var targetItemsControl = (ItemsControl)sender;
+            object draggedItem = e.Data.GetData(this.format.Name);
+
+            /*DecideDropTarget(e);
+            if (draggedItem != null)
+            {
+                ShowDraggedAdorner(e.GetPosition(this.topWindow));
+                CreateInsertionAdorner();
+            }*/
+            e.Handled = true;
+        }
+        private void PreviewDrop_Event(object sender, DragEventArgs e)
+        {
+            object draggedItem = e.Data.GetData(this.format.Name);
+            int indexRemoved = -1;
+
+            if (draggedItem != null)
+            {
+                /*if ((e.Effects & DragDropEffects.Move) != 0)
+                {
+                    indexRemoved = Utilities.RemoveItemFromItemsControl(this.sourceItemsControl, draggedItem);
+                }
+                // This happens when we drag an item to a later position within the same ItemsControl.
+                if (indexRemoved != -1 && this.sourceItemsControl == this.targetItemsControl && indexRemoved < this.insertionIndex)
+                {
+                    this.insertionIndex--;
+                }
+                Utilities.InsertItemInItemsControl(this.targetItemsControl, draggedItem, this.insertionIndex);
+
+                RemoveDraggedAdorner();
+                RemoveInsertionAdorner();*/
+            }
+            e.Handled = true;
+        }
+        private void PreviewDragOver_Event(object sender, DragEventArgs e)
+        {
+            object draggedItem = e.Data.GetData(this.format.Name);
+
+            DecideDropTarget(e);
+            if (draggedItem != null)
+            {
+                /*ShowDraggedAdorner(e.GetPosition(this.topWindow));
+                UpdateInsertionAdornerPosition();*/
+            }
+            e.Handled = true;
+        }
+        private void PreviewDragLeave_Event(object sender, DragEventArgs e)
+        {
+            object draggedItem = e.Data.GetData(this.format.Name);
+
+            if (draggedItem != null)
+            {
+                //RemoveInsertionAdorner();
+            }
+            e.Handled = true;
         }
 
-        private void PatientlistView_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effects = System.Windows.DragDropEffects.Move;
-        }
 
-        private void PatientlistView_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            //this.PatientlistView.Drop(this.PatientlistView.SelectedItem, DragDropEffects.Move);
-        }
+
     }
+
+    public class Contact
+    {
+        public Contact(string firstname, string lastname)
+        {
+            Firstname = firstname;
+            Lastname = lastname;
+        }
+
+        public string Firstname { get; set; }
+        public string Lastname { get; set; }
+
+        public override string ToString() 
+        { 
+        return string.Format("Firstname: {0}, Lastname: {1}", Firstname, Lastname); 
+        }
+    } 
 
     public class BedPatientData : INotifyPropertyChanged //这个是用户数据的数据源
     {
@@ -262,16 +334,22 @@ namespace WpfApplication1
         private int _roomID;
         private string _bedName;
         private string _patientName;
+        private int _infcetionType;
+        private string _treatMethod;
+
         private Brush _titleBrush;
         private Brush _bedBrush;
-        private int _infcetionType;
-        
-        
-
+        private static Dictionary<string, Color> TreatMethodDictionary = new Dictionary<string, Color>();
+       
 
         public BedInfo()
         {
-            Name = "";
+            _bedName = "";
+            _patientName = "";
+            _treatMethod = "";
+            _titleBrush = Brushes.DodgerBlue;
+            _bedBrush = Brushes.Firebrick;
+            LoadTreatMethod();
 
         }
         public Int64 Id
@@ -284,9 +362,118 @@ namespace WpfApplication1
             }
         }
 
-        public string Name { get; set; }
-        public string PatientId { get; set; }
+        public string BedName
+        {
+            get { return _bedName; }
+            set
+            {
+                _bedName = value;
+                OnPropertyChanged("BedName");
+            }
+        }
 
+        public string PatientName
+        {
+            get { return _patientName; }
+            set
+            {
+                _patientName = value;
+                OnPropertyChanged("PatientName");
+            }
+        }
+
+        public string TreatMethod
+        {
+            get { return _treatMethod; }
+            set
+            {
+                _treatMethod = value;
+                _bedBrush = new SolidColorBrush(StrColorConverter(_treatMethod));
+                OnPropertyChanged("TreatMethod");
+                OnPropertyChanged("BedBrush");
+            }
+        }
+
+        public Brush BedBrush
+        {
+            get { return _bedBrush; }
+            set
+            {
+                _bedBrush = value;
+                OnPropertyChanged("TitleBrush");
+            }
+        }
+        public Brush TitleBrush
+        {
+            get { return _titleBrush; }
+            set
+            {
+                _titleBrush = value;
+                OnPropertyChanged("TitleBrush");
+            }
+        }
+
+        private static void LoadTreatMethod()
+        {
+            try
+            {
+                using (var methodDao = new TreatMethodDao())
+                {
+                    TreatMethodDictionary.Clear();
+                    var condition = new Dictionary<string, object>();
+                    var list = methodDao.SelectTreatMethod(condition);
+                    foreach (var pa in list)
+                    {
+                        var treatMethodData = new TreatMethodData();
+                        treatMethodData.Id = pa.Id;
+                        treatMethodData.Name = pa.Name;
+                        {
+                            using (var treatTypeDao = new TreatTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.TreatTypeId;
+                                var arealist = treatTypeDao.SelectTreatType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatMethodData.Type = arealist[0].Name;
+                                }
+                            }
+                        }
+                        string bgColor = pa.BgColor;
+                        if (bgColor != "" && bgColor != null)
+                            treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
+                        else
+                            treatMethodData.BgColor = Brushes.LightGray;
+
+
+                        treatMethodData.Description = pa.Description;
+
+                        TreatMethodDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:ListViewCPatientRoom_OnLoaded 3 exception messsage: " + ex.Message);
+            }
+        }
+
+        public static string StrColorConverter(Brush brush)
+        {
+            Color color = ((SolidColorBrush)brush).Color;
+            foreach (var v in TreatMethodDictionary)
+            {
+                if (v.Value == color)
+                    return v.Key;
+            }
+            return "";
+        }
+        public static Color StrColorConverter(string str)
+        {
+            if (str == "")
+                return Colors.Transparent;
+            return TreatMethodDictionary[str];
+        }
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -298,6 +485,96 @@ namespace WpfApplication1
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(info));
         }
+
+        
+    }
+
+    public sealed class BackgroundConverter1 : IValueConverter
+    {
+        #region IValueConverter Members
+        private static Dictionary<string, Color> TreatMethodDictionary = new Dictionary<string, Color>();
+       
+        public BackgroundConverter1()
+        {
+            LoadTreatMethod();
+        }
+        private static void LoadTreatMethod()
+        {
+            try
+            {
+                using (var methodDao = new TreatMethodDao())
+                {
+                    TreatMethodDictionary.Clear();
+                    var condition = new Dictionary<string, object>();
+                    var list = methodDao.SelectTreatMethod(condition);
+                    foreach (var pa in list)
+                    {
+                        var treatMethodData = new TreatMethodData();
+                        treatMethodData.Id = pa.Id;
+                        treatMethodData.Name = pa.Name;
+                        {
+                            using (var treatTypeDao = new TreatTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.TreatTypeId;
+                                var arealist = treatTypeDao.SelectTreatType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatMethodData.Type = arealist[0].Name;
+                                }
+                            }
+                        }
+                        string bgColor = pa.BgColor;
+                        if (bgColor != "" && bgColor != null)
+                            treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
+                        else
+                            treatMethodData.BgColor = Brushes.LightGray;
+
+
+                        treatMethodData.Description = pa.Description;
+
+                        TreatMethodDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:ListViewCPatientRoom_OnLoaded 3 exception messsage: " + ex.Message);
+            }
+        }
+
+        public static string StrColorConverter(Brush brush)
+        {
+            Color color = ((SolidColorBrush)brush).Color;
+            foreach (var v in TreatMethodDictionary)
+            {
+                if (v.Value == color)
+                    return v.Key;
+            }
+            return "";
+        }
+        public static Color StrColorConverter(string str)
+        {
+            if (str == "")
+                return Colors.Transparent;
+            return TreatMethodDictionary[str];
+        }
+
+        public object Convert(object value, Type targetType, object parameter,
+                              CultureInfo culture)
+        {
+            string method = (string)value;
+            return StrColorConverter(method);
+        }
+
+        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            //throw new NotImplementedException();
+            Brush method = (Brush)value;
+            return StrColorConverter(method);
+        }
+
+        #endregion
     }
 
 }

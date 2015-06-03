@@ -2,10 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:wpfApplication1="clr-namespace:WpfApplication1"
+             xmlns:dragDropListBox="clr-namespace:DragDropListBox"
              mc:Ignorable="d" 
              d:DesignHeight="1024" d:DesignWidth="1230" Loaded="Bed_OnLoaded">
     <UserControl.Resources>
+        <!--<wpfApplication1:BackgroundConverter x:Key="BgConverter" />-->
         <DataTemplate x:Key="Id">
             <TextBlock Text="{Binding Id}" />
         </DataTemplate>
@@ -15,7 +18,20 @@
         <DataTemplate x:Key="PatientId">
             <TextBlock Text="{Binding PatientId}" />
         </DataTemplate>
-
+        <DataTemplate x:Key="planetTemplateDrag">
+            <DataTemplate.Resources>
+                <Style TargetType="Image">
+                    <Setter Property="Width" Value="50" />
+                    <Setter Property="Height" Value="50" />
+                    <Setter Property="Margin" Value="5" />
+                </Style>
+            </DataTemplate.Resources>
+            <StackPanel>
+                <!--<Image Source="{Binding Path=Location}" />-->
+                <!--<TextBlock Text="{Binding Path=PatientId}" TextAlignment="Center" FontWeight="Bold" />-->
+                <TextBlock Text="{Binding Path=Name}" TextAlignment="Center" FontWeight="Bold" />
+            </StackPanel>
+        </DataTemplate>
         <Style x:Key="ListBoxItemStyle1" TargetType="{x:Type ListBoxItem}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
@@ -24,7 +40,11 @@
             <Setter Property="Height" Value="155"/>
             <Setter Property="Width" Value="100"/>
             <Setter Property="Margin" Value="20,20"/>
-            
+            <Setter Property="AllowDrop" Value="True"/>
+            <EventSetter Event="PreviewDragEnter" Handler="PreviewDragEnter_Event"/>
+            <EventSetter Event="PreviewDrop" Handler="PreviewDrop_Event"/>
+            <EventSetter Event="PreviewDragOver" Handler="PreviewDragOver_Event"/>
+            <EventSetter Event="PreviewDragLeave" Handler="PreviewDragLeave_Event"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -34,10 +54,10 @@
                                     <RowDefinition/>
                                     <RowDefinition Height="3*"/>
                                 </Grid.RowDefinitions>
-                                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Stretch" Height="Auto" RadiusY="16.226" RadiusX="16.226" Grid.RowSpan="2" Stroke="Black" VerticalAlignment="Stretch"/>
-                                <Rectangle Fill="#FFF4F4F5" HorizontalAlignment="Stretch" Height="Auto" RadiusY="0" RadiusX="0" Stroke="Black" VerticalAlignment="Stretch" Width="Auto"/>
-                                <Label Content="BedNum" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <Label Content="PatientInfo" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Rectangle Fill="{Binding TitleBrush}" HorizontalAlignment="Stretch" Height="Auto" RadiusY="16.226" RadiusX="16.226" Grid.RowSpan="2" Stroke="Black" VerticalAlignment="Stretch"/>
+                                <Rectangle Fill="{Binding BedBrush}" HorizontalAlignment="Stretch" Height="Auto" RadiusY="0" RadiusX="0" Stroke="Black" VerticalAlignment="Stretch" Width="Auto"/>
+                                <Label Content="{Binding BedName}" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="{Binding PatientName}" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -87,9 +107,10 @@
             <RadioButton Content="{DynamicResource In7DayText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" HorizontalAlignment="Right" Margin="0,60,240,0" x:Name="TimeRadioButton2" VerticalAlignment="Top"  GroupName="TimeSelecet"  Click="TimeRadioButton1_Click" TabIndex="10006" />
             <RadioButton Content="{DynamicResource In3DaysText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" Margin="0,60,138,0" x:Name="TimeRadioButton3" VerticalAlignment="Top" GroupName="TimeSelecet"  IsChecked="True" Click="TimeRadioButton1_Click" HorizontalAlignment="Right" TabIndex="10007" />
             
-            <Button Name="Button1" Content="Button" HorizontalAlignment="Left" Margin="611,285,0,0" VerticalAlignment="Top" Width="126" Height="174" DragEnter="Button_DragEnter" Drop="Button_Drop"/>
+            
             <StackPanel Orientation="Horizontal">
-                <ListView  ItemsSource="{Binding}" Width="180" HorizontalAlignment="Left" Height="925" Name="PatientlistView" VerticalAlignment="Bottom" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}"  IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}" DragOver="PatientlistView_DragOver" DragEnter="PatientlistView_DragEnter">
+                <ListView  ItemsSource="{Binding}" Width="180" HorizontalAlignment="Left" Height="925" Name="PatientlistView" VerticalAlignment="Bottom" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}"  IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}"
+                           dragDropListBox:DragDropHelper.IsDragSource="true" dragDropListBox:DragDropHelper.IsDropTarget="true" dragDropListBox:DragDropHelper.DragDropTemplate="{StaticResource planetTemplateDrag}">
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
                             <GridViewColumn Width="0" CellTemplate="{StaticResource Id}">
@@ -122,13 +143,15 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <ListBox AllowDrop="True" x:Name="BedListBox" Height="925" Width="870" VerticalAlignment="Bottom" ItemContainerStyle="{DynamicResource ListBoxItemStyle1}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center">
+                <ListBox AllowDrop="True" x:Name="BedListBox" Height="925" Width="870" VerticalAlignment="Bottom" ItemContainerStyle="{DynamicResource ListBoxItemStyle1}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center"
+                         >
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel/>
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                 </ListBox>
+                <Button AllowDrop="True" Name="Button1" Content="Button"  DragEnter="Button_DragEnter" PreviewDrop="Button_Drop"/>
             </StackPanel>
             
         </Grid>

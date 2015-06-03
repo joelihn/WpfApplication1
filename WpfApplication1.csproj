@@ -127,6 +127,10 @@
     <Compile Include="Order.xaml.cs">
       <DependentUpon>Order.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\DragDropHelper.cs" />
+    <Compile Include="Utils\DraggedAdorner.cs" />
+    <Compile Include="Utils\InsertionAdorner.cs" />
+    <Compile Include="Utils\Utilities.cs" />
     <Compile Include="Utils\Const.cs" />
     <Compile Include="Utils\Utils.cs" />
     <Page Include="Bed.xaml">
