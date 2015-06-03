@@ -22,6 +22,6 @@ namespace WpfApplication1.Utils
 
         public static int TryVersionTimes = 30;
 
-        public static int Runlevel = 0;
+        public static int Runlevel = 1;
     }
 }
