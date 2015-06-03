@@ -104,6 +104,10 @@ namespace WpfApplication1
             sheduleContent = new Shedule(this);
             bedContent = new Bed(this);
             configContent = new Config(this);
+            if (ConstDefinition.Runlevel == 1)
+                this.ConfigButton.IsEnabled = true;
+            else
+                this.ConfigButton.IsEnabled = false;
             this.RightContent.Content = initContent;
         }
 

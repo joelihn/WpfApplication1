@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Net.NetworkInformation;
@@ -10,7 +9,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MonitoringSystem.Utils
+namespace WpfApplication1.Utils
 {
     public class ListFilesComparer : IComparer
     {
