@@ -151,7 +151,6 @@
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
                 </ListBox>
-                <Button AllowDrop="True" Name="Button1" Content="Button"  DragEnter="Button_DragEnter" PreviewDrop="Button_Drop"/>
             </StackPanel>
             
         </Grid>

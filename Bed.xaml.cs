@@ -15,8 +15,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DragDropListBox;
 using WpfApplication1.CustomUI;
 using WpfApplication1.DAOModule;
+using System.Windows;
 using DragDropEffects = System.Windows.Forms.DragDropEffects;
 
 namespace WpfApplication1
@@ -32,7 +34,7 @@ namespace WpfApplication1
         private DataFormat format = DataFormats.GetDataFormat("DragDropItemsControl");
         public ObservableCollection<BedPatientData> BedPatientList = new ObservableCollection<BedPatientData>();
         public ObservableCollection<BedInfo> BedInfoList = new ObservableCollection<BedInfo>();
-
+        private ListBoxItem targetItemsControl;
         public Bed(MainWindow window)
         {
             InitializeComponent();
@@ -47,7 +49,6 @@ namespace WpfApplication1
             this.SexComboBox.Items.Add("男");
             this.SexComboBox.Items.Add("女");
             SexComboBox.SelectedIndex = 0;
-            this.Button1.AllowDrop = true;
         }
 
         private void PatientlistView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -200,52 +201,39 @@ namespace WpfApplication1
 
         }
 
-        private void Button_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effects = System.Windows.DragDropEffects.Move;
-        }
-
-        private void Button_Drop(object sender, DragEventArgs e)
-        {
-            object data = e.Data.GetData(typeof(string));
-            if (data == null) { return; }
-            this.Button1.Content = data.ToString();
-            this.PatientlistView.Items.Remove(data);
-        }
-
         private void PreviewDragEnter_Event(object sender, DragEventArgs e)
         {
-            var targetItemsControl = (ItemsControl)sender;
-            object draggedItem = e.Data.GetData(this.format.Name);
+            
 
-            /*DecideDropTarget(e);
+            object draggedItem = e.Data.GetData(this.format.Name);
+            /*DecideDropTarget(e);*/
             if (draggedItem != null)
             {
-                ShowDraggedAdorner(e.GetPosition(this.topWindow));
-                CreateInsertionAdorner();
-            }*/
+                //ShowDraggedAdorner(e.GetPosition(this.topWindow));
+                //CreateInsertionAdorner();
+                e.Effects = System.Windows.DragDropEffects.Move;
+            }
             e.Handled = true;
         }
         private void PreviewDrop_Event(object sender, DragEventArgs e)
         {
+            targetItemsControl = (ListBoxItem)sender;
+            targetItemsControl.IsSelected = true;
+
+            int index = BedListBox.SelectedIndex;
+            if (index == -1) return;
+            //MessageBox.Show(BedListBox.SelectedIndex.ToString());
             object draggedItem = e.Data.GetData(this.format.Name);
-            int indexRemoved = -1;
 
             if (draggedItem != null)
             {
-                /*if ((e.Effects & DragDropEffects.Move) != 0)
+                
+                if ((e.Effects  ==  (System.Windows.DragDropEffects) DragDropEffects.Move))
                 {
-                    indexRemoved = Utilities.RemoveItemFromItemsControl(this.sourceItemsControl, draggedItem);
+                    BedPatientData data = (BedPatientData)draggedItem;
+                    BedInfoList[index].PatientName = data.Name;
                 }
-                // This happens when we drag an item to a later position within the same ItemsControl.
-                if (indexRemoved != -1 && this.sourceItemsControl == this.targetItemsControl && indexRemoved < this.insertionIndex)
-                {
-                    this.insertionIndex--;
-                }
-                Utilities.InsertItemInItemsControl(this.targetItemsControl, draggedItem, this.insertionIndex);
 
-                RemoveDraggedAdorner();
-                RemoveInsertionAdorner();*/
             }
             e.Handled = true;
         }
@@ -253,7 +241,7 @@ namespace WpfApplication1
         {
             object draggedItem = e.Data.GetData(this.format.Name);
 
-            DecideDropTarget(e);
+            //DecideDropTarget(e);
             if (draggedItem != null)
             {
                 /*ShowDraggedAdorner(e.GetPosition(this.topWindow));
