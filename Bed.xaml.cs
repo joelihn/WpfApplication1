@@ -19,6 +19,7 @@ using DragDropListBox;
 using WpfApplication1.CustomUI;
 using WpfApplication1.DAOModule;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using DragDropEffects = System.Windows.Forms.DragDropEffects;
 
 namespace WpfApplication1
@@ -49,6 +50,36 @@ namespace WpfApplication1
             this.SexComboBox.Items.Add("男");
             this.SexComboBox.Items.Add("女");
             SexComboBox.SelectedIndex = 0;
+            InitDay();
+        }
+
+        private void InitDay()
+        {
+            int dayofweek = (int)DateTime.Now.DayOfWeek;
+            switch (dayofweek)
+            {
+                case 0:
+                    BtnSun.IsChecked = true;
+                    break;
+                case 1:
+                    BtnMon.IsChecked = true;
+                    break;
+                case 2:
+                    BtnTue.IsChecked = true;
+                    break;
+                case 3:
+                    BtnWed.IsChecked = true;
+                    break;
+                case 4:
+                    BtnThe.IsChecked = true;
+                    break;
+                case 5:
+                    BtnFri.IsChecked = true;
+                    break;
+                case 6:
+                    BtnSta.IsChecked = true;
+                    break;
+            }
         }
 
         private void PatientlistView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -171,8 +202,8 @@ namespace WpfApplication1
             }
 
             BedPatientList.Clear();
-            BedInfoList.Clear();
-            using (ComplexDao patientDao = new ComplexDao())
+            
+            /*using (ComplexDao patientDao = new ComplexDao())
             {
 
                 Dictionary<string, object> condition = new Dictionary<string, object>();
@@ -194,9 +225,11 @@ namespace WpfApplication1
                     BedPatientList.Add(patientInfo);
                     
                 }
-            }
+            }*/
+            GetPatientSchedule(DateTime.Now.Date, "AM");
             try
             {
+                BedInfoList.Clear();
                 using (BedDao bedDao = new BedDao())
                 {
                     Dictionary<string, object> condition = new Dictionary<string, object>();
@@ -251,7 +284,6 @@ namespace WpfApplication1
 
             int index = BedListBox.SelectedIndex;
             if (index == -1) return;
-            //MessageBox.Show(BedListBox.SelectedIndex.ToString());
             object draggedItem = e.Data.GetData(this.format.Name);
             if (draggedItem != null)
             {
@@ -259,6 +291,10 @@ namespace WpfApplication1
                 {
                     if( BedInfoList[index].IsAvailable != true && BedInfoList[index].IsOccupy != true)
                     {
+                        if (BedInfoList[index].PatientData != null)
+                        {
+                            BedPatientList.Add(BedInfoList[index].PatientData);
+                        }
                         BedPatientData data = (BedPatientData)draggedItem;
                         BedInfoList[index].PatientName = data.Name;
                         BedInfoList[index].PatientData = data;
@@ -303,6 +339,105 @@ namespace WpfApplication1
             BedInfoList[index].PatientName = "";
             e.Handled = true;
         }
+
+        private void BtnDay_OnClick(object sender, RoutedEventArgs e)
+        {
+            ToggleButton btn = (ToggleButton)sender;
+            if (btn.IsChecked == true)
+            {
+                UncheckOtherToggleButton(btn);
+            }
+            else
+            {
+                btn.IsChecked = true;
+                UncheckOtherToggleButton(btn);
+            }
+        }
+
+        private void BtnAmPmE_OnClick(object sender, RoutedEventArgs e)
+        {
+            ToggleButton btn = (ToggleButton)sender;
+            if (btn.IsChecked == true)
+            {
+                UncheckOtherToggleButton1(btn);
+            }
+            else
+            {
+                btn.IsChecked = true;
+                UncheckOtherToggleButton1(btn);
+            }
+            GetPatientSchedule(DateTime.Now.Date, (string)btn.Tag);
+
+
+        }
+        private void UncheckOtherToggleButton(ToggleButton btn)
+        {
+            foreach (var i in GridDay.Children)
+            {
+                if ((i is ToggleButton) && i != btn)
+                {
+                    ((ToggleButton)i).IsChecked = false;
+                }
+            }
+        }
+        private void UncheckOtherToggleButton1(ToggleButton btn)
+        {
+            foreach (var i in AmPmEGrid.Children)
+            {
+                if ((i is ToggleButton) && i != btn)
+                {
+                    ((ToggleButton)i).IsChecked = false;
+                }
+            }
+        }
+
+        private void GetPatientSchedule( DateTime dateTime , string ampme)
+        {
+            try
+            {
+                BedPatientList.Clear();
+                using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    condition["Date"] = "2015-06-10";//dateTime.ToString("yyyy-MM-dd");
+                    condition["AmPmE"] = ampme;
+                    var list = scheduleDao.SelectScheduleTemplate(condition);
+
+                    if (list != null && list.Count != 0)
+                    {
+                        foreach (var patient in list)
+                        {
+                            using (var patientDao = new PatientDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = patient.PatientId;
+                                List<Patient> patientlist = patientDao.SelectPatient(condition);
+                                if (patientlist.Count > 0)
+                                {
+                                    BedPatientData patientInfo = new BedPatientData();
+                                    patientInfo.Id = patientlist[0].Id;
+                                    patientInfo.Name = patientlist[0].Name;
+                                    patientInfo.PatientId = patientlist[0].PatientId;
+                                    BedPatientList.Add(patientInfo);
+                                }
+                            }
+                        }
+                        
+                        /*var fileds = new Dictionary<string, object>();
+                        condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                        fileds["AMPME"] = day.Content;
+                        fileds["METHOD"] = StrColorConverter(day.BgColor);
+                        scheduleDao.UpdateScheduleTemplate(fileds, condition);*/
+                    }
+                           
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In PatientSchedule.xaml.cs:GetPatientSchedule select patient exception messsage: " + ex.Message);
+            }
+        }
+
     }
 
     public class Contact
@@ -380,7 +515,7 @@ namespace WpfApplication1
             _bedName = "";
             _patientName = "";
             _treatMethod = "";
-            _titleBrush = Brushes.DodgerBlue;
+            _titleBrush = Brushes.GreenYellow;
             _bedBrush = Brushes.DimGray;
             _isAvliable = false;
             _isOccupy = true;
@@ -414,7 +549,10 @@ namespace WpfApplication1
             set
             {
                 _isAvliable = value;
+                if (_isAvliable == false)
+                    _bedBrush = Brushes.DimGray;
                 OnPropertyChanged("IsAvailable");
+                OnPropertyChanged("BedBrush");
             }
         }
 
