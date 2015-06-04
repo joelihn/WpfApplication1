@@ -45,6 +45,7 @@
             <EventSetter Event="PreviewDrop" Handler="PreviewDrop_Event"/>
             <EventSetter Event="PreviewDragOver" Handler="PreviewDragOver_Event"/>
             <EventSetter Event="PreviewDragLeave" Handler="PreviewDragLeave_Event"/>
+            <EventSetter Event="MouseDoubleClick" Handler="MouseDoubleClick_Event"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -54,8 +55,8 @@
                                     <RowDefinition/>
                                     <RowDefinition Height="3*"/>
                                 </Grid.RowDefinitions>
-                                <Rectangle Fill="{Binding TitleBrush}" HorizontalAlignment="Stretch" Height="Auto" RadiusY="16.226" RadiusX="16.226" Grid.RowSpan="2" Stroke="Black" VerticalAlignment="Stretch"/>
-                                <Rectangle Fill="{Binding BedBrush}" HorizontalAlignment="Stretch" Height="Auto" RadiusY="0" RadiusX="0" Stroke="Black" VerticalAlignment="Stretch" Width="Auto"/>
+                                <Rectangle Fill="{Binding BedBrush}" HorizontalAlignment="Stretch" Height="Auto" RadiusY="16.226" RadiusX="16.226" Grid.RowSpan="2" Stroke="Black" VerticalAlignment="Stretch"/>
+                                <Rectangle Fill="{Binding TitleBrush}" HorizontalAlignment="Stretch" Height="Auto" RadiusY="0" RadiusX="0" Stroke="Black" VerticalAlignment="Stretch" Width="Auto"/>
                                 <Label Content="{Binding BedName}" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                 <Label Content="{Binding PatientName}" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                             </Grid>

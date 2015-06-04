@@ -192,25 +192,54 @@ namespace WpfApplication1
 
 
                     BedPatientList.Add(patientInfo);
-                    BedInfo bedInfo = new BedInfo();
-                    bedInfo.BedName = "A17";
-                    bedInfo.TreatMethod = "HD";
-                    BedInfoList.Add(bedInfo);
+                    
                 }
+            }
+            try
+            {
+                using (BedDao bedDao = new BedDao())
+                {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    var list = bedDao.SelectBed(condition);
+                    InfectTypeComboBox.Items.Clear();
+                    InfectTypeComboBox.Items.Add("所有");
+                    foreach (DAOModule.Bed bed in list)
+                    {
+                        BedInfo bedInfo = new BedInfo();
+                        bedInfo.BedName = bed.Name;
+                        bedInfo.IsAvailable = bed.IsAvailable;
+                        bedInfo.IsOccupy = bed.IsOccupy;
+                        using (var treatTypeDao = new TreatMethodDao())
+                        {
+                            condition.Clear();
+                            condition["ID"] = bed.TreatMethodId;
+                            var arealist = treatTypeDao.SelectTreatMethod(condition);
+                            if (arealist.Count == 1)
+                            {
+                                bedInfo.TreatMethod = arealist[0].Name;
+                            }
+                        }
+                        BedInfoList.Add(bedInfo);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Shedule.xaml.cs:Init_OnLoaded InfectType ComboxItem exception messsage: " + ex.Message);
             }
 
         }
 
         private void PreviewDragEnter_Event(object sender, DragEventArgs e)
         {
-            
+            targetItemsControl = (ListBoxItem)sender;
+            targetItemsControl.IsSelected = true;
+            int index = BedListBox.SelectedIndex;
+            if (index == -1) return;
 
             object draggedItem = e.Data.GetData(this.format.Name);
-            /*DecideDropTarget(e);*/
             if (draggedItem != null)
             {
-                //ShowDraggedAdorner(e.GetPosition(this.topWindow));
-                //CreateInsertionAdorner();
                 e.Effects = System.Windows.DragDropEffects.Move;
             }
             e.Handled = true;
@@ -224,14 +253,17 @@ namespace WpfApplication1
             if (index == -1) return;
             //MessageBox.Show(BedListBox.SelectedIndex.ToString());
             object draggedItem = e.Data.GetData(this.format.Name);
-
             if (draggedItem != null)
             {
-                
                 if ((e.Effects  ==  (System.Windows.DragDropEffects) DragDropEffects.Move))
                 {
-                    BedPatientData data = (BedPatientData)draggedItem;
-                    BedInfoList[index].PatientName = data.Name;
+                    if( BedInfoList[index].IsAvailable != true && BedInfoList[index].IsOccupy != true)
+                    {
+                        BedPatientData data = (BedPatientData)draggedItem;
+                        BedInfoList[index].PatientName = data.Name;
+                        BedInfoList[index].PatientData = data;
+                        BedPatientList.Remove((BedPatientData)draggedItem);
+                    }
                 }
 
             }
@@ -260,8 +292,17 @@ namespace WpfApplication1
             e.Handled = true;
         }
 
+        private void MouseDoubleClick_Event(object sender, MouseButtonEventArgs e)
+        {
+            targetItemsControl = (ListBoxItem)sender;
+            targetItemsControl.IsSelected = true;
 
-
+            int index = BedListBox.SelectedIndex;
+            if (index == -1) return;
+            BedPatientList.Add(BedInfoList[index].PatientData);
+            BedInfoList[index].PatientName = "";
+            e.Handled = true;
+        }
     }
 
     public class Contact
@@ -328,7 +369,11 @@ namespace WpfApplication1
         private Brush _titleBrush;
         private Brush _bedBrush;
         private static Dictionary<string, Color> TreatMethodDictionary = new Dictionary<string, Color>();
-       
+
+        private bool _isAvliable;
+        private bool _isOccupy;
+
+        public BedPatientData PatientData { get; set; }
 
         public BedInfo()
         {
@@ -336,7 +381,10 @@ namespace WpfApplication1
             _patientName = "";
             _treatMethod = "";
             _titleBrush = Brushes.DodgerBlue;
-            _bedBrush = Brushes.Firebrick;
+            _bedBrush = Brushes.DimGray;
+            _isAvliable = false;
+            _isOccupy = true;
+            PatientData = null;
             LoadTreatMethod();
 
         }
@@ -347,6 +395,26 @@ namespace WpfApplication1
             {
                 _id = value;
                 OnPropertyChanged("Id");
+            }
+        }
+
+        public bool IsOccupy
+        {
+            get { return _isOccupy; }
+            set
+            {
+                _isOccupy = value;
+                OnPropertyChanged("IsOccupy");
+            }
+        }
+
+        public bool IsAvailable
+        {
+            get { return _isAvliable; }
+            set
+            {
+                _isAvliable = value;
+                OnPropertyChanged("IsAvailable");
             }
         }
 
