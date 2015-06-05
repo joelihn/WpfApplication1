@@ -72,7 +72,8 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters["@DESCRIPTION"].Value = scheduleTemplate.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
                     sqlcomm.Parameters["@RESERVED"].Value = scheduleTemplate.Reserved;
-
+                    sqlcomm.Parameters.Add("@BEDID", DbType.Int32);
+                    sqlcomm.Parameters["@BEDID"].Value = scheduleTemplate.BedId;
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
                     //set last insert id of this table this connection

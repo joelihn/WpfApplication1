@@ -115,6 +115,7 @@ namespace WpfApplication1.DAOModule
         public string AmPmE { get; set; }
         public string Description { get; set; }
         public string Reserved { get; set; }
+        public Int64 BedId { get; set; }
     }
 
     public class ScheduleType
