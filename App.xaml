@@ -140,6 +140,14 @@
                 <Setter Property="FontFamily" Value="Microsoft YaHei" />
                 <Setter Property="Foreground" Value="{DynamicResource TextColor2}" />
             </Style>
+            <Style x:Key="ButtonStyle3" TargetType="Button">
+                <Setter Property="Background" Value="{DynamicResource LeftButtonBackground}" />
+                <Setter Property="VerticalContentAlignment" Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                <Setter Property="Margin" Value="0,0,0,0" />
+                <Setter Property="FontFamily" Value="Microsoft YaHei" />
+                <Setter Property="Foreground" Value="{DynamicResource TextColor2}" />
+            </Style>
             <Style x:Key="ButtonStyle22" TargetType="Button">
                 <Setter Property="Background" Value="{DynamicResource LeftButtonBackground22}" />
                 <Setter Property="VerticalContentAlignment" Value="Stretch" />
