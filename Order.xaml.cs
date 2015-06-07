@@ -900,6 +900,11 @@ namespace WpfApplication1
         }
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            SaveOrder();
+        }
+
+        private void SaveOrder()
+        {
             int index = PatientlistView.SelectedIndex;
             if (index == -1) return;
             string MedicalOrder = "";
@@ -909,7 +914,7 @@ namespace WpfApplication1
                 var condition1 = new Dictionary<string, object>();
                 condition1["NAME"] = v.Type;
                 var list1 = medicalOrderParaDao.SelectInterval(condition1);
-                                        
+
 
                 string str = v.TreatMethod + "/" + list1[0].Id + "/" + v.TreatTimes;
                 MedicalOrder += str;
@@ -934,15 +939,14 @@ namespace WpfApplication1
             {
                 MainWindow.Log.WriteInfoConsole("In init.xaml.cs: ButtonNewSaveClick insert patient exception messsage: " + ex.Message);
             }
-
-
         }
+
         private void DelButton_Click(object sender, RoutedEventArgs e)
         {
             int index = MedicalOrderlistView.SelectedIndex;
             if ( index == -1) return;
             TreatOrderList.RemoveAt(index);
-            
+            SaveOrder();
         }
 
     }
