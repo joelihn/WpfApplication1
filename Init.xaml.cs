@@ -313,21 +313,21 @@ namespace WpfApplication1
                 }
                 AddPatientIDTextBox.Text = PatientList[PatientlistView.SelectedIndex].PatientPatientId;
                 MobileTextBox.Text = PatientList[PatientlistView.SelectedIndex].PatientMobile;
-                InfectTypeComboBox.Text = PatientList[PatientlistView.SelectedIndex].PatientInfectType;
+                InfectTypeComboBox1.Text = PatientList[PatientlistView.SelectedIndex].PatientInfectType;
                 StatusComboBox.Text = PatientList[PatientlistView.SelectedIndex].PatientTreatStatus;
                 IsFixedBedCheckBox.IsChecked = PatientList[PatientlistView.SelectedIndex].PatientIsFixedBed;
                 DescriptionTextBox.Text = PatientList[PatientlistView.SelectedIndex].PatientDescription;
                 if (PatientList[PatientlistView.SelectedIndex].PatientGender == (string)FindResource("ManText"))
                 {
-                    SexComboBox.SelectedIndex = 0;
+                    SexComboBox1.SelectedIndex = 0;
                 }
                 else if (PatientList[PatientlistView.SelectedIndex].PatientGender == (string)FindResource("WomanText"))
                 {
-                    SexComboBox.SelectedIndex = 1;
+                    SexComboBox1.SelectedIndex = 1;
                 }
                 else
                 {
-                    SexComboBox.SelectedIndex = -1;
+                    SexComboBox1.SelectedIndex = -1;
                 }
 
                 //if (PatientList[PatientlistView.SelectedIndex].PatientHand == (string)FindResource("LeftText"))
@@ -1087,7 +1087,7 @@ namespace WpfApplication1
                         fields["DESCRIPTION"] = DescriptionTextBox.Text;
                         fields["DOB"] = AddAgeTextBox.Text;
                         fields["PATIENTID"] = AddPatientIDTextBox.Text;
-                        fields["GENDER"] = SexComboBox.SelectedValue;
+                        fields["GENDER"] = SexComboBox1.SelectedValue;
                         fields["MOBILE"] = MobileTextBox.Text;
                         //fields["INFECTTYPEID"] = InfectTypeComboBox.SelectedValue;
                         //fields["TREATSTATUSID"] = StatusComboBox.SelectedValue;
@@ -1095,7 +1095,7 @@ namespace WpfApplication1
                         using (var infectTypeDao = new InfectTypeDao())
                         {
                             condition2.Clear();
-                            condition2["Name"] = InfectTypeComboBox.Text;
+                            condition2["Name"] = InfectTypeComboBox1.Text;
                             var arealist = infectTypeDao.SelectInfectType(condition2);
                             if (arealist.Count == 1)
                             {
@@ -1140,12 +1140,12 @@ namespace WpfApplication1
                         {
                             PatientName = Add_NameTextBox.Text,
                             PatientId = Int64.Parse(AddIDTextBox.Text),
-                            PatientGender = (string)SexComboBox.SelectedValue,
+                            PatientGender = (string)SexComboBox1.SelectedValue,
                             PatientDob = AddAgeTextBox.Text,
                             PatientRegesiterDate =
                                 ((DateTime)AddTimeDate.SelectedDate).ToString("yyyy-MM-dd"),
                             PatientDescription = DescriptionTextBox.Text,
-                            PatientInfectType = (string)InfectTypeComboBox.SelectedValue,
+                            PatientInfectType = (string)InfectTypeComboBox1.SelectedValue,
                             PatientTreatStatus = (string)StatusComboBox.SelectedValue,
 
                             PatientPatientId = AddPatientIDTextBox.Text,
@@ -1202,7 +1202,7 @@ namespace WpfApplication1
                         fields["NAME"] = Add_NameTextBox.Text;
                         fields["DESCRIPTION"] = DescriptionTextBox.Text;
                         fields["DOB"] = AddAgeTextBox.Text;
-                        fields["GENDER"] = SexComboBox.SelectedValue;
+                        fields["GENDER"] = SexComboBox1.SelectedValue;
                        // fields["INFECTTYPE"] = InfectTypeComboBox.SelectedValue;
                         fields["PATIENTID"] = AddPatientIDTextBox.Text;
                         //fields["INFECTTYPE"] = InfectTypeComboBox.SelectedValue;
@@ -1210,7 +1210,7 @@ namespace WpfApplication1
                         using (var infectTypeDao = new InfectTypeDao())
                         {
                             condition2.Clear();
-                            condition2["Name"] = InfectTypeComboBox.Text;
+                            condition2["Name"] = InfectTypeComboBox1.Text;
                             var arealist = infectTypeDao.SelectInfectType(condition2);
                             if (arealist.Count == 1)
                             {
@@ -1263,11 +1263,11 @@ namespace WpfApplication1
                         {
                             PatientName = Add_NameTextBox.Text,
                             PatientId = ((PatientInfo)PatientlistView.Items[i]).PatientId,
-                            PatientGender = (string)SexComboBox.SelectedValue,
+                            PatientGender = (string)SexComboBox1.SelectedValue,
                             PatientDob = AddAgeTextBox.Text,
                             PatientRegesiterDate = AddTimeDate.Text,
                             PatientDescription = DescriptionTextBox.Text,
-                            PatientInfectType = (string)InfectTypeComboBox.SelectedValue,
+                            PatientInfectType = (string)InfectTypeComboBox1.SelectedValue,
                             PatientTreatStatus = (string)StatusComboBox.SelectedValue,
                             PatientPatientId = AddPatientIDTextBox.Text,
                         };
@@ -1441,12 +1441,12 @@ namespace WpfApplication1
                 {
                     Dictionary<string, object> condition = new Dictionary<string, object>();
                     var list = infectTypeDao.SelectInfectType(condition);
-                    InfectTypeComboBox.Items.Clear();
+                    InfectTypeComboBox1.Items.Clear();
                     foreach (InfectType type in list)
                     {
-                        InfectTypeComboBox.Items.Add(type.Name);
+                        InfectTypeComboBox1.Items.Add(type.Name);
                     }
-                    InfectTypeComboBox.SelectedIndex = 0;
+                    InfectTypeComboBox1.SelectedIndex = 0;
                 }
             }
             catch (Exception ex)
@@ -1473,10 +1473,10 @@ namespace WpfApplication1
                 MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded TreatStatus ComboxItem exception messsage: " + ex.Message);
             }
 
-            this.SexComboBox.Items.Clear();
-            this.SexComboBox.Items.Add("男");
-            this.SexComboBox.Items.Add("女");
-            SexComboBox.SelectedIndex = 0;
+            this.SexComboBox1.Items.Clear();
+            this.SexComboBox1.Items.Add("男");
+            this.SexComboBox1.Items.Add("女");
+            SexComboBox1.SelectedIndex = 0;
         }
     }
 

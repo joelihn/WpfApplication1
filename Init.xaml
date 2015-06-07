@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="1024" d:DesignWidth="974" Loaded="Init_OnLoaded">
+             d:DesignHeight="1024" d:DesignWidth="1230" Loaded="Init_OnLoaded">
     <UserControl.Resources>
         <collections:ArrayList x:Key="informationlist">
         </collections:ArrayList>
@@ -51,122 +51,115 @@
 
 
     </UserControl.Resources>
-    <Viewbox Stretch="Fill">
-        <Canvas Height="768" Width="768">
-            <Grid Height="768" VerticalAlignment="Top" HorizontalAlignment="Left" Width="768">
-                <Grid Margin="0,0,0,0" Style="{StaticResource DialogGridBottomBacGround}">
-                    <Grid Name="TopGrid" Margin="0,0,0,0" Style="{StaticResource GridBackGround1}">
-                        <TextBlock Visibility="Hidden"  HorizontalAlignment="Left" Margin="20,20,0,0" Name="textBlock9" Text="{DynamicResource  IDtext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
-                        <TextBox Visibility="Hidden" HorizontalAlignment="Right" Margin="0,20,603,0" Name="IDTextBox" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10001" IsTabStop="True" DataContext="{Binding}" Height="27" VerticalAlignment="Top" />
-                        <TextBlock HorizontalAlignment="Left" Margin="20,20,0,0" Name="PatientIDtextBlock" Text="{DynamicResource  PatientIDtext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
-                        <TextBox HorizontalAlignment="Right" Margin="0,20,593,0" Name="PatientIDTextBox" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10001" IsTabStop="True" DataContext="{Binding}" Height="27" VerticalAlignment="Top" />
-                        <TextBlock HorizontalAlignment="Left" Margin="20,55,0,0" Name="textBlock8" Text="{DynamicResource  Nametext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
-                        <TextBox HorizontalAlignment="Left" Margin="86,0,0,687" Name="NameTextBox" VerticalAlignment="Bottom" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10002" IsTabStop="True" />
-                        <TextBlock Margin="185,20,0,0" Name="textBlock1" Text="{DynamicResource  DateText}" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
-                        <TextBlock HorizontalAlignment="Left" Margin="239,20,0,0" Name="textBlock2" Text="{DynamicResource  BeginText}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
-                        <DatePicker HorizontalAlignment="Right" Margin="0,20,343,0" Name="BeginDatePicker" VerticalAlignment="Top" Width="130" SelectedDateFormat="Short" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" Padding="3,0" VerticalContentAlignment="Center" TabIndex="10003" Style="{StaticResource DatePickerStyle}" />
-                        <TextBlock HorizontalAlignment="Left" Margin="434,20,0,0" Name="textBlock3" Text="{DynamicResource  EndText}" VerticalAlignment="Top" Width="45" Style="{StaticResource DialogTextBlock}" />
-                        <Button Content="{DynamicResource  SearchText}" Margin="0,54,20,0" Name="InquireButton" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="InquireButton_Click" TabIndex="10008" />
-                        <Button Content="{DynamicResource  ModifyText}" HorizontalAlignment="Right" Margin="0,493,226,0" Name="EditButton" VerticalAlignment="Top" Click="EditButtonClick" Style="{StaticResource DialogButton}" TabIndex="10012" />
-                        <Button Content="{DynamicResource  ViewText}" HorizontalAlignment="Left" Margin="226,493,0,0" VerticalAlignment="Top" Name="CheckButton" Style="{StaticResource DialogButton}" Click="CheckButton_Click" TabIndex="10011" />
-                        <Button Content="{DynamicResource  DelectText}" HorizontalAlignment="Right" Margin="0,493,20,0" Name="DeleteButton" VerticalAlignment="Top" Click="DeleteButton_Click" Style="{StaticResource DialogButton}" TabIndex="10013" />
-                        <Button Content="{DynamicResource  NewText}" HorizontalAlignment="Left" Margin="20,493,0,0" Name="NewButton" VerticalAlignment="Top" Click="NewButtonClick" Style="{StaticResource DialogButton}" TabIndex="10010" />
-                        <ListView ItemsSource="{Binding}" Height="394" Margin="20,90,20,0" Name="PatientlistView" VerticalAlignment="Top" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}" MouseDoubleClick="PatientlistView_MouseDoubleClick" GridViewColumnHeader.Click="GridViewColumnHeader_Click" IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}">
-                            <ListView.View>
-                                <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
-                                    <GridViewColumn Width="70" CellTemplate="{StaticResource PatientId}">
-                                        <Grid Tag="0">
-                                            <StackPanel Orientation="Horizontal">
+    <StackPanel>
+        <Grid Name="TopGrid" Margin="0,0,0,0" Style="{StaticResource GridBackGround1}">
+            <TextBlock Visibility="Hidden"  HorizontalAlignment="Left" Margin="20,20,0,0" Name="textBlock9" Text="{DynamicResource  IDtext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
+            <TextBox Visibility="Hidden" HorizontalAlignment="Right" Margin="0,20,603,0" Name="IDTextBox" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10001" IsTabStop="True" DataContext="{Binding}" Height="27" VerticalAlignment="Top" />
+            <TextBlock HorizontalAlignment="Left" Margin="20,20,0,0" x:Name="PatientIDtextBlock" Text="{DynamicResource PatientIDtext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
+            <TextBox HorizontalAlignment="Left" Margin="120,20,0,0" x:Name="PatientIDTextBox" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10001" IsTabStop="True" DataContext="{Binding}" Height="27" VerticalAlignment="Top" />
+            <TextBlock HorizontalAlignment="Left" Margin="20,60,0,0" x:Name="textBlock8" Text="{DynamicResource Nametext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
+            <TextBox HorizontalAlignment="Left" Margin="120,60,0,0" x:Name="NameTextBox" VerticalAlignment="Top" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10002" IsTabStop="True" />
+            <TextBlock Margin="185,20,0,0" Name="textBlock1" Text="{DynamicResource  DateText}" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
+            <Button Content="{DynamicResource  ModifyText}" HorizontalAlignment="Right" Margin="0,770,400,0" Name="EditButton" VerticalAlignment="Top" Click="EditButtonClick" Style="{StaticResource DialogButton}" TabIndex="10012" />
+            <Button Content="{DynamicResource  ViewText}" HorizontalAlignment="Left" Margin="431,770,0,0" VerticalAlignment="Top" Name="CheckButton" Style="{StaticResource DialogButton}" Click="CheckButton_Click" TabIndex="10011" />
+            <Button Content="{DynamicResource  DelectText}" HorizontalAlignment="Right" Margin="0,770,138,0" Name="DeleteButton" VerticalAlignment="Top" Click="DeleteButton_Click" Style="{StaticResource DialogButton}" TabIndex="10013" />
+            <Button Content="{DynamicResource  NewText}" HorizontalAlignment="Left" Margin="120,770,0,0" Name="NewButton" VerticalAlignment="Top" Click="NewButtonClick" Style="{StaticResource DialogButton}" TabIndex="10010" />
+            <ListView ItemsSource="{Binding}" Height="660"  Margin="0,90,0,0" Name="PatientlistView" VerticalAlignment="Top" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}" MouseDoubleClick="PatientlistView_MouseDoubleClick" GridViewColumnHeader.Click="GridViewColumnHeader_Click" IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}">
+                <ListView.View>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
+                        <GridViewColumn Width="100" CellTemplate="{StaticResource PatientId}">
+                            <Grid Tag="0">
+                                <StackPanel Orientation="Horizontal">
 
-                                                <TextBlock Text="{DynamicResource IDtext}" />
-                                                <Image Source="Resources/ArrowDown.png" Name="ArrowID" Visibility="Hidden" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="70" CellTemplate="{StaticResource PatientPatientId}">
-                                        <Grid Tag="1">
-                                            <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{DynamicResource IDtext}" />
+                                    <Image Source="Resources/ArrowDown.png" Name="ArrowID" Visibility="Hidden" />
+                                </StackPanel>
+                            </Grid>
+                        </GridViewColumn>
+                        <GridViewColumn Width="100" CellTemplate="{StaticResource PatientPatientId}">
+                            <Grid Tag="1">
+                                <StackPanel Orientation="Horizontal">
 
-                                                <TextBlock Text="{DynamicResource PatientIDtext}" />
-                                                <Image Source="Resources/ArrowDown.png" Name="ArrowPatientID" Visibility="Hidden" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="80" CellTemplate="{StaticResource PatientName}">
+                                    <TextBlock Text="{DynamicResource PatientIDtext}" />
+                                    <Image Source="Resources/ArrowDown.png" Name="ArrowPatientID" Visibility="Hidden" />
+                                </StackPanel>
+                            </Grid>
+                        </GridViewColumn>
+                        <GridViewColumn Width="120" CellTemplate="{StaticResource PatientName}">
 
-                                        <Grid Tag="2">
-                                            <StackPanel Orientation="Horizontal">
+                            <Grid Tag="2">
+                                <StackPanel Orientation="Horizontal">
 
-                                                <TextBlock Text="{DynamicResource Nametext}" />
-                                                <Image Source="Resources/ArrowDown.png" Name="ArrowName" Visibility="Hidden" />
-                                            </StackPanel>
-                                        </Grid>
+                                    <TextBlock Text="{DynamicResource Nametext}" />
+                                    <Image Source="Resources/ArrowDown.png" Name="ArrowName" Visibility="Hidden" />
+                                </StackPanel>
+                            </Grid>
 
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="45" CellTemplate="{StaticResource PatientGender}">
-                                        <Grid Tag="3">
-                                            <StackPanel Orientation="Horizontal">
+                        </GridViewColumn>
+                        <GridViewColumn Width="80" CellTemplate="{StaticResource PatientGender}">
+                            <Grid Tag="3">
+                                <StackPanel Orientation="Horizontal">
 
-                                                <TextBlock Text="{DynamicResource Sextext}" />
-                                                <Image Source="Resources/ArrowDown.png" Name="ArrowSex" Visibility="Hidden" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="45" CellTemplate="{StaticResource PatientDob}">
-                                        <Grid Tag="4">
-                                            <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{DynamicResource Sextext}" />
+                                    <Image Source="Resources/ArrowDown.png" Name="ArrowSex" Visibility="Hidden" />
+                                </StackPanel>
+                            </Grid>
+                        </GridViewColumn>
+                        <GridViewColumn Width="80" CellTemplate="{StaticResource PatientDob}">
+                            <Grid Tag="4">
+                                <StackPanel Orientation="Horizontal">
 
-                                                <TextBlock Text="{DynamicResource Agetext}" />
-                                                <Image Source="Resources/ArrowDown.png" Name="ArrowAge" Visibility="Hidden" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="70" CellTemplate="{StaticResource PatientInfectType}">
-                                        <Grid Tag="5">
-                                            <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{DynamicResource Agetext}" />
+                                    <Image Source="Resources/ArrowDown.png" Name="ArrowAge" Visibility="Hidden" />
+                                </StackPanel>
+                            </Grid>
+                        </GridViewColumn>
+                        <GridViewColumn Width="100" CellTemplate="{StaticResource PatientInfectType}">
+                            <Grid Tag="5">
+                                <StackPanel Orientation="Horizontal">
 
-                                                <TextBlock Text="{DynamicResource InfectTypetext}" />
-                                                <Image Source="Resources/ArrowDown.png" Name="ArrowInfectTypeId" Visibility="Hidden" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="70" CellTemplate="{StaticResource PatientTreatStatus}">
-                                        <Grid Tag="6">
-                                            <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{DynamicResource InfectTypetext}" />
+                                    <Image Source="Resources/ArrowDown.png" Name="ArrowInfectTypeId" Visibility="Hidden" />
+                                </StackPanel>
+                            </Grid>
+                        </GridViewColumn>
+                        <GridViewColumn Width="100" CellTemplate="{StaticResource PatientTreatStatus}">
+                            <Grid Tag="6">
+                                <StackPanel Orientation="Horizontal">
 
-                                                <TextBlock Text="{DynamicResource TreatStatustext}" />
-                                                <Image Source="Resources/ArrowDown.png" Name="ArrowTreatStatusId" Visibility="Hidden" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="90" CellTemplate="{StaticResource PatientIsFixedBed}">
-                                        <Grid Tag="7">
-                                            <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{DynamicResource TreatStatustext}" />
+                                    <Image Source="Resources/ArrowDown.png" Name="ArrowTreatStatusId" Visibility="Hidden" />
+                                </StackPanel>
+                            </Grid>
+                        </GridViewColumn>
+                        <GridViewColumn Width="120" CellTemplate="{StaticResource PatientIsFixedBed}">
+                            <Grid Tag="7">
+                                <StackPanel Orientation="Horizontal">
 
-                                                <TextBlock Text="{DynamicResource IsFixedBedtext}" />
-                                                <Image Source="Resources/ArrowDown.png" Name="ArrowIsFixedBed" Visibility="Hidden" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="90" CellTemplate="{StaticResource PatientIsAssigned}">
-                                        <Grid Tag="8">
-                                            <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{DynamicResource IsFixedBedtext}" />
+                                    <Image Source="Resources/ArrowDown.png" Name="ArrowIsFixedBed" Visibility="Hidden" />
+                                </StackPanel>
+                            </Grid>
+                        </GridViewColumn>
+                        <GridViewColumn Width="120" CellTemplate="{StaticResource PatientIsAssigned}">
+                            <Grid Tag="8">
+                                <StackPanel Orientation="Horizontal">
 
-                                                <TextBlock Text="{DynamicResource IsAssignedtext}" />
-                                                <Image Source="Resources/ArrowDown.png" Name="ArrowIsAssigned" Visibility="Hidden" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="90" CellTemplate="{StaticResource PatientRegesiterDate}">
-                                        <Grid Tag="9">
-                                            <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{DynamicResource IsAssignedtext}" />
+                                    <Image Source="Resources/ArrowDown.png" Name="ArrowIsAssigned" Visibility="Hidden" />
+                                </StackPanel>
+                            </Grid>
+                        </GridViewColumn>
+                        <GridViewColumn Width="120" CellTemplate="{StaticResource PatientRegesiterDate}">
+                            <Grid Tag="9">
+                                <StackPanel Orientation="Horizontal">
 
-                                                <TextBlock Text="{DynamicResource Datetext}" />
-                                                <Image Source="Resources/ArrowDown.png" Name="ArrowDate" Visibility="Hidden" />
-                                            </StackPanel>
-                                        </Grid>
-                                    </GridViewColumn>
-                                    <!--<GridViewColumn Width="90" CellTemplate="{StaticResource PatientRegesiterDate}">
+                                    <TextBlock Text="{DynamicResource Datetext}" />
+                                    <Image Source="Resources/ArrowDown.png" Name="ArrowDate" Visibility="Hidden" />
+                                </StackPanel>
+                            </Grid>
+                        </GridViewColumn>
+                        <!--<GridViewColumn Width="90" CellTemplate="{StaticResource PatientRegesiterDate}">
                                         <Grid Tag="9">
                                             <StackPanel Orientation="Horizontal">
 
@@ -175,46 +168,59 @@
                                             </StackPanel>
                                         </Grid>
                                     </GridViewColumn>-->
-                                    <GridViewColumn Header="{DynamicResource  descriptionText}" Width="345" CellTemplate="{StaticResource PatientDescription}"></GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                        <RadioButton Content="{DynamicResource  AllDateText}" Style="{StaticResource RadioButtonStyle1}" HorizontalAlignment="Left" Margin="239,57,0,0" Name="TimeRadioButton1" VerticalAlignment="Top" FontSize="16" GroupName="TimeSelecet" Click="TimeRadioButton1_Click" TabIndex="10005" />
-                        <RadioButton Content="{DynamicResource  In7DayText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" HorizontalAlignment="Left" Margin="392,57,0,0" Name="TimeRadioButton2" VerticalAlignment="Top"  GroupName="TimeSelecet"  Click="TimeRadioButton1_Click" TabIndex="10006" />
-                        <RadioButton Content="{DynamicResource  In3DaysText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" Margin="545,57,0,0" Name="TimeRadioButton3" VerticalAlignment="Top" GroupName="TimeSelecet"  IsChecked="True" Click="TimeRadioButton1_Click" HorizontalAlignment="Left" TabIndex="10007" />
-                        <DatePicker HorizontalAlignment="Left" Style="{StaticResource DatePickerStyle}" Margin="480,20,0,0" Name="EndatePicker" VerticalAlignment="Top" Width="130" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" VerticalContentAlignment="Center" Padding="3,0" TabIndex="10004" OpacityMask="{x:Null}"></DatePicker>
-                    </Grid>
-                    <Rectangle Height="4" HorizontalAlignment="Stretch" Margin="0,572,0,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" Fill="Black" StrokeThickness="1" IsHitTestVisible="True" />
-                </Grid>
-                <Grid  HorizontalAlignment="Stretch" Margin="0,5,5,0" IsEnabled="False" Name="grid1" VerticalAlignment="Bottom" Style="{StaticResource DialogGridBottomBacGround}">
-                    <Grid Margin="0,0,0,0" Style="{StaticResource GridBackGround1}">
-                        <Button Content="{DynamicResource  Save}" HorizontalAlignment="Right" Margin="0,144,226,0" Name="AddSaveButton" VerticalAlignment="Top" Click="ButtonNewSaveClick" Style="{StaticResource DialogButton}" TabIndex="20015" IsTabStop="True" />
-                        <TextBox HorizontalAlignment="Right" Margin="0,15,20,0" Name="AddAgeTextBox" VerticalAlignment="Top" Width="150" Style="{StaticResource DialogTextBox}" TabIndex="20005" IsTabStop="True" />
-                        <TextBox Height="62" HorizontalAlignment="Left" Margin="98,120,0,0" Name="DescriptionTextBox" VerticalAlignment="Top" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Text="癫痫" Style="{StaticResource DialogTextBox}"  Width="311" VerticalContentAlignment="Top" TabIndex="20013" IsTabStop="True" />
-                        <TextBlock HorizontalAlignment="Right" Margin="0,15,179,0" Text="{DynamicResource  Agetext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
-                        <TextBox HorizontalAlignment="Right" Margin="0,15,265,0" VerticalAlignment="Top" Width="150" Name="Add_NameTextBox" Style="{StaticResource DialogTextBox}" TabIndex="20003" IsTabStop="True" />
-                        <TextBlock HorizontalAlignment="Right" Margin="0,15,424,0" Text="{DynamicResource  Nametext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
-                        <ComboBox Name="SexComboBox" Margin="98,50,510,0" HorizontalAlignment="Left" Width="150" VerticalAlignment="Top" Text="男" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20007" IsTabStop="True" ItemsSource="{Binding}" />
-                        <ComboBox HorizontalAlignment="Right" Margin="0,50,265,0" Name="InfectTypeComboBox" Width="150" VerticalAlignment="Top" Text="" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
-                        <TextBox Visibility="Hidden"  HorizontalAlignment="Left" Margin="98,15,0,0" Name="AddIDTextBox" Style="{StaticResource DialogTextBox}" Text="" VerticalAlignment="Top" Width="150" IsReadOnly="True" IsEnabled="False" TabIndex="20001" IsTabStop="True" />
-                        <TextBox HorizontalAlignment="Left" Margin="98,15,0,0" Name="AddPatientIDTextBox" Style="{StaticResource DialogTextBox}" Text="" VerticalAlignment="Top" Width="150" IsReadOnly="False" IsEnabled="True" TabIndex="20001" IsTabStop="True" />
-                        <TextBlock Margin="0,50,700,97" Text="{DynamicResource  Sextext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" HorizontalAlignment="Right" />
-                        <TextBlock Margin="0,85,700,97" Text="{DynamicResource  Mobiletext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" HorizontalAlignment="Right" />
-                        <TextBox HorizontalAlignment="Left" Margin="98,85,0,0" Name="MobileTextBox" Style="{StaticResource DialogTextBox}" Text="" VerticalAlignment="Top" Width="150" IsReadOnly="False" IsEnabled="True" TabIndex="20001" IsTabStop="True" />
-                        <TextBlock HorizontalAlignment="Right" Margin="0,50,424,0" Text="{DynamicResource  InfectTypetext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
-                        <TextBlock HorizontalAlignment="Right" Margin="0,50,179,0" Text="{DynamicResource  Datetext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
-                        <TextBlock  HorizontalAlignment="Right"  Margin="0,120,700,97" Text="{DynamicResource  descriptionText}" VerticalAlignment="Top" DataContext="{Binding}" Style="{StaticResource DialogTextBlock}"  />
-                        <TextBlock Visibility="Hidden"  Margin="0,15,669,0" Style="{StaticResource DialogTextBlock}" Text="{DynamicResource  IDtext}" VerticalAlignment="Top" HorizontalAlignment="Right" Name="AddIDTextBlock" />
-                        <TextBlock Margin="0,15,700,0" Style="{StaticResource DialogTextBlock}" Text="{DynamicResource  PatientIDtext}" VerticalAlignment="Top" HorizontalAlignment="Right" Name="AddPatientIDTextBlock" />
-                        <CheckBox Name="IsFixedBedCheckBox" HorizontalAlignment="Right" Content="是否固定床位" Margin="0,85,265,0"  Width="150" VerticalAlignment="Top"  Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
-                        <CheckBox Name="IsAssignedCheckBox" Visibility="Hidden" HorizontalAlignment="Right" Content="是否已经排班" Margin="0,85,15,0" Width="150" VerticalAlignment="Top"  Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
-                        <DatePicker Height="27" HorizontalAlignment="Right" Margin="0,50,20,0" VerticalAlignment="Top" Width="150" Name="AddTimeDate" FontSize="16" VerticalContentAlignment="Center" Padding="3,0" TabIndex="20011" IsTabStop="True" />
-                        <TextBlock HorizontalAlignment="Right" Margin="0,85,179,0" Text="治疗状态" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
-                        <ComboBox Name="StatusComboBox" Margin="0,85,20,0" HorizontalAlignment="Right" Width="150" VerticalAlignment="Top" Text="" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20007" IsTabStop="True" ItemsSource="{Binding}" />
-                        <Button Content="{DynamicResource  giveupText}" HorizontalAlignment="Right" Margin="0,144,15,0" Name="AddCancelButton" VerticalAlignment="Top" Click="ButtonNewCancelClick" Style="{StaticResource DialogButton}" TabIndex="20017" />
-                    </Grid>
-                </Grid>
+                        <GridViewColumn Header="{DynamicResource  descriptionText}" Width="175" CellTemplate="{StaticResource PatientDescription}"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <TextBlock HorizontalAlignment="Left" Margin="280,20,0,0" x:Name="InfectTypetextBlock" Text="感染类型" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
+            <ComboBox HorizontalAlignment="Left" Margin="350,20,0,0" Name="InfectTypeComboBox" Width="150" VerticalAlignment="Top" Text="" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
+
+            <CheckBox Visibility="Hidden" Name="IsFixedBedCheckBox" HorizontalAlignment="Left" Content="是否固定床位" Margin="280,60,0,0"  Width="150" VerticalAlignment="Top"  Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
+
+            <TextBlock HorizontalAlignment="Left" Margin="280,60,0,0" x:Name="GendertextBlock" Text="性别" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
+            <ComboBox Name="SexComboBox" Margin="350,60,0,0" HorizontalAlignment="Left" Width="150" VerticalAlignment="Top" Text="男" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20007" IsTabStop="True" ItemsSource="{Binding}" />
+
+
+            <TextBlock HorizontalAlignment="Right" Margin="0,20,400,0" x:Name="textBlock2" Text="{DynamicResource BeginText}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
+            <DatePicker HorizontalAlignment="Right" Margin="0,20,240,0" x:Name="BeginDatePicker" VerticalAlignment="Top" Width="130" SelectedDateFormat="Short" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" Padding="3,0" VerticalContentAlignment="Center" TabIndex="10003" Style="{StaticResource DatePickerStyle}" RenderTransformOrigin="2.033,0.475" />
+            <TextBlock HorizontalAlignment="Right" Margin="0,20,160,0" x:Name="textBlock3" Text="{DynamicResource EndText}" VerticalAlignment="Top" Width="45" Style="{StaticResource DialogTextBlock}" />
+            <DatePicker HorizontalAlignment="Right" Style="{StaticResource DatePickerStyle}" Margin="0,20,20,0" x:Name="EndatePicker" VerticalAlignment="Top" Width="130" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" VerticalContentAlignment="Center" Padding="3,0" TabIndex="10004" OpacityMask="{x:Null}"/>
+            <Button Content="{DynamicResource SearchText}" Margin="0,54,20,0" x:Name="InquireButton" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="InquireButton_Click" TabIndex="10008" />
+
+            <RadioButton Content="{DynamicResource AllDateText}" Style="{StaticResource RadioButtonStyle1}" HorizontalAlignment="Right" Margin="0,60,358,0" x:Name="TimeRadioButton1" VerticalAlignment="Top" FontSize="16" GroupName="TimeSelecet" Click="TimeRadioButton1_Click" TabIndex="10005" />
+            <RadioButton Content="{DynamicResource In7DayText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" HorizontalAlignment="Right" Margin="0,60,240,0" x:Name="TimeRadioButton2" VerticalAlignment="Top"  GroupName="TimeSelecet"  Click="TimeRadioButton1_Click" TabIndex="10006" />
+            <RadioButton Content="{DynamicResource In3DaysText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" Margin="0,60,138,0" x:Name="TimeRadioButton3" VerticalAlignment="Top" GroupName="TimeSelecet"  IsChecked="True" Click="TimeRadioButton1_Click" HorizontalAlignment="Right" TabIndex="10007" />
+
+            <Rectangle Height="4" HorizontalAlignment="Stretch" Margin="0,750,0,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" Fill="Black" StrokeThickness="1" IsHitTestVisible="True" />
+        </Grid>
+        <Grid  HorizontalAlignment="Stretch" Margin="0,0,0,0" IsEnabled="False" Name="grid1" VerticalAlignment="Bottom" Style="{StaticResource DialogGridBottomBacGround}">
+            <Grid Style="{StaticResource GridBackGround1}">
+                <Button Content="{DynamicResource  Save}" HorizontalAlignment="Right" Margin="0,189,399,0" Name="AddSaveButton" VerticalAlignment="Top" Click="ButtonNewSaveClick" Style="{StaticResource DialogButton}" TabIndex="20015" IsTabStop="True" />
+                <TextBox HorizontalAlignment="Left" Margin="950,15,20,0" Name="AddAgeTextBox" VerticalAlignment="Top" Width="150" Style="{StaticResource DialogTextBox}" TabIndex="20005" IsTabStop="True" />
+                <TextBox Height="97" HorizontalAlignment="Left" Margin="170,120,0,0" Name="DescriptionTextBox" VerticalAlignment="Top" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Text="癫痫" Style="{StaticResource DialogTextBox}"  Width="150" VerticalContentAlignment="Top" TabIndex="20013" IsTabStop="True" />
+                <TextBlock HorizontalAlignment="Left" Margin="850,15,179,0" Text="{DynamicResource  Agetext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
+                <TextBox HorizontalAlignment="Left" Margin="560,15,265,0" VerticalAlignment="Top" Width="150" Name="Add_NameTextBox" Style="{StaticResource DialogTextBox}" TabIndex="20003" IsTabStop="True" />
+                <TextBlock HorizontalAlignment="Left" Margin="480,15,424,0" Text="{DynamicResource  Nametext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
+                <ComboBox Name="SexComboBox1" Margin="170,50,510,0" HorizontalAlignment="Left" Width="150" VerticalAlignment="Top" Text="男" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20007" IsTabStop="True" ItemsSource="{Binding}" />
+                <ComboBox HorizontalAlignment="Left" Margin="560,50,265,0" Name="InfectTypeComboBox1" Width="150" VerticalAlignment="Top" Text="" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
+                <TextBox Visibility="Hidden"  HorizontalAlignment="Left" Margin="98,15,0,0" Name="AddIDTextBox" Style="{StaticResource DialogTextBox}" Text="" VerticalAlignment="Top" Width="150" IsReadOnly="True" IsEnabled="False" TabIndex="20001" IsTabStop="True" />
+                <TextBox HorizontalAlignment="Left" Margin="170,15,0,0" Name="AddPatientIDTextBox" Style="{StaticResource DialogTextBox}" Text="" VerticalAlignment="Top" Width="150" IsReadOnly="False" IsEnabled="True" TabIndex="20001" IsTabStop="True" />
+                <TextBlock Margin="120,50,700,97" Text="{DynamicResource  Sextext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" HorizontalAlignment="Left" />
+                <TextBlock Margin="120,85,700,97" Text="{DynamicResource  Mobiletext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" HorizontalAlignment="Left" />
+                <TextBox HorizontalAlignment="Left" Margin="170,85,0,0" Name="MobileTextBox" Style="{StaticResource DialogTextBox}" Text="" VerticalAlignment="Top" Width="150" IsReadOnly="False" IsEnabled="True" TabIndex="20001" IsTabStop="True" />
+                <TextBlock HorizontalAlignment="Left" Margin="480,50,424,0" Text="{DynamicResource  InfectTypetext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
+                <TextBlock HorizontalAlignment="Left" Margin="850,50,179,0" Text="{DynamicResource  Datetext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
+                <TextBlock  HorizontalAlignment="Left"  Margin="120,120,700,97" Text="{DynamicResource  descriptionText}" VerticalAlignment="Top" DataContext="{Binding}" Style="{StaticResource DialogTextBlock}"  />
+                <TextBlock Visibility="Hidden"  Margin="0,15,669,0" Style="{StaticResource DialogTextBlock}" Text="{DynamicResource  IDtext}" VerticalAlignment="Top" HorizontalAlignment="Right" Name="AddIDTextBlock" />
+                <TextBlock Margin="120,15,700,0" Style="{StaticResource DialogTextBlock}" Text="{DynamicResource  PatientIDtext}" VerticalAlignment="Top" HorizontalAlignment="Left" Name="AddPatientIDTextBlock" />
+                <CheckBox Name="IsFixedBedCheckBox1" HorizontalAlignment="Left" Content="是否固定床位" Margin="560,85,265,0"  Width="150" VerticalAlignment="Top"  Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
+                <CheckBox Name="IsAssignedCheckBox" Visibility="Hidden" HorizontalAlignment="Right" Content="是否已经排班" Margin="0,85,15,0" Width="150" VerticalAlignment="Top"  Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
+                <DatePicker Height="27" HorizontalAlignment="Left" Margin="950,50,20,0" VerticalAlignment="Top" Width="150" Name="AddTimeDate" FontSize="16" VerticalContentAlignment="Center" Padding="3,0" TabIndex="20011" IsTabStop="True" />
+                <TextBlock HorizontalAlignment="Left" Margin="850,85,0,0" Text="治疗状态" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
+                <ComboBox Name="StatusComboBox" Margin="950,85,20,0" HorizontalAlignment="Left" Width="150" VerticalAlignment="Top" Text="" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20007" IsTabStop="True" ItemsSource="{Binding}" />
+                <Button Content="{DynamicResource  giveupText}" HorizontalAlignment="Right" Margin="0,189,140,0" Name="AddCancelButton" VerticalAlignment="Top" Click="ButtonNewCancelClick" Style="{StaticResource DialogButton}" TabIndex="20017" />
             </Grid>
-        </Canvas>
-    </Viewbox>
+        </Grid>
+    </StackPanel>
 </UserControl>
