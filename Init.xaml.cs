@@ -43,6 +43,12 @@ namespace WpfApplication1
             EndatePicker.Text = DateTime.Now.ToString();
             BeginDatePicker.Text = (DateTime.Now - TimeSpan.FromDays(3)).ToString();
             AddTimeDate.Text = "dateTimeString";
+
+            this.SexComboBox.Items.Clear();
+            this.SexComboBox.Items.Add("所有");
+            this.SexComboBox.Items.Add("男");
+            this.SexComboBox.Items.Add("女");
+            SexComboBox.SelectedIndex = 0;
         }
 
         private void BeginDatePicker_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -1378,6 +1384,26 @@ namespace WpfApplication1
         private void Init_OnLoaded(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
+            //throw new NotImplementedException();
+            try
+            {
+                using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    var list = infectTypeDao.SelectInfectType(condition);
+                    InfectTypeComboBox.Items.Clear();
+                    InfectTypeComboBox.Items.Add("所有");
+                    foreach (InfectType type in list)
+                    {
+                        InfectTypeComboBox.Items.Add(type.Name);
+                    }
+                    InfectTypeComboBox.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded InfectType ComboxItem exception messsage: " + ex.Message);
+            }
 
             try
             {

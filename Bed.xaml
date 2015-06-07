@@ -198,7 +198,7 @@
                 <Label Content="未排患者" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF772689" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Grid>
             <StackPanel Height="750" Orientation="Horizontal">
-                <ListView ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center" ItemsSource="{Binding}" Width="280" Name="PatientlistView" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}"  IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}"
+                <ListView  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center" ItemsSource="{Binding}" Width="280" Name="PatientlistView" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}"  IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}"
                                dragDropListBox:DragDropHelper.IsDragSource="true" dragDropListBox:DragDropHelper.IsDropTarget="true" dragDropListBox:DragDropHelper.DragDropTemplate="{StaticResource planetTemplateDrag}">
                     <ListView.View>
                         <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
