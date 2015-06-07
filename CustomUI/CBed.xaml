@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="240" d:DesignWidth="500" Loaded="CBed_OnLoaded">
+             d:DesignHeight="600" d:DesignWidth="500" Loaded="CBed_OnLoaded">
     <UserControl.Resources>
         <DataTemplate x:Key="Id">
             <TextBlock Text="{Binding Id}" />
@@ -31,7 +31,7 @@
     <Grid  Style="{StaticResource GridBackGround1}">
         <StackPanel Margin="0,0">
             <TextBlock Name="TitleTextBlock" Margin="0" HorizontalAlignment="Center" Style="{StaticResource TextBlockStyle1}" Text="床位信息" />
-            <ListView x:Name="ListView1" ItemsSource="{Binding}" Height="110" Margin="0,0,0,0" Style="{StaticResource ListViewStyle}"
+            <ListView x:Name="ListView1" ItemsSource="{Binding}" Height="400" Margin="0,0,0,0" Style="{StaticResource ListViewStyle}"
             	VerticalAlignment="Top" FontSize="16" Loaded="ListViewCBed_OnLoaded"  SelectionChanged="ListViewCBed_OnSelectionChanged">
                 <ListView.View>
                     <GridView>

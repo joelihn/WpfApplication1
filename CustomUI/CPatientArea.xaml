@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="240" d:DesignWidth="500">
+             d:DesignHeight="600" d:DesignWidth="500">
     <UserControl.Resources>
         <DataTemplate x:Key="Id">
             <TextBlock Text="{Binding Id}" />
@@ -20,9 +20,9 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid Style="{StaticResource GridBackGround1}">
-            <StackPanel Margin="0,0">
+        <StackPanel Margin="0,0">
             <TextBlock Name="TitleTextBlock" Margin="0" HorizontalAlignment="Center" Style="{StaticResource TextBlockStyle1}" Text="病区信息" />
-            <ListView ItemsSource="{Binding}" x:Name="ListViewPatientArea" Height="110" Margin="0,0,0,0" Style="{StaticResource ListViewStyle}"
+            <ListView ItemsSource="{Binding}" x:Name="ListViewPatientArea" Height="400" Margin="0,0,0,0" Style="{StaticResource ListViewStyle}"
             	VerticalAlignment="Top" FontSize="16" Loaded="ListViewCPatientArea_OnLoaded"  SelectionChanged="ListViewCPatientArea_OnSelectionChanged">
                 <ListView.View>
                     <GridView>
@@ -34,19 +34,19 @@
                 </ListView.View>
             </ListView>
             <Grid>
-                <TextBlock Width="73" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="名称" />
-                <TextBlock Width="73" Margin="140,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="类型" />
-                <TextBlock Width="73" Margin="280,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="描述" />
+                <TextBlock Width="73" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="名称" Margin="25,0,0,0" />
+                <TextBlock Width="73" Margin="165,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="类型" />
+                <TextBlock Width="73" Margin="305,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="描述" />
             </Grid>
             <Grid Margin="0,0,0,10">
-                <TextBox Name="NameTextBox" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
-                <ComboBox Name="TypeComboBox" FontSize="16"  Height="27"  Width="100" Margin="150,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
-                <TextBox Name="DescriptionTextBox" Width="100" Margin="300,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
+                <TextBox Name="NameTextBox" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" Margin="25,0,0,0" />
+                <ComboBox Name="TypeComboBox" FontSize="16"  Height="27"  Width="100" Margin="175,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
+                <TextBox Name="DescriptionTextBox" Width="100" Margin="325,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
             </Grid>
             <Grid>
-                <Button Name="AddButton" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddButton_OnClick"  Content="{DynamicResource  AddText}" Style="{StaticResource RightButton1}" />
-                <Button Name="UpdateButton" Margin="140,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="UpdateButton_OnClick"  Content="{DynamicResource  UpadateText}" Style="{StaticResource RightButton1}" />
-                <Button Name="DeleteButton" Margin="280,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="DeleteButton_OnClick"  Content="{DynamicResource  DelectText}" Style="{StaticResource RightButton1}" />
+                <Button Name="AddButton" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddButton_OnClick"  Content="{DynamicResource  AddText}" Style="{StaticResource RightButton1}" Margin="25,0,0,0" />
+                <Button Name="UpdateButton" Margin="165,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="UpdateButton_OnClick"  Content="{DynamicResource  UpadateText}" Style="{StaticResource RightButton1}" />
+                <Button Name="DeleteButton" Margin="305,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="DeleteButton_OnClick"  Content="{DynamicResource  DelectText}" Style="{StaticResource RightButton1}" />
             </Grid>
         </StackPanel>
         <TextBlock Margin="212,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Red" Style="{StaticResource RightTextBlock1}" Text="{DynamicResource SettingnosaveText}" Visibility="Hidden" />
