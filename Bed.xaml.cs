@@ -316,6 +316,17 @@ namespace WpfApplication1
                             }
                         }
 
+                        using (var bedinfodao = new BedInfoDao())
+                        {
+                            condition.Clear();
+                            condition["Bed.Id"] = bed.Id;
+                            var arealist = bedinfodao.SelectPatient(condition);
+                            if (arealist.Count == 1)
+                            {
+                                bedInfo.InfectionType = arealist[0].Type;
+                            }
+                        }
+
                         foreach (var bedPatientData in BedPatientList)
                         {
                             if (bedPatientData.BedId == bedInfo.Id)
@@ -399,7 +410,7 @@ namespace WpfApplication1
             }
             e.Handled = true;
         }
-
+        //SELECT * FROM (Bed INNER JOIN PatientRoom ON Bed.PatientRoomId=PatientRoom.Id) INNER JOIN InfectType ON PatientRoom.InfectTypeId=InfectType.Id
         private void UpdateBedId(long patientID, DateTime dateTime, string ampme , long bedid)
         {
             try
@@ -658,7 +669,7 @@ namespace WpfApplication1
             _patientName = "";
             _treatMethod = "";
             _titleBrush = Brushes.GreenYellow;
-            _bedBrush = Brushes.DimGray;
+            _bedBrush = Brushes.RoyalBlue;
             _isAvliable = false;
             _isOccupy = true;
             PatientData = null;
@@ -705,6 +716,21 @@ namespace WpfApplication1
             {
                 _bedName = value;
                 OnPropertyChanged("BedName");
+            }
+        }
+
+        public string InfectionType
+        {
+            get { return _bedName; }
+            set
+            {
+                if((string)value == "阴性" )
+                    _titleBrush = Brushes.GreenYellow;
+                else
+                {
+                    _titleBrush = Brushes.Red;
+                }
+                OnPropertyChanged("TitleBrush");
             }
         }
 

@@ -108,6 +108,7 @@
       <DependentUpon>RemindMessageBox3.xaml</DependentUpon>
     </Compile>
     <Compile Include="DAOModule\BedDao.cs" />
+    <Compile Include="DAOModule\BedInfoDao.cs" />
     <Compile Include="DAOModule\ComplexDao.cs" />
     <Compile Include="DAOModule\DatabaseOp.cs" />
     <Compile Include="DAOModule\DataStruct.cs" />

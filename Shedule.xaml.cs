@@ -41,7 +41,7 @@ namespace WpfApplication1
         //public ObservableCollection<MedicalOrderParaData> OrderParaList = new ObservableCollection<MedicalOrderParaData>();
         public ObservableCollection<TreatOrder> TreatOrderList = new ObservableCollection<TreatOrder>();
         public List<DateTime> dtlist = new List<DateTime>();
-
+        private Thread SaveThread = null;
         public int selectoperation;
         public Shedule(MainWindow mainWindow)
         {
@@ -1488,59 +1488,74 @@ namespace WpfApplication1
 
         private void CopySchedule( )
         {
-            int dayOfWeek = (int)DateTime.Now.DayOfWeek;
-
-            //return;
-            if (dayOfWeek != 1) return;
-
-            DateTime dtFrom = DateTime.Now.AddDays(-7);
-            DateTime dtTo = DateTime.Now.AddDays(-1);
-            using (var patientDao = new PatientDao())
+            try
             {
-                var condition = new Dictionary<string, object>();
-                condition["TREATSTATUSID"] = 1;
-                List<Patient> patientslist = patientDao.SelectPatient(condition);
-                if (patientslist.Count == 0) return;
-                ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao();
-                foreach (var patient in patientslist)
+
+                int dayOfWeek = (int)DateTime.Now.DayOfWeek;
+
+                //return;
+                if (dayOfWeek != 1) return;
+
+                DateTime dtFrom = DateTime.Now.AddDays(-7);
+                DateTime dtTo = DateTime.Now.AddDays(-1);
+                using (var patientDao = new PatientDao())
                 {
-                    //if (patient.Id != 17) continue;
-                    PatientSchedule schedule = GetPatientSchedule(patient.Id);
-                    List<string> uncopyed =  GetUnCopyOrder(patient.Id);
-                    //List<Hemodialysy> newlist = new List<Hemodialysy>();
-                    foreach (var v in schedule.Hemodialysis)
+                    var condition = new Dictionary<string, object>();
+                    condition["TREATSTATUSID"] = 1;
+                    List<Patient> patientslist = patientDao.SelectPatient(condition);
+                    if (patientslist.Count == 0) return;
+                    ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao();
+                    foreach (var patient in patientslist)
                     {
+                        //if (patient.Id != 17) continue;
+                        PatientSchedule schedule = GetPatientSchedule(patient.Id);
                         
-                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 && DateTime.Compare(v.dialysisTime.dateTime, dtTo.Date) <= 0)
+                        //只要双周就复制
+                        //List<string> uncopyed =  GetUnCopyOrder(patient.Id);
+                        //List<Hemodialysy> newlist = new List<Hemodialysy>();
+                        foreach (var v in schedule.Hemodialysis)
                         {
-                            //Hemodialysy newHemodialysy = new Hemodialysy();
-                            //newHemodialysy = v;
-                            //newHemodialysy.dialysisTime.dateTime = v.dialysisTime.dateTime.AddDays(14);
-                            //newlist.Add(newHemodialysy);
-                            //schedule.Hemodialysis.Add(newHemodialysy);
-
-                            Dictionary<string, object> condition1 = new Dictionary<string, object>();
-                            condition1["PatientId"] = patient.Id;
-                            condition1["Date"] = v.dialysisTime.dateTime.AddDays(14).ToString("yyyy-MM-dd");
-                            var list = scheduleDao.SelectScheduleTemplate(condition1);
-                            if( list == null || list.Count == 0)
+                        
+                            if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 && DateTime.Compare(v.dialysisTime.dateTime, dtTo.Date) <= 0)
                             {
-                                ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
-                                scheduleTemplate.PatientId = patient.Id;
-                                scheduleTemplate.Date = v.dialysisTime.dateTime.AddDays(14).ToString("yyyy-MM-dd");
-                                scheduleTemplate.AmPmE = v.dialysisTime.AmPmE;
-                                scheduleTemplate.Method = v.hemodialysisItem;
-                                int ret = -1;
-                                if (!uncopyed.Contains(scheduleTemplate.Method))
-                                    scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
-                            }
+                                //Hemodialysy newHemodialysy = new Hemodialysy();
+                                //newHemodialysy = v;
+                                //newHemodialysy.dialysisTime.dateTime = v.dialysisTime.dateTime.AddDays(14);
+                                //newlist.Add(newHemodialysy);
+                                //schedule.Hemodialysis.Add(newHemodialysy);
 
+                                Dictionary<string, object> condition1 = new Dictionary<string, object>();
+                                condition1["PatientId"] = patient.Id;
+                                condition1["Date"] = v.dialysisTime.dateTime.AddDays(14).ToString("yyyy-MM-dd");
+                                var list = scheduleDao.SelectScheduleTemplate(condition1);
+                                if( list == null || list.Count == 0)
+                                {
+                                    ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
+                                    scheduleTemplate.PatientId = patient.Id;
+                                    scheduleTemplate.Date = v.dialysisTime.dateTime.AddDays(14).ToString("yyyy-MM-dd");
+                                    scheduleTemplate.AmPmE = v.dialysisTime.AmPmE;
+                                    scheduleTemplate.Method = v.hemodialysisItem;
+                                    scheduleTemplate.BedId = -1;
+                                    int ret = -1;
+                                    /*if (uncopyed == null)
+                                    {
+                                        scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
+                                        continue;
+                                    }
+                                    if (!uncopyed.Contains(scheduleTemplate.Method) )*/
+                                        scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
+                                }
+
+                            }
                         }
                     }
                 }
-            }
 
-            
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
+            }
 
 
 

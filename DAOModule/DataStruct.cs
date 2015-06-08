@@ -156,6 +156,13 @@ namespace WpfApplication1.DAOModule
         public string Reserved { get; set; }
     }
 
+    public class BedDetails
+    {
+        public Int64 Id { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+    }
+
     //public enum SeriesType
     //{
     //    AnatomyImage = 0,
