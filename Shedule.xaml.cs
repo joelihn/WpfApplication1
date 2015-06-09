@@ -41,7 +41,6 @@ namespace WpfApplication1
         //public ObservableCollection<MedicalOrderParaData> OrderParaList = new ObservableCollection<MedicalOrderParaData>();
         public ObservableCollection<TreatOrder> TreatOrderList = new ObservableCollection<TreatOrder>();
         public List<DateTime> dtlist = new List<DateTime>();
-        private Thread SaveThread = null;
         public int selectoperation;
         public Shedule(MainWindow mainWindow)
         {
@@ -1771,6 +1770,11 @@ namespace WpfApplication1
             get { return checks; }
             set { checks = value; }
         }
+        public string Bed
+        {
+            get { return bed; }
+            set { bed = value; }
+        }
 
         public Week CurrentWeek { get; set; }
         public Week NextWeek { get; set; }
@@ -1778,6 +1782,7 @@ namespace WpfApplication1
         private long patientID;
         private string patientName;
         private string checks;
+        private string bed;
 
         public ListboxItemStatus()
         {

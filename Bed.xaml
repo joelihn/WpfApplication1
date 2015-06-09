@@ -195,7 +195,8 @@
                 </ToggleButton>
                 <ToggleButton  Grid.Column="3"  Style="{DynamicResource ToggleButtonStyle}" Tag="E" Click="BtnAmPmE_OnClick">
                 </ToggleButton>
-                <Label Content="未排患者" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF772689" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <Label Content="未排患者" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF772689" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="26,8,172,8"/>
+                <Button Content="自动分配" Style="{StaticResource DialogButton}" Margin="149,11,31,11" Click="AutoClick"></Button>
             </Grid>
             <StackPanel Height="750" Orientation="Horizontal">
                 <ListView  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center" ItemsSource="{Binding}" Width="280" Name="PatientlistView" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}"  IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}"

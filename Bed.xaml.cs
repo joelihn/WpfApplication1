@@ -185,6 +185,47 @@ namespace WpfApplication1
             selectoperation = 1;
         }
 
+        private void AutoClick(object sender, RoutedEventArgs e)
+        {
+            AutoDistributeBeds();
+        }
+        private void AutoDistributeBeds()
+        {
+            //BedPatientList
+            //BedInfoList
+            foreach (var patient in BedPatientList)
+            {
+                foreach (var bed in BedInfoList)
+                {
+                    if (bed.TreatMethod == patient.Method)
+                    {
+                        if (bed.IsAvailable != true && bed.IsOccupy != true)
+                        {
+                            string ampme = "";
+                            foreach (var i in AmPmEGrid.Children)
+                            {
+                                if (i is ToggleButton)
+                                {
+                                    if (((ToggleButton)i).IsChecked == true)
+                                    {
+                                        ampme = (string)((ToggleButton)i).Tag;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (bed.PatientData == null)
+                            {
+                                //BedPatientList.Remove(patient);
+                                DateTime dt1 = GetDate();
+                                UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id);
+                            }
+                        }
+                    }
+                }
+            }
+
+            
+        }
         private void BeginDatePicker_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
         }
@@ -377,6 +418,7 @@ namespace WpfApplication1
                                     patientInfo.Name = patientlist[0].Name;
                                     patientInfo.PatientId = patientlist[0].PatientId;//可能为空
                                     patientInfo.BedId = patient.BedId;
+                                    patientInfo.Method = patient.Method;
                                     BedPatientList.Add(patientInfo);
                                 }
                             }
@@ -396,6 +438,8 @@ namespace WpfApplication1
                 MainWindow.Log.WriteInfoConsole("In PatientSchedule.xaml.cs:GetPatientSchedule select patient exception messsage: " + ex.Message);
             }
         }
+
+        private System.Windows.DragDropEffects effects;
         private void PreviewDragEnter_Event(object sender, DragEventArgs e)
         {
             targetItemsControl = (ListBoxItem)sender;
@@ -406,7 +450,15 @@ namespace WpfApplication1
             object draggedItem = e.Data.GetData(this.format.Name);
             if (draggedItem != null)
             {
-                e.Effects = System.Windows.DragDropEffects.Move;
+
+                BedPatientData data = (BedPatientData)draggedItem;
+                if(BedInfoList[index].TreatMethod == data.Method)
+                //data.Method
+                    effects = System.Windows.DragDropEffects.Move;
+                else
+                {
+                    effects = System.Windows.DragDropEffects.None;
+                }
             }
             e.Handled = true;
         }
@@ -444,7 +496,8 @@ namespace WpfApplication1
             object draggedItem = e.Data.GetData(this.format.Name);
             if (draggedItem != null)
             {
-                if ((e.Effects  ==  (System.Windows.DragDropEffects) DragDropEffects.Move))
+                //BedPatientData data = (BedPatientData)draggedItem;
+                if ((effects == (System.Windows.DragDropEffects)DragDropEffects.Move))
                 {
                     if( BedInfoList[index].IsAvailable != true && BedInfoList[index].IsOccupy != true)
                     {
@@ -631,6 +684,8 @@ namespace WpfApplication1
         public Int64 BedId { get; set; }
         public string Name { get; set; }
         public string PatientId { get; set; }
+
+        public string Method { get; set; }
 
         #region INotifyPropertyChanged Members
 
