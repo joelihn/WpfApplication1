@@ -56,6 +56,70 @@ namespace WpfApplication1
             InitWeekWithDate();
         }
 
+        private void LoadTratementConifg()
+        {
+            try
+            {
+                TreatmentPanel.Children.Clear();
+                using (var methodDao = new TreatMethodDao())
+                {
+                    //Datalist.Clear();
+                    var condition = new Dictionary<string, object>();
+                    var list = methodDao.SelectTreatMethod(condition);
+                    foreach (var pa in list)
+                    {
+                        var treatMethodData = new TreatMethodData();
+                        treatMethodData.Id = pa.Id;
+                        treatMethodData.Name = pa.Name;
+                        {
+                            using (var treatTypeDao = new TreatTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.TreatTypeId;
+                                var arealist = treatTypeDao.SelectTreatType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatMethodData.Type = arealist[0].Name;
+                                }
+                            }
+                        }
+                        string bgColor = pa.BgColor;
+                        Brush bgBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
+                        if (bgColor != "" && bgColor != null)
+                            treatMethodData.BgColor = bgBrush;
+                        else
+                            treatMethodData.BgColor = Brushes.LightGray;
+
+
+                        treatMethodData.Description = pa.Description;
+
+                        StackPanel panel1 = new StackPanel();
+                        panel1.Orientation = Orientation.Horizontal;
+
+                        Rectangle rect = new Rectangle();
+                        rect.Width = rect.Height = 15;
+                        rect.Fill = bgBrush;
+                        rect.HorizontalAlignment = HorizontalAlignment.Left;
+                        Label label = new Label();
+                        label.HorizontalContentAlignment = HorizontalAlignment.Center;
+                        label.VerticalContentAlignment = VerticalAlignment.Center;
+                        label.Content = treatMethodData.Name;
+
+                        panel1.Children.Add(rect);
+                        panel1.Children.Add(label);
+
+
+                        TreatmentPanel.Children.Add(panel1);
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:ListViewCPatientRoom_OnLoaded 3 exception messsage: " + ex.Message);
+            }
+        }
+
         private void InitWeekWithDate()
         {
             dtlist.Clear();
@@ -279,6 +343,7 @@ namespace WpfApplication1
             }
 
             RefreshData();
+            LoadTratementConifg();
 
         }
 
@@ -680,10 +745,13 @@ namespace WpfApplication1
     public class BedPatientData : INotifyPropertyChanged //这个是用户数据的数据源
     {
         private Int64 _id;
-
+        private string _treatMethod;
+        private Brush _itemBgBrush;
+        private static Dictionary<string, Color> TreatMethodDictionary = new Dictionary<string, Color>();
         public BedPatientData()
         {
             Name = "";
+            LoadTreatMethod();
 
         }
         public Int64 Id
@@ -700,13 +768,96 @@ namespace WpfApplication1
         public string Name { get; set; }
         public string PatientId { get; set; }
 
-        public string Method { get; set; }
+        public string Method
+        {
+            get { return _treatMethod; }
+            set
+            {
+                _treatMethod = value;
+                _itemBgBrush = new SolidColorBrush(StrColorConverter(_treatMethod));
+                OnPropertyChanged("Method");
+                OnPropertyChanged("ItemBgBrush");
+            }
+        }
 
+        public Brush ItemBgBrush
+        {
+            get { return _itemBgBrush; }
+            set
+            {
+                _itemBgBrush = value;
+                OnPropertyChanged("ItemBgBrush");
+            }
+        }
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
+
+
+        private static void LoadTreatMethod()
+        {
+            try
+            {
+                using (var methodDao = new TreatMethodDao())
+                {
+                    TreatMethodDictionary.Clear();
+                    var condition = new Dictionary<string, object>();
+                    var list = methodDao.SelectTreatMethod(condition);
+                    foreach (var pa in list)
+                    {
+                        var treatMethodData = new TreatMethodData();
+                        treatMethodData.Id = pa.Id;
+                        treatMethodData.Name = pa.Name;
+                        {
+                            using (var treatTypeDao = new TreatTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.TreatTypeId;
+                                var arealist = treatTypeDao.SelectTreatType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatMethodData.Type = arealist[0].Name;
+                                }
+                            }
+                        }
+                        string bgColor = pa.BgColor;
+                        Brush bgBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
+                        if (bgColor != "" && bgColor != null)
+                            treatMethodData.BgColor = bgBrush;
+                        else
+                            treatMethodData.BgColor = Brushes.LightGray;
+
+
+                        treatMethodData.Description = pa.Description;
+                        TreatMethodDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:ListViewCPatientRoom_OnLoaded 3 exception messsage: " + ex.Message);
+            }
+        }
+
+        public static string StrColorConverter(Brush brush)
+        {
+            Color color = ((SolidColorBrush)brush).Color;
+            foreach (var v in TreatMethodDictionary)
+            {
+                if (v.Value == color)
+                    return v.Key;
+            }
+            return "";
+        }
+        public static Color StrColorConverter(string str)
+        {
+            if (str == "")
+                return Colors.Transparent;
+            return TreatMethodDictionary[str];
+        }
+
 
         private void OnPropertyChanged(String info)
         {
@@ -872,14 +1023,14 @@ namespace WpfApplication1
                             }
                         }
                         string bgColor = pa.BgColor;
+                        Brush bgBrush = new SolidColorBrush((Color) ColorConverter.ConvertFromString(bgColor));
                         if (bgColor != "" && bgColor != null)
-                            treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
+                            treatMethodData.BgColor = bgBrush;
                         else
                             treatMethodData.BgColor = Brushes.LightGray;
 
 
                         treatMethodData.Description = pa.Description;
-
                         TreatMethodDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
                     }
                 }

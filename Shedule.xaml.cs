@@ -744,6 +744,7 @@ namespace WpfApplication1
         {
             try
             {
+                sheet.Children.Clear();
                 using (var methodDao = new TreatMethodDao())
                 {
                     //Datalist.Clear();
@@ -768,13 +769,32 @@ namespace WpfApplication1
                             }
                         }
                         string bgColor = pa.BgColor;
+                        Brush bgBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
                         if (bgColor != "" && bgColor != null)
-                            treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
+                            treatMethodData.BgColor = bgBrush;
                         else
                             treatMethodData.BgColor = Brushes.LightGray;
 
 
                         treatMethodData.Description = pa.Description;
+
+                        StackPanel panel1 = new StackPanel();
+                        panel1.Orientation = Orientation.Horizontal;
+                            
+                        Rectangle rect = new Rectangle();
+                        rect.Width = rect.Height = 15;
+                        rect.Fill = bgBrush;
+                        rect.HorizontalAlignment = HorizontalAlignment.Left;
+                        Label label = new Label();
+                        label.HorizontalContentAlignment = HorizontalAlignment.Center;
+                        label.VerticalContentAlignment = VerticalAlignment.Center;
+                        label.Content = treatMethodData.Name;
+
+                        panel1.Children.Add(rect);
+                        panel1.Children.Add(label);
+
+
+                        sheet.Children.Add(panel1);
 
                         CureTypeDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
                         //Datalist.Add(treatMethodData);
@@ -1267,6 +1287,13 @@ namespace WpfApplication1
                                         scheduleDao.DeleteScheduleTemplate((int)l.Id);
                                     }
                                 }
+                            }
+
+                            if (CheckBed(patientID))
+                                ListboxItemStatusesList[ListBox1.SelectedIndex].Bed = "正常";
+                            else
+                            {
+                                ListboxItemStatusesList[ListBox1.SelectedIndex].Bed = "异常";
                             }
                         }
                     }
