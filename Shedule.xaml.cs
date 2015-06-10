@@ -187,6 +187,14 @@ namespace WpfApplication1
                     {
                         status.Checks = "异常";
                     }
+
+                    if (CheckBed(fmriPatient.Id))
+                        status.Bed = "正常";
+                    else
+                    {
+                        status.Bed = "异常";
+                    }
+
                     ListboxItemStatusesList.Add(status);
                 }
             }
@@ -951,6 +959,47 @@ namespace WpfApplication1
 
         }
 
+        private bool CheckBed(long _patientID)
+        {
+            try
+            {
+                bool ret = true;
+                int dayofweek = (int)DateTime.Now.DayOfWeek - 1;
+                DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
+                DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 7);
+
+                using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    condition["PatientId"] = _patientID.ToString();
+                    var list = scheduleDao.SelectScheduleTemplate(condition);
+                    foreach (ScheduleTemplate type in list)
+                    {
+                        DateTime dt = DateTime.Parse(type.Date);
+                        if (DateTime.Compare(dt.Date, dtFrom.Date) >= 0 &&
+                    DateTime.Compare(dt.Date, dtTo.Date) <= 0)
+                        {
+                            //if(type.PatientId == 16)
+                            if (type.BedId == -1)
+                            {
+                                ret = false;
+                                break;
+                            }
+                                
+                        }
+
+                    }
+                }
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In PatientSchedule.xaml.cs:GetPatientSchedule select patient exception messsage: " + ex.Message);
+                return false;
+            }
+        }
+
+
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             //GetPatientSchedule(0);
@@ -1039,6 +1088,14 @@ namespace WpfApplication1
                         {
                             status.Checks = "异常";
                         }
+
+                        if (CheckBed(patientInfo.PatientId))
+                            status.Bed = "正常";
+                        else
+                        {
+                            status.Bed = "异常";
+                        }
+
                         ListboxItemStatusesList.Add(status);
                         //PatientList.Add(patientInfo);
                     }

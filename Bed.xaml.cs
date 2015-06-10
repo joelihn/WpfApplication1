@@ -193,6 +193,21 @@ namespace WpfApplication1
         {
             //BedPatientList
             //BedInfoList
+            string ampme = "";
+            foreach (var i in AmPmEGrid.Children)
+            {
+                if (i is ToggleButton)
+                {
+                    if (((ToggleButton)i).IsChecked == true)
+                    {
+                        ampme = (string)((ToggleButton)i).Tag;
+                        break;
+                    }
+                }
+            }
+            DateTime dt1 = GetDate();
+
+            List<BedPatientData> delPatients = new List<BedPatientData>();
             foreach (var patient in BedPatientList)
             {
                 foreach (var bed in BedInfoList)
@@ -201,27 +216,23 @@ namespace WpfApplication1
                     {
                         if (bed.IsAvailable != true && bed.IsOccupy != true)
                         {
-                            string ampme = "";
-                            foreach (var i in AmPmEGrid.Children)
-                            {
-                                if (i is ToggleButton)
-                                {
-                                    if (((ToggleButton)i).IsChecked == true)
-                                    {
-                                        ampme = (string)((ToggleButton)i).Tag;
-                                        break;
-                                    }
-                                }
-                            }
                             if (bed.PatientData == null)
                             {
                                 //BedPatientList.Remove(patient);
-                                DateTime dt1 = GetDate();
+                                delPatients.Add(patient);
                                 UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id);
+                                bed.PatientName = patient.Name;
+                                bed.PatientData = patient;
                             }
                         }
+
                     }
                 }
+            }
+
+            foreach (var patient in delPatients)
+            {
+                BedPatientList.Remove(patient);
             }
 
             
@@ -295,6 +306,7 @@ namespace WpfApplication1
             int n = 0;
             switch (toggleButton.Name)
             {
+
                 case "BtnMon":
                     n = 0;
                     break;
@@ -310,8 +322,11 @@ namespace WpfApplication1
                 case "BtnFri":
                     n = 4;
                     break;
-                case "BtnSun":
+                case "BtnSta":
                     n = 5;
+                    break;
+                case "BtnSun":
+                    n = 6;
                     break;
             }
             return dtlist[n];
@@ -585,7 +600,7 @@ namespace WpfApplication1
             DateTime dt = GetDate();
             //UpdateBedId(BedInfoList[index].PatientData.Id, DateTime.Parse("2015-06-10"), ampme, -1);
             UpdateBedId(BedInfoList[index].PatientData.Id,dt.Date, ampme, -1);
-
+            BedInfoList[index].PatientData = null;
             e.Handled = true;
         }
 
