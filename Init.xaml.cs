@@ -143,7 +143,7 @@ namespace WpfApplication1
                 Add_NameTextBox.IsEnabled = true;
                 DescriptionTextBox.IsEnabled = true;
                 MobileTextBox.IsEnabled = true;
-                IsFixedBedCheckBox.IsEnabled=true;
+                IsFixedBedCheckBox1.IsEnabled = true;
                 AddAgeTextBox.IsEnabled = true;
                 SexComboBox.IsEnabled = true;
                 InfectTypeComboBox.IsEnabled = true;
@@ -321,7 +321,7 @@ namespace WpfApplication1
                 MobileTextBox.Text = PatientList[PatientlistView.SelectedIndex].PatientMobile;
                 InfectTypeComboBox1.Text = PatientList[PatientlistView.SelectedIndex].PatientInfectType;
                 StatusComboBox.Text = PatientList[PatientlistView.SelectedIndex].PatientTreatStatus;
-                IsFixedBedCheckBox.IsChecked = PatientList[PatientlistView.SelectedIndex].PatientIsFixedBed;
+                IsFixedBedCheckBox1.IsChecked = PatientList[PatientlistView.SelectedIndex].PatientIsFixedBed;
                 DescriptionTextBox.Text = PatientList[PatientlistView.SelectedIndex].PatientDescription;
                 if (PatientList[PatientlistView.SelectedIndex].PatientGender == (string)FindResource("ManText"))
                 {
@@ -977,7 +977,7 @@ namespace WpfApplication1
                 AddAgeTextBox.IsEnabled = false;
                 SexComboBox.IsEnabled = false;
                 MobileTextBox.IsEnabled = false;
-                IsFixedBedCheckBox.IsEnabled = false;
+                IsFixedBedCheckBox1.IsEnabled = false;
                 InfectTypeComboBox.IsEnabled = false;
                 StatusComboBox.IsEnabled = false;
                 AddTimeDate.IsEnabled = false;
@@ -1119,8 +1119,8 @@ namespace WpfApplication1
                                 fields["TREATSTATUSID"] = arealist[0].Id;
                             }
                         }
-                       
-                        fields["ISFIXEDBED"] = IsFixedBedCheckBox.IsChecked;
+
+                        fields["ISFIXEDBED"] = IsFixedBedCheckBox1.IsChecked;
                         fields["ISASSIGNED"] = false;
                         if (AddTimeDate.SelectedDate != null)
                         {
@@ -1234,7 +1234,7 @@ namespace WpfApplication1
                                 fields["TREATSTATUSID"] = arealist[0].Id;
                             }
                         }
-                        fields["ISFIXEDBED"] = IsFixedBedCheckBox.IsChecked;
+                        fields["ISFIXEDBED"] = IsFixedBedCheckBox1.IsChecked;
                         //fields["ISASSIGNED"] = IsAssignedCheckBox.IsChecked;
                         DateTime dateTime = DateTime.Parse(AddTimeDate.Text);
                         fields["REGISITDATE"] = dateTime.ToString("yyyy-MM-dd");

@@ -293,11 +293,11 @@
     </UserControl.Resources>
     <StackPanel>
         <Grid x:Name="TopGrid" Margin="0,0,0,0" Style="{StaticResource GridBackGround1}">
-            <StackPanel HorizontalAlignment="Left"  Height="72" Width="124" x:Name="sheet" VerticalAlignment="Top" Margin="0,8,0,0"   />
+            <StackPanel HorizontalAlignment="Left"  Height="95" Width="114" x:Name="sheet" VerticalAlignment="Top" Margin="10,0,0,0"   />
             <TextBlock HorizontalAlignment="Left" Margin="212.537,20,0,0" x:Name="PatientIDtextBlock" Text="{DynamicResource PatientIDtext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
             <TextBox HorizontalAlignment="Left" Margin="312.537,20,0,0" x:Name="PatientIDTextBox" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10001" IsTabStop="True" DataContext="{Binding}" Height="27" VerticalAlignment="Top" />
             <TextBlock HorizontalAlignment="Left" Margin="212.537,60,0,0" x:Name="textBlock8" Text="{DynamicResource Nametext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
-            <TextBox HorizontalAlignment="Left" Margin="312.537,0,0,0" x:Name="NameTextBox" VerticalAlignment="Bottom" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10002" IsTabStop="True" />
+            <TextBox HorizontalAlignment="Left" Margin="313,0,0,8" x:Name="NameTextBox" VerticalAlignment="Bottom" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10002" IsTabStop="True" />
             <!--<TextBlock Margin="220,20,0,0" x:Name="textBlock1" Text="{DynamicResource DateText}" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />-->
 
             <TextBlock HorizontalAlignment="Left" Margin="472.537,20,0,0" x:Name="InfectTypetextBlock" Text="感染类型" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />

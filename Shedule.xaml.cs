@@ -782,14 +782,14 @@ namespace WpfApplication1
                         panel1.Orientation = Orientation.Horizontal;
                             
                         Rectangle rect = new Rectangle();
-                        rect.Width = rect.Height = 15;
+                        rect.Width = rect.Height = 10;
                         rect.Fill = bgBrush;
                         rect.HorizontalAlignment = HorizontalAlignment.Left;
                         Label label = new Label();
                         label.HorizontalContentAlignment = HorizontalAlignment.Center;
                         label.VerticalContentAlignment = VerticalAlignment.Center;
                         label.Content = treatMethodData.Name;
-
+                        label.FontSize = 10;
                         panel1.Children.Add(rect);
                         panel1.Children.Add(label);
 
@@ -1201,7 +1201,25 @@ namespace WpfApplication1
                         long patientID = v.PatientID;
                         if (selectPatientID == patientID)
                         {
+                            bool fixbed = false;
+                            long bedid = -1;
                             var condition = new Dictionary<string, object>();
+                            using (var patientDao = new PatientDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = patientID;
+                                List<Patient> patientlist = patientDao.SelectPatient(condition);
+                                if (patientlist.Count == 1)
+                                {
+                                    BedPatientData patientInfo = new BedPatientData();
+                                    fixbed = patientlist[0].IsFixedBed;
+                                    bedid = patientlist[0].BedId;
+
+                                }
+                            }
+
+                            //var condition = new Dictionary<string, object>();
+                            condition.Clear();
                             condition["PatientID"] = patientID;
 
                             foreach (var day in v.CurrentWeek.days)
@@ -1221,6 +1239,9 @@ namespace WpfApplication1
                                         condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
                                         fileds["AMPME"] = day.Content;
                                         fileds["METHOD"] = StrColorConverter(day.BgColor);
+                                        if(fixbed == false)
+                                        fileds["BEDID"] = -1;
+                                        else fileds["BEDID"] = bedid;
                                         scheduleDao.UpdateScheduleTemplate(fileds, condition);
                                     }
                                     else
@@ -1230,6 +1251,9 @@ namespace WpfApplication1
                                         scheduleTemplate.Date = day.dateTime.ToString("yyyy-MM-dd");
                                         scheduleTemplate.AmPmE = day.Content;
                                         scheduleTemplate.Method = StrColorConverter(day.BgColor);
+                                        if(fixbed == false)
+                                        scheduleTemplate.BedId = -1;
+                                        else scheduleTemplate.BedId = bedid;
                                         int ret = -1;
                                         scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
                                     }
@@ -1263,6 +1287,9 @@ namespace WpfApplication1
                                         condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
                                         fileds["AMPME"] = day.Content;
                                         fileds["METHOD"] = StrColorConverter(day.BgColor);
+                                        if (fixbed == false)
+                                            fileds["BEDID"] = -1;
+                                        else fileds["BEDID"] = bedid;
                                         scheduleDao.UpdateScheduleTemplate(fileds, condition);
                                     }
                                     else
@@ -1272,6 +1299,8 @@ namespace WpfApplication1
                                         scheduleTemplate.Date = day.dateTime.ToString("yyyy-MM-dd");
                                         scheduleTemplate.AmPmE = day.Content;
                                         scheduleTemplate.Method = StrColorConverter(day.BgColor);
+                                        if (fixbed == false) scheduleTemplate.BedId = -1;
+                                        else scheduleTemplate.BedId = bedid;
                                         int ret = -1;
                                         scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
                                     }
@@ -1295,6 +1324,7 @@ namespace WpfApplication1
                             {
                                 ListboxItemStatusesList[ListBox1.SelectedIndex].Bed = "异常";
                             }
+                            break;
                         }
                     }
                 }

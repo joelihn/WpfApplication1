@@ -156,48 +156,48 @@
     <Grid Style="{StaticResource GridBackGround1}">
         <StackPanel >
             <Grid Height="100" x:Name="TopGrid" Margin="0,0,0,0"  Style="{StaticResource GridBackGround1}">
-                <StackPanel Name="TreatmentPanel" HorizontalAlignment="Left"  Height="87" Width="123.955" VerticalAlignment="Top"   />
-            
-            
-            
-            
-            	<TextBlock HorizontalAlignment="Left" Margin="219.928,20,0,0" x:Name="PatientIDtextBlock" Text="{DynamicResource PatientIDtext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
-            	<TextBox HorizontalAlignment="Left" Margin="320.062,20,0,0" x:Name="PatientIDTextBox" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10001" IsTabStop="True" DataContext="{Binding}" Height="27" VerticalAlignment="Top" />
-            	<TextBlock HorizontalAlignment="Left" Margin="219.928,60,0,0" x:Name="textBlock8" Text="{DynamicResource Nametext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
-            	<TextBox HorizontalAlignment="Left" Margin="320.062,60,0,0" x:Name="NameTextBox" VerticalAlignment="Top" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10002" IsTabStop="True" />
+                <StackPanel Name="TreatmentPanel" HorizontalAlignment="Left"  Height="100" Width="114" VerticalAlignment="Top" Margin="10,0,0,0"   />
+
+
+
+
+                <TextBlock HorizontalAlignment="Left" Margin="219.928,20,0,0" x:Name="PatientIDtextBlock" Text="{DynamicResource PatientIDtext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
+                <TextBox HorizontalAlignment="Left" Margin="320.062,20,0,0" x:Name="PatientIDTextBox" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10001" IsTabStop="True" DataContext="{Binding}" Height="27" VerticalAlignment="Top" />
+                <TextBlock HorizontalAlignment="Left" Margin="219.928,60,0,0" x:Name="textBlock8" Text="{DynamicResource Nametext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
+                <TextBox HorizontalAlignment="Left" Margin="320.062,60,0,0" x:Name="NameTextBox" VerticalAlignment="Top" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10002" IsTabStop="True" />
                 <!--<TextBlock Margin="220,20,0,0" x:Name="textBlock1" Text="{DynamicResource DateText}" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />-->
 
-            	<TextBlock HorizontalAlignment="Left" Margin="479.928,20,0,0" x:Name="InfectTypetextBlock" Text="感染类型" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
-            	<ComboBox HorizontalAlignment="Left" Margin="550.062,20,0,0" x:Name="InfectTypeComboBox" Width="150" VerticalAlignment="Top" Text="" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
+                <TextBlock HorizontalAlignment="Left" Margin="479.928,20,0,0" x:Name="InfectTypetextBlock" Text="感染类型" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
+                <ComboBox HorizontalAlignment="Left" Margin="550.062,20,0,0" x:Name="InfectTypeComboBox" Width="150" VerticalAlignment="Top" Text="" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
 
-            	<CheckBox Visibility="Hidden" x:Name="IsFixedBedCheckBox" HorizontalAlignment="Left" Content="是否固定床位" Margin="480.062,60,0,0"  Width="150" VerticalAlignment="Top"  Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
+                <CheckBox Visibility="Hidden" x:Name="IsFixedBedCheckBox" HorizontalAlignment="Left" Content="是否固定床位" Margin="480.062,60,0,0"  Width="150" VerticalAlignment="Top"  Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
 
-            	<TextBlock HorizontalAlignment="Left" Margin="479.928,60,0,0" x:Name="GendertextBlock" Text="性别" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
-            	<ComboBox x:Name="SexComboBox" Margin="550.062,60,0,0" HorizontalAlignment="Left" Width="150" VerticalAlignment="Top" Text="男" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20007" IsTabStop="True" ItemsSource="{Binding}" />
+                <TextBlock HorizontalAlignment="Left" Margin="479.928,60,0,0" x:Name="GendertextBlock" Text="性别" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
+                <ComboBox x:Name="SexComboBox" Margin="550.062,60,0,0" HorizontalAlignment="Left" Width="150" VerticalAlignment="Top" Text="男" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20007" IsTabStop="True" ItemsSource="{Binding}" />
 
-            	<TextBlock HorizontalAlignment="Right" Margin="0,20,400,0" x:Name="textBlock2" Text="{DynamicResource BeginText}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
-            	<DatePicker HorizontalAlignment="Right" Margin="0,20,240,0" x:Name="BeginDatePicker" VerticalAlignment="Top" Width="130" SelectedDateFormat="Short" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" Padding="3,0" VerticalContentAlignment="Center" TabIndex="10003" Style="{StaticResource DatePickerStyle}" RenderTransformOrigin="2.033,0.475" />
-            	<TextBlock HorizontalAlignment="Right" Margin="0,20,160,0" x:Name="textBlock3" Text="{DynamicResource EndText}" VerticalAlignment="Top" Width="45" Style="{StaticResource DialogTextBlock}" />
-            	<DatePicker HorizontalAlignment="Right" Style="{StaticResource DatePickerStyle}" Margin="0,20,20,0" x:Name="EndatePicker" VerticalAlignment="Top" Width="130" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" VerticalContentAlignment="Center" Padding="3,0" TabIndex="10004" OpacityMask="{x:Null}"/>
-            	<Button Content="{DynamicResource SearchText}" Margin="0,54,20,0" x:Name="InquireButton" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="InquireButton_Click" TabIndex="10008" />
-            	<RadioButton Content="{DynamicResource AllDateText}" Style="{StaticResource RadioButtonStyle1}" HorizontalAlignment="Right" Margin="0,60,358,0" x:Name="TimeRadioButton1" VerticalAlignment="Top" FontSize="16" GroupName="TimeSelecet" Click="TimeRadioButton1_Click" TabIndex="10005" />
-            	<RadioButton Content="{DynamicResource In7DayText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" HorizontalAlignment="Right" Margin="0,60,240,0" x:Name="TimeRadioButton2" VerticalAlignment="Top"  GroupName="TimeSelecet"  Click="TimeRadioButton1_Click" TabIndex="10006" />
-            	<RadioButton Content="{DynamicResource In3DaysText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" Margin="0,60,138,0" x:Name="TimeRadioButton3" VerticalAlignment="Top" GroupName="TimeSelecet"  IsChecked="True" Click="TimeRadioButton1_Click" HorizontalAlignment="Right" TabIndex="10007" />
-            
-            
-            
-            
+                <TextBlock HorizontalAlignment="Right" Margin="0,20,400,0" x:Name="textBlock2" Text="{DynamicResource BeginText}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
+                <DatePicker HorizontalAlignment="Right" Margin="0,20,240,0" x:Name="BeginDatePicker" VerticalAlignment="Top" Width="130" SelectedDateFormat="Short" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" Padding="3,0" VerticalContentAlignment="Center" TabIndex="10003" Style="{StaticResource DatePickerStyle}" RenderTransformOrigin="2.033,0.475" />
+                <TextBlock HorizontalAlignment="Right" Margin="0,20,160,0" x:Name="textBlock3" Text="{DynamicResource EndText}" VerticalAlignment="Top" Width="45" Style="{StaticResource DialogTextBlock}" />
+                <DatePicker HorizontalAlignment="Right" Style="{StaticResource DatePickerStyle}" Margin="0,20,20,0" x:Name="EndatePicker" VerticalAlignment="Top" Width="130" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" VerticalContentAlignment="Center" Padding="3,0" TabIndex="10004" OpacityMask="{x:Null}"/>
+                <Button Content="{DynamicResource SearchText}" Margin="0,54,20,0" x:Name="InquireButton" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="InquireButton_Click" TabIndex="10008" />
+                <RadioButton Content="{DynamicResource AllDateText}" Style="{StaticResource RadioButtonStyle1}" HorizontalAlignment="Right" Margin="0,60,358,0" x:Name="TimeRadioButton1" VerticalAlignment="Top" FontSize="16" GroupName="TimeSelecet" Click="TimeRadioButton1_Click" TabIndex="10005" />
+                <RadioButton Content="{DynamicResource In7DayText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" HorizontalAlignment="Right" Margin="0,60,240,0" x:Name="TimeRadioButton2" VerticalAlignment="Top"  GroupName="TimeSelecet"  Click="TimeRadioButton1_Click" TabIndex="10006" />
+                <RadioButton Content="{DynamicResource In3DaysText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" Margin="0,60,138,0" x:Name="TimeRadioButton3" VerticalAlignment="Top" GroupName="TimeSelecet"  IsChecked="True" Click="TimeRadioButton1_Click" HorizontalAlignment="Right" TabIndex="10007" />
+
+
+
+
             </Grid>
             <Grid x:Name="GridDay" Height="70">
                 <Grid.ColumnDefinitions>
-                	<ColumnDefinition Width="280"/>
-                	<ColumnDefinition/>
-                	<ColumnDefinition/>
-                	<ColumnDefinition/>
-                	<ColumnDefinition/>
-                	<ColumnDefinition/>
-                	<ColumnDefinition/>
-                	<ColumnDefinition/>
+                    <ColumnDefinition Width="280"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <ToggleButton x:Name="BtnSun" Grid.Column="7"  Style="{DynamicResource ToggleButtonStyle}" Tag="周日" Click="BtnDay_OnClick">
                     <Label x:Name="lable6" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
@@ -224,14 +224,14 @@
             </Grid>
             <Grid x:Name="AmPmEGrid" Height="50">
                 <Grid.ColumnDefinitions>
-                	<ColumnDefinition Width="280"/>
-                	<ColumnDefinition/>
-                	<ColumnDefinition/>
-                	<ColumnDefinition/>
-                	<ColumnDefinition/>
-                	<ColumnDefinition/>
-                	<ColumnDefinition/>
-                	<ColumnDefinition/>
+                    <ColumnDefinition Width="280"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <ToggleButton  Grid.Column="1" IsChecked="True"  Style="{DynamicResource ToggleButtonStyle}" Tag="AM" Click="BtnAmPmE_OnClick"/>
                 <ToggleButton  Grid.Column="2"  Style="{DynamicResource ToggleButtonStyle}" Tag="PM" Click="BtnAmPmE_OnClick"/>

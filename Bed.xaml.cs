@@ -97,14 +97,16 @@ namespace WpfApplication1
                         panel1.Orientation = Orientation.Horizontal;
 
                         Rectangle rect = new Rectangle();
-                        rect.Width = rect.Height = 15;
+                        rect.Width = rect.Height = 10;
                         rect.Fill = bgBrush;
                         rect.HorizontalAlignment = HorizontalAlignment.Left;
+                        rect.Margin = new Thickness(0, 0, 0, 0);
                         Label label = new Label();
                         label.HorizontalContentAlignment = HorizontalAlignment.Center;
                         label.VerticalContentAlignment = VerticalAlignment.Center;
                         label.Content = treatMethodData.Name;
-
+                        label.FontSize = 10;
+                        label.Margin = new Thickness(0, 0, 0, 0);
                         panel1.Children.Add(rect);
                         panel1.Children.Add(label);
 
@@ -559,6 +561,17 @@ namespace WpfApplication1
                     scheduleDao.UpdateScheduleTemplate(fileds, condition);
                     
                 }
+
+                using (var patientDao = new PatientDao())
+                {
+                    var fields = new Dictionary<string, object>();
+                    fields["BEDID"] = bedid;
+                    var condition = new Dictionary<string, object>();
+                    condition["ID"] = patientID;
+                    patientDao.UpdatePatient(fields, condition);
+
+                }
+
             }
             catch (Exception ex)
             {
@@ -579,7 +592,7 @@ namespace WpfApplication1
                 //BedPatientData data = (BedPatientData)draggedItem;
                 if ((effects == (System.Windows.DragDropEffects)DragDropEffects.Move))
                 {
-                    if( BedInfoList[index].IsAvailable != true && BedInfoList[index].IsOccupy != true)
+                    if( BedInfoList[index].IsAvailable == true && BedInfoList[index].IsOccupy != true)
                     {
                         string ampme = "";
                         foreach (var i in AmPmEGrid.Children)
