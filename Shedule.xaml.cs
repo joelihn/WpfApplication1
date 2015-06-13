@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Globalization;
 using System.Net.NetworkInformation;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls.Primitives;
 using WpfApplication1.CustomUI;
@@ -1239,9 +1240,8 @@ namespace WpfApplication1
                                         condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
                                         fileds["AMPME"] = day.Content;
                                         fileds["METHOD"] = StrColorConverter(day.BgColor);
-                                        if(fixbed == false)
-                                        fileds["BEDID"] = -1;
-                                        else fileds["BEDID"] = bedid;
+                                        if(fixbed == true)
+                                        fileds["BEDID"] = bedid;
                                         scheduleDao.UpdateScheduleTemplate(fileds, condition);
                                     }
                                     else
@@ -1251,9 +1251,8 @@ namespace WpfApplication1
                                         scheduleTemplate.Date = day.dateTime.ToString("yyyy-MM-dd");
                                         scheduleTemplate.AmPmE = day.Content;
                                         scheduleTemplate.Method = StrColorConverter(day.BgColor);
-                                        if(fixbed == false)
-                                        scheduleTemplate.BedId = -1;
-                                        else scheduleTemplate.BedId = bedid;
+                                        if(fixbed == true)
+                                        scheduleTemplate.BedId = bedid;
                                         int ret = -1;
                                         scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
                                     }
@@ -1287,9 +1286,8 @@ namespace WpfApplication1
                                         condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
                                         fileds["AMPME"] = day.Content;
                                         fileds["METHOD"] = StrColorConverter(day.BgColor);
-                                        if (fixbed == false)
-                                            fileds["BEDID"] = -1;
-                                        else fileds["BEDID"] = bedid;
+                                        if (fixbed == true)
+                                        fileds["BEDID"] = bedid;
                                         scheduleDao.UpdateScheduleTemplate(fileds, condition);
                                     }
                                     else
@@ -1299,8 +1297,8 @@ namespace WpfApplication1
                                         scheduleTemplate.Date = day.dateTime.ToString("yyyy-MM-dd");
                                         scheduleTemplate.AmPmE = day.Content;
                                         scheduleTemplate.Method = StrColorConverter(day.BgColor);
-                                        if (fixbed == false) scheduleTemplate.BedId = -1;
-                                        else scheduleTemplate.BedId = bedid;
+                                        if (fixbed == true) 
+                                            scheduleTemplate.BedId = bedid;
                                         int ret = -1;
                                         scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
                                     }
@@ -1861,6 +1859,71 @@ namespace WpfApplication1
                 MainWindow.Log.WriteInfoConsole("In Statistics.xaml.cs:Statistics exception messsage: " + ex.Message);
                 return null;
             }
+        }
+
+        private void ListSort(string rule, int week, int day)
+        {
+            if (!string.IsNullOrEmpty(rule) && (!rule.ToLower().Equals("desc") || !rule.ToLower().Equals("asc")))
+            {
+                try
+                {
+                    ListboxItemStatusesList.Sort(
+                        delegate(ListboxItemStatus info1, ListboxItemStatus info2)
+                        {
+                            /*Type t1 = info1.GetType();
+                            Type t2 = info2.GetType();
+                            PropertyInfo pro1 = t1.GetProperty(field);
+                            PropertyInfo pro2 = t2.GetProperty(field);
+                            return rule.ToLower().Equals("asc") ?
+                                pro1.GetValue(info1.CurrentWeek.days[n].Content, null).ToString().CompareTo(pro2.GetValue(info2.CurrentWeek.days[n].Content, null).ToString()) :
+                                pro2.GetValue(info2.CurrentWeek.days[n].Content, null).ToString().CompareTo(pro1.GetValue(info1.CurrentWeek.days[n].Content, null).ToString());*/
+
+
+                            if (week == 0)
+                            {
+                                return rule.ToLower().Equals("asc") ?
+                                info1.CurrentWeek.days[day].Content.CompareTo(info2.CurrentWeek.days[day].Content) :
+                                info2.CurrentWeek.days[day].Content.CompareTo(info1.CurrentWeek.days[day].Content);
+                            }
+                            else
+                            {
+                                return rule.ToLower().Equals("asc") ?
+                                info1.NextWeek.days[day].Content.CompareTo(info2.NextWeek.days[day].Content) :
+                                info2.NextWeek.days[day].Content.CompareTo(info1.NextWeek.days[day].Content);
+                            }
+                            
+                        });
+
+                }
+                catch (Exception ex)
+                {
+                    //Console.WriteLine(ex.Message);
+                }
+            } //Console.WriteLine("ruls is wrong");
+
+        }
+
+        private static bool de = false;
+        private void SortButton_Click(object sender, RoutedEventArgs e)
+        {
+            Button btn = (Button) sender;
+            string tag = (string)btn.Tag;
+            string []tags = tag.Split('_');
+
+            int week = int.Parse(tags[0]);
+            int day = int.Parse(tags[1]);
+            if (de == false)
+            {
+                ListSort("asc", week, day);
+                de = true;
+            }
+            else
+            {
+                ListSort("desc", week, day);
+                de = false;
+            }
+            
+            ListBox1.Items.Refresh();
         }
     }
 

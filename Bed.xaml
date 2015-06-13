@@ -41,6 +41,9 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
                         <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <Border.ToolTip>
+                                <ToolTip Content="{Binding ToolTips}"></ToolTip>
+                            </Border.ToolTip>
                             <Grid Background="{Binding ItemBgBrush}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>

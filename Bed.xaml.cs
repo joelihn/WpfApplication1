@@ -20,6 +20,7 @@ using WpfApplication1.CustomUI;
 using WpfApplication1.DAOModule;
 using System.Windows;
 using System.Windows.Controls.Primitives;
+using WpfApplication1.Utils;
 using DragDropEffects = System.Windows.Forms.DragDropEffects;
 
 namespace WpfApplication1
@@ -501,7 +502,46 @@ namespace WpfApplication1
                                     patientInfo.PatientId = patientlist[0].PatientId;//可能为空
                                     patientInfo.BedId = patient.BedId;
                                     patientInfo.Method = patient.Method;
+                                    string treatOrders = "";
+                                    string orders = patientlist[0].Orders;
+                                    if (orders != "" && orders != null)
+                                    {
+                                        string[] order = orders.Split('#');
+                                        foreach (var s in order)
+                                        {
+                                            if (s != "")
+                                            {
+                                                string[] details = s.Split('/');
+                                                if (details.Count() == 3)
+                                                {
+                                                    var treat = new TreatOrder();
+                                                    treat.TreatMethod = details[0];
+
+                                                    var medicalOrderParaDao = new MedicalOrderParaDao();
+                                                    var condition1 = new Dictionary<string, object>();
+                                                    condition1["ID"] = details[1];
+                                                    var list1 = medicalOrderParaDao.SelectInterval(condition1);
+                                                    string temporder;
+                                                    treat.Type = list1[0].Name;
+                                                    treat.TreatTimes = int.Parse(details[2]);
+                                                    temporder = treat.Type + "/" + treat.TreatTimes;
+                                                    treatOrders += temporder;
+                                                    treatOrders += "\n";
+                                                }
+                                            }
+                                        }
+                                        treatOrders = treatOrders.Remove(treatOrders.LastIndexOf("\n"), 1);
+                                        patientInfo.ToolTips = treatOrders;
+                                    }
+                                    else
+                                    {
+                                        patientInfo.ToolTips = "";
+                                    }
                                     BedPatientList.Add(patientInfo);
+
+
+                                    
+                                    
                                 }
                             }
                         }
@@ -734,8 +774,6 @@ namespace WpfApplication1
             }
         }
 
-        
-
     }
 
     public class Contact
@@ -764,7 +802,9 @@ namespace WpfApplication1
         public BedPatientData()
         {
             Name = "";
+            ToolTips = "";
             LoadTreatMethod();
+            
 
         }
         public Int64 Id
@@ -780,6 +820,7 @@ namespace WpfApplication1
         public Int64 BedId { get; set; }
         public string Name { get; set; }
         public string PatientId { get; set; }
+        public string ToolTips { get; set; }
 
         public string Method
         {

@@ -330,6 +330,7 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition Width="20"/>
             </Grid.ColumnDefinitions>
             <Button Content="前一周" Grid.Column="0" Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="Button_Click1" />
             <ToggleButton x:Name="BtnSun" Grid.Column="7"  Style="{DynamicResource ToggleButtonStyle}" Tag="周日" Click="BtnDay_OnClick">
@@ -354,10 +355,83 @@
             <ToggleButton x:Name="BtnSta" Grid.Column="6"  Style="{DynamicResource ToggleButtonStyle}" Tag="周六" Click="BtnDay_OnClick">
                 <Label x:Name="lable5" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
             </ToggleButton>
-            <Button Content="后一周" Grid.Column="8" Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="Button_Click2" />
+            <Button Content="后一周" Grid.Column="8" Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="Button_Click2" Grid.ColumnSpan="2" />
 
         </Grid>
-        <ListBox Background="{DynamicResource BacGround1}" x:Name="ListBox1" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="650" 
+        <Grid Height="30" Style="{StaticResource GridBackGround1}">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition Width="20"/>
+			</Grid.ColumnDefinitions>
+			<Grid Grid.Column="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+				<Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_0"/>
+                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_0"/>
+			</Grid>
+			<Grid Grid.Column="2">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_1"/>
+                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_1"/>
+			</Grid>
+			<Grid Grid.Column="3">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_2"/>
+                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_2"/>
+			</Grid>
+			<Grid Grid.Column="4">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_3"/>
+                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_3"/>
+			</Grid>
+			<Grid Grid.Column="5">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_4"/>
+                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_4"/>
+			</Grid>
+			<Grid Grid.Column="6">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_5"/>
+                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_5"/>
+			</Grid>
+            <Grid Grid.Column="7">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_6"/>
+                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_6"/>
+			</Grid>
+
+            
+			
+		</Grid>
+        <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{DynamicResource BacGround1}" x:Name="ListBox1" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="650" 
     		ItemContainerStyle="{DynamicResource ListBoxItemStyle2}" ItemsSource="{Binding}" SelectionChanged="PatientlistView_SelectionChanged" />
 
         <Grid x:Name="StatisticsGrid" Margin="0,0,0,0" Style="{StaticResource GridBackGround1}" Height="230">
