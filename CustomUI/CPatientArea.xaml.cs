@@ -33,7 +33,7 @@ namespace WpfApplication1.CustomUI
 
             this.TypeComboBox.Items.Add("阴性");
             this.TypeComboBox.Items.Add("阳性");
-            this.TypeComboBox.SelectedIndex = 0;
+            this.TypeComboBox.Text = "阴性";
         }
 
         private void ListViewCPatientArea_OnLoaded(object sender, RoutedEventArgs e)
@@ -52,6 +52,20 @@ namespace WpfApplication1.CustomUI
                         patientAreaData.Id = pa.Id;
                         patientAreaData.Name = pa.Name;
                         patientAreaData.Type = pa.Type;
+
+                        {
+                            using (var infectTypeDao = new InfectTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.InfectTypeId;
+                                var arealist = infectTypeDao.SelectInfectType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    patientAreaData.InfectType = arealist[0].Name;
+                                }
+                            }
+                        }
+
                         patientAreaData.Description = pa.Description;
                         Datalist.Add(patientAreaData);
                     }
@@ -78,6 +92,18 @@ namespace WpfApplication1.CustomUI
                         patientAreaData.Id = pa.Id;
                         patientAreaData.Name = pa.Name;
                         patientAreaData.Type = pa.Type;
+                        {
+                            using (var infectTypeDao = new InfectTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.InfectTypeId;
+                                var arealist = infectTypeDao.SelectInfectType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    patientAreaData.InfectType = arealist[0].Name;
+                                }
+                            }
+                        }
                         patientAreaData.Description = pa.Description;
                         Datalist.Add(patientAreaData);
                     }
@@ -97,6 +123,7 @@ namespace WpfApplication1.CustomUI
             {
                 NameTextBox.Text = Datalist[ListViewPatientArea.SelectedIndex].Name;
                 TypeComboBox.Text = Datalist[ListViewPatientArea.SelectedIndex].Type;
+                InfectTypeComboBox.Text = Datalist[ListViewPatientArea.SelectedIndex].InfectType;
                 DescriptionTextBox.Text = Datalist[ListViewPatientArea.SelectedIndex].Description;
             }
         }
@@ -111,6 +138,17 @@ namespace WpfApplication1.CustomUI
                     PatientArea patientArea = new PatientArea();
                     patientArea.Name = this.NameTextBox.Text;
                     patientArea.Type = this.TypeComboBox.Text;
+                    var condition = new Dictionary<string, object>();
+                    using (var infectTypeDao = new InfectTypeDao())
+                    {
+                        condition.Clear();
+                        condition["Name"] = InfectTypeComboBox.Text;
+                        var arealist = infectTypeDao.SelectInfectType(condition);
+                        if (arealist.Count == 1)
+                        {
+                            patientArea.InfectTypeId = arealist[0].Id;
+                        }
+                    }
                     patientArea.Description = this.DescriptionTextBox.Text;
                     int lastInsertId = -1;
                     patientAreaDao.InsertPatientArea(patientArea, ref lastInsertId);
@@ -118,6 +156,7 @@ namespace WpfApplication1.CustomUI
                     PatientAreaData patientAreaData = new PatientAreaData();
                     patientAreaData.Name = patientArea.Name;
                     patientAreaData.Type = patientArea.Type;
+                    patientAreaData.InfectType = InfectTypeComboBox.Text;
                     patientAreaData.Description = patientArea.Description;
                     Datalist.Add(patientAreaData);
                 }
@@ -140,6 +179,17 @@ namespace WpfApplication1.CustomUI
                 var fileds = new Dictionary<string, object>();
                 fileds["NAME"] = NameTextBox.Text;
                 fileds["TYPE"] = TypeComboBox.Text;
+                var condition2 = new Dictionary<string, object>();
+                using (var infectTypeDao = new InfectTypeDao())
+                {
+                    condition2.Clear();
+                    condition2["Name"] = InfectTypeComboBox.Text;
+                    var arealist = infectTypeDao.SelectInfectType(condition2);
+                    if (arealist.Count == 1)
+                    {
+                        fileds["INFECTTYPEID"] = arealist[0].Id;
+                    }
+                }
                 fileds["DESCRIPTION"] =DescriptionTextBox.Text;
                 patientAreaDao.UpdatePatientArea(fileds,condition);
                 RefreshData();
@@ -155,6 +205,44 @@ namespace WpfApplication1.CustomUI
                 RefreshData();
             }
         }
+
+        private void TypeComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.TypeComboBox.Text.Equals("阴性"))
+            {
+                this.InfectTypeComboBox.IsEnabled = false;
+            }
+            else
+            {
+                this.InfectTypeComboBox.IsEnabled = true;
+            }
+
+        }
+
+        private void CPatientArea_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            #region fill infecttype combox items
+            this.InfectTypeComboBox.Items.Clear();
+            try
+            {
+                using (var infectTypeDao = new InfectTypeDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    var list = infectTypeDao.SelectInfectType(condition);
+                    foreach (var pa in list)
+                    {
+                        this.InfectTypeComboBox.Items.Add(pa.Name);
+                    }
+                    if (list.Count > 0)
+                        this.InfectTypeComboBox.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CPatientArea.xaml.cs:ListViewCPatientRoom_OnLoaded 2 exception messsage: " + ex.Message);
+            }
+            #endregion
+        }
     }
 
     public class PatientAreaData : INotifyPropertyChanged
@@ -162,6 +250,7 @@ namespace WpfApplication1.CustomUI
         private Int64 _id;
         private string _name;
         private string _type;
+        private string _infecttype;
         private string _description;
 
         public PatientAreaData()
@@ -196,6 +285,16 @@ namespace WpfApplication1.CustomUI
             {
                 _type = value;
                 OnPropertyChanged("Type");
+            }
+        }
+
+        public string InfectType
+        {
+            get { return _infecttype; }
+            set
+            {
+                _infecttype = value;
+                OnPropertyChanged("InfectType");
             }
         }
 

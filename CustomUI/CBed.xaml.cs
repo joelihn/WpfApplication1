@@ -48,11 +48,11 @@ namespace WpfApplication1.CustomUI
                         bedData.Id = pa.Id;
                         bedData.Name = pa.Name;
                         {
-                            using (var patientRoomDao = new PatientRoomDao())
+                            using (var patientRoomDao = new PatientAreaDao())
                             {
                                 condition.Clear();
                                 condition["ID"] = pa.PatientRoomId;
-                                var arealist = patientRoomDao.SelectPatientRoom(condition);
+                                var arealist = patientRoomDao.SelectPatientArea(condition);
                                 if (arealist.Count == 1)
                                 {
                                     bedData.PatientRoom = arealist[0].Name;
@@ -110,11 +110,11 @@ namespace WpfApplication1.CustomUI
                     bed.Name = this.NameTextBox.Text;
 
                     var condition = new Dictionary<string, object>();
-                    using (var patientRoomDao = new PatientRoomDao())
+                    using (var patientRoomDao = new PatientAreaDao())
                     {
                         condition.Clear();
                         condition["Name"] = ComboBoxPatientRoom.Text;
-                        var arealist = patientRoomDao.SelectPatientRoom(condition);
+                        var arealist = patientRoomDao.SelectPatientArea(condition);
                         if (arealist.Count == 1)
                         {
                             bed.PatientRoomId = arealist[0].Id;
@@ -169,11 +169,11 @@ namespace WpfApplication1.CustomUI
                 fileds["NAME"] = NameTextBox.Text;
 
                 var condition2 = new Dictionary<string, object>();
-                using (var patientRoomDao = new PatientRoomDao())
+                using (var patientRoomDao = new PatientAreaDao())
                 {
                     condition2.Clear();
                     condition2["Name"] = ComboBoxPatientRoom.Text;
-                    var arealist = patientRoomDao.SelectPatientRoom(condition2);
+                    var arealist = patientRoomDao.SelectPatientArea(condition2);
                     if (arealist.Count == 1)
                     {
                         fileds["PATIENTROOMID"] = arealist[0].Id;
@@ -212,11 +212,11 @@ namespace WpfApplication1.CustomUI
                         bedData.Id = pa.Id;
                         bedData.Name = pa.Name;
                         {
-                            using (var patientRoomDao = new PatientRoomDao())
+                            using (var patientRoomDao = new PatientAreaDao())
                             {
                                 condition.Clear();
                                 condition["ID"] = pa.PatientRoomId;
-                                var arealist = patientRoomDao.SelectPatientRoom(condition);
+                                var arealist = patientRoomDao.SelectPatientArea(condition);
                                 if (arealist.Count == 1)
                                 {
                                     bedData.PatientRoom = arealist[0].Name;
@@ -260,16 +260,38 @@ namespace WpfApplication1.CustomUI
 
         private void CBed_OnLoaded(object sender, RoutedEventArgs e)
         {
+            #region fill patientarea combox items
+            this.ComboBoxPatientRoom.Items.Clear();
+            try
+            {
+                using (var patientAreaDao = new PatientAreaDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    var list = patientAreaDao.SelectPatientArea(condition);
+                    foreach (PatientArea pa in list)
+                    {
+                        this.ComboBoxPatientRoom.Items.Add(pa.Name);
+                    }
+                    if (list.Count > 0)
+                        this.ComboBoxPatientRoom.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CPatientRoom.xaml.cs:ListViewCPatientRoom_OnLoaded 1 exception messsage: " + ex.Message);
+            }
+            #endregion
+
             //throw new NotImplementedException();
             #region fill patientarea combox items
             this.ComboBoxPatientRoom.Items.Clear();
             try
             {
-                using (var patientRoomDao = new PatientRoomDao())
+                using (var patientRoomDao = new PatientAreaDao())
                 {
                     var condition = new Dictionary<string, object>();
-                    var list = patientRoomDao.SelectPatientRoom(condition);
-                    foreach (PatientRoom pa in list)
+                    var list = patientRoomDao.SelectPatientArea(condition);
+                    foreach (PatientArea pa in list)
                     {
                         this.ComboBoxPatientRoom.Items.Add(pa.Name);
                     }

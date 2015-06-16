@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="500" Loaded="CBed_OnLoaded">
+             d:DesignHeight="600" d:DesignWidth="800" Loaded="CBed_OnLoaded">
     <UserControl.Resources>
         <DataTemplate x:Key="Id">
             <TextBlock Text="{Binding Id}" />
@@ -38,7 +38,7 @@
                         <GridViewColumn Width="80" CellTemplate="{StaticResource Id}" Header="编号" />
                         <GridViewColumn Width="80" CellTemplate="{StaticResource Name}" Header="名称" />
                         <GridViewColumn Width="80" CellTemplate="{StaticResource TreatMethod}" Header="类型" />
-                        <GridViewColumn Width="80" CellTemplate="{StaticResource PatientRoom}" Header="房间" />
+                        <GridViewColumn Width="80" CellTemplate="{StaticResource PatientRoom}" Header="病区" />
                         <GridViewColumn Width="50" CellTemplate="{StaticResource IsAvailable}" Header="可用" />
                         <GridViewColumn Width="50" CellTemplate="{StaticResource IsOccupy}" Header="占用" />
                         <GridViewColumn Width="140" CellTemplate="{StaticResource Description}" Header="描述" />
@@ -46,20 +46,25 @@
                 </ListView.View>
             </ListView>
             <Grid>
-                <TextBlock Width="73" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="名称" />
-                <TextBlock Width="73" Margin="80,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="房间" />
-                <TextBlock Width="73" Margin="160,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="类型" />
-                <TextBlock Width="73" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="是否可用" />
-                <TextBlock Width="73" Margin="320,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="是否占用" />
-                <TextBlock Width="73" Margin="400,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="描述" />
+                <TextBlock Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="名称" />
+                <TextBlock Width="80" Margin="100,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="病区" />
+                <TextBlock Width="80" Margin="200,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="类型" />
+                <TextBlock Width="80" Margin="300,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="是否可用" />
+                <TextBlock Width="80" Margin="400,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="是否占用" />
+                <TextBlock Width="80" Margin="500,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="描述" />
             </Grid>
             <Grid Margin="0,0,0,10">
+                <!--<Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="89*"/>
+                    <ColumnDefinition Width="14*"/>
+                    <ColumnDefinition Width="397*"/>
+                </Grid.ColumnDefinitions>-->
                 <TextBox Name="NameTextBox" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
-                <ComboBox Name="ComboBoxType" FontSize="16"  Height="27"  Width="75" Margin="80,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
-                <ComboBox Name="ComboBoxPatientRoom" FontSize="16"  Height="27"  Width="75" Margin="160,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
-                <CheckBox Name="CheckBoxIsAvailable" Width="80" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CheckBoxStyle1}" />
-                <CheckBox Name="CheckBoxIsOccupy" Width="80" Margin="320,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CheckBoxStyle1}" />
-                <TextBox Name="DescriptionTextBox" Width="80" Margin="400,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
+                <ComboBox Name="ComboBoxPatientRoom" FontSize="16"  Height="27"  Width="80" Margin="100,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="3"  />
+                <ComboBox Name="ComboBoxType" FontSize="16"  Height="27" Margin="200,0,0,0"  Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2"  />
+                <CheckBox Name="CheckBoxIsAvailable" Width="80" Margin="300,7,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource CheckBoxStyle1}" Grid.Column="2" />
+                <CheckBox Name="CheckBoxIsOccupy" Width="80" Margin="400,7,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource CheckBoxStyle1}" Grid.Column="2" />
+                <TextBox Name="DescriptionTextBox" Width="80" Margin="500,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" Grid.Column="2" />
             </Grid>
             <Grid>
                 <Button Name="AddButton" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddButton_OnClick"  Content="{DynamicResource  AddText}" Style="{StaticResource RightButton1}" />

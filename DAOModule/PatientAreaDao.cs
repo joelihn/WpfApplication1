@@ -64,6 +64,8 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters["@NAME"].Value = patientArea.Name;
                     sqlcomm.Parameters.Add("@TYPE", DbType.String);
                     sqlcomm.Parameters["@TYPE"].Value = patientArea.Type;
+                    sqlcomm.Parameters.Add("@INFECTTYPEID", DbType.Int32);
+                    sqlcomm.Parameters["@INFECTTYPEID"].Value = patientArea.InfectTypeId;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
                     sqlcomm.Parameters["@DESCRIPTION"].Value = patientArea.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
