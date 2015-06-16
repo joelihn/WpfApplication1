@@ -14,7 +14,8 @@ namespace WpfApplication1.DAOModule
     public class Bed
     {
         public Int64 Id { get; set; }
-        public Int64 PatientRoomId { get; set; }
+        public Int64 PatientAreaId { get; set; }
+        public Int64 InfectTypeId { get; set; }
         public string Name { get; set; }
         public Int64 TreatMethodId { get; set; }
         public bool IsAvailable { get; set; }

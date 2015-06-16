@@ -48,16 +48,17 @@ namespace WpfApplication1.CustomUI
                         bedData.Id = pa.Id;
                         bedData.Name = pa.Name;
                         {
-                            using (var patientRoomDao = new PatientAreaDao())
+                            using (var patientAreaDao = new PatientAreaDao())
                             {
                                 condition.Clear();
-                                condition["ID"] = pa.PatientRoomId;
-                                var arealist = patientRoomDao.SelectPatientArea(condition);
+                                condition["ID"] = pa.PatientAreaId;
+                                var arealist = patientAreaDao.SelectPatientArea(condition);
                                 if (arealist.Count == 1)
                                 {
-                                    bedData.PatientRoom = arealist[0].Name;
+                                    bedData.PatientArea = arealist[0].Name;
                                 }
                             }
+
                         }
                         {
                             using (var treatMethodDao = new TreatMethodDao())
@@ -68,6 +69,16 @@ namespace WpfApplication1.CustomUI
                                 if (arealist.Count == 1)
                                 {
                                     bedData.TreatMethod = arealist[0].Name;
+                                }
+                            }
+                            using (var infectTypeDao = new InfectTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.InfectTypeId;
+                                var arealist = infectTypeDao.SelectInfectType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    bedData.InfectType = arealist[0].Name;
                                 }
                             }
                         }
@@ -91,7 +102,7 @@ namespace WpfApplication1.CustomUI
             if (ListView1.SelectedIndex >= 0)
             {
                 NameTextBox.Text = Datalist[ListView1.SelectedIndex].Name;
-                ComboBoxPatientRoom.Text = Datalist[ListView1.SelectedIndex].PatientRoom;
+                ComboBoxPatientArea.Text = Datalist[ListView1.SelectedIndex].PatientArea;
                 ComboBoxType.Text = Datalist[ListView1.SelectedIndex].TreatMethod;
                 CheckBoxIsAvailable.IsChecked = Datalist[ListView1.SelectedIndex].IsAvailable;
                 CheckBoxIsOccupy.IsChecked = Datalist[ListView1.SelectedIndex].IsOccupy;
@@ -110,16 +121,16 @@ namespace WpfApplication1.CustomUI
                     bed.Name = this.NameTextBox.Text;
 
                     var condition = new Dictionary<string, object>();
-                    using (var patientRoomDao = new PatientAreaDao())
+                    /*using (var patientRoomDao = new PatientRoomDao())
                     {
                         condition.Clear();
-                        condition["Name"] = ComboBoxPatientRoom.Text;
-                        var arealist = patientRoomDao.SelectPatientArea(condition);
+                        condition["Name"] = ComboBoxPatientArea.Text;
+                        var arealist = patientRoomDao.SelectPatientRoom(condition);
                         if (arealist.Count == 1)
                         {
                             bed.PatientRoomId = arealist[0].Id;
                         }
-                    }
+                    }*/
                     using (var treatMethodDao = new TreatMethodDao())
                     {
                         condition.Clear();
@@ -130,6 +141,27 @@ namespace WpfApplication1.CustomUI
                             bed.TreatMethodId = arealist[0].Id;
                         }
                     }
+                    using (var patientAreaDao = new PatientAreaDao())
+                    {
+                        condition.Clear();
+                        condition["Name"] = ComboBoxPatientArea.Text;
+                        var arealist = patientAreaDao.SelectPatientArea(condition);
+                        if (arealist.Count == 1)
+                        {
+                            bed.PatientAreaId = arealist[0].Id;
+                        }
+                    }
+                    using (var infectTypeDao = new InfectTypeDao())
+                    {
+                        condition.Clear();
+                        condition["Name"] = ComboBoxInfectType.Text;
+                        var arealist = infectTypeDao.SelectInfectType(condition);
+                        if (arealist.Count == 1)
+                        {
+                            bed.InfectTypeId = arealist[0].Id;
+                        }
+                    }
+
                     var isChecked = this.CheckBoxIsAvailable.IsChecked;
                     if (isChecked != null)
                         bed.IsAvailable = (bool)isChecked;
@@ -143,7 +175,7 @@ namespace WpfApplication1.CustomUI
                     BedData bedData = new BedData();
                     bedData.Id = bed.Id;
                     bedData.Name = bed.Name;
-                    bedData.PatientRoom = ComboBoxPatientRoom.Text;
+                    bedData.PatientArea = ComboBoxPatientArea.Text;
                     bedData.TreatMethod = ComboBoxType.Text;
                     bedData.IsAvailable = bed.IsAvailable;
                     bedData.IsOccupy = bed.IsOccupy;
@@ -169,16 +201,16 @@ namespace WpfApplication1.CustomUI
                 fileds["NAME"] = NameTextBox.Text;
 
                 var condition2 = new Dictionary<string, object>();
-                using (var patientRoomDao = new PatientAreaDao())
+                /*using (var patientRoomDao = new PatientRoomDao())
                 {
                     condition2.Clear();
-                    condition2["Name"] = ComboBoxPatientRoom.Text;
-                    var arealist = patientRoomDao.SelectPatientArea(condition2);
+                    condition2["Name"] = ComboBoxPatientArea.Text;
+                    var arealist = patientRoomDao.SelectPatientRoom(condition2);
                     if (arealist.Count == 1)
                     {
                         fileds["PATIENTROOMID"] = arealist[0].Id;
                     }
-                }
+                }*/
                 using (var treatMethodDao = new TreatMethodDao())
                 {
                     condition2.Clear();
@@ -187,6 +219,26 @@ namespace WpfApplication1.CustomUI
                     if (arealist.Count == 1)
                     {
                         fileds["TREATMETHODID"] = arealist[0].Id;
+                    }
+                }
+                using (var patientAreaDao = new PatientAreaDao())
+                {
+                    condition2.Clear();
+                    condition2["Name"] = ComboBoxPatientArea.Text;
+                    var arealist = patientAreaDao.SelectPatientArea(condition2);
+                    if (arealist.Count == 1)
+                    {
+                        fileds["PATIENTAREAID"] = arealist[0].Id;
+                    }
+                }
+                using (var infectTypeDao = new InfectTypeDao())
+                {
+                    condition2.Clear();
+                    condition2["Name"] = ComboBoxInfectType.Text;
+                    var arealist = infectTypeDao.SelectInfectType(condition2);
+                    if (arealist.Count == 1)
+                    {
+                        fileds["INFECTTYPEID"] = arealist[0].Id;
                     }
                 }
                 fileds["ISAVAILABLE"] = CheckBoxIsAvailable.IsChecked;
@@ -212,16 +264,39 @@ namespace WpfApplication1.CustomUI
                         bedData.Id = pa.Id;
                         bedData.Name = pa.Name;
                         {
-                            using (var patientRoomDao = new PatientAreaDao())
+                           /* using (var patientRoomDao = new PatientRoomDao())
                             {
                                 condition.Clear();
                                 condition["ID"] = pa.PatientRoomId;
-                                var arealist = patientRoomDao.SelectPatientArea(condition);
+                                var arealist = patientRoomDao.SelectPatientRoom(condition);
                                 if (arealist.Count == 1)
                                 {
                                     bedData.PatientRoom = arealist[0].Name;
                                 }
+                            }*/
+
+                            using (var patientAreaDao = new PatientAreaDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.PatientAreaId;
+                                var arealist = patientAreaDao.SelectPatientArea(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    bedData.PatientArea = arealist[0].Name;
+                                }
                             }
+
+                            using (var infectTypeDao = new InfectTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.InfectTypeId;
+                                var arealist = infectTypeDao.SelectInfectType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    bedData.InfectType = arealist[0].Name;
+                                }
+                            }
+
                         }
                         {
                             using (var treatMethodDao = new TreatMethodDao())
@@ -260,50 +335,8 @@ namespace WpfApplication1.CustomUI
 
         private void CBed_OnLoaded(object sender, RoutedEventArgs e)
         {
-            #region fill patientarea combox items
-            this.ComboBoxPatientRoom.Items.Clear();
-            try
-            {
-                using (var patientAreaDao = new PatientAreaDao())
-                {
-                    var condition = new Dictionary<string, object>();
-                    var list = patientAreaDao.SelectPatientArea(condition);
-                    foreach (PatientArea pa in list)
-                    {
-                        this.ComboBoxPatientRoom.Items.Add(pa.Name);
-                    }
-                    if (list.Count > 0)
-                        this.ComboBoxPatientRoom.SelectedIndex = 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                MainWindow.Log.WriteInfoConsole("In CPatientRoom.xaml.cs:ListViewCPatientRoom_OnLoaded 1 exception messsage: " + ex.Message);
-            }
-            #endregion
-
             //throw new NotImplementedException();
-            #region fill patientarea combox items
-            this.ComboBoxPatientRoom.Items.Clear();
-            try
-            {
-                using (var patientRoomDao = new PatientAreaDao())
-                {
-                    var condition = new Dictionary<string, object>();
-                    var list = patientRoomDao.SelectPatientArea(condition);
-                    foreach (PatientArea pa in list)
-                    {
-                        this.ComboBoxPatientRoom.Items.Add(pa.Name);
-                    }
-                    if (list.Count > 0)
-                        this.ComboBoxPatientRoom.SelectedIndex = 0;
-                }
-            }
-            catch (Exception ex)
-            {
-                MainWindow.Log.WriteInfoConsole("In CBed.xaml.cs:ListViewCPatientRoom_OnLoaded 1 exception messsage: " + ex.Message);
-            }
-            #endregion
+
 
             #region fill infecttype combox items
             this.ComboBoxType.Items.Clear();
@@ -326,6 +359,50 @@ namespace WpfApplication1.CustomUI
                 MainWindow.Log.WriteInfoConsole("In CBed.xaml.cs:ListViewCPatientRoom_OnLoaded 2 exception messsage: " + ex.Message);
             }
             #endregion
+
+            #region fill patientarea combox items
+            this.ComboBoxPatientArea.Items.Clear();
+            try
+            {
+                using (var patientAreaDao = new PatientAreaDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    var list = patientAreaDao.SelectPatientArea(condition);
+                    foreach (PatientArea pa in list)
+                    {
+                        this.ComboBoxPatientArea.Items.Add(pa.Name);
+                    }
+                    if (list.Count > 0)
+                        this.ComboBoxPatientArea.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CPatientRoom.xaml.cs:ListViewCPatientRoom_OnLoaded 1 exception messsage: " + ex.Message);
+            }
+            #endregion
+
+            #region fill infecttype combox items
+            this.ComboBoxInfectType.Items.Clear();
+            try
+            {
+                using (var infectTypeDao = new InfectTypeDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    var list = infectTypeDao.SelectInfectType(condition);
+                    foreach (var pa in list)
+                    {
+                        this.ComboBoxInfectType.Items.Add(pa.Name);
+                    }
+                    if (list.Count > 0)
+                        this.ComboBoxInfectType.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CPatientRoom.xaml.cs:ListViewCPatientRoom_OnLoaded 2 exception messsage: " + ex.Message);
+            }
+            #endregion
         }
     }
 
@@ -333,11 +410,12 @@ namespace WpfApplication1.CustomUI
     {
         private Int64 _id;
         private string _name;
-        private string _patientRoom;
         private string _treatMethod;
         private bool _isAvailable;
         private bool _isOccupy;
         private string _description;
+        private string _patientArea;
+        private string _infecttype;
 
         public BedData()
         {
@@ -364,7 +442,7 @@ namespace WpfApplication1.CustomUI
             }
         }
 
-        public string PatientRoom
+        /*public string PatientRoom
         {
             get { return _patientRoom; }
             set
@@ -372,7 +450,7 @@ namespace WpfApplication1.CustomUI
                 _patientRoom = value;
                 OnPropertyChanged("PatientRoom");
             }
-        }
+        }*/
 
         public string TreatMethod
         {
@@ -411,6 +489,25 @@ namespace WpfApplication1.CustomUI
             {
                 _description = value;
                 OnPropertyChanged("Description");
+            }
+        }
+        public string PatientArea
+        {
+            get { return _patientArea; }
+            set
+            {
+                _patientArea = value;
+                OnPropertyChanged("PatientArea");
+            }
+        }
+
+        public string InfectType
+        {
+            get { return _infecttype; }
+            set
+            {
+                _infecttype = value;
+                OnPropertyChanged("InfectType");
             }
         }
 

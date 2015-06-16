@@ -55,6 +55,7 @@ namespace WpfApplication1
             SexComboBox.SelectedIndex = 0;
             InitDay();
             InitWeekWithDate();
+            LoadInfectionType();
         }
 
         private void LoadTratementConifg()
@@ -281,7 +282,7 @@ namespace WpfApplication1
                 {
                     if (bed.TreatMethod == patient.Method)
                     {
-                        if (bed.IsAvailable != true && bed.IsOccupy != true)
+                        if (bed.IsAvailable == true && bed.IsOccupy != true)
                         {
                             if (bed.PatientData == null)
                             {
@@ -344,7 +345,7 @@ namespace WpfApplication1
             {
                 MainWindow.Log.WriteInfoConsole("In Bed.xaml.cs:Bed_OnLoaded InfectType ComboxItem exception messsage: " + ex.Message);
             }
-
+            
             RefreshData();
             LoadTratementConifg();
 
@@ -354,9 +355,9 @@ namespace WpfApplication1
         {
             string ampme = GetTime();
             DateTime dt = GetDate();
-
+            long infecttype = GetInfectType();
             RefreshPatientList(dt.Date, ampme);
-            RefreshBedList();
+            RefreshBedList(infecttype);
         }
 
         private DateTime GetDate()
@@ -413,7 +414,42 @@ namespace WpfApplication1
             }
             return ampme;
         }
-        private void RefreshBedList()
+
+        private long GetInfectType()
+        {
+            string type = "";
+            foreach (var i in InfectGrid.Children)
+            {
+                if ((i is ToggleButton) && (((ToggleButton)i).IsChecked == true))
+                {
+                    type = (string)((ToggleButton)i).Tag;
+                    break;
+                }
+            }
+
+            try
+            {
+                using (var infectTypeDao = new InfectTypeDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["Name"] = type;
+                    var arealist = infectTypeDao.SelectInfectType(condition);
+                    if (arealist.Count == 1)
+                    {
+                        return arealist[0].Id;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return -1;
+            }
+
+
+            return -1;
+        }
+
+        private void RefreshBedList( long infecttypeid)
         {
             try
             {
@@ -421,6 +457,7 @@ namespace WpfApplication1
                 using (BedDao bedDao = new BedDao())
                 {
                     Dictionary<string, object> condition = new Dictionary<string, object>();
+                    condition["INFECTTYPEID"] = infecttypeid;
                     var list = bedDao.SelectBed(condition);
                     foreach (DAOModule.Bed bed in list)
                     {
@@ -439,7 +476,7 @@ namespace WpfApplication1
                                 bedInfo.TreatMethod = arealist[0].Name;
                             }
                         }
-
+                        /*
                         using (var bedinfodao = new BedInfoDao())
                         {
                             condition.Clear();
@@ -449,7 +486,27 @@ namespace WpfApplication1
                             {
                                 bedInfo.InfectionType = arealist[0].Type;
                             }
+                        }*/
+
+                        if (bed.InfectTypeId == -1)
+                        {
+                            bedInfo.InfectionType = "阴性";
                         }
+                        else
+                        {
+                            using (var infectTypeDao = new InfectTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = bed.InfectTypeId;
+                                var arealist = infectTypeDao.SelectInfectType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    bedInfo.InfectionType = arealist[0].Name;
+                                }
+                            }
+                        }
+                        
+
 
                         foreach (var bedPatientData in BedPatientList)
                         {
@@ -560,6 +617,8 @@ namespace WpfApplication1
                 MainWindow.Log.WriteInfoConsole("In PatientSchedule.xaml.cs:GetPatientSchedule select patient exception messsage: " + ex.Message);
             }
         }
+
+
 
         private System.Windows.DragDropEffects effects;
         private void PreviewDragEnter_Event(object sender, DragEventArgs e)
@@ -772,6 +831,86 @@ namespace WpfApplication1
                     ((ToggleButton)i).IsChecked = false;
                 }
             }
+        }
+        private void UncheckOtherToggleButton2(ToggleButton btn)
+        {
+            foreach (var i in InfectGrid.Children)
+            {
+                if ((i is ToggleButton) && i != btn)
+                {
+                    ((ToggleButton)i).IsChecked = false;
+                }
+            }
+        }
+
+        private void BtnInfect_OnClick(object sender, RoutedEventArgs e)
+        {
+            ToggleButton btn = (ToggleButton)sender;
+            if (btn.IsChecked == true)
+            {
+                UncheckOtherToggleButton2(btn);
+            }
+            else
+            {
+                btn.IsChecked = true;
+                UncheckOtherToggleButton2(btn);
+            }
+            RefreshData();
+
+        }
+
+        private void ClearGrid()
+        {
+            List<UIElement> list = new List<UIElement>();
+            foreach (UIElement i in InfectGrid.Children)
+            {
+                
+                if ((i is ToggleButton))
+                {
+                    //((ToggleButton)i).IsChecked = false;
+                    list.Add(i);
+                    
+                }
+            }
+            foreach (var element in list)
+            {
+                InfectGrid.Children.Remove(element);
+            }
+            
+        }
+        private void LoadInfectionType()
+        {
+            try
+            {
+                //InfectGrid.Children.Clear();
+                ClearGrid();
+                using (var infectTypeDao = new InfectTypeDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    var arealist = infectTypeDao.SelectInfectType(condition);
+                    int n = 1;
+                    foreach (var infectType in arealist)
+                    {
+                        ToggleButton btn = new ToggleButton();
+                        btn.Tag = infectType.Name;
+                        btn.Click += BtnInfect_OnClick;
+                        btn.Style = this.FindResource("ToggleButtonStyle") as Style;
+                        Grid.SetColumn(btn, n);
+                        Grid.SetRow(btn, 0);
+                        
+                        InfectGrid.Children.Add(btn);
+                        if (n == 1)
+                            btn.IsChecked = true;
+                        n++;
+                    }
+                }
+            }
+            catch (Exception ex )
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+            
         }
 
     }
