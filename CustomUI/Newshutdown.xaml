@@ -2,7 +2,7 @@
 	<Grid Height="160" Width="480" Style="{StaticResource DialogGridBottomBacGround}">
 		<TextBlock Text="{DynamicResource  shutdownpageText}" Height="36" VerticalAlignment="Top" PreviewMouseLeftButtonDown="TitleGridPreviewMouseLeftButtonDown" FontSize="20" Style="{StaticResource DialogTextBlock}" Padding="5,4" />
 		<Button Height="26" HorizontalAlignment="Right" Margin="0,5,5,0" VerticalAlignment="Top" Width="50" Click="IconButton_Click">
-			<!--<Image Source="/fMRISystem;component/Resources/Close_.png" Stretch="UniformToFill" />-->
+			<Image Source="/WpfApplication1;component/Resources/Close_.png" Stretch="UniformToFill" />
 		</Button>
 
 		<Grid Margin="5,36,5,5" Name="grid1" Style="{StaticResource GridBackGround1}">

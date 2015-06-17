@@ -40,7 +40,7 @@
                     <GridView>
                         <GridViewColumn Width="80" CellTemplate="{StaticResource Id}" Header="编号" />
                         <GridViewColumn Width="80" CellTemplate="{StaticResource Name}" Header="名称" />
-                        <GridViewColumn Width="80" CellTemplate="{StaticResource TreatMethod}" Header="类型" />
+                        <GridViewColumn Width="80" CellTemplate="{StaticResource TreatMethod}" Header="治疗方法" />
                         <GridViewColumn Width="80" CellTemplate="{StaticResource PatientArea}" Header="病区" />
                         <GridViewColumn Width="50" CellTemplate="{StaticResource IsAvailable}" Header="可用" />
                         <GridViewColumn Width="50" CellTemplate="{StaticResource IsOccupy}" Header="占用" />
@@ -50,7 +50,7 @@
             </ListView>
             <Grid>
                 <TextBlock Width="73" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="名称" />
-                <TextBlock Width="73" Margin="80,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="房间" />
+                <TextBlock Width="73" Margin="80,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="治疗方法" />
                 <TextBlock Width="73" Margin="160,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="病区" />
                 <TextBlock Width="73" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="是否可用" />
                 <TextBlock Width="73" Margin="320,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="是否占用" />

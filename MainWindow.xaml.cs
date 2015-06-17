@@ -138,7 +138,10 @@ namespace WpfApplication1
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            //this.Close();
+            var shutdownwindow = new Newshutdown(this);
+            shutdownwindow.parent = this;
+            shutdownwindow.ShowDialog();
         }
     }
 }
