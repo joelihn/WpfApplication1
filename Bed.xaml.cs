@@ -298,11 +298,11 @@ namespace WpfApplication1
                         {
                             if (bed.PatientData == null)
                             {
-                                //BedPatientList.Remove(patient);
                                 delPatients.Add(patient);
                                 UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id);
                                 bed.PatientName = patient.Name;
                                 bed.PatientData = patient;
+                                break;
                             }
                         }
 
