@@ -109,6 +109,7 @@ namespace WpfApplication1
             else
                 this.ConfigButton.IsEnabled = false;
             this.RightContent.Content = initContent;
+            this.RightContent.FontSize = 17;
         }
 
         private void InitButton_Click(object sender, RoutedEventArgs e)
