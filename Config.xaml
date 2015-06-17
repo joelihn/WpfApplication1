@@ -12,15 +12,15 @@
             <ColumnDefinition Width="8.5*" />
         </Grid.ColumnDefinitions>
 
-        <Button Style="{StaticResource ButtonStyle1}" Click="PatientAreaButton_OnClick" Name="PatientAreaButton" Grid.Column="0" Height="50"  Content="病区信息" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,0,974"/>
+        <Button Style="{StaticResource ButtonStyle1}" Click="PatientAreaButton_OnClick" Name="PatientAreaButton" Grid.Column="0" FontSize="17" Height="50"  Content="病区信息" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,0,0,974"/>
         <!--<Button Style="{StaticResource ButtonStyle1}" Click="PatientRoomButton_OnClick" Name="PatientRoomButton" Grid.Column="0" Height="50" Content="房间信息" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,50,0,924"/>-->
-        <Button Style="{StaticResource ButtonStyle1}" Click="BedButton_OnClick"  Name="BedButton" Grid.Column="0" Height="50" Content="床位信息" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,50,0,924"/>
-        <Button Style="{StaticResource ButtonStyle1}" Click="InfectTypeButton_OnClick" Name="InfectTypeButton" Grid.Column="0" Height="50" Content="感染类型" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,100,0,874"/>
-        <Button Style="{StaticResource ButtonStyle1}" Click="MedicalOrderParaButton_OnClick" Name="MedicalOrderParaButton" Grid.Column="0" Height="50" Content="医嘱参数" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,150,0,824"/>
-        <Button Style="{StaticResource ButtonStyle1}" Click="TreatTypeButton_OnClick" Name="TreatTypeButton" Grid.Column="0" Height="50" Content="治疗类型" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,200,0,774"/>
-        <Button Style="{StaticResource ButtonStyle1}" Click="TreatMethodButton_OnClick" Name="TreatMethodButton" Grid.Column="0" Height="50" Content="治疗方法" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,250,0,724"/>
-        <Button Style="{StaticResource ButtonStyle1}" Click="TreatStatusButton_OnClick" Name="TreatStatusButton" Grid.Column="0" Height="50" Content="治疗状态" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,300,0,674"/>
-        <Button Style="{StaticResource ButtonStyle1}" Click="DataBasesetting_OnClick" Name="DataBasesettingButton" Grid.Column="0" Height="50" Content="数据库设置" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,350,0,624"/>
+        <Button Style="{StaticResource ButtonStyle1}" Click="BedButton_OnClick"  Name="BedButton" Grid.Column="0" Height="50" FontSize="17" Content="床位信息" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,50,0,924"/>
+        <Button Style="{StaticResource ButtonStyle1}" Click="InfectTypeButton_OnClick" Name="InfectTypeButton" Grid.Column="0" Height="50" FontSize="17" Content="感染类型" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,100,0,874"/>
+        <Button Style="{StaticResource ButtonStyle1}" Click="MedicalOrderParaButton_OnClick" Name="MedicalOrderParaButton" Grid.Column="0" FontSize="17" Height="50" Content="医嘱参数" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,150,0,824"/>
+        <Button Style="{StaticResource ButtonStyle1}" Click="TreatTypeButton_OnClick" Name="TreatTypeButton" Grid.Column="0" Height="50" FontSize="17" Content="治疗类型" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,200,0,774"/>
+        <Button Style="{StaticResource ButtonStyle1}" Click="TreatMethodButton_OnClick" Name="TreatMethodButton" Grid.Column="0" Height="50" FontSize="17" Content="治疗方法" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,250,0,724"/>
+        <Button Style="{StaticResource ButtonStyle1}" Click="TreatStatusButton_OnClick" Name="TreatStatusButton" Grid.Column="0" Height="50" FontSize="17" Content="治疗状态" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,300,0,674"/>
+        <Button Style="{StaticResource ButtonStyle1}" Click="DataBasesetting_OnClick" Name="DataBasesettingButton" Grid.Column="0" Height="50" FontSize="17" Content="数据库设置" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,350,0,624"/>
         <ContentControl Name="RightContent" Grid.Column="1" Grid.Row="0" ></ContentControl>
 
     </Grid>

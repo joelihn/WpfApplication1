@@ -19,20 +19,27 @@
     <Grid  Style="{StaticResource GridBackGround1}">
         <StackPanel Margin="0,0">
             <TextBlock Name="TitleTextBlock" Margin="0" HorizontalAlignment="Center" Style="{StaticResource TextBlockStyle1}" Text="数据库设置" />
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Margin="0,0,50,0" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource RightTextBlock1}" Text="数据库路径" />
-                <TextBox x:Name="DataBasePath" Width="302" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
-                <Button HorizontalAlignment="Left" VerticalAlignment="Center" Click="PathSelButton_OnClick"  Content="..." Style="{StaticResource RightButton1}" Width="52" />
+            <StackPanel Margin="0,50, 0, 0" Orientation="Horizontal">
+                <TextBlock Margin="20,0,50,0" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource RightTextBlock1}" Text="数据库路径" />
+                <TextBox x:Name="DataBasePath" Width="402" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
+                <Button Margin="10,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Click="PathSelButton_OnClick"  Content="..." Style="{StaticResource RightButton1}" Width="52" />
+                <Button Margin="10,0,0,0" Width="100" HorizontalAlignment="Right" VerticalAlignment="Center" Click="OkButton_OnClick"  Content="{DynamicResource  Save}" Style="{StaticResource RightButton1}" />
+                <TextBlock Margin="10,0,0,0" Width="73" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource RightTextBlock1}" Text="重启生效" />
+
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Visibility="Collapsed">
+            <StackPanel  Orientation="Horizontal" Visibility="Collapsed">
                 <TextBlock Width="73" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource RightTextBlock1}" Text="名称" />
                 <TextBox Name="NameTextBox1" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
-            </StackPanel>
+                </StackPanel>
 
-            <Grid>
-                <Button Name="DeleteButton" HorizontalAlignment="Left" VerticalAlignment="Center" Click="OkButton_OnClick"  Content="{DynamicResource  Save}" Style="{StaticResource RightButton1}" />
-                <TextBlock Width="73" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource RightTextBlock1}" Text="重启生效" Margin="50,10,315,0" />
+            <Grid Margin="20,50, 0, 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <!--<Button Name="DeleteButton" HorizontalAlignment="Right" VerticalAlignment="Center" Click="OkButton_OnClick"  Content="{DynamicResource  Save}" Style="{StaticResource RightButton1}" />
+                <TextBlock Width="73" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource RightTextBlock1}" Text="重启生效" Grid.Column="1" />-->
             </Grid>
         </StackPanel>
         <TextBlock Margin="212,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Red" Style="{StaticResource RightTextBlock1}" Text="{DynamicResource SettingnosaveText}" Visibility="Hidden" />
