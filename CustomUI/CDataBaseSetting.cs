@@ -7,15 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApplication1.DAOModule;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace WpfApplication1.CustomUI
 {
@@ -36,6 +37,13 @@ namespace WpfApplication1.CustomUI
         {
             config.AppSettings.Settings["DataBasePath"].Value = DataBasePath.Text;
         }
+        private void PathSelButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+            if(folderDlg.ShowDialog() == DialogResult.OK)
+                DataBasePath.Text = folderDlg.SelectedPath;
+        }
+        
     }
 
 }

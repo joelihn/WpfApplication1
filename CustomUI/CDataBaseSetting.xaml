@@ -22,6 +22,7 @@
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="0,0,50,0" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource RightTextBlock1}" Text="数据库路径" />
                 <TextBox x:Name="DataBasePath" Width="302" HorizontalAlignment="Right" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
+                <Button HorizontalAlignment="Left" VerticalAlignment="Center" Click="PathSelButton_OnClick"  Content="..." Style="{StaticResource RightButton1}" Width="52" />
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Visibility="Collapsed">

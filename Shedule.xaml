@@ -41,7 +41,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" Height="50">
+                        <Border ToolTip="{Binding ToolTips}" x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" Height="50">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
@@ -358,7 +358,7 @@
             <Button Content="后一周" Grid.Column="8" Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="Button_Click2" Grid.ColumnSpan="2" />
 
         </Grid>
-        <Grid Height="30" Style="{StaticResource GridBackGround1}">
+        <Grid Name="SortGrid" Height="30" Style="{StaticResource GridBackGround1}">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition/>
 				<ColumnDefinition/>
@@ -371,61 +371,89 @@
 				<ColumnDefinition/>
 				<ColumnDefinition Width="20"/>
 			</Grid.ColumnDefinitions>
-			<Grid Grid.Column="1">
+            <Grid  Grid.Column="1">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>
 					<ColumnDefinition/>
 				</Grid.ColumnDefinitions>
-				<Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_0"/>
-                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_0"/>
+				<Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_0">
+                    <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
+                </Button>
+                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_0">
+                    <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
+                </Button>
 			</Grid>
 			<Grid Grid.Column="2">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>
 					<ColumnDefinition/>
 				</Grid.ColumnDefinitions>
-                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_1"/>
-                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_1"/>
+                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_1">
+                    <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
+                </Button>
+                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_1">
+                    <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
+                </Button>
 			</Grid>
 			<Grid Grid.Column="3">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>
 					<ColumnDefinition/>
 				</Grid.ColumnDefinitions>
-                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_2"/>
-                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_2"/>
+                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_2">
+                    <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
+                </Button>
+                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_2">
+                    <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
+                </Button>
 			</Grid>
 			<Grid Grid.Column="4">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>
 					<ColumnDefinition/>
 				</Grid.ColumnDefinitions>
-                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_3"/>
-                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_3"/>
+                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_3">
+                    <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
+                </Button>
+                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_3">
+                    <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
+                </Button>
 			</Grid>
 			<Grid Grid.Column="5">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>
 					<ColumnDefinition/>
 				</Grid.ColumnDefinitions>
-                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_4"/>
-                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_4"/>
+                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_4">
+                    <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
+                </Button>
+                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_4">
+                    <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
+                </Button>
 			</Grid>
 			<Grid Grid.Column="6">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>
 					<ColumnDefinition/>
 				</Grid.ColumnDefinitions>
-                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_5"/>
-                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_5"/>
+                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_5">
+                    <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
+                </Button>
+                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_5">
+                    <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
+                </Button>
 			</Grid>
             <Grid Grid.Column="7">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>
 					<ColumnDefinition/>
 				</Grid.ColumnDefinitions>
-                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_6"/>
-                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_6"/>
+                <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_6">
+                    <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
+                </Button>
+                <Button Style="{StaticResource DialogButton}" Grid.Column="1" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="1_6">
+                    <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
+                </Button>
 			</Grid>
 
             

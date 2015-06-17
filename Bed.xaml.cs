@@ -621,7 +621,7 @@ namespace WpfApplication1
                                                     string temporder;
                                                     treat.Type = list1[0].Name;
                                                     treat.TreatTimes = int.Parse(details[2]);
-                                                    temporder = treat.Type + "/" + treat.TreatTimes;
+                                                    temporder = treat.Type + "/" + treat.TreatTimes + "/" + treat.TreatMethod;
                                                     treatOrders += temporder;
                                                     treatOrders += "\n";
                                                 }
@@ -769,7 +769,7 @@ namespace WpfApplication1
                         {
                             DateTime dt = GetDate();
                             //UpdateBedId(BedInfoList[index].Id, DateTime.Parse("2015-06-10"), ampme, -1);
-                            UpdateBedId(BedInfoList[index].Id, dt.Date, ampme, -1);
+                            UpdateBedId(BedInfoList[index].PatientData.Id, dt.Date, ampme, -1);
                             BedPatientList.Add(BedInfoList[index].PatientData);
                         }
                         BedPatientData data = (BedPatientData)draggedItem;
@@ -833,10 +833,13 @@ namespace WpfApplication1
                 }
             }
             //test
-            DateTime dt = GetDate();
-            //UpdateBedId(BedInfoList[index].PatientData.Id, DateTime.Parse("2015-06-10"), ampme, -1);
-            UpdateBedId(BedInfoList[index].PatientData.Id,dt.Date, ampme, -1);
-            BedInfoList[index].PatientData = null;
+            if(BedInfoList[index].PatientData!= null)
+            {
+                DateTime dt = GetDate();
+                //UpdateBedId(BedInfoList[index].PatientData.Id, DateTime.Parse("2015-06-10"), ampme, -1);
+                UpdateBedId(BedInfoList[index].PatientData.Id, dt.Date, ampme, -1);
+                BedInfoList[index].PatientData = null;
+            }
             e.Handled = true;
         }
 

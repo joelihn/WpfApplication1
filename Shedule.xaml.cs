@@ -1131,6 +1131,45 @@ namespace WpfApplication1
                             status.Bed = "异常";
                         }
 
+
+
+                        string treatOrders = "";
+                        string orders = type.Orders;
+                        if (orders != "" && orders != null)
+                        {
+                            string[] order = orders.Split('#');
+                            foreach (var s in order)
+                            {
+                                if (s != "")
+                                {
+                                    string[] details = s.Split('/');
+                                    if (details.Count() == 3)
+                                    {
+                                        var treat = new TreatOrder();
+                                        treat.TreatMethod = details[0];
+
+                                        var medicalOrderParaDao = new MedicalOrderParaDao();
+                                        var condition1 = new Dictionary<string, object>();
+                                        condition1["ID"] = details[1];
+                                        var list1 = medicalOrderParaDao.SelectInterval(condition1);
+                                        string temporder;
+                                        treat.Type = list1[0].Name;
+                                        treat.TreatTimes = int.Parse(details[2]);
+                                        temporder = treat.Type + "/" + treat.TreatTimes + "/" + treat.TreatMethod;
+                                        treatOrders += temporder;
+                                        treatOrders += "\n";
+                                    }
+                                }
+                            }
+                            treatOrders = treatOrders.Remove(treatOrders.LastIndexOf("\n"), 1);
+                            status.ToolTips = treatOrders;
+                        }
+                        else
+                        {
+                            status.ToolTips = "";
+                        }
+
+
                         ListboxItemStatusesList.Add(status);
                         //PatientList.Add(patientInfo);
                     }
@@ -1936,8 +1975,76 @@ namespace WpfApplication1
                 ListSort("desc", week, day);
                 de = false;
             }
-            
+            HideOutherImages(btn);
+            Image i = FindChild(btn);
+            if (i.Visibility == Visibility.Hidden)
+            {
+                i.Visibility = Visibility.Visible;
+
+                
+            }
+            if( i.Visibility == Visibility.Visible)
+            {
+                if (i.Source.ToString() == "pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png")
+                {
+                    i.Source = new BitmapImage(
+                                        new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png",
+                                                UriKind.RelativeOrAbsolute));
+                }
+                else
+                {
+                    i.Source = new BitmapImage(
+                                       new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png",
+                                               UriKind.RelativeOrAbsolute));
+                }
+            }
+
             ListBox1.Items.Refresh();
+        }
+
+        private void HideOutherImages(Button btn)
+        {
+            foreach (var i in SortGrid.Children)
+            {
+                if( i is Grid)
+                {
+
+                    foreach (var j in ((Grid)i).Children)
+                    {
+                        if ((j is Button) && j != btn)
+                        {
+                            Image img = FindChild((Button) j);
+                            img.Visibility = Visibility.Hidden;
+                        }
+                    }
+                }
+            }
+        }
+
+        public static Image FindChild(DependencyObject p)
+        {
+            Image f = null;
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(p); i++)
+            {
+                var ch = VisualTreeHelper.GetChild(p, i);
+                Image childType = ch as Image;
+                if (childType == null)
+                {
+                    f = FindChild(ch);
+                    if (f != null) break;
+                }
+                else
+                {
+                    var e = ch as FrameworkElement;
+
+                    if (e != null)
+                    {
+                        f = (Image)ch;
+                        break;
+                    }
+                }
+            }
+            return f;
         }
     }
 
@@ -1966,6 +2073,8 @@ namespace WpfApplication1
             get { return bed; }
             set { bed = value; }
         }
+
+        public string ToolTips { get; set; }
 
         public Week CurrentWeek { get; set; }
         public Week NextWeek { get; set; }
