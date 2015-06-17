@@ -1433,6 +1433,7 @@ namespace WpfApplication1
                     var list = infectTypeDao.SelectInfectType(condition);
                     InfectTypeComboBox.Items.Clear();
                     InfectTypeComboBox.Items.Add("所有");
+                    InfectTypeComboBox.Items.Add("");
                     foreach (InfectType type in list)
                     {
                         InfectTypeComboBox.Items.Add(type.Name);
@@ -1505,6 +1506,7 @@ namespace WpfApplication1
             {
                 using (InfectTypeDao infectTypeDao = new InfectTypeDao())
                 {
+                    InfectTypeComboBox1.Items.Add("");
                     Dictionary<string, object> condition = new Dictionary<string, object>();
                     var list = infectTypeDao.SelectInfectType(condition);
                     InfectTypeComboBox1.Items.Clear();

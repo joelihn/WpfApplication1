@@ -763,6 +763,7 @@ namespace WpfApplication1
                     var list = infectTypeDao.SelectInfectType(condition);
                     InfectTypeComboBox.Items.Clear();
                     InfectTypeComboBox.Items.Add("所有");
+                    InfectTypeComboBox.Items.Add("");
                     foreach (InfectType type in list)
                     {
                         InfectTypeComboBox.Items.Add(type.Name);

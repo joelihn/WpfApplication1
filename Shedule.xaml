@@ -459,10 +459,10 @@
             
 			
 		</Grid>
-        <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{DynamicResource BacGround1}" x:Name="ListBox1" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="650" 
+        <ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{DynamicResource BacGround1}" x:Name="ListBox1" HorizontalAlignment="Left"  Margin="0,0,0,0" VerticalAlignment="Top" Width="1230" Height="610" 
     		ItemContainerStyle="{DynamicResource ListBoxItemStyle2}" ItemsSource="{Binding}" SelectionChanged="PatientlistView_SelectionChanged" />
 
-        <Grid x:Name="StatisticsGrid" Margin="0,0,0,0" Style="{StaticResource GridBackGround1}" Height="230">
+        <Grid x:Name="StatisticsGrid" Margin="0,0,0,0" Style="{StaticResource GridBackGround1}" Height="220">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
