@@ -192,6 +192,7 @@ namespace WpfApplication1.CustomUI
 
         private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (ListView1.SelectedIndex == -1) return;
             //throw new NotImplementedException();
             using (var bedDao = new BedDao())
             {
@@ -246,6 +247,13 @@ namespace WpfApplication1.CustomUI
                 fileds["ISOCCUPY"] = CheckBoxIsOccupy.IsChecked;
                 fileds["DESCRIPTION"] = DescriptionTextBox.Text;
                 bedDao.UpdateBed(fileds, condition);
+                if (CheckBoxIsAvailable.IsChecked == false)
+                {
+                    using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                    {
+                        scheduleDao.UpdateScheduleTemplate1("-1", Datalist[ListView1.SelectedIndex].Id.ToString());
+                    }
+                }
                 RefreshData();
             }
         }

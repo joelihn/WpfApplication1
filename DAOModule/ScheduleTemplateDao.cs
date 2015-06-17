@@ -117,6 +117,28 @@ namespace WpfApplication1.DAOModule
             return true;
         }
 
+        public bool UpdateScheduleTemplate1(string fields, string condition)
+        {
+            try
+            {
+                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                {
+                    string sqlcommand = "update SCHEDULETEMPLATE set BedId =";
+                    sqlcommand += fields;
+                    sqlcommand += " where BedId =";
+                    sqlcommand += condition;
+                    sqlcomm.CommandText = sqlcommand;
+                    DatabaseOp.ExecuteNoneQuery(sqlcomm);
+                }
+            }
+            catch (Exception e)
+            {
+                MainWindow.Log.WriteErrorLog("ScheduleTemplateDao.cs-UpdateScheduleTemplate", e);
+                return false;
+            }
+            return true;
+        }
+
 
         public bool DeleteScheduleTemplate(int scId)
         {
