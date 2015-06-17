@@ -273,26 +273,29 @@ namespace WpfApplication1
                     if (list.Count > 0)
                     {
                         string orders = list[0].Orders;
-                        string[] order = orders.Split('#');
-                        foreach (var s in order)
+                        if (orders != null)
                         {
-                            if (s != "")
+                            string[] order = orders.Split('#');
+                            foreach (var s in order)
                             {
-                                string[] details = s.Split('/');
-                                if (details.Count() == 3)
+                                if (s != "")
                                 {
-                                    var treat = new TreatOrder();
-                                    treat.TreatMethod = details[0];
+                                    string[] details = s.Split('/');
+                                    if (details.Count() == 3)
+                                    {
+                                        var treat = new TreatOrder();
+                                        treat.TreatMethod = details[0];
 
-                                    var medicalOrderParaDao = new MedicalOrderParaDao();
-                                    var condition1 = new Dictionary<string, object>();
-                                    condition1["ID"] = details[1];
-                                    var list1 = medicalOrderParaDao.SelectInterval(condition1);
+                                        var medicalOrderParaDao = new MedicalOrderParaDao();
+                                        var condition1 = new Dictionary<string, object>();
+                                        condition1["ID"] = details[1];
+                                        var list1 = medicalOrderParaDao.SelectInterval(condition1);
 
 
-                                    treat.Type = list1[0].Type;
-                                    if (treat.Type == "月")
-                                        ret.Add(treat.TreatMethod);
+                                        treat.Type = list1[0].Type;
+                                        if (treat.Type == "月")
+                                            ret.Add(treat.TreatMethod);
+                                    }
                                 }
                             }
                         }

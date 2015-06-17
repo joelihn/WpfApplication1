@@ -601,7 +601,7 @@ namespace WpfApplication1
                                     patientInfo.Method = patient.Method;
                                     string treatOrders = "";
                                     string orders = patientlist[0].Orders;
-                                    if (orders != "" && orders != null)
+                                    if (!string.IsNullOrEmpty(orders))
                                     {
                                         string[] order = orders.Split('#');
                                         foreach (var s in order)
