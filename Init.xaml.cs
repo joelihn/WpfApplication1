@@ -118,7 +118,7 @@ namespace WpfApplication1
             SexComboBox.SelectedIndex = 0;
             InfectTypeComboBox.SelectedIndex = 0;
             DescriptionTextBox.Text = "";
-            StatusComboBox.SelectedIndex = 0;
+            StatusComboBox.SelectedIndex = 1;
             AddTimeDate.SelectedDate = DateTime.Now;
         }
 
@@ -1059,6 +1059,35 @@ namespace WpfApplication1
             }
         }
 
+        private bool CheckPatientNameValidity(string name)
+        {
+            try
+            {
+                if (name.Trim().Equals(string.Empty))
+                    return false;
+                using (var patientDao = new PatientDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["NAME"] = name.Trim();
+                    List<Patient> list =
+                                patientDao.SelectPatient(condition);
+                    if (list.Count > 0)
+                        return false;
+                    else
+                    {
+                        return true;
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteErrorLog("Init.xaml.cs-CheckPatientNameValidity", ex);
+                return false;
+            }
+        }
+
 
         private void ButtonNewSaveClick(object sender, RoutedEventArgs e)
         {
@@ -1070,6 +1099,14 @@ namespace WpfApplication1
                     {
                         var myRemindMessageBox = new RemindMessageBox1();
                         myRemindMessageBox.remindText.Text = (string)FindResource("Message76");
+                        myRemindMessageBox.ShowDialog();
+                        return;
+                    }
+
+                    if (!CheckPatientNameValidity(Add_NameTextBox.Text))
+                    {
+                        var myRemindMessageBox = new RemindMessageBox1();
+                        myRemindMessageBox.remindText.Text = (string)FindResource("Message761");
                         myRemindMessageBox.ShowDialog();
                         return;
                     }

@@ -363,8 +363,8 @@
     <sys:String x:Key="Message16">保存成功！</sys:String>
     <sys:String x:Key="Message17">没有选中数据</sys:String>
     <sys:String x:Key="Message18">是否执行删除操作?</sys:String>
-    <sys:String x:Key="Message19">该操作将删除该患者以前生成的报告。</sys:String>
-    <sys:String x:Key="Message20">请确认或者先取消并备份！</sys:String>
+    <sys:String x:Key="Message19"></sys:String>
+    <sys:String x:Key="Message20">确认修改！</sys:String>
     <sys:String x:Key="Message21">本条记录无日期</sys:String>
     <sys:String x:Key="Message22">不合法路径</sys:String>
     <sys:String x:Key="Message23">成功输出！</sys:String>
@@ -390,7 +390,7 @@
     <sys:String x:Key="Message42">结束测试</sys:String>
     <sys:String x:Key="Message43">请选中要删除的行！</sys:String>
     <sys:String x:Key="Message44">头动曲线如上所示，请确认是否继续进行处理?</sys:String>
-    <sys:String x:Key="Message45">如果发现问题请联系美德医疗的售后电话15816858957，谢谢！</sys:String>
+    <sys:String x:Key="Message45">如果发现问题请联系，谢谢！</sys:String>
     <sys:String x:Key="Message46">打开USB Key失败， 且没有找到注册文件!</sys:String>
     <sys:String x:Key="Messgae47">打开USB Key失败， 错误的注册文件!</sys:String>
     <sys:String x:Key="Message48">未注册的USB Key!</sys:String>
@@ -422,6 +422,7 @@
 		<sys:String x:Key="Message74">正在处理数据...</sys:String>
 		<sys:String x:Key="Message75">数据处理完成...</sys:String>
 		<sys:String x:Key="Message76">输入的患者ID不合法或者在系统中已经存在.</sys:String>
+    <sys:String x:Key="Message761">输入的患者姓名不合法或者在系统中已经存在.</sys:String>
 		<sys:String x:Key="Message77">数据不符合处理条件...</sys:String>
 		<sys:String x:Key="Message78">ProtocolName.xml不合法，请检查！</sys:String>
 

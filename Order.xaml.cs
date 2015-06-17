@@ -937,6 +937,10 @@ namespace WpfApplication1
             string MedicalOrder = "";
             foreach (var v in TreatOrderList)
             {
+                if ((v.Type == null) || v.Type.Equals(""))
+                {
+                    continue;
+                }
                 var medicalOrderParaDao = new MedicalOrderParaDao();
                 var condition1 = new Dictionary<string, object>();
                 condition1["NAME"] = v.Type;

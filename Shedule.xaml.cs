@@ -322,27 +322,30 @@ namespace WpfApplication1
                     if (list.Count > 0)
                     {
                         string orders = list[0].Orders;
-                        string[] order = orders.Split('#');
-                        foreach (var s in order)
+                        if (orders != null)
                         {
-                            if (s != "")
+                            string[] order = orders.Split('#');
+                            foreach (var s in order)
                             {
-                                string[] details = s.Split('/');
-                                if (details.Count() == 3)
+                                if (s != "")
                                 {
-                                    var treat = new TreatOrder();
-                                    treat.TreatMethod = details[0];
+                                    string[] details = s.Split('/');
+                                    if (details.Count() == 3)
+                                    {
+                                        var treat = new TreatOrder();
+                                        treat.TreatMethod = details[0];
 
-                                    var medicalOrderParaDao = new MedicalOrderParaDao();
-                                    var condition1 = new Dictionary<string, object>();
-                                    condition1["ID"] = details[1];
-                                    var list1 = medicalOrderParaDao.SelectInterval(condition1);
+                                        var medicalOrderParaDao = new MedicalOrderParaDao();
+                                        var condition1 = new Dictionary<string, object>();
+                                        condition1["ID"] = details[1];
+                                        var list1 = medicalOrderParaDao.SelectInterval(condition1);
 
 
-                                    //treat.Type = details[1];
-                                    treat.Type = list1[0].Type;
-                                    treat.TreatTimes = int.Parse(details[2]);
-                                    TreatOrderList.Add(treat);
+                                        //treat.Type = details[1];
+                                        treat.Type = list1[0].Type;
+                                        treat.TreatTimes = int.Parse(details[2]);
+                                        TreatOrderList.Add(treat);
+                                    }
                                 }
                             }
                         }
@@ -374,27 +377,30 @@ namespace WpfApplication1
                         if (list.Count > 0)
                         {
                             string orders = list[0].Orders;
-                            string[] order = orders.Split('#');
-                            foreach (var s in order)
+                            if (orders != null)
                             {
-                                if (s != "")
+                                string[] order = orders.Split('#');
+                                foreach (var s in order)
                                 {
-                                    string[] details = s.Split('/');
-                                    if (details.Count() == 3)
+                                    if (s != "")
                                     {
-                                        var treat = new TreatOrder();
-                                        treat.TreatMethod = details[0];
+                                        string[] details = s.Split('/');
+                                        if (details.Count() == 3)
+                                        {
+                                            var treat = new TreatOrder();
+                                            treat.TreatMethod = details[0];
 
-                                        var medicalOrderParaDao = new MedicalOrderParaDao();
-                                        var condition1 = new Dictionary<string, object>();
-                                        condition1["ID"] = details[1];
-                                        var list1 = medicalOrderParaDao.SelectInterval(condition1);
+                                            var medicalOrderParaDao = new MedicalOrderParaDao();
+                                            var condition1 = new Dictionary<string, object>();
+                                            condition1["ID"] = details[1];
+                                            var list1 = medicalOrderParaDao.SelectInterval(condition1);
                                         
 
-                                        //treat.Type = details[1];
-                                        treat.Type = list1[0].Type;
-                                        treat.TreatTimes = int.Parse(details[2]);
-                                        TreatOrderList.Add(treat);
+                                            //treat.Type = details[1];
+                                            treat.Type = list1[0].Type;
+                                            treat.TreatTimes = int.Parse(details[2]);
+                                            TreatOrderList.Add(treat);
+                                        }
                                     }
                                 }
                             }
@@ -451,7 +457,7 @@ namespace WpfApplication1
         
         private void ButtonBase_OnClick(object sender, MouseButtonEventArgs e)
         {
-            //DateTime dtTime1 = DateTime.Now;
+            DateTime dtTime1 = DateTime.Now;
             Button btn = (Button) sender;
             string tag = (string) btn.Tag;
             int index = ListBox1.SelectedIndex;
@@ -459,23 +465,28 @@ namespace WpfApplication1
                 return;
 
             bool ret = ChangeButtonStauts(index, tag, e.ChangedButton);
-            //DateTime dtTime2 = DateTime.Now;
-            //TimeSpan tsSpan1 = dtTime2 - dtTime1;
-           // MainWindow.Log.WriteInfoLog("tsSpan1 is: " + tsSpan1.Milliseconds);
+            DateTime dtTime2 = DateTime.Now;
+            TimeSpan tsSpan1 = dtTime2 - dtTime1;
+            MainWindow.Log.WriteInfoLog("tsSpan1 is: " + tsSpan1.Milliseconds);
             if (ret)
             {
                 UpdatePatientSchedule();
-                //DateTime dtTime3 = DateTime.Now;
-                // tsSpan2 = dtTime3 - dtTime2;
-                //MainWindow.Log.WriteInfoLog("tsSpan2 is: " + tsSpan2.Milliseconds);
+                DateTime dtTime3 = DateTime.Now;
+                TimeSpan tsSpan2 = dtTime3 - dtTime2;
+                MainWindow.Log.WriteInfoLog("tsSpan2 is: " + tsSpan2.Milliseconds);
                 if (CheckOrders())
                     ListboxItemStatusesList[index].Checks = "正常";
                 else
                 {
                     ListboxItemStatusesList[index].Checks = "异常";
                 }
-
+                DateTime dtTime4 = DateTime.Now;
+                TimeSpan tsSpan3 = dtTime4 - dtTime3;
+                MainWindow.Log.WriteInfoLog("tsSpan3 is: " + tsSpan3.Milliseconds);
                 ListBox1.Items.Refresh();
+                DateTime dtTime5 = DateTime.Now;
+                TimeSpan tsSpan4 = dtTime5 - dtTime4;
+                MainWindow.Log.WriteInfoLog("tsSpan4 is: " + tsSpan4.Milliseconds);
             }
                 
         }
