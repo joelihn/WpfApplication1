@@ -21,9 +21,6 @@
         <DataTemplate x:Key="PatientArea">
             <TextBlock  Text="{Binding PatientArea}" />
         </DataTemplate>
-        <DataTemplate x:Key="InfectType">
-            <TextBlock  Text="{Binding InfectType}" />
-        </DataTemplate>
         <DataTemplate x:Key="IsAvailable">
             <TextBlock  Text="{Binding IsAvailable}" />
         </DataTemplate>
@@ -45,7 +42,6 @@
                         <GridViewColumn Width="80" CellTemplate="{StaticResource Name}" Header="名称" />
                         <GridViewColumn Width="80" CellTemplate="{StaticResource TreatMethod}" Header="类型" />
                         <GridViewColumn Width="80" CellTemplate="{StaticResource PatientArea}" Header="病区" />
-                        <GridViewColumn Width="80" CellTemplate="{StaticResource InfectType}" Header="感染类型" />
                         <GridViewColumn Width="50" CellTemplate="{StaticResource IsAvailable}" Header="可用" />
                         <GridViewColumn Width="50" CellTemplate="{StaticResource IsOccupy}" Header="占用" />
                         <GridViewColumn Width="140" CellTemplate="{StaticResource Description}" Header="描述" />
@@ -56,19 +52,17 @@
                 <TextBlock Width="73" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="名称" />
                 <TextBlock Width="73" Margin="80,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="房间" />
                 <TextBlock Width="73" Margin="160,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="病区" />
-                <TextBlock Width="73" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="感染类型" />
-                <TextBlock Width="73" Margin="320,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="是否可用" />
-                <TextBlock Width="73" Margin="400,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="是否占用" />
-                <TextBlock Width="73" Margin="480,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="描述" />
+                <TextBlock Width="73" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="是否可用" />
+                <TextBlock Width="73" Margin="320,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="是否占用" />
+                <TextBlock Width="73" Margin="400,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="描述" />
             </Grid>
             <Grid Margin="0,0,0,10">
                 <TextBox Name="NameTextBox" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
                 <ComboBox Name="ComboBoxType" FontSize="16"  Height="27"  Width="75" Margin="80,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
                 <ComboBox Name="ComboBoxPatientArea" FontSize="16"  Height="27"  Width="75" Margin="160,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
-                <ComboBox Name="ComboBoxInfectType" FontSize="16"  Height="27"  Width="75" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
-                <CheckBox Name="CheckBoxIsAvailable" Width="80" Margin="320,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CheckBoxStyle1}" />
-                <CheckBox Name="CheckBoxIsOccupy" Width="80" Margin="400,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CheckBoxStyle1}" />
-                <TextBox Name="DescriptionTextBox" Width="80" Margin="480,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
+                <CheckBox Name="CheckBoxIsAvailable" Width="80" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CheckBoxStyle1}" />
+                <CheckBox Name="CheckBoxIsOccupy" Width="80" Margin="320,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CheckBoxStyle1}" />
+                <TextBox Name="DescriptionTextBox" Width="80" Margin="400,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
             </Grid>
             <Grid>
                 <Button Name="AddButton" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddButton_OnClick"  Content="{DynamicResource  AddText}" Style="{StaticResource RightButton1}" />

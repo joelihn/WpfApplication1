@@ -223,7 +223,7 @@
                             </Grid>
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <TextBox Text="{Binding TreatTimes}" Width="210" Height="20"></TextBox>
+                                    <TextBox Text="{Binding TreatTimes}" Width="210" Height="20" TextChanged="TextBox_TextChanged"></TextBox>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

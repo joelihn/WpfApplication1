@@ -74,6 +74,7 @@
     <Compile Include="CustomUI\CBed.xaml.cs">
       <DependentUpon>CBed.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomUI\CDataBaseSetting.cs" />
     <Compile Include="CustomUI\CInfectType.xaml.cs">
       <DependentUpon>CInfectType.xaml</DependentUpon>
     </Compile>
@@ -149,6 +150,10 @@
     <Page Include="CustomUI\CBed.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomUI\CDataBaseSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="CustomUI\CInfectType.xaml">
       <SubType>Designer</SubType>

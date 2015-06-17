@@ -35,6 +35,7 @@ namespace WpfApplication1
         //public ObservableCollection<BedData> Beddatalist = new ObservableCollection<BedData>();
         private DataFormat format = DataFormats.GetDataFormat("DragDropItemsControl");
         public ObservableCollection<BedPatientData> BedPatientList = new ObservableCollection<BedPatientData>();
+        public ObservableCollection<BedPatientData> UnPatientList = new ObservableCollection<BedPatientData>();
         public ObservableCollection<BedInfo> BedInfoList = new ObservableCollection<BedInfo>();
         private ListBoxItem targetItemsControl;
         public List<DateTime> dtlist = new List<DateTime>();
@@ -55,7 +56,7 @@ namespace WpfApplication1
             SexComboBox.SelectedIndex = 0;
             InitDay();
             InitWeekWithDate();
-            LoadInfectionType();
+            LoadPatientAreas();
         }
 
         private void LoadTratementConifg()
@@ -221,6 +222,17 @@ namespace WpfApplication1
                     informatian.Id = fmriPatient.Id;
                     informatian.PatientId = fmriPatient.PatientId;
                     informatian.Name = fmriPatient.Name;
+                    using (var infectTypeDao = new InfectTypeDao())
+                    {
+                        condition.Clear();
+                        condition["ID"] = informatian.InfectionType;
+                        var arealist = infectTypeDao.SelectInfectType(condition);
+                        if (arealist.Count == 1)
+                        {
+                            informatian.InfectionType = arealist[0].Name;
+                        }
+                    }
+                    //informatian.InfectionType = fmriPatient.InfectTypeId;
                     BedPatientList.Add(informatian);
                     
                 }
@@ -417,23 +429,35 @@ namespace WpfApplication1
 
         private long GetInfectType()
         {
-            string type = "";
+            string area = "";
             foreach (var i in InfectGrid.Children)
             {
                 if ((i is ToggleButton) && (((ToggleButton)i).IsChecked == true))
                 {
-                    type = (string)((ToggleButton)i).Tag;
+                    area = (string)((ToggleButton)i).Tag;
                     break;
                 }
             }
 
             try
             {
-                using (var infectTypeDao = new InfectTypeDao())
+                /*using (var infectTypeDao = new InfectTypeDao())
                 {
                     var condition = new Dictionary<string, object>();
                     condition["Name"] = type;
                     var arealist = infectTypeDao.SelectInfectType(condition);
+                    if (arealist.Count == 1)
+                    {
+                        return arealist[0].Id;
+                    }
+                }
+                */
+
+                using (var patientAreaDao = new PatientAreaDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["Name"] = area;
+                    var arealist = patientAreaDao.SelectPatientArea(condition);
                     if (arealist.Count == 1)
                     {
                         return arealist[0].Id;
@@ -449,7 +473,7 @@ namespace WpfApplication1
             return -1;
         }
 
-        private void RefreshBedList( long infecttypeid)
+        private void RefreshBedList( long areaId)
         {
             try
             {
@@ -457,7 +481,7 @@ namespace WpfApplication1
                 using (BedDao bedDao = new BedDao())
                 {
                     Dictionary<string, object> condition = new Dictionary<string, object>();
-                    condition["INFECTTYPEID"] = infecttypeid;
+                    condition["PatientAreaId"] = areaId;
                     var list = bedDao.SelectBed(condition);
                     foreach (DAOModule.Bed bed in list)
                     {
@@ -466,6 +490,8 @@ namespace WpfApplication1
                         bedInfo.BedName = bed.Name;
                         bedInfo.IsAvailable = bed.IsAvailable;
                         bedInfo.IsOccupy = bed.IsOccupy;
+                        if (bedInfo.IsAvailable == false)
+                            continue;
                         using (var treatTypeDao = new TreatMethodDao())
                         {
                             condition.Clear();
@@ -488,6 +514,18 @@ namespace WpfApplication1
                             }
                         }*/
 
+                        using (var patientAreaDao = new PatientAreaDao())
+                        {
+                            condition.Clear();
+                            condition["Id"] = areaId;
+                            var arealist = patientAreaDao.SelectPatientArea(condition);
+                            if (arealist.Count == 1)
+                            {
+                                bedInfo.InfectionType = arealist[0].Type;
+                            }
+                        }
+
+                        /*
                         if (bed.InfectTypeId == -1)
                         {
                             bedInfo.InfectionType = "阴性";
@@ -505,10 +543,10 @@ namespace WpfApplication1
                                 }
                             }
                         }
-                        
+                        */
 
 
-                        foreach (var bedPatientData in BedPatientList)
+                        foreach (var bedPatientData in UnPatientList)
                         {
                             if (bedPatientData.BedId == bedInfo.Id)
                             {
@@ -534,6 +572,7 @@ namespace WpfApplication1
             try
             {
                 BedPatientList.Clear();
+                UnPatientList.Clear();
                 using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
                 {
                     Dictionary<string, object> condition = new Dictionary<string, object>();
@@ -546,6 +585,7 @@ namespace WpfApplication1
                     {
                         foreach (var patient in list)
                         {
+                            
                             using (var patientDao = new PatientDao())
                             {
                                 condition.Clear();
@@ -554,9 +594,9 @@ namespace WpfApplication1
                                 if (patientlist.Count == 1)
                                 {
                                     BedPatientData patientInfo = new BedPatientData();
-                                    patientInfo.Id = patientlist[0].Id;//
+                                    patientInfo.Id = patientlist[0].Id; //
                                     patientInfo.Name = patientlist[0].Name;
-                                    patientInfo.PatientId = patientlist[0].PatientId;//可能为空
+                                    patientInfo.PatientId = patientlist[0].PatientId; //可能为空
                                     patientInfo.BedId = patient.BedId;
                                     patientInfo.Method = patient.Method;
                                     string treatOrders = "";
@@ -594,13 +634,32 @@ namespace WpfApplication1
                                     {
                                         patientInfo.ToolTips = "";
                                     }
-                                    BedPatientList.Add(patientInfo);
+
+                                    using (var infectTypeDao = new InfectTypeDao())
+                                    {
+                                        condition.Clear();
+                                        condition["ID"] = patientlist[0].InfectTypeId;
+                                        var arealist = infectTypeDao.SelectInfectType(condition);
+                                        if (arealist.Count == 1)
+                                        {
+                                            patientInfo.InfectionType = arealist[0].Name;
+                                        }
+                                    }
+
+                                    if (patient.BedId == -1)
+                                        BedPatientList.Add(patientInfo);
+                                    else
+                                    {
+                                        UnPatientList.Add(patientInfo);
+                                    }
 
 
-                                    
-                                    
+
+
                                 }
                             }
+                            
+                            
                         }
 
                         /*var fileds = new Dictionary<string, object>();
@@ -878,16 +937,20 @@ namespace WpfApplication1
             }
             
         }
-        private void LoadInfectionType()
+        private void LoadPatientAreas()
         {
             try
             {
                 //InfectGrid.Children.Clear();
                 ClearGrid();
-                using (var infectTypeDao = new InfectTypeDao())
+                using (var patientAreaDao = new PatientAreaDao())
                 {
                     var condition = new Dictionary<string, object>();
-                    var arealist = infectTypeDao.SelectInfectType(condition);
+                    var arealist = patientAreaDao.SelectPatientArea(condition);
+                    /*if (arealist.Count == 1)
+                    {
+                        bedData.PatientArea = arealist[0].Name;
+                    }*/
                     int n = 1;
                     foreach (var infectType in arealist)
                     {
@@ -897,13 +960,15 @@ namespace WpfApplication1
                         btn.Style = this.FindResource("ToggleButtonStyle") as Style;
                         Grid.SetColumn(btn, n);
                         Grid.SetRow(btn, 0);
-                        
+
                         InfectGrid.Children.Add(btn);
                         if (n == 1)
                             btn.IsChecked = true;
                         n++;
                     }
                 }
+
+
             }
             catch (Exception ex )
             {
@@ -937,6 +1002,7 @@ namespace WpfApplication1
         private Int64 _id;
         private string _treatMethod;
         private Brush _itemBgBrush;
+
         private static Dictionary<string, Color> TreatMethodDictionary = new Dictionary<string, Color>();
         public BedPatientData()
         {
@@ -959,6 +1025,7 @@ namespace WpfApplication1
         public Int64 BedId { get; set; }
         public string Name { get; set; }
         public string PatientId { get; set; }
+        public string InfectionType { get; set; }
         public string ToolTips { get; set; }
 
         public string Method

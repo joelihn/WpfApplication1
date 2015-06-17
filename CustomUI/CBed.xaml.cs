@@ -151,7 +151,7 @@ namespace WpfApplication1.CustomUI
                             bed.PatientAreaId = arealist[0].Id;
                         }
                     }
-                    using (var infectTypeDao = new InfectTypeDao())
+                    /*using (var infectTypeDao = new InfectTypeDao())
                     {
                         condition.Clear();
                         condition["Name"] = ComboBoxInfectType.Text;
@@ -160,7 +160,7 @@ namespace WpfApplication1.CustomUI
                         {
                             bed.InfectTypeId = arealist[0].Id;
                         }
-                    }
+                    }*/
 
                     var isChecked = this.CheckBoxIsAvailable.IsChecked;
                     if (isChecked != null)
@@ -177,6 +177,7 @@ namespace WpfApplication1.CustomUI
                     bedData.Name = bed.Name;
                     bedData.PatientArea = ComboBoxPatientArea.Text;
                     bedData.TreatMethod = ComboBoxType.Text;
+                    bedData.InfectType = ComboBoxPatientArea.Text;
                     bedData.IsAvailable = bed.IsAvailable;
                     bedData.IsOccupy = bed.IsOccupy;
                     bedData.Description = bed.Description;
@@ -231,7 +232,7 @@ namespace WpfApplication1.CustomUI
                         fileds["PATIENTAREAID"] = arealist[0].Id;
                     }
                 }
-                using (var infectTypeDao = new InfectTypeDao())
+                /*using (var infectTypeDao = new InfectTypeDao())
                 {
                     condition2.Clear();
                     condition2["Name"] = ComboBoxInfectType.Text;
@@ -240,7 +241,7 @@ namespace WpfApplication1.CustomUI
                     {
                         fileds["INFECTTYPEID"] = arealist[0].Id;
                     }
-                }
+                }*/
                 fileds["ISAVAILABLE"] = CheckBoxIsAvailable.IsChecked;
                 fileds["ISOCCUPY"] = CheckBoxIsOccupy.IsChecked;
                 fileds["DESCRIPTION"] = DescriptionTextBox.Text;
@@ -383,7 +384,7 @@ namespace WpfApplication1.CustomUI
             #endregion
 
             #region fill infecttype combox items
-            this.ComboBoxInfectType.Items.Clear();
+            /*this.ComboBoxInfectType.Items.Clear();
             try
             {
                 using (var infectTypeDao = new InfectTypeDao())
@@ -401,7 +402,7 @@ namespace WpfApplication1.CustomUI
             catch (Exception ex)
             {
                 MainWindow.Log.WriteInfoConsole("In CPatientRoom.xaml.cs:ListViewCPatientRoom_OnLoaded 2 exception messsage: " + ex.Message);
-            }
+            }*/
             #endregion
         }
     }

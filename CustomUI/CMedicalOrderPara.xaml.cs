@@ -107,19 +107,28 @@ namespace WpfApplication1.CustomUI
         private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
-             using (var medicalOrderParaDao = new MedicalOrderParaDao())
+            try
             {
-                var condition = new Dictionary<string, object>();
-                condition["ID"] = Datalist[ListView1.SelectedIndex].Id;
+                using (var medicalOrderParaDao = new MedicalOrderParaDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["ID"] = Datalist[ListView1.SelectedIndex].Id;
 
-                var fileds = new Dictionary<string, object>();
-                fileds["NAME"] = NameTextBox.Text;
-                fileds["TYPE"] = ComboBoxType.Text;
-                fileds["COUNT"] = Int32.Parse(CountTextBox.Text);
-                fileds["DESCRIPTION"] = DescriptionTextBox.Text;
-                medicalOrderParaDao.UpdateInterval(fileds, condition);
-                RefreshData();
+                    var fileds = new Dictionary<string, object>();
+                    fileds["NAME"] = NameTextBox.Text;
+                    fileds["TYPE"] = ComboBoxType.Text;
+                    fileds["COUNT"] = Int32.Parse(CountTextBox.Text);
+                    fileds["DESCRIPTION"] = DescriptionTextBox.Text;
+                    medicalOrderParaDao.UpdateInterval(fileds, condition);
+                    RefreshData();
+                }
             }
+            catch (Exception ex )
+            {
+
+                MainWindow.Log.WriteInfoConsole("In CMedicalOrderPara.xaml.cs:UpdateButton_OnClick exception messsage: " + ex.Message);
+            }
+             
         }
 
           private void RefreshData()
@@ -166,6 +175,26 @@ namespace WpfApplication1.CustomUI
             this.ComboBoxType.Items.Clear();
             this.ComboBoxType.Items.Add("周");
             this.ComboBoxType.Items.Add("月");
+        }
+
+        private void CountTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            var change = new TextChange[e.Changes.Count];
+            e.Changes.CopyTo(change, 0);
+
+            int offset = change[0].Offset;
+            if (change[0].AddedLength > 0)
+            {
+                double num = 0;
+                if (!Double.TryParse(textBox.Text, out num))
+                {
+                    textBox.Text = textBox.Text.Remove(offset, change[0].AddedLength);
+                    textBox.Select(offset, 0);
+                }
+            }
+            if (textBox.Text == "")
+                textBox.Text = "0";
         }
     }
 

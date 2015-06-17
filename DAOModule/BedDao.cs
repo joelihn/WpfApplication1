@@ -59,8 +59,8 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO BED (PATIENTAREAID,NAME,TREATMETHODID,ISAVAILABLE, ISOCCUPY,DESCRIPTION,RESERVED,INFECTTYPEID) VALUES 
-                        (@PATIENTAREAID,@NAME,@TREATMETHODID,@ISAVAILABLE,@ISOCCUPY,@DESCRIPTION,@RESERVED,@INFECTTYPEID)";
+                        @"INSERT INTO BED (PATIENTAREAID,NAME,TREATMETHODID,ISAVAILABLE, ISOCCUPY,DESCRIPTION,RESERVED) VALUES 
+                        (@PATIENTAREAID,@NAME,@TREATMETHODID,@ISAVAILABLE,@ISOCCUPY,@DESCRIPTION,@RESERVED)";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
                     sqlcomm.Parameters["@NAME"].Value = bed.Name;
                     sqlcomm.Parameters.Add("@TREATMETHODID", DbType.Int32);
@@ -74,8 +74,6 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
                     sqlcomm.Parameters.Add("@PATIENTAREAID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTAREAID"].Value = bed.PatientAreaId;
-                    sqlcomm.Parameters.Add("@INFECTTYPEID", DbType.Int32);
-                    sqlcomm.Parameters["@INFECTTYPEID"].Value = bed.InfectTypeId;
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
                     //set last insert id of this table this connection

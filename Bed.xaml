@@ -48,9 +48,11 @@
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
                                     <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1*"/>
                                 </Grid.ColumnDefinitions>
                                 <Label Content="{Binding PatientId}" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="13.333" Foreground="Black"/>
                                 <Label Content="{Binding Name}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="13.333"/>
+                                <Label Content="{Binding InfectionType}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="Black" FontSize="13.333"/>
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -271,7 +273,7 @@
                                     </StackPanel>
                                 </Grid>
                             </GridViewColumn>-->
-                            <GridViewColumn Width="80" CellTemplate="{StaticResource Name}">
+                            <GridViewColumn Width="65" CellTemplate="{StaticResource Name}">
                                 <Grid Tag="2">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{DynamicResource PatientIDtext}" />
@@ -280,12 +282,21 @@
                                 </Grid>
 
                             </GridViewColumn>
-                            <GridViewColumn Width="180" CellTemplate="{StaticResource PatientId}">
+                            <GridViewColumn Width="120" CellTemplate="{StaticResource PatientId}">
                                 <Grid Tag="1">
                                     <StackPanel Orientation="Horizontal">
 
                                         <TextBlock Text="{DynamicResource Nametext}" />
                                         <Image Source="Resources/ArrowDown.png" x:Name="ArrowPatientID" Visibility="Hidden" />
+                                    </StackPanel>
+                                </Grid>
+                            </GridViewColumn>
+                            <GridViewColumn Width="70" CellTemplate="{StaticResource PatientId}">
+                                <Grid Tag="1">
+                                    <StackPanel Orientation="Horizontal">
+
+                                        <TextBlock Text="{DynamicResource InfectionType}" />
+                                        <Image Source="Resources/ArrowDown.png" x:Name="ArrowPatientI" Visibility="Hidden" />
                                     </StackPanel>
                                 </Grid>
                             </GridViewColumn>

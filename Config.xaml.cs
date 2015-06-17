@@ -30,6 +30,7 @@ namespace WpfApplication1
         private CTreatType cTreatType;
         private CTreatMethod cTreatMethod;
         private CTreatStatus cTreatStatus;
+        private CDataBaseSetting cDateBaseSetting;
         public Config(MainWindow window)
         {
             InitializeComponent();
@@ -42,6 +43,7 @@ namespace WpfApplication1
             cTreatType = new CTreatType();
             cTreatMethod = new CTreatMethod();
             cTreatStatus = new CTreatStatus();
+            cDateBaseSetting = new CDataBaseSetting();
             this.RightContent.Content = cPatientArea;
         }
 
@@ -90,6 +92,11 @@ namespace WpfApplication1
         private void TreatStatusButton_OnClick(object sender, RoutedEventArgs e)
         {
             this.RightContent.Content = cTreatStatus;
+
+        }
+        private void DataBasesetting_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.RightContent.Content = cDateBaseSetting;
 
         }
     }

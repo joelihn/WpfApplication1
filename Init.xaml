@@ -18,8 +18,8 @@
         <DataTemplate x:Key="PatientName">
             <TextBlock x:Name="textlockname" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientName}" />
         </DataTemplate>
-        <DataTemplate x:Key="PatientDob">
-            <TextBlock x:Name="textlockage" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientDob}" />
+        <DataTemplate x:Key="PatientAge">
+            <TextBlock x:Name="textlockage" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientAge}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientGender">
             <TextBlock x:Name="textlocksex" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientGender}" />
@@ -105,7 +105,7 @@
                                 </StackPanel>
                             </Grid>
                         </GridViewColumn>
-                        <GridViewColumn Width="80" CellTemplate="{StaticResource PatientDob}">
+                        <GridViewColumn Width="80" CellTemplate="{StaticResource PatientAge}">
                             <Grid Tag="4">
                                 <StackPanel Orientation="Horizontal">
 
@@ -197,9 +197,9 @@
         <Grid  HorizontalAlignment="Stretch" Margin="0,0,0,0" IsEnabled="False" Name="grid1" VerticalAlignment="Bottom" Style="{StaticResource DialogGridBottomBacGround}">
             <Grid Style="{StaticResource GridBackGround1}">
                 <Button Content="{DynamicResource  Save}" HorizontalAlignment="Right" Margin="0,189,399,0" Name="AddSaveButton" VerticalAlignment="Top" Click="ButtonNewSaveClick" Style="{StaticResource DialogButton}" TabIndex="20015" IsTabStop="True" />
-                <TextBox HorizontalAlignment="Left" Margin="950,15,20,0" Name="AddAgeTextBox" VerticalAlignment="Top" Width="150" Style="{StaticResource DialogTextBox}" TabIndex="20005" IsTabStop="True" />
+                <DatePicker HorizontalAlignment="Left" Margin="950,15,20,0" Name="AddAgeTextBox" VerticalAlignment="Top" Width="150" TabIndex="20005" IsTabStop="True" />
                 <TextBox Height="97" HorizontalAlignment="Left" Margin="170,120,0,0" Name="DescriptionTextBox" VerticalAlignment="Top" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Text="癫痫" Style="{StaticResource DialogTextBox}"  Width="150" VerticalContentAlignment="Top" TabIndex="20013" IsTabStop="True" />
-                <TextBlock HorizontalAlignment="Left" Margin="850,15,179,0" Text="{DynamicResource  Agetext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
+                <TextBlock HorizontalAlignment="Left" Margin="850,15,179,0" Text="{DynamicResource  Dob}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
                 <TextBox HorizontalAlignment="Left" Margin="560,15,265,0" VerticalAlignment="Top" Width="150" Name="Add_NameTextBox" Style="{StaticResource DialogTextBox}" TabIndex="20003" IsTabStop="True" />
                 <TextBlock HorizontalAlignment="Left" Margin="480,15,424,0" Text="{DynamicResource  Nametext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
                 <ComboBox Name="SexComboBox1" Margin="170,50,510,0" HorizontalAlignment="Left" Width="150" VerticalAlignment="Top" Text="男" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20007" IsTabStop="True" ItemsSource="{Binding}" />

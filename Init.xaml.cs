@@ -1400,8 +1400,11 @@ namespace WpfApplication1
 
             if (NewOrEditFlag == 1)
             {
-                int patientId = int.Parse(AddIDTextBox.Text);
-                DeleteNotSavePatientData(patientId);
+                if (AddIDTextBox.Text != "")
+                {
+                    int patientId = int.Parse(AddIDTextBox.Text);
+                    DeleteNotSavePatientData(patientId);
+                }
             }
 
             foreach (FrameworkElement a in TopGrid.Children)
@@ -1558,6 +1561,7 @@ namespace WpfApplication1
         private bool _patientIsAssigned;
         private string _patientDescription;
         private string _patientPatientId;
+        private string _patientAge;
      
         public Int64 PatientId
         {
@@ -1586,6 +1590,30 @@ namespace WpfApplication1
                 OnPropertyChanged("PatientDob");
             }
         }
+
+        public string PatientAge
+        {
+            get
+            {
+                try
+                {
+                    int now = DateTime.Now.Date.Year;
+                    int birth = DateTime.Parse(PatientDob).Year;
+
+                    int age = now - birth;
+
+                    return age.ToString();
+                }
+                catch (Exception)
+                {
+
+                    return "0";
+                }
+                
+            }
+
+        }
+
         public string PatientGender
         {
             get { return _patientGender; }

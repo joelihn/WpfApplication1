@@ -980,6 +980,26 @@ namespace WpfApplication1
             SaveOrder();
         }
 
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            var change = new TextChange[e.Changes.Count];
+            e.Changes.CopyTo(change, 0);
+
+            int offset = change[0].Offset;
+            if (change[0].AddedLength > 0)
+            {
+                double num = 0;
+                if (!Double.TryParse(textBox.Text, out num))
+                {
+                    textBox.Text = textBox.Text.Remove(offset, change[0].AddedLength);
+                    textBox.Select(offset, 0);
+                }
+            }
+            if (textBox.Text == "")
+                textBox.Text = "0";
+        }
+
     }
 
     public class TreatOrder : INotifyPropertyChanged

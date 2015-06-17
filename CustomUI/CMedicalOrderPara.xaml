@@ -49,7 +49,7 @@
                 <TextBox Name="NameTextBox" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
                 <!--<TextBox Name="TypeTextBox" Width="100" Margin="150,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />-->
                 <ComboBox Name="ComboBoxType" Margin="120,0,0,0" FontSize="16"  Height="27"  Width="75" HorizontalAlignment="Left" VerticalAlignment="Top"  />
-                <TextBox Name="CountTextBox" Width="100" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
+                <TextBox Name="CountTextBox" Width="100" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" TextChanged="CountTextBox_TextChanged" />
                 <TextBox Name="DescriptionTextBox" Width="100" Margin="360,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
             </Grid>
             <Grid>

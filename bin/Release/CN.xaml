@@ -1,4 +1,4 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                              xmlns:sys="clr-namespace:System;assembly=mscorlib">
     <sys:String x:Key="Save">保　存</sys:String>
@@ -11,8 +11,10 @@
     <sys:String x:Key="IDtext">编号</sys:String>
     <sys:String x:Key="PatientIDtext">患者ID</sys:String>
     <sys:String x:Key="Nametext">姓名</sys:String>
+    <sys:String x:Key="InfectionType">感染类型</sys:String>
     <sys:String x:Key="Sextext">性别</sys:String>
     <sys:String x:Key="Agetext">年龄</sys:String>
+    <sys:String x:Key="Dob">出生日期</sys:String>
     <sys:String x:Key="Mobiletext">电话</sys:String>
     <sys:String x:Key="InfectTypetext">感染类型</sys:String>
     <sys:String x:Key="TreatStatustext">在治状态</sys:String>
