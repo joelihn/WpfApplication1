@@ -63,7 +63,7 @@
             <Grid>
                 <Button Name="AddButton" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddButton_OnClick"  Content="{DynamicResource  AddText}" Style="{StaticResource RightButton1}" />
                 <Button Name="UpdateButton" Margin="140,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="UpdateButton_OnClick"  Content="{DynamicResource  UpadateText}" Style="{StaticResource RightButton1}" />
-                <Button Name="DeleteButton" Margin="280,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="DeleteButton_OnClick"  Content="{DynamicResource  DelectText}" Style="{StaticResource RightButton1}" />
+                <Button Name="DeleteButton" Visibility="Hidden" Margin="280,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="DeleteButton_OnClick"  Content="{DynamicResource  DelectText}" Style="{StaticResource RightButton1}" />
             </Grid>
         </StackPanel>
         <TextBlock Margin="212,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Red" Style="{StaticResource RightTextBlock1}" Text="{DynamicResource SettingnosaveText}" Visibility="Hidden" />

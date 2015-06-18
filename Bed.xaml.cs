@@ -114,7 +114,8 @@ namespace WpfApplication1
                         panel1.Children.Add(rect);
                         panel1.Children.Add(label);
 
-
+                        
+                        if( pa.IsAvailable == true )
                         TreatmentPanel.Children.Add(panel1);
 
                     }
@@ -491,7 +492,9 @@ namespace WpfApplication1
                         bedInfo.BedName = bed.Name;
                         bedInfo.IsAvailable = bed.IsAvailable;
                         bedInfo.IsOccupy = bed.IsOccupy;
-                        if (bedInfo.IsAvailable == false)
+                        DateTime then = GetDate();
+                        if( then.Date >= DateTime.Now.Date )
+                        if (bedInfo.IsAvailable == false )
                             continue;
                         using (var treatTypeDao = new TreatMethodDao())
                         {

@@ -842,6 +842,7 @@ namespace WpfApplication1
             ComboBox cb = (ComboBox)sender;
             foreach (var v in TreatMentList)
             {
+                if(v.IsAvailable == true)
                 cb.Items.Add(v.Name);
             }
 
@@ -883,7 +884,7 @@ namespace WpfApplication1
                                 }
                             }
                         }
-
+                        treatMethodData.IsAvailable = pa.IsAvailable;
                         TreatMentList.Add(treatMethodData);
                     }
                 }

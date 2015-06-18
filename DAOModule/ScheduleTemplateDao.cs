@@ -117,7 +117,7 @@ namespace WpfApplication1.DAOModule
             return true;
         }
 
-        public bool UpdateScheduleTemplate1(string fields, string condition)
+        public bool UpdateScheduleTemplate1(string fields, string condition, DateTime begin)
         {
             try
             {
@@ -127,6 +127,8 @@ namespace WpfApplication1.DAOModule
                     sqlcommand += fields;
                     sqlcommand += " where BedId =";
                     sqlcommand += condition;
+                    string str = " and Date >= '" + begin.Date.ToString("yyyy-MM-dd") + "' ";
+                    sqlcommand += str;
                     sqlcomm.CommandText = sqlcommand;
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
                 }

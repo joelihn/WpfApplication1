@@ -813,10 +813,13 @@ namespace WpfApplication1
                         panel1.Children.Add(label);
 
 
-                        sheet.Children.Add(panel1);
-
-                        if(pa.IsAvailable == true)
+                        //sheet.Children.Add(panel1);
+                        if (pa.IsAvailable == true)
+                        {
+                            sheet.Children.Add(panel1);
                             AvilidCureTypeDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
+                        }
+                            
                         CureTypeDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
                         //Datalist.Add(treatMethodData);
                     }

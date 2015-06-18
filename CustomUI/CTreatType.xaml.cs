@@ -9,12 +9,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApplication1.DAOModule;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace WpfApplication1.CustomUI
 {
@@ -44,12 +46,24 @@ namespace WpfApplication1.CustomUI
                     var list = treatTypeDao.SelectTreatType(condition);
                     foreach (var type in list)
                     {
-                        var treatTypeData = new TreatTypeData
+                        var treatTypeData = new TreatTypeData();
+                        treatTypeData.Id = type.Id;
+                        treatTypeData.Name = type.Name;
+                        treatTypeData.Description = type.Description;
+
+                      
+
+                        string bgColor = type.BgColor;
+
+                        if (bgColor != "" && bgColor != null)
                         {
-                            Id = type.Id,
-                            Name = type.Name,
-                            Description = type.Description
-                        };
+                            Brush bgBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
+                            treatTypeData.BgColor = bgBrush;
+                        }
+                            
+                        else
+                            treatTypeData.BgColor = Brushes.Gray;
+
                         Datalist.Add(treatTypeData);
                     }
                 }
@@ -67,6 +81,8 @@ namespace WpfApplication1.CustomUI
             {
                 NameTextBox.Text = Datalist[ListView1.SelectedIndex].Name;
                 DescriptionTextBox.Text = Datalist[ListView1.SelectedIndex].Description;
+                Buttonrectangle.Fill = Datalist[ListView1.SelectedIndex].BgColor;
+
             }
         }
 
@@ -87,6 +103,14 @@ namespace WpfApplication1.CustomUI
                     treatTypeData.Id = treatType.Id;
                     treatTypeData.Name = treatType.Name;
                     treatTypeData.Description = treatType.Description;
+
+                    string bgColor = treatType.BgColor;
+                    Brush bgBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
+                    if (bgColor != "" && bgColor != null)
+                        treatTypeData.BgColor = bgBrush;
+                    else
+                        treatTypeData.BgColor = Brushes.Gray;
+
                     Datalist.Add(treatTypeData);
                 }
             }
@@ -107,6 +131,7 @@ namespace WpfApplication1.CustomUI
                 var fileds = new Dictionary<string, object>();
                 fileds["NAME"] = NameTextBox.Text;
                 fileds["DESCRIPTION"] = DescriptionTextBox.Text;
+                fileds["BGCOLOR"] = ((SolidColorBrush)Buttonrectangle.Fill).Color.ToString();
                 treatTypeDao.UpdateTreatType(fileds, condition);
                 RefreshData();
             }
@@ -128,6 +153,17 @@ namespace WpfApplication1.CustomUI
                         treatTypeData.Id = pa.Id;
                         treatTypeData.Name = pa.Name;
                         treatTypeData.Description = pa.Description;
+
+                        string bgColor = pa.BgColor;
+
+                        if (bgColor != "" && bgColor != null)
+                        {
+                            Brush bgBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
+                            treatTypeData.BgColor = bgBrush;
+                        }
+                            
+                        else
+                            treatTypeData.BgColor = Brushes.Gray;
                         Datalist.Add(treatTypeData);
                     }
                 }
@@ -152,6 +188,15 @@ namespace WpfApplication1.CustomUI
         {
             //throw new NotImplementedException();
         }
+        private void Button4rectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var dalog = new ColorDialog();
+            if (dalog.ShowDialog() == DialogResult.OK)
+            {
+                ((Rectangle)sender).Fill =
+                    new SolidColorBrush(Color.FromRgb(dalog.Color.R, dalog.Color.G, dalog.Color.B));
+            }
+        }
     }
 
     public class TreatTypeData : INotifyPropertyChanged
@@ -159,11 +204,20 @@ namespace WpfApplication1.CustomUI
         private Int64 _id;
         private string _name;
         private string _description;
-
+        private Brush _bgColor;
         public TreatTypeData()
         {
         }
 
+        public Brush BgColor
+        {
+            get { return _bgColor; }
+            set
+            {
+                _bgColor = value;
+                OnPropertyChanged("BgColor");
+            }
+        }
         public Int64 Id
         {
             get { return _id; }

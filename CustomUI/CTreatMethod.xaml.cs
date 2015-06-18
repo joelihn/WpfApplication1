@@ -159,8 +159,17 @@ namespace WpfApplication1.CustomUI
                 fileds["DESCRIPTION"] = DescriptionTextBox.Text;
                 fileds["ISAVAILABLE"] = CheckBoxIsAvailable.IsChecked;
                 fileds["BGCOLOR"] = ((SolidColorBrush)Buttonrectangle.Fill).Color.ToString();
-                treatMethodDao.UpdateTreatMethod(fileds, condition);
-                RefreshData();
+
+                var messageBox2 = new RemindMessageBox2();
+                messageBox2.textBlock1.Text = "执行该操作将影响医嘱及排班";
+                messageBox2.ShowDialog();
+                if (messageBox2.remindflag == 1)
+                {
+                    treatMethodDao.UpdateTreatMethod(fileds, condition);
+                    RefreshData();
+                }
+
+                
             }
         }
 

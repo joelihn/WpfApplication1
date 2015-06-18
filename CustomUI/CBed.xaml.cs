@@ -251,7 +251,7 @@ namespace WpfApplication1.CustomUI
                 {
                     using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
                     {
-                        scheduleDao.UpdateScheduleTemplate1("-1", Datalist[ListView1.SelectedIndex].Id.ToString());
+                        scheduleDao.UpdateScheduleTemplate1("-1", Datalist[ListView1.SelectedIndex].Id.ToString(), DateTime.Now.Date);
                     }
                 }
                 RefreshData();
@@ -357,6 +357,7 @@ namespace WpfApplication1.CustomUI
                     var list = treatMethodDao.SelectTreatMethod(condition);
                     foreach (var pa in list)
                     {
+                        if(pa.IsAvailable == true )
                         this.ComboBoxType.Items.Add(pa.Name);
                     }
                     if (list.Count > 0)

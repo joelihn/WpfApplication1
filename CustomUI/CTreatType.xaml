@@ -25,6 +25,13 @@
                     <GridView>
                         <GridViewColumn Width="80" CellTemplate="{StaticResource Id}" Header="编号" />
                         <GridViewColumn Width="80" CellTemplate="{StaticResource Name}" Header="名称" />
+                        <GridViewColumn Header="颜色">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Rectangle Fill="{Binding BgColor}" Width="20" Height="20" Stroke="Black" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <!--<GridViewColumn Width="100" DisplayMemberBinding="{Binding XPath=Type}" Header="类型" />-->
                         <GridViewColumn Width="200" CellTemplate="{StaticResource Description}" Header="描述" />
                     </GridView>
@@ -33,12 +40,14 @@
             <Grid>
                 <TextBlock Width="73" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="名称" />
                 <!--<TextBlock Width="73" Margin="140,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="类型" />-->
-                <TextBlock Width="73" Margin="140,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="描述" />
+                <TextBlock Width="73" Margin="140,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="色彩" />
+                <TextBlock Width="73" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="描述" />
             </Grid>
             <Grid Margin="0,0,0,10">
                 <TextBox Name="NameTextBox" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
                 <!--<TextBox Name="TypeTextBox" Width="100" Margin="150,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />-->
-                <TextBox Name="DescriptionTextBox" Width="100" Margin="150,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
+                <Rectangle Name="Buttonrectangle" Width="28" Height="28" Margin="150,0,0,15" HorizontalAlignment="Left" Fill="#FF8686C1" MouseLeftButtonDown="Button4rectangle_MouseLeftButtonDown" Stroke="Black" />
+                <TextBox Name="DescriptionTextBox" Width="100" Margin="250,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
             </Grid>
             <Grid>
                 <Button Name="AddButton" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddButton_OnClick"  Content="{DynamicResource  AddText}" Style="{StaticResource RightButton1}" />
