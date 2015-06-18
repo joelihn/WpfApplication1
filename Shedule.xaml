@@ -371,11 +371,15 @@
 				<ColumnDefinition/>
 				<ColumnDefinition Width="20"/>
 			</Grid.ColumnDefinitions>
+            <Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="name">
+                <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
+            </Button>
             <Grid  Grid.Column="1">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition/>
 					<ColumnDefinition/>
 				</Grid.ColumnDefinitions>
+                
 				<Button Style="{StaticResource DialogButton}" Width="Auto" Height="Auto" Click="SortButton_Click" Tag="0_0">
                     <Image Source="Resources/ArrowDown.png" Visibility="Hidden" />
                 </Button>

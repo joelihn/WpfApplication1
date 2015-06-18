@@ -68,6 +68,7 @@ namespace WpfApplication1.CustomUI
                         else
                             treatMethodData.BgColor = Brushes.LightGray;
                         treatMethodData.Description = pa.Description;
+                        treatMethodData.IsAvailable = pa.IsAvailable;
                         Datalist.Add(treatMethodData);
                     }
                 }
@@ -87,6 +88,7 @@ namespace WpfApplication1.CustomUI
                 NameTextBox.Text = Datalist[ListView1.SelectedIndex].Name;
                 ComboBoxTreatType.Text = Datalist[ListView1.SelectedIndex].Type;
                 DescriptionTextBox.Text = Datalist[ListView1.SelectedIndex].Description;
+                CheckBoxIsAvailable.IsChecked = Datalist[ListView1.SelectedIndex].IsAvailable;
             }
         }
 
@@ -121,7 +123,8 @@ namespace WpfApplication1.CustomUI
                     treatMethodData.Name = treatMethod.Name;
                     treatMethodData.Type = ComboBoxTreatType.Text;
                     treatMethodData.Description = treatMethod.Description;
-                    treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(treatMethod.BgColor)); 
+                    treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(treatMethod.BgColor));
+                    treatMethodData.IsAvailable = treatMethod.IsAvailable;
                     Datalist.Add(treatMethodData);
                 }
             }
@@ -153,9 +156,8 @@ namespace WpfApplication1.CustomUI
                         fileds["TREATTYPEID"] = arealist[0].Id;
                     }
                 }
-
                 fileds["DESCRIPTION"] = DescriptionTextBox.Text;
-
+                fileds["ISAVAILABLE"] = CheckBoxIsAvailable.IsChecked;
                 fileds["BGCOLOR"] = ((SolidColorBrush)Buttonrectangle.Fill).Color.ToString();
                 treatMethodDao.UpdateTreatMethod(fileds, condition);
                 RefreshData();
@@ -188,7 +190,7 @@ namespace WpfApplication1.CustomUI
                                 }
                             }
                         }
-                        
+                        treatMethodData.IsAvailable = pa.IsAvailable;
                         treatMethodData.Description = pa.Description;
                         treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(pa.BgColor)); 
                         Datalist.Add(treatMethodData);
@@ -254,6 +256,7 @@ namespace WpfApplication1.CustomUI
         private string _type;
         private string _description;
         private Brush _bgColor;
+        private bool _isAvailable;
 
         public TreatMethodData()
         {
@@ -285,6 +288,16 @@ namespace WpfApplication1.CustomUI
             {
                 _name = value;
                 OnPropertyChanged("Name");
+            }
+        }
+
+        public bool IsAvailable
+        {
+            get { return _isAvailable; }
+            set
+            {
+                _isAvailable = value;
+                OnPropertyChanged("IsAvailable");
             }
         }
 

@@ -37,6 +37,8 @@ namespace WpfApplication1
         public List<PatientSchedule> PatientScheduleList = new List<PatientSchedule>();
 
         public Dictionary<string, Color> CureTypeDictionary = new Dictionary<string, Color>();
+        public Dictionary<string, Color> InvalidCureTypeDictionary = new Dictionary<string, Color>();
+        public Dictionary<string, Color> AvilidCureTypeDictionary = new Dictionary<string, Color>();
         
         public List<ListboxItemStatus> ListboxItemStatusesList = new List<ListboxItemStatus>();
         //public ObservableCollection<MedicalOrderParaData> OrderParaList = new ObservableCollection<MedicalOrderParaData>();
@@ -551,9 +553,10 @@ namespace WpfApplication1
 
         private Brush GetNextBrush( Brush brush)
         {
+            if (AvilidCureTypeDictionary.Count == 0) return brush;
             Color color = ((SolidColorBrush)brush).Color;
             int n = 0;
-            foreach (var v in CureTypeDictionary)
+            foreach (var v in AvilidCureTypeDictionary)
             {
                 if (v.Value == color)
                 {
@@ -563,13 +566,13 @@ namespace WpfApplication1
             }
 
             int count = n+1;
-            if (count >= CureTypeDictionary.Count )
+            if (count >= AvilidCureTypeDictionary.Count)
             {
                 count = 0;
             }
 
             n = 0;
-            foreach (var v in CureTypeDictionary)
+            foreach (var v in AvilidCureTypeDictionary)
             {
                 if (n == count)
                 {
@@ -764,6 +767,7 @@ namespace WpfApplication1
                 {
                     //Datalist.Clear();
                     CureTypeDictionary.Clear();
+                    AvilidCureTypeDictionary.Clear();
                     var condition = new Dictionary<string, object>();
                     var list = methodDao.SelectTreatMethod(condition);
                     foreach (var pa in list)
@@ -811,6 +815,8 @@ namespace WpfApplication1
 
                         sheet.Children.Add(panel1);
 
+                        if(pa.IsAvailable == true)
+                            AvilidCureTypeDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
                         CureTypeDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
                         //Datalist.Add(treatMethodData);
                     }
@@ -1796,6 +1802,8 @@ namespace WpfApplication1
                     for (int n = 0; n < 7; n++)
                     {
                         Dictionary<string, int> dictionary = Statistics(ampme, n, m);
+                        if (dictionary == null)
+                            continue;
                         StackPanel panel = new StackPanel();
                         foreach (var v in dictionary)
                         {
@@ -1915,6 +1923,41 @@ namespace WpfApplication1
             }
         }
 
+        private void ListSortByName(string rule)
+        {
+            if (!string.IsNullOrEmpty(rule) && (!rule.ToLower().Equals("desc") || !rule.ToLower().Equals("asc")))
+            {
+                try
+                {
+                    ListboxItemStatusesList.Sort(
+                        delegate(ListboxItemStatus info1, ListboxItemStatus info2)
+                        {
+                            /*Type t1 = info1.GetType();
+                            Type t2 = info2.GetType();
+                            PropertyInfo pro1 = t1.GetProperty(field);
+                            PropertyInfo pro2 = t2.GetProperty(field);
+                            return rule.ToLower().Equals("asc") ?
+                                pro1.GetValue(info1.CurrentWeek.days[n].Content, null).ToString().CompareTo(pro2.GetValue(info2.CurrentWeek.days[n].Content, null).ToString()) :
+                                pro2.GetValue(info2.CurrentWeek.days[n].Content, null).ToString().CompareTo(pro1.GetValue(info1.CurrentWeek.days[n].Content, null).ToString());*/
+
+
+
+                            return rule.ToLower().Equals("asc") ?
+                            info1.PatientName.CompareTo(info2.PatientName) :
+                            info2.PatientName.CompareTo(info1.PatientName);
+
+
+                        });
+
+                }
+                catch (Exception ex)
+                {
+                    //Console.WriteLine(ex.Message);
+                }
+            } //Console.WriteLine("ruls is wrong");
+
+        }
+
         private void ListSort(string rule, int week, int day)
         {
             if (!string.IsNullOrEmpty(rule) && (!rule.ToLower().Equals("desc") || !rule.ToLower().Equals("asc")))
@@ -1962,19 +2005,36 @@ namespace WpfApplication1
         {
             Button btn = (Button) sender;
             string tag = (string)btn.Tag;
-            string []tags = tag.Split('_');
 
-            int week = int.Parse(tags[0]);
-            int day = int.Parse(tags[1]);
-            if (de == false)
+            if (tag != "name")
             {
-                ListSort("asc", week, day);
-                de = true;
+                string[] tags = tag.Split('_');
+
+                int week = int.Parse(tags[0]);
+                int day = int.Parse(tags[1]);
+                if (de == false)
+                {
+                    ListSort("asc", week, day);
+                    de = true;
+                }
+                else
+                {
+                    ListSort("desc", week, day);
+                    de = false;
+                }
             }
             else
             {
-                ListSort("desc", week, day);
-                de = false;
+                if (de == false)
+                {
+                    ListSortByName("asc");
+                    de = true;
+                }
+                else
+                {
+                    ListSortByName("desc");
+                    de = false;
+                }
             }
             HideOutherImages(btn);
             Image i = FindChild(btn);

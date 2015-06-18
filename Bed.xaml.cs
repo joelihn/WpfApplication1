@@ -86,6 +86,7 @@ namespace WpfApplication1
                                 }
                             }
                         }
+                        treatMethodData.IsAvailable = pa.IsAvailable;
                         string bgColor = pa.BgColor;
                         Brush bgBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
                         if (bgColor != "" && bgColor != null)
@@ -556,6 +557,8 @@ namespace WpfApplication1
                                 break;
                             }
                         }
+
+                        bedInfo.IsAvailable = bed.IsAvailable;
                         BedInfoList.Add(bedInfo);
                     }
                 }
@@ -1092,6 +1095,7 @@ namespace WpfApplication1
                         else
                             treatMethodData.BgColor = Brushes.LightGray;
 
+                        treatMethodData.IsAvailable = pa.IsAvailable;
 
                         treatMethodData.Description = pa.Description;
                         TreatMethodDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
@@ -1292,7 +1296,7 @@ namespace WpfApplication1
                         else
                             treatMethodData.BgColor = Brushes.LightGray;
 
-
+                        treatMethodData.IsAvailable = pa.IsAvailable;
                         treatMethodData.Description = pa.Description;
                         TreatMethodDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
                     }
@@ -1376,7 +1380,7 @@ namespace WpfApplication1
                         else
                             treatMethodData.BgColor = Brushes.LightGray;
 
-
+                        treatMethodData.IsAvailable = pa.IsAvailable;
                         treatMethodData.Description = pa.Description;
 
                         TreatMethodDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);

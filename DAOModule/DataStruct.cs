@@ -140,6 +140,7 @@ namespace WpfApplication1.DAOModule
         public string Description { get; set; }
         public string Reserved { get; set; }
         public string BgColor { get; set; }
+        public bool IsAvailable { get; set; }
     }
 
     public class TreatType

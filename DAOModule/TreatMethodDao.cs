@@ -59,7 +59,7 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO TREATMETHOD (NAME,TREATTYPEID,DESCRIPTION,RESERVED,BGCOLOR) VALUES 
-                        (@NAME,@TREATTYPEID,@DESCRIPTION,@RESERVED,@BGCOLOR)";
+                        (@NAME,@TREATTYPEID,@DESCRIPTION,@RESERVED,@BGCOLOR,@ISAVAILABLE)";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
                     sqlcomm.Parameters["@NAME"].Value = treatMethod.Name;
                     sqlcomm.Parameters.Add("@TREATTYPEID", DbType.Int32);
@@ -70,6 +70,8 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters["@RESERVED"].Value = treatMethod.Reserved;
                     sqlcomm.Parameters.Add("@BGCOLOR", DbType.String);
                     sqlcomm.Parameters["@BGCOLOR"].Value = treatMethod.BgColor;
+                    sqlcomm.Parameters.Add("@ISAVAILABLE", DbType.Boolean);
+                    sqlcomm.Parameters["@ISAVAILABLE"].Value = treatMethod.IsAvailable;
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
                     //set last insert id of this table this connection
