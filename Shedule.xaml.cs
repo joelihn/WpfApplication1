@@ -457,7 +457,16 @@ namespace WpfApplication1
         {
             if (str == "")
                 return Colors.Transparent;
-            return CureTypeDictionary[str];
+            try
+            {
+                return CureTypeDictionary[str];
+            }
+            catch (Exception)
+            {
+
+                return Colors.Gray;
+            }
+            
         }
         
         private void ButtonBase_OnClick(object sender, MouseButtonEventArgs e)
