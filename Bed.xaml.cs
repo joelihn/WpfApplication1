@@ -131,10 +131,21 @@ namespace WpfApplication1
         {
             dtlist.Clear();
             int weeknow = (int)DateTime.Now.DayOfWeek - 1;
-            for (int n = 0; n < 7; n++)
+            if (weeknow < 0)
             {
-                dtlist.Add(DateTime.Now.AddDays(-weeknow + n));
+                for (int n = 6; n >=0; n--)
+                {
+                    dtlist.Add(DateTime.Now.AddDays(-n));
+                }
             }
+            else
+            {
+                for (int n = 0; n < 7; n++)
+                {
+                    dtlist.Add(DateTime.Now.AddDays(-weeknow + n));
+                }
+            }
+            
 
             lable0.Content = dtlist[0].ToString("MM-dd");
             lable1.Content = dtlist[1].ToString("MM-dd");
