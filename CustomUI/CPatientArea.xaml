@@ -59,8 +59,11 @@
                     <ColumnDefinition Width="4*"/>
                 </Grid.ColumnDefinitions>
                 <TextBox Name="NameTextBox" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
-                <ComboBox Name="TypeComboBox" FontSize="16"  Height="27"  Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="TypeComboBox_OnSelectionChanged"  />
-                <ComboBox Name="InfectionComboBox" FontSize="16"  Height="27"  Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2"  />
+                <ComboBox Name="TypeComboBox" FontSize="16"  Height="27"  Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="TypeComboBox_OnSelectionChanged"  >
+                    <ComboBoxItem Content="阴性" />
+                    <ComboBoxItem Content="阳性" />
+                </ComboBox>
+                <ComboBox Name="InfectionComboBox" FontSize="16"  Height="27"  Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" />
                 <TextBox Name="DescriptionTextBox" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" Grid.Column="3" />
             </Grid>
             <Grid>

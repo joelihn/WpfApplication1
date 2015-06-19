@@ -86,11 +86,36 @@ namespace WpfApplication1.CustomUI
             }
         }
 
+        private bool CheckNameIsExist(string name)
+        {
+            using (var bedDao = new TreatTypeDao())
+            {
+                var condition = new Dictionary<string, object>();
+                var list = bedDao.SelectTreatType(condition);
+                foreach (var pa in list)
+                {
+                    if (name.Equals(pa.Name))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+
+            }
+        }
         private void AddButton_OnClick(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
             try
             {
+                if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
+                {
+                    var a = new RemindMessageBox1();
+                    a.remindText.Text = (string)FindResource("Message1001"); ;
+                    a.ShowDialog();
+                    return;
+                }
+
                 using (var treatTypeDao = new TreatTypeDao())
                 {
                     var treatType = new TreatType();
@@ -122,6 +147,15 @@ namespace WpfApplication1.CustomUI
 
         private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (ListView1.SelectedIndex == -1) return;
+
+            if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
+            {
+                var a = new RemindMessageBox1();
+                a.remindText.Text = (string)FindResource("Message1001"); ;
+                a.ShowDialog();
+                return;
+            }
             //throw new NotImplementedException();
             using (var treatTypeDao = new TreatTypeDao())
             {
@@ -176,6 +210,7 @@ namespace WpfApplication1.CustomUI
 
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (ListView1.SelectedIndex == -1) return;
             //throw new NotImplementedException();
             using (var treatTypeDao = new TreatTypeDao())
             {

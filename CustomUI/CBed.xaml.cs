@@ -110,11 +110,37 @@ namespace WpfApplication1.CustomUI
             }
         }
 
+        private bool CheckNameIsExist(string name)
+        {
+            using (var bedDao = new BedDao())
+            {
+                var condition = new Dictionary<string, object>();
+                var list = bedDao.SelectBed(condition);
+                foreach (var pa in list)
+                {
+                    if (name.Equals(pa.Name))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+
+            }
+        }
+
         private void AddButton_OnClick(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
             try
             {
+                if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
+                {
+                    var a = new RemindMessageBox1();
+                    a.remindText.Text = (string)FindResource("Message1001"); ;
+                    a.ShowDialog();
+                    return;
+                }
+
                 using (var bedDao = new BedDao())
                 {
                     var bed = new DAOModule.Bed();
@@ -173,7 +199,7 @@ namespace WpfApplication1.CustomUI
                     bedDao.InsertBed(bed, ref lastInsertId);
                     //UI
                     BedData bedData = new BedData();
-                    bedData.Id = bed.Id;
+                    bedData.Id = lastInsertId;
                     bedData.Name = bed.Name;
                     bedData.PatientArea = ComboBoxPatientArea.Text;
                     bedData.TreatMethod = ComboBoxType.Text;
@@ -193,6 +219,14 @@ namespace WpfApplication1.CustomUI
         private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (ListView1.SelectedIndex == -1) return;
+
+            if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
+            {
+                var a = new RemindMessageBox1();
+                a.remindText.Text = (string)FindResource("Message1001"); ;
+                a.ShowDialog();
+                return;
+            }
             //throw new NotImplementedException();
             using (var bedDao = new BedDao())
             {
@@ -334,6 +368,7 @@ namespace WpfApplication1.CustomUI
 
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (ListView1.SelectedIndex == -1) return;
             //throw new NotImplementedException();
             using (var bedDao = new BedDao())
             {

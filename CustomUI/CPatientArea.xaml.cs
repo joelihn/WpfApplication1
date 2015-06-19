@@ -32,8 +32,8 @@ namespace WpfApplication1.CustomUI
 
             this.ListViewPatientArea.ItemsSource = Datalist;
 
-            this.TypeComboBox.Items.Add("阴性");
-            this.TypeComboBox.Items.Add("阳性");
+            //this.TypeComboBox.Items.Add("阴性");
+            //this.TypeComboBox.Items.Add("阳性");
             this.TypeComboBox.Text = "阴性";
         }
 
@@ -148,11 +148,37 @@ namespace WpfApplication1.CustomUI
             }
         }
 
+        private bool CheckNameIsExist(string name)
+        {
+            using (var bedDao = new PatientAreaDao())
+            {
+                var condition = new Dictionary<string, object>();
+                var list = bedDao.SelectPatientArea(condition);
+                foreach (var pa in list)
+                {
+                    if (name.Equals(pa.Name))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+
+            }
+        }
+
         private void AddButton_OnClick(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
             try
             {
+                if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
+                {
+                    var a = new RemindMessageBox1();
+                    a.remindText.Text = (string)FindResource("Message1001"); ;
+                    a.ShowDialog();
+                    return;
+                }
+
                 using (PatientAreaDao patientAreaDao = new PatientAreaDao())
                 {
                     PatientArea patientArea = new PatientArea();
@@ -190,6 +216,16 @@ namespace WpfApplication1.CustomUI
 
         private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (ListViewPatientArea.SelectedIndex == -1) return;
+
+            if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
+            {
+                var a = new RemindMessageBox1();
+                a.remindText.Text = (string)FindResource("Message1001"); ;
+                a.ShowDialog();
+                return;
+            }
+
             //throw new NotImplementedException();
             using (var patientAreaDao = new PatientAreaDao())
             {
@@ -218,6 +254,7 @@ namespace WpfApplication1.CustomUI
 
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (ListViewPatientArea.SelectedIndex == -1) return;
             //throw new NotImplementedException();
             using (var patientAreaDao = new PatientAreaDao())
             {
@@ -228,14 +265,22 @@ namespace WpfApplication1.CustomUI
 
         private void TypeComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (this.TypeComboBox.Text.Equals("阴性"))
+            ComboBoxItem cbi = (ComboBoxItem)this.TypeComboBox.SelectedItem;
+            if (cbi.Content.Equals("阴性"))
             {
                 this.InfectionComboBox.IsEnabled = false;
             }
             else
             {
                 this.InfectionComboBox.IsEnabled = true;
+                this.InfectionComboBox.SelectedIndex = 0;
             }
+
+            
+            //var mSystemConfig = new ConfigModule.SystemConfig();
+            //mSystemConfig.Write("RegistrationManner", "Enable", cbi.Content.ToString());
+            //ConstDefinition.RegistrationManner = cbi.Content.ToString();
+       
 
         }
 

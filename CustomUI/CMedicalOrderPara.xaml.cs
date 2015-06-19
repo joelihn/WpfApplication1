@@ -74,11 +74,37 @@ namespace WpfApplication1.CustomUI
             }
         }
 
+        private bool CheckNameIsExist(string name)
+        {
+            using (var bedDao = new MedicalOrderParaDao())
+            {
+                var condition = new Dictionary<string, object>();
+                var list = bedDao.SelectInterval(condition);
+                foreach (var pa in list)
+                {
+                    if (name.Equals(pa.Name))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+
+            }
+        }
+
         private void AddButton_OnClick(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
             try
             {
+                if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
+                {
+                    var a = new RemindMessageBox1();
+                    a.remindText.Text = (string)FindResource("Message1001"); ;
+                    a.ShowDialog();
+                    return;
+                }
+
                 using (var medicalOrderParaDao = new MedicalOrderParaDao())
                 {
                     var medicalOrderPara = new MedicalOrderPara();
@@ -109,6 +135,15 @@ namespace WpfApplication1.CustomUI
             //throw new NotImplementedException();
             try
             {
+                if (ListView1.SelectedIndex == -1) return;
+
+                if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
+                {
+                    var a = new RemindMessageBox1();
+                    a.remindText.Text = (string)FindResource("Message1001"); ;
+                    a.ShowDialog();
+                    return;
+                }
                 using (var medicalOrderParaDao = new MedicalOrderParaDao())
                 {
                     var condition = new Dictionary<string, object>();
@@ -161,6 +196,7 @@ namespace WpfApplication1.CustomUI
 
         private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
         {
+            if (ListView1.SelectedIndex == -1) return;
             //throw new NotImplementedException();
              using (var medicalOrderParaDao = new MedicalOrderParaDao())
             {
@@ -175,6 +211,7 @@ namespace WpfApplication1.CustomUI
             this.ComboBoxType.Items.Clear();
             this.ComboBoxType.Items.Add("周");
             this.ComboBoxType.Items.Add("月");
+            this.ComboBoxType.SelectedIndex = 0;
         }
 
         private void CountTextBox_TextChanged(object sender, TextChangedEventArgs e)

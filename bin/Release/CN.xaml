@@ -429,7 +429,7 @@
 		<sys:String x:Key="Message78">ProtocolName.xml不合法，请检查！</sys:String>
 
 		<sys:String x:Key="Message10000">导航模块只能发送已经处理的功能像！</sys:String>
-
+    <sys:String x:Key="Message1001">名字不能为空，且必须唯一</sys:String>
 
 
 
