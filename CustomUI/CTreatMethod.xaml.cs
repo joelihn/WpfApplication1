@@ -163,7 +163,7 @@ namespace WpfApplication1.CustomUI
         {
             if (ListView1.SelectedIndex == -1) return;
 
-            if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
+            if (this.NameTextBox.Text.Equals("") )
             {
                 var a = new RemindMessageBox1();
                 a.remindText.Text = (string)FindResource("Message1001"); ;
