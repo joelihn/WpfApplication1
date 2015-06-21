@@ -305,7 +305,7 @@ namespace WpfApplication1
             {
                 foreach (var bed in BedInfoList)
                 {
-                    if (bed.TreatMethod == patient.Method)
+                    if (bed.TreatType == patient.Type)
                     {
                         if (bed.IsAvailable == true && bed.IsOccupy != true)
                         {
@@ -507,14 +507,14 @@ namespace WpfApplication1
                         if( then.Date >= DateTime.Now.Date )
                         if (bedInfo.IsAvailable == false )
                             continue;
-                        using (var treatTypeDao = new TreatMethodDao())
+                        using (var treatTypeDao = new TreatTypeDao())
                         {
                             condition.Clear();
-                            condition["ID"] = bed.TreatMethodId;
-                            var arealist = treatTypeDao.SelectTreatMethod(condition);
+                            condition["ID"] = bed.TreatTypeId;
+                            var arealist = treatTypeDao.SelectTreatType(condition);
                             if (arealist.Count == 1)
                             {
-                                bedInfo.TreatMethod = arealist[0].Name;
+                                bedInfo.TreatType = arealist[0].Name;
                             }
                         }
                         /*
@@ -615,7 +615,25 @@ namespace WpfApplication1
                                     patientInfo.Name = patientlist[0].Name;
                                     patientInfo.PatientId = patientlist[0].PatientId; //可能为空
                                     patientInfo.BedId = patient.BedId;
-                                    patientInfo.Method = patient.Method;
+
+                                    //TODO:需要通过method查询type Name
+                                    using (TreatMethodDao treatMethodDao = new TreatMethodDao())
+                                    {
+                                        var condition1001 = new Dictionary<string, object>();
+                                        condition1001["NAME"] = patient.Method;
+                                        var list1001 = treatMethodDao.SelectTreatMethod(condition1001);
+
+                                        using (TreatTypeDao treatTypeDao = new TreatTypeDao())
+                                        {
+                                            var condition1002 = new Dictionary<string, object>();
+                                            condition1002["ID"] = list1001[0].TreatTypeId;
+                                            var list1002 = treatTypeDao.SelectTreatType(condition1002);
+                                            patientInfo.Type = list1002[0].Name;
+                                        }
+                                        
+                                    }
+
+                                    
                                     string treatOrders = "";
                                     string orders = patientlist[0].Orders;
                                     if (!string.IsNullOrEmpty(orders))
@@ -709,12 +727,58 @@ namespace WpfApplication1
             {
 
                 BedPatientData data = (BedPatientData)draggedItem;
-                if(BedInfoList[index].TreatMethod == data.Method)
-                //data.Method
-                    effects = System.Windows.DragDropEffects.Move;
+                //TODO:需要通过method查询type
+
+                if (BedInfoList[index].TreatType == data.Type)
+                {
+                    //此处还需要检查病人是否属于这个病区，也就是感染类型是否对应
+                    long patientInfectTypeId = -1;
+                    using (PatientDao patientDao = new PatientDao())
+                    {
+                        var condition = new Dictionary<string, object>();
+                        condition["ID"] = data.PatientId;
+                        var list = patientDao.SelectPatient(condition);
+                        patientInfectTypeId = list[0].InfectTypeId;
+                    }
+
+                    long patientAreaInfectTypeId = -1;
+
+                    using (BedDao bedDao = new BedDao())
+                    {
+                        var condition = new Dictionary<string, object>();
+                        condition["ID"] = BedInfoList[index].Id;
+                        var list = bedDao.SelectBed(condition);
+                        long patientAreaId = list[0].PatientAreaId;
+
+                         using (PatientAreaDao patientAreaDao = new PatientAreaDao())
+                        {
+                            var condition2 = new Dictionary<string, object>();
+                            condition2["ID"] = patientAreaId;
+                            var list2 = patientAreaDao.SelectPatientArea(condition2);
+                             patientAreaInfectTypeId = list2[0].InfectTypeId;
+
+                        }
+                    }
+
+
+                    if (patientInfectTypeId == patientAreaInfectTypeId)
+                    {
+                        effects = System.Windows.DragDropEffects.Move;
+                    }
+                    else
+                    {
+                        effects = System.Windows.DragDropEffects.None;
+                        //var a = new RemindMessageBox1();
+                        //a.remindText.Text = "病区感染类型不匹配.";
+                        //a.ShowDialog();
+                    }
+                }
                 else
                 {
                     effects = System.Windows.DragDropEffects.None;
+                    //var a = new RemindMessageBox1();
+                    //a.remindText.Text = "治疗类型不匹配.";
+                    //a.ShowDialog();
                 }
             }
             e.Handled = true;
@@ -1020,7 +1084,7 @@ namespace WpfApplication1
     public class BedPatientData : INotifyPropertyChanged //这个是用户数据的数据源
     {
         private Int64 _id;
-        private string _treatMethod;
+        private string _treatType;
         private Brush _itemBgBrush;
 
         private static Dictionary<string, Color> TreatMethodDictionary = new Dictionary<string, Color>();
@@ -1048,14 +1112,14 @@ namespace WpfApplication1
         public string InfectionType { get; set; }
         public string ToolTips { get; set; }
 
-        public string Method
+        public string Type
         {
-            get { return _treatMethod; }
+            get { return _treatType; }
             set
             {
-                _treatMethod = value;
-                _itemBgBrush = new SolidColorBrush(StrColorConverter(_treatMethod));
-                OnPropertyChanged("Method");
+                _treatType = value;
+                _itemBgBrush = new SolidColorBrush(StrColorConverter(_treatType));
+                OnPropertyChanged("Type");
                 OnPropertyChanged("ItemBgBrush");
             }
         }
@@ -1080,39 +1144,39 @@ namespace WpfApplication1
         {
             try
             {
-                using (var methodDao = new TreatMethodDao())
+                using (var typeDao = new TreatTypeDao())
                 {
                     TreatMethodDictionary.Clear();
                     var condition = new Dictionary<string, object>();
-                    var list = methodDao.SelectTreatMethod(condition);
+                    var list = typeDao.SelectTreatType(condition);
                     foreach (var pa in list)
                     {
-                        var treatMethodData = new TreatMethodData();
-                        treatMethodData.Id = pa.Id;
-                        treatMethodData.Name = pa.Name;
-                        {
-                            using (var treatTypeDao = new TreatTypeDao())
-                            {
-                                condition.Clear();
-                                condition["ID"] = pa.TreatTypeId;
-                                var arealist = treatTypeDao.SelectTreatType(condition);
-                                if (arealist.Count == 1)
-                                {
-                                    treatMethodData.Type = arealist[0].Name;
-                                }
-                            }
-                        }
+                        var treatTypeData = new TreatTypeData();
+                        treatTypeData.Id = pa.Id;
+                        treatTypeData.Name = pa.Name;
+                        //{
+                        //    using (var treatTypeDao = new TreatTypeDao())
+                        //    {
+                        //        condition.Clear();
+                        //        condition["ID"] = pa.TreatTypeId;
+                        //        var arealist = treatTypeDao.SelectTreatType(condition);
+                        //        if (arealist.Count == 1)
+                        //        {
+                        //            treatTypeData.Type = arealist[0].Name;
+                        //        }
+                        //    }
+                        //}
                         string bgColor = pa.BgColor;
                         Brush bgBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
                         if (bgColor != "" && bgColor != null)
-                            treatMethodData.BgColor = bgBrush;
+                            treatTypeData.BgColor = bgBrush;
                         else
-                            treatMethodData.BgColor = Brushes.LightGray;
+                            treatTypeData.BgColor = Brushes.LightGray;
 
-                        treatMethodData.IsAvailable = pa.IsAvailable;
+                        //treatTypeData.IsAvailable = pa.IsAvailable;
 
-                        treatMethodData.Description = pa.Description;
-                        TreatMethodDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
+                        treatTypeData.Description = pa.Description;
+                        TreatMethodDictionary.Add(pa.Name, ((SolidColorBrush)treatTypeData.BgColor).Color);
                     }
                 }
             }
@@ -1154,11 +1218,11 @@ namespace WpfApplication1
         private string _bedName;
         private string _patientName;
         private int _infcetionType;
-        private string _treatMethod;
+        private string _treatType;
 
         private Brush _titleBrush;
         private Brush _bedBrush;
-        private static Dictionary<string, Color> TreatMethodDictionary = new Dictionary<string, Color>();
+        private static Dictionary<string, Color> TreatTypeDictionary = new Dictionary<string, Color>();
 
         private bool _isAvliable;
         private bool _isOccupy;
@@ -1169,13 +1233,13 @@ namespace WpfApplication1
         {
             _bedName = "";
             _patientName = "";
-            _treatMethod = "";
+            _treatType = "";
             _titleBrush = Brushes.GreenYellow;
             _bedBrush = Brushes.RoyalBlue;
             _isAvliable = false;
             _isOccupy = true;
             PatientData = null;
-            LoadTreatMethod();
+            LoadTreatType();
 
         }
         public Int64 Id
@@ -1246,14 +1310,14 @@ namespace WpfApplication1
             }
         }
 
-        public string TreatMethod
+        public string TreatType
         {
-            get { return _treatMethod; }
+            get { return _treatType; }
             set
             {
-                _treatMethod = value;
-                _bedBrush = new SolidColorBrush(StrColorConverter(_treatMethod));
-                OnPropertyChanged("TreatMethod");
+                _treatType = value;
+                _bedBrush = new SolidColorBrush(StrColorConverter(_treatType));
+                OnPropertyChanged("TreatType");
                 OnPropertyChanged("BedBrush");
             }
         }
@@ -1277,44 +1341,63 @@ namespace WpfApplication1
             }
         }
 
-        private static void LoadTreatMethod()
+        private static void LoadTreatType()
         {
             try
             {
-                using (var methodDao = new TreatMethodDao())
+
+                using (var methodDao = new TreatTypeDao())
                 {
-                    TreatMethodDictionary.Clear();
+                    TreatTypeDictionary.Clear();
                     var condition = new Dictionary<string, object>();
-                    var list = methodDao.SelectTreatMethod(condition);
+                    var list = methodDao.SelectTreatType(condition);
                     foreach (var pa in list)
                     {
-                        var treatMethodData = new TreatMethodData();
-                        treatMethodData.Id = pa.Id;
-                        treatMethodData.Name = pa.Name;
-                        {
-                            using (var treatTypeDao = new TreatTypeDao())
-                            {
-                                condition.Clear();
-                                condition["ID"] = pa.TreatTypeId;
-                                var arealist = treatTypeDao.SelectTreatType(condition);
-                                if (arealist.Count == 1)
-                                {
-                                    treatMethodData.Type = arealist[0].Name;
-                                }
-                            }
-                        }
+                        Brush b ;
                         string bgColor = pa.BgColor;
-                        Brush bgBrush = new SolidColorBrush((Color) ColorConverter.ConvertFromString(bgColor));
+                        Brush bgBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
                         if (bgColor != "" && bgColor != null)
-                            treatMethodData.BgColor = bgBrush;
+                            b = bgBrush;
                         else
-                            treatMethodData.BgColor = Brushes.LightGray;
-
-                        treatMethodData.IsAvailable = pa.IsAvailable;
-                        treatMethodData.Description = pa.Description;
-                        TreatMethodDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
+                            b = Brushes.LightGray;
+                        TreatTypeDictionary.Add(pa.Name, ((SolidColorBrush)b).Color);
                     }
                 }
+
+                //using (var methodDao = new TreatMethodDao())
+                //{
+                //    TreatMethodDictionary.Clear();
+                //    var condition = new Dictionary<string, object>();
+                //    var list = methodDao.SelectTreatMethod(condition);
+                //    foreach (var pa in list)
+                //    {
+                //        var treatMethodData = new TreatMethodData();
+                //        treatMethodData.Id = pa.Id;
+                //        treatMethodData.Name = pa.Name;
+                //        {
+                //            using (var treatTypeDao = new TreatTypeDao())
+                //            {
+                //                condition.Clear();
+                //                condition["ID"] = pa.TreatTypeId;
+                //                var arealist = treatTypeDao.SelectTreatType(condition);
+                //                if (arealist.Count == 1)
+                //                {
+                //                    treatMethodData.Type = arealist[0].Name;
+                //                }
+                //            }
+                //        }
+                //        string bgColor = pa.BgColor;
+                //        Brush bgBrush = new SolidColorBrush((Color) ColorConverter.ConvertFromString(bgColor));
+                //        if (bgColor != "" && bgColor != null)
+                //            treatMethodData.BgColor = bgBrush;
+                //        else
+                //            treatMethodData.BgColor = Brushes.LightGray;
+
+                //        treatMethodData.IsAvailable = pa.IsAvailable;
+                //        treatMethodData.Description = pa.Description;
+                //        TreatMethodDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
+                //    }
+                //}
             }
             catch (Exception ex)
             {
@@ -1325,7 +1408,7 @@ namespace WpfApplication1
         public static string StrColorConverter(Brush brush)
         {
             Color color = ((SolidColorBrush)brush).Color;
-            foreach (var v in TreatMethodDictionary)
+            foreach (var v in TreatTypeDictionary)
             {
                 if (v.Value == color)
                     return v.Key;
@@ -1336,7 +1419,7 @@ namespace WpfApplication1
         {
             if (str == "")
                 return Colors.Transparent;
-            return TreatMethodDictionary[str];
+            return TreatTypeDictionary[str];
         }
         #region INotifyPropertyChanged Members
 

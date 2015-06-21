@@ -61,14 +61,14 @@ namespace WpfApplication1.CustomUI
 
                         }
                         {
-                            using (var treatMethodDao = new TreatMethodDao())
+                            using (var treatMethodDao = new TreatTypeDao())
                             {
                                 condition.Clear();
-                                condition["ID"] = pa.TreatMethodId;
-                                var arealist = treatMethodDao.SelectTreatMethod(condition);
+                                condition["ID"] = pa.TreatTypeId;
+                                var arealist = treatMethodDao.SelectTreatType(condition);
                                 if (arealist.Count == 1)
                                 {
-                                    bedData.TreatMethod = arealist[0].Name;
+                                    bedData.TreatType = arealist[0].Name;
                                 }
                             }
                             using (var infectTypeDao = new InfectTypeDao())
@@ -103,7 +103,7 @@ namespace WpfApplication1.CustomUI
             {
                 NameTextBox.Text = Datalist[ListView1.SelectedIndex].Name;
                 ComboBoxPatientArea.Text = Datalist[ListView1.SelectedIndex].PatientArea;
-                ComboBoxType.Text = Datalist[ListView1.SelectedIndex].TreatMethod;
+                ComboBoxType.Text = Datalist[ListView1.SelectedIndex].TreatType;
                 CheckBoxIsAvailable.IsChecked = Datalist[ListView1.SelectedIndex].IsAvailable;
                 CheckBoxIsOccupy.IsChecked = Datalist[ListView1.SelectedIndex].IsOccupy;
                 DescriptionTextBox.Text = Datalist[ListView1.SelectedIndex].Description;
@@ -157,14 +157,14 @@ namespace WpfApplication1.CustomUI
                             bed.PatientRoomId = arealist[0].Id;
                         }
                     }*/
-                    using (var treatMethodDao = new TreatMethodDao())
+                    using (var treatMethodDao = new TreatTypeDao())
                     {
                         condition.Clear();
                         condition["Name"] = ComboBoxType.Text;
-                        var arealist = treatMethodDao.SelectTreatMethod(condition);
+                        var arealist = treatMethodDao.SelectTreatType(condition);
                         if (arealist.Count == 1)
                         {
-                            bed.TreatMethodId = arealist[0].Id;
+                            bed.TreatTypeId = arealist[0].Id;
                         }
                     }
                     using (var patientAreaDao = new PatientAreaDao())
@@ -202,7 +202,7 @@ namespace WpfApplication1.CustomUI
                     bedData.Id = lastInsertId;
                     bedData.Name = bed.Name;
                     bedData.PatientArea = ComboBoxPatientArea.Text;
-                    bedData.TreatMethod = ComboBoxType.Text;
+                    bedData.TreatType = ComboBoxType.Text;
                     bedData.InfectType = ComboBoxPatientArea.Text;
                     bedData.IsAvailable = bed.IsAvailable;
                     bedData.IsOccupy = bed.IsOccupy;
@@ -247,14 +247,14 @@ namespace WpfApplication1.CustomUI
                         fileds["PATIENTROOMID"] = arealist[0].Id;
                     }
                 }*/
-                using (var treatMethodDao = new TreatMethodDao())
+                using (var treatMethodDao = new TreatTypeDao())
                 {
                     condition2.Clear();
                     condition2["Name"] = ComboBoxType.Text;
-                    var arealist = treatMethodDao.SelectTreatMethod(condition2);
+                    var arealist = treatMethodDao.SelectTreatType(condition2);
                     if (arealist.Count == 1)
                     {
-                        fileds["TREATMETHODID"] = arealist[0].Id;
+                        fileds["TREATTYPEID"] = arealist[0].Id;
                     }
                 }
                 using (var patientAreaDao = new PatientAreaDao())
@@ -342,14 +342,14 @@ namespace WpfApplication1.CustomUI
 
                         }
                         {
-                            using (var treatMethodDao = new TreatMethodDao())
+                            using (var treatMethodDao = new TreatTypeDao())
                             {
                                 condition.Clear();
-                                condition["ID"] = pa.TreatMethodId;
-                                var arealist = treatMethodDao.SelectTreatMethod(condition);
+                                condition["ID"] = pa.TreatTypeId;
+                                var arealist = treatMethodDao.SelectTreatType(condition);
                                 if (arealist.Count == 1)
                                 {
-                                    bedData.TreatMethod = arealist[0].Name;
+                                    bedData.TreatType = arealist[0].Name;
                                 }
                             }
                         }
@@ -386,13 +386,13 @@ namespace WpfApplication1.CustomUI
             this.ComboBoxType.Items.Clear();
             try
             {
-                using (var treatMethodDao = new TreatMethodDao())
+                using (var treatMethodDao = new TreatTypeDao())
                 {
                     var condition = new Dictionary<string, object>();
-                    var list = treatMethodDao.SelectTreatMethod(condition);
+                    var list = treatMethodDao.SelectTreatType(condition);
                     foreach (var pa in list)
                     {
-                        if(pa.IsAvailable == true )
+                        //if(pa.IsAvailable == true )
                         this.ComboBoxType.Items.Add(pa.Name);
                     }
                     if (list.Count > 0)
@@ -455,7 +455,7 @@ namespace WpfApplication1.CustomUI
     {
         private Int64 _id;
         private string _name;
-        private string _treatMethod;
+        private string _treatType;
         private bool _isAvailable;
         private bool _isOccupy;
         private string _description;
@@ -497,13 +497,13 @@ namespace WpfApplication1.CustomUI
             }
         }*/
 
-        public string TreatMethod
+        public string TreatType
         {
-            get { return _treatMethod; }
+            get { return _treatType; }
             set
             {
-                _treatMethod = value;
-                OnPropertyChanged("TreatMethod");
+                _treatType = value;
+                OnPropertyChanged("TreatType");
             }
         }
 
