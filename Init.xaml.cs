@@ -382,6 +382,23 @@ namespace WpfApplication1
                 if (!PatientIDTextBox.Text.Equals(""))
                     condition["PATIENTID"] = PatientIDTextBox.Text;
 
+                if (SexComboBox.Text.Equals("男"))
+                    condition["GENDER"] = "男";
+                else if(SexComboBox.Text.Equals("女"))
+                    condition["GENDER"] = "女";
+
+                if (!InfectTypeComboBox.Text.Equals("所有"))
+                {
+                    using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                    {
+                        var condition2 = new Dictionary<string, object>();
+                        condition2["NAME"] = this.InfectTypeComboBox.Text;
+                        var list2 =infectTypeDao.SelectInfectType(condition2);
+                        condition["INFECTTYPEID"] = list2[0].Id;
+                    }
+                }
+                
+
                 PatientList.Clear();
 
                 List<Patient> list = complexDao.SelectPatient(condition, begin, end);
@@ -1433,7 +1450,7 @@ namespace WpfApplication1
                     var list = infectTypeDao.SelectInfectType(condition);
                     InfectTypeComboBox.Items.Clear();
                     InfectTypeComboBox.Items.Add("所有");
-                    InfectTypeComboBox.Items.Add("");
+                    //InfectTypeComboBox.Items.Add("");
                     foreach (InfectType type in list)
                     {
                         InfectTypeComboBox.Items.Add(type.Name);
@@ -1506,7 +1523,7 @@ namespace WpfApplication1
             {
                 using (InfectTypeDao infectTypeDao = new InfectTypeDao())
                 {
-                    InfectTypeComboBox1.Items.Add("");
+                    //InfectTypeComboBox1.Items.Add("");
                     Dictionary<string, object> condition = new Dictionary<string, object>();
                     var list = infectTypeDao.SelectInfectType(condition);
                     InfectTypeComboBox1.Items.Clear();
@@ -1514,7 +1531,8 @@ namespace WpfApplication1
                     {
                         InfectTypeComboBox1.Items.Add(type.Name);
                     }
-                    InfectTypeComboBox1.SelectedIndex = 0;
+                    //InfectTypeComboBox1.SelectedIndex = 0;
+                    InfectTypeComboBox1.Text = "阴性";
                 }
             }
             catch (Exception ex)

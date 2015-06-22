@@ -268,12 +268,13 @@ namespace WpfApplication1.CustomUI
             ComboBoxItem cbi = (ComboBoxItem)this.TypeComboBox.SelectedItem;
             if (cbi.Content.Equals("阴性"))
             {
+                this.InfectionComboBox.Text = "阴性";
                 this.InfectionComboBox.IsEnabled = false;
             }
             else
             {
                 this.InfectionComboBox.IsEnabled = true;
-                this.InfectionComboBox.SelectedIndex = 0;
+                this.InfectionComboBox.SelectedIndex = 1;
             }
 
             

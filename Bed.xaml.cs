@@ -56,7 +56,7 @@ namespace WpfApplication1
             SexComboBox.SelectedIndex = 0;
             InitDay();
             InitWeekWithDate();
-            LoadPatientAreas();
+            //LoadPatientAreas();
         }
 
         private void LoadTratementConifg()
@@ -226,6 +226,21 @@ namespace WpfApplication1
                     condition["PATIENTID"] = PatientIDTextBox.Text;
                 condition["TREATSTATUSID"] = 1;
                 condition["ISASSIGNED"] = 0;
+                if (SexComboBox.Text.Equals("男"))
+                    condition["GENDER"] = "男";
+                else if (SexComboBox.Text.Equals("女"))
+                    condition["GENDER"] = "女";
+
+                if (!InfectTypeComboBox.Text.Equals("所有"))
+                {
+                    using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                    {
+                        var condition2 = new Dictionary<string, object>();
+                        condition2["NAME"] = this.InfectTypeComboBox.Text;
+                        var list2 = infectTypeDao.SelectInfectType(condition2);
+                        condition["INFECTTYPEID"] = list2[0].Id;
+                    }
+                }
                 BedPatientList.Clear();
                 
                 List<Patient> list = complexDao.SelectPatient(condition, begin, end);
@@ -373,7 +388,7 @@ namespace WpfApplication1
             
             RefreshData();
             LoadTratementConifg();
-
+            LoadPatientAreas();
         }
 
         private void RefreshData()

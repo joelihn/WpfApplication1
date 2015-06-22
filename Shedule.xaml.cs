@@ -100,26 +100,21 @@ namespace WpfApplication1
                 if (!PatientIDTextBox.Text.Equals(""))
                     condition["PATIENTID"] = PatientIDTextBox.Text;
 
+                if (SexComboBox.Text.Equals("男"))
+                    condition["GENDER"] = "男";
+                else if (SexComboBox.Text.Equals("女"))
+                    condition["GENDER"] = "女";
+
                 if (!InfectTypeComboBox.Text.Equals("所有"))
                 {
-
-                    var condition2 = new Dictionary<string, object>();
-                    using (var infectTypeDao = new InfectTypeDao())
+                    using (InfectTypeDao infectTypeDao = new InfectTypeDao())
                     {
-                        condition2.Clear();
-                        condition2["Name"] = InfectTypeComboBox.Text;
-                        var arealist = infectTypeDao.SelectInfectType(condition2);
-                        if (arealist.Count == 1)
-                        {
-                            condition["INFECTTYPEID"] = arealist[0].Id;
-                        }
+                        var condition2 = new Dictionary<string, object>();
+                        condition2["NAME"] = this.InfectTypeComboBox.Text;
+                        var list2 = infectTypeDao.SelectInfectType(condition2);
+                        condition["INFECTTYPEID"] = list2[0].Id;
                     }
-                    
                 }
-                
-
-                if (!SexComboBox.Text.Equals("所有"))
-                    condition["GENDER"] = SexComboBox.Text;
 
                 condition["TREATSTATUSID"] = 1;
                 List<Patient> list = complexDao.SelectPatient(condition, begin, end);
@@ -1207,7 +1202,7 @@ namespace WpfApplication1
                     var list = infectTypeDao.SelectInfectType(condition);
                     InfectTypeComboBox.Items.Clear();
                     InfectTypeComboBox.Items.Add("所有");
-                    InfectTypeComboBox.Items.Add("");
+                    //InfectTypeComboBox.Items.Add("");
                     foreach (InfectType type in list)
                     {
                         InfectTypeComboBox.Items.Add(type.Name);
