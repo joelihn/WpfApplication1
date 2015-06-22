@@ -60,7 +60,7 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO BED (PATIENTAREAID,NAME,TREATTYPEID,ISAVAILABLE, ISOCCUPY,DESCRIPTION,RESERVED) VALUES 
-                        (@PATIENTAREAID,@NAME,@TREATMETHODID,@ISAVAILABLE,@ISOCCUPY,@DESCRIPTION,@RESERVED)";
+                        (@PATIENTAREAID,@NAME,@TREATTYPEID,@ISAVAILABLE,@ISOCCUPY,@DESCRIPTION,@RESERVED)";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
                     sqlcomm.Parameters["@NAME"].Value = bed.Name;
                     sqlcomm.Parameters.Add("@TREATTYPEID", DbType.Int32);

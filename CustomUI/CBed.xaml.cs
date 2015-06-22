@@ -373,6 +373,11 @@ namespace WpfApplication1.CustomUI
             using (var bedDao = new BedDao())
             {
                 bedDao.DeleteBed(Datalist[ListView1.SelectedIndex].Id);
+
+                using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                {
+                    scheduleDao.UpdateScheduleTemplate1("-1", Datalist[ListView1.SelectedIndex].Id.ToString(), DateTime.Now.Date);
+                }
                 RefreshData();
             }
         }
