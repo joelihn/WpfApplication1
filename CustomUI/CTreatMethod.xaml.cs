@@ -89,6 +89,7 @@ namespace WpfApplication1.CustomUI
                 ComboBoxTreatType.Text = Datalist[ListView1.SelectedIndex].Type;
                 DescriptionTextBox.Text = Datalist[ListView1.SelectedIndex].Description;
                 CheckBoxIsAvailable.IsChecked = Datalist[ListView1.SelectedIndex].IsAvailable;
+                Buttonrectangle.Fill = Datalist[ListView1.SelectedIndex].BgColor;
             }
         }
 
