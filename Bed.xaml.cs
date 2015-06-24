@@ -322,6 +322,41 @@ namespace WpfApplication1
                 {
                     if (bed.TreatType == patient.Type)
                     {
+                        ////new added////
+                        long patientInfectTypeId = -1;
+                        using (PatientDao patientDao = new PatientDao())
+                        {
+                            var condition = new Dictionary<string, object>();
+                            condition["ID"] = patient.PatientId;
+                            var list = patientDao.SelectPatient(condition);
+                            patientInfectTypeId = list[0].InfectTypeId;
+                        }
+                        long patientAreaInfectTypeId = -1;
+
+                        using (BedDao bedDao = new BedDao())
+                        {
+                            var condition = new Dictionary<string, object>();
+                            condition["ID"] = bed.Id;
+                            var list = bedDao.SelectBed(condition);
+                            long patientAreaId = list[0].PatientAreaId;
+
+                            using (PatientAreaDao patientAreaDao = new PatientAreaDao())
+                            {
+                                var condition2 = new Dictionary<string, object>();
+                                condition2["ID"] = patientAreaId;
+                                var list2 = patientAreaDao.SelectPatientArea(condition2);
+                                patientAreaInfectTypeId = list2[0].InfectTypeId;
+
+                            }
+                        }
+
+                        if (patientInfectTypeId != patientAreaInfectTypeId)
+                        {
+                            break;
+                        }
+
+                        /////////////////
+
                         if (bed.IsAvailable == true && bed.IsOccupy != true)
                         {
                             if (bed.PatientData == null)
@@ -342,7 +377,6 @@ namespace WpfApplication1
             {
                 BedPatientList.Remove(patient);
             }
-
             
         }
         private void BeginDatePicker_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -790,7 +824,7 @@ namespace WpfApplication1
                 }
                 else
                 {
-                    effects = System.Windows.DragDropEffects.None;
+                    effects = System.Windows.DragDropEffects.Scroll;
                     //var a = new RemindMessageBox1();
                     //a.remindText.Text = "治疗类型不匹配.";
                     //a.ShowDialog();
@@ -878,6 +912,12 @@ namespace WpfApplication1
                         //UpdateBedId(data.Id, DateTime.Parse("2015-06-10"), ampme, BedInfoList[index].Id);
                         UpdateBedId(data.Id, dt1.Date, ampme, BedInfoList[index].Id);
                     }
+                }
+                if (effects == (System.Windows.DragDropEffects)DragDropEffects.None)
+                {
+                    var a = new RemindMessageBox1();
+                    a.remindText.Text = "病区感染类型不匹配.";
+                    a.ShowDialog();
                 }
 
             }

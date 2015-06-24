@@ -671,11 +671,11 @@ namespace WpfApplication1
                 {
                     if (week == 0)
                     {
-                        listboxItem.CurrentWeek.days[day].BgColor = new SolidColorBrush(CureTypeDictionary.Values.First());
+                        listboxItem.CurrentWeek.days[day].BgColor = new SolidColorBrush(AvilidCureTypeDictionary.Values.First());
                     }
                     else
                     {
-                        listboxItem.NextWeek.days[day].BgColor = new SolidColorBrush(CureTypeDictionary.Values.First());
+                        listboxItem.NextWeek.days[day].BgColor = new SolidColorBrush(AvilidCureTypeDictionary.Values.First());
                     }
 
                 }
@@ -916,7 +916,8 @@ namespace WpfApplication1
                 }
                 if (count != times)
                 {
-                    ret = false;
+                    //ret = false;
+                    return false;
                 }
             }
             return ret;
