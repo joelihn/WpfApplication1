@@ -1308,7 +1308,9 @@ namespace WpfApplication1
                                         fileds["AMPME"] = day.Content;
                                         fileds["METHOD"] = StrColorConverter(day.BgColor);
                                         if(fixbed == true)
-                                        fileds["BEDID"] = bedid;
+                                            fileds["BEDID"] = bedid;
+                                        else
+                                            fileds["BEDID"] = -1;
                                         scheduleDao.UpdateScheduleTemplate(fileds, condition);
                                     }
                                     else
@@ -1320,6 +1322,10 @@ namespace WpfApplication1
                                         scheduleTemplate.Method = StrColorConverter(day.BgColor);
                                         if(fixbed == true)
                                         scheduleTemplate.BedId = bedid;
+                                        else
+                                        {
+                                            scheduleTemplate.BedId = -1;
+                                        }
                                         int ret = -1;
                                         scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
                                     }
@@ -1354,7 +1360,11 @@ namespace WpfApplication1
                                         fileds["AMPME"] = day.Content;
                                         fileds["METHOD"] = StrColorConverter(day.BgColor);
                                         if (fixbed == true)
-                                        fileds["BEDID"] = bedid;
+                                            fileds["BEDID"] = bedid;
+                                        else
+                                        {
+                                            fileds["BEDID"] = -1;
+                                        }
                                         scheduleDao.UpdateScheduleTemplate(fileds, condition);
                                     }
                                     else
@@ -1364,9 +1374,12 @@ namespace WpfApplication1
                                         scheduleTemplate.Date = day.dateTime.ToString("yyyy-MM-dd");
                                         scheduleTemplate.AmPmE = day.Content;
                                         scheduleTemplate.Method = StrColorConverter(day.BgColor);
-                                        if (fixbed == true) 
+                                        if (fixbed == true)
                                             scheduleTemplate.BedId = bedid;
+                                        else
+                                            scheduleTemplate.BedId = -1;
                                         int ret = -1;
+
                                         scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
                                     }
                                 }
