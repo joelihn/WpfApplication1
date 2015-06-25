@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CrashReporterDotNET;
 using WpfApplication1.CustomUI;
 using WpfApplication1.DAOModule;
 using WpfApplication1.LogModule;
@@ -35,9 +37,33 @@ namespace WpfApplication1
         private Bed bedContent;
         private Config configContent;
 
+        private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
+        {
+            ReportCrash((Exception)unhandledExceptionEventArgs.ExceptionObject);
+            Environment.Exit(0);
+        }
+
+        void Dispatcher_UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            ReportCrash(e.Exception);
+        }
+
+        private static void ReportCrash(Exception exception)
+        {
+            var reportCrash = new ReportCrash
+            {
+                ToEmail = "suport@test.com"
+            };
+
+            reportCrash.Send(exception);
+        }
+
         public MainWindow()
         {
             InitializeComponent();
+
+            Dispatcher.UnhandledException +=Dispatcher_UnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
 
             if (config.AppSettings.Settings["DataBasePath"].Value.Equals(""))
             {
@@ -110,6 +136,8 @@ namespace WpfApplication1
                 this.ConfigButton.IsEnabled = false;
             this.RightContent.Content = initContent;
         }
+
+
 
         private void InitButton_Click(object sender, RoutedEventArgs e)
         {
