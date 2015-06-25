@@ -35,6 +35,7 @@ namespace WpfApplication1.CustomUI
             //this.TypeComboBox.Items.Add("阴性");
             //this.TypeComboBox.Items.Add("阳性");
             this.TypeComboBox.Text = "阴性";
+           
         }
 
         private void ListViewCPatientArea_OnLoaded(object sender, RoutedEventArgs e)
@@ -309,6 +310,8 @@ namespace WpfApplication1.CustomUI
             }
             #endregion
         }
+
+        
     }
 
     public class PatientAreaData : INotifyPropertyChanged

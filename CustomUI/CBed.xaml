@@ -60,7 +60,7 @@
                 <TextBox Name="NameTextBox" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
                 <ComboBox Name="ComboBoxType" FontSize="16"  Height="27"  Width="75" Margin="80,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
                 <ComboBox Name="ComboBoxPatientArea" FontSize="16"  Height="27"  Width="75" Margin="160,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
-                <CheckBox Name="CheckBoxIsAvailable" Width="80" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CheckBoxStyle1}" />
+                <CheckBox Name="CheckBoxIsAvailable" Width="80" IsChecked="True" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CheckBoxStyle1}" />
                 <CheckBox Name="CheckBoxIsOccupy" Width="80" Margin="320,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CheckBoxStyle1}" />
                 <TextBox Name="DescriptionTextBox" Width="80" Margin="400,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
             </Grid>

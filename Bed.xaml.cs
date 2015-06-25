@@ -327,7 +327,7 @@ namespace WpfApplication1
                         using (PatientDao patientDao = new PatientDao())
                         {
                             var condition = new Dictionary<string, object>();
-                            condition["ID"] = patient.PatientId;
+                            condition["ID"] = patient.Id;
                             var list = patientDao.SelectPatient(condition);
                             patientInfectTypeId = list[0].InfectTypeId;
                         }
@@ -785,7 +785,7 @@ namespace WpfApplication1
                     using (PatientDao patientDao = new PatientDao())
                     {
                         var condition = new Dictionary<string, object>();
-                        condition["ID"] = data.PatientId;
+                        condition["ID"] = data.Id;
                         var list = patientDao.SelectPatient(condition);
                         patientInfectTypeId = list[0].InfectTypeId;
                     }

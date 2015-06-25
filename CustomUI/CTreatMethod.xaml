@@ -50,15 +50,15 @@
                 <TextBlock Width="73" Margin="140,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="类型" />
                 <TextBlock Width="73" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="色彩" />
                 <TextBlock Width="73" Margin="290,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="是否可用" />
-                <TextBlock Width="73" Margin="360,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="描述" />
+                <TextBlock Width="73" Margin="380,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="描述" />
             </Grid>
             <Grid Margin="0,0,0,10">
                 <TextBox Name="NameTextBox" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
                 <!--<TextBox Name="TypeTextBox" Width="100" Margin="150,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />-->
                 <ComboBox Name="ComboBoxTreatType" FontSize="16"  Height="27"  Width="75" Margin="150,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
                 <Rectangle Name="Buttonrectangle" Width="28" Height="28" Margin="250,0,0,15" HorizontalAlignment="Left" Fill="#FF8686C1" MouseLeftButtonDown="Button4rectangle_MouseLeftButtonDown" Stroke="Black" />
-                <CheckBox Name="CheckBoxIsAvailable" Width="80" Margin="290,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CheckBoxStyle1}" />
-                <TextBox Name="DescriptionTextBox" Width="100" Margin="360,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
+                <CheckBox Name="CheckBoxIsAvailable" IsChecked="True" Width="80" Margin="290,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CheckBoxStyle1}" />
+                <TextBox Name="DescriptionTextBox" Width="100" Margin="380,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
             </Grid>
             <Grid>
                 <Button Name="AddButton" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddButton_OnClick"  Content="{DynamicResource  AddText}" Style="{StaticResource RightButton1}" />
