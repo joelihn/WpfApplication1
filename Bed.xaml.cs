@@ -54,8 +54,8 @@ namespace WpfApplication1
             this.SexComboBox.Items.Add("男");
             this.SexComboBox.Items.Add("女");
             SexComboBox.SelectedIndex = 0;
-            InitDay();
-            InitWeekWithDate();
+            //InitDay();
+            //InitWeekWithDate();
             //LoadPatientAreas();
         }
 
@@ -399,6 +399,8 @@ namespace WpfApplication1
 
         private void Bed_OnLoaded(object sender, RoutedEventArgs e)
         {
+            InitDay();
+            InitWeekWithDate();
             //throw new NotImplementedException();
             try
             {
@@ -420,9 +422,10 @@ namespace WpfApplication1
                 MainWindow.Log.WriteInfoConsole("In Bed.xaml.cs:Bed_OnLoaded InfectType ComboxItem exception messsage: " + ex.Message);
             }
             
-            RefreshData();
+            
             LoadTratementConifg();
             LoadPatientAreas();
+            RefreshData();
         }
 
         private void RefreshData()
