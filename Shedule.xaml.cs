@@ -41,6 +41,7 @@ namespace WpfApplication1
         public Dictionary<string, Color> AvilidCureTypeDictionary = new Dictionary<string, Color>();
         
         public List<ListboxItemStatus> ListboxItemStatusesList = new List<ListboxItemStatus>();
+        public ObservableCollection<MedicalOrderParaData> OrderParaList = new ObservableCollection<MedicalOrderParaData>();
         //public ObservableCollection<MedicalOrderParaData> OrderParaList = new ObservableCollection<MedicalOrderParaData>();
         public ObservableCollection<TreatOrder> TreatOrderList = new ObservableCollection<TreatOrder>();
         public List<DateTime> dtlist = new List<DateTime>();
@@ -519,7 +520,9 @@ namespace WpfApplication1
             MainWindow.Log.WriteInfoLog("tsSpan1 is: " + tsSpan1.Milliseconds);
             if (ret)
             {
-                UpdatePatientSchedule();
+                
+
+                UpdatePatientSchedule( tag );
                 DateTime dtTime3 = DateTime.Now;
                 TimeSpan tsSpan2 = dtTime3 - dtTime2;
                 MainWindow.Log.WriteInfoLog("tsSpan2 is: " + tsSpan2.Milliseconds);
@@ -532,7 +535,6 @@ namespace WpfApplication1
                 DateTime dtTime4 = DateTime.Now;
                 TimeSpan tsSpan3 = dtTime4 - dtTime3;
                 MainWindow.Log.WriteInfoLog("tsSpan3 is: " + tsSpan3.Milliseconds);
-                ListBox1.Items.Refresh();
                 DateTime dtTime5 = DateTime.Now;
                 TimeSpan tsSpan4 = dtTime5 - dtTime4;
                 MainWindow.Log.WriteInfoLog("tsSpan4 is: " + tsSpan4.Milliseconds);
@@ -922,6 +924,7 @@ namespace WpfApplication1
                     int day = DateTime.Now.Day;
                     int dure = DateTime.DaysInMonth(year, month);*/
                     int dayofweek = (int) DateTime.Now.DayOfWeek - 1;
+                    if (dayofweek == -1) dayofweek = 6;
                     DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
                     DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 14);
                     foreach (var v in schedule.Hemodialysis)
@@ -931,6 +934,10 @@ namespace WpfApplication1
                         {
                             if (treat == v.hemodialysisItem)
                                 count++;
+                            else
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
@@ -951,7 +958,12 @@ namespace WpfApplication1
                         {
                             if (treat == v.hemodialysisItem)
                                 count++;
+                            else
+                            {
+                                return false;
+                            }
                         }
+
                     }
                 }
                 if (count != times)
@@ -1007,6 +1019,7 @@ namespace WpfApplication1
                     int day = DateTime.Now.Day;
                     int dure = DateTime.DaysInMonth(year, month);*/
                     int dayofweek = (int)DateTime.Now.DayOfWeek - 1;
+                    if (dayofweek == -1) dayofweek = 6;
                     DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
                     DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 14);
                     foreach (var v in schedule.Hemodialysis)
@@ -1016,6 +1029,10 @@ namespace WpfApplication1
                         {
                             if (treat == v.hemodialysisItem)
                                 count++;
+                            else
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
@@ -1036,6 +1053,10 @@ namespace WpfApplication1
                         {
                             if (treat == v.hemodialysisItem)
                                 count++;
+                            else
+                            {
+                                return false;
+                            }
                         }
                     }
                 }
@@ -1054,6 +1075,7 @@ namespace WpfApplication1
             {
                 bool ret = true;
                 int dayofweek = (int)DateTime.Now.DayOfWeek - 1;
+                if (dayofweek == -1) dayofweek = 6;
                 DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
                 DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 7);
 
@@ -1298,11 +1320,15 @@ namespace WpfApplication1
             }
         }
 
-        private void UpdatePatientSchedule()
+        private void UpdatePatientSchedule( string tag )
         {
             try
             {
-                 long selectPatientID = ListboxItemStatusesList[ListBox1.SelectedIndex].PatientID;
+                Point column = GetWeekAndDay(tag);
+                int weeks = (int)column.X;
+                int days = (int)column.Y;
+
+                long selectPatientID = ListboxItemStatusesList[ListBox1.SelectedIndex].PatientID;
                 using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
                 {
                     foreach (var v in ListboxItemStatusesList)
@@ -1331,8 +1357,10 @@ namespace WpfApplication1
                             condition.Clear();
                             condition["PatientID"] = patientID;
 
-                            foreach (var day in v.CurrentWeek.days)
+                            //foreach (var day in v.CurrentWeek.days)
+                            if(weeks == 0)
                             {
+                                var day = v.CurrentWeek.days[days];
                                 if (day.Content != "" && day.Content != null)
                                 {
                                     Dictionary<string, object> condition1 = new Dictionary<string, object>();
@@ -1384,8 +1412,10 @@ namespace WpfApplication1
                                 }
                             }
 
-                            foreach (var day in v.NextWeek.days)
+                            //foreach (var day in v.NextWeek.days)
+                            if (weeks == 1)
                             {
+                                var day = v.CurrentWeek.days[days];
                                 if (day.Content != "" && day.Content != null)
                                 {
                                     Dictionary<string, object> condition1 = new Dictionary<string, object>();
