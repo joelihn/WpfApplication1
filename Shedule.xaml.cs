@@ -193,6 +193,46 @@ namespace WpfApplication1
                         status.Bed = "异常";
                     }
 
+
+
+                    string treatOrders = "";
+                    string orders = fmriPatient.Orders;
+                    if (orders != "" && orders != null)
+                    {
+                        string[] order = orders.Split('#');
+                        foreach (var s in order)
+                        {
+                            if (s != "")
+                            {
+                                string[] details = s.Split('/');
+                                if (details.Count() == 3)
+                                {
+                                    var treat = new TreatOrder();
+                                    treat.TreatMethod = details[0];
+
+                                    var medicalOrderParaDao = new MedicalOrderParaDao();
+                                    var condition1 = new Dictionary<string, object>();
+                                    condition1["ID"] = details[1];
+                                    var list1 = medicalOrderParaDao.SelectInterval(condition1);
+                                    string temporder;
+                                    treat.Type = list1[0].Name;
+                                    treat.TreatTimes = int.Parse(details[2]);
+                                    temporder = treat.Type + "/" + treat.TreatTimes + "/" + treat.TreatMethod;
+                                    treatOrders += temporder;
+                                    treatOrders += "\n";
+                                }
+                            }
+                        }
+                        treatOrders = treatOrders.Remove(treatOrders.LastIndexOf("\n"), 1);
+                        status.ToolTips = treatOrders;
+                    }
+                    else
+                    {
+                        status.ToolTips = "";
+                    }
+
+
+
                     ListboxItemStatusesList.Add(status);
                 }
             }
@@ -1515,15 +1555,17 @@ namespace WpfApplication1
         {
             dtlist.Clear();
             int weeknow = (int)DateTime.Now.DayOfWeek-1;
+            if (weeknow == -1)
+                weeknow = 6;
 
-            if (weeknow < 0)
+            /*if (weeknow < 0)
             {
-                for (int n = 6; n >= 0; n--)
+                for (int n = 0; n < 7; n++)
                 {
-                    dtlist.Add(DateTime.Now.AddDays(-n));
+                    dtlist.Add(DateTime.Now.AddDays(-weeknow + n));
                 }
             }
-            else
+            else*/
             {
                 for (int n = 0; n < 7; n++)
                 {
@@ -2187,7 +2229,8 @@ namespace WpfApplication1
         private void InitWeekWithDate()
         {
             int weeknow = (int)DateTime.Now.DayOfWeek-1;
-           
+            if (weeknow == -1)
+                weeknow = 6;
 
             //if (weeknow < 0)
             //{

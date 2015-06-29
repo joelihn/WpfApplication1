@@ -261,6 +261,46 @@ namespace WpfApplication1
                         }
                     }
                     //informatian.InfectionType = fmriPatient.InfectTypeId;
+
+
+
+                    string treatOrders = "";
+                    string orders = fmriPatient.Orders;
+                    if (!string.IsNullOrEmpty(orders))
+                    {
+                        string[] order = orders.Split('#');
+                        foreach (var s in order)
+                        {
+                            if (s != "")
+                            {
+                                string[] details = s.Split('/');
+                                if (details.Count() == 3)
+                                {
+                                    var treat = new TreatOrder();
+                                    treat.TreatMethod = details[0];
+
+                                    var medicalOrderParaDao = new MedicalOrderParaDao();
+                                    var condition1 = new Dictionary<string, object>();
+                                    condition1["ID"] = details[1];
+                                    var list1 = medicalOrderParaDao.SelectInterval(condition1);
+                                    string temporder;
+                                    treat.Type = list1[0].Name;
+                                    treat.TreatTimes = int.Parse(details[2]);
+                                    temporder = treat.Type + "/" + treat.TreatTimes + "/" + treat.TreatMethod;
+                                    treatOrders += temporder;
+                                    treatOrders += "\n";
+                                }
+                            }
+                        }
+                        treatOrders = treatOrders.Remove(treatOrders.LastIndexOf("\n"), 1);
+                        informatian.ToolTips = treatOrders;
+                    }
+                    else
+                    {
+                        informatian.ToolTips = "";
+                    }
+
+
                     BedPatientList.Add(informatian);
                     
                 }
