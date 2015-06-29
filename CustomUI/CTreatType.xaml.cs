@@ -121,6 +121,7 @@ namespace WpfApplication1.CustomUI
                     var treatType = new TreatType();
                     treatType.Name = this.NameTextBox.Text;
                     treatType.Description = this.DescriptionTextBox.Text;
+                    treatType.BgColor = ((SolidColorBrush)Buttonrectangle.Fill).Color.ToString();
                     int lastInsertId = -1;
                     treatTypeDao.InsertTreatType(treatType, ref lastInsertId);
                     //UI
@@ -156,6 +157,7 @@ namespace WpfApplication1.CustomUI
                 a.ShowDialog();
                 return;
             }
+
             //throw new NotImplementedException();
             using (var treatTypeDao = new TreatTypeDao())
             {
@@ -214,6 +216,8 @@ namespace WpfApplication1.CustomUI
             //throw new NotImplementedException();
             using (var treatTypeDao = new TreatTypeDao())
             {
+                if (Datalist[ListView1.SelectedIndex].Id == 0)
+                    return;
                 treatTypeDao.DeleteTreatType(Datalist[ListView1.SelectedIndex].Id);
                 RefreshData();
             }

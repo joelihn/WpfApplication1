@@ -52,7 +52,7 @@ namespace WpfApplication1
             
             //string color = (string)System.Windows.Application.Current.Resources["ysq"];
 
-            InitDay();
+            
             //InitCureTypeDictionary();
             SetBinding();
             //LoadOrderParaConfig();
@@ -1113,6 +1113,7 @@ namespace WpfApplication1
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            InitDay();
             //GetPatientSchedule(0);
             LoadTratementConifg();
 

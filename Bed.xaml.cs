@@ -162,6 +162,7 @@ namespace WpfApplication1
         }
         private void InitDay()
         {
+            UncheckOtherToggleButton();
             int dayofweek = (int)DateTime.Now.DayOfWeek;
             switch (dayofweek)
             {
@@ -403,7 +404,7 @@ namespace WpfApplication1
                             {
                                 delPatients.Add(patient);
                                 UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id);
-                                bed.PatientName = patient.Name;
+                                bed.PatientName = patient.Name + "\n" + patient.TreatType;
                                 bed.PatientData = patient;
                                 break;
                             }
@@ -707,7 +708,7 @@ namespace WpfApplication1
                                     patientInfo.Name = patientlist[0].Name;
                                     patientInfo.PatientId = patientlist[0].PatientId; //可能为空
                                     patientInfo.BedId = patient.BedId;
-
+                                    patientInfo.TreatType = patient.Method;
                                     //TODO:需要通过method查询type Name
                                     using (TreatMethodDao treatMethodDao = new TreatMethodDao())
                                     {
@@ -817,11 +818,22 @@ namespace WpfApplication1
             object draggedItem = e.Data.GetData(this.format.Name);
             if (draggedItem != null)
             {
+                long treatid = -1;
+                using (var typeDao = new TreatTypeDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["Name"] = BedInfoList[index].TreatType;
+                    var list = typeDao.SelectTreatType(condition);
+                    if (list != null && list.Count == 1)
+                    {
+                        treatid = list[0].Id;
+                    }
+                }
 
                 BedPatientData data = (BedPatientData)draggedItem;
                 //TODO:需要通过method查询type
 
-                if (BedInfoList[index].TreatType == data.Type)
+                if (BedInfoList[index].TreatType == data.Type || treatid == 0)
                 {
                     //此处还需要检查病人是否属于这个病区，也就是感染类型是否对应
                     long patientInfectTypeId = -1;
@@ -946,9 +958,8 @@ namespace WpfApplication1
                             BedPatientList.Add(BedInfoList[index].PatientData);
                         }
                         BedPatientData data = (BedPatientData)draggedItem;
-                        BedInfoList[index].PatientName = data.Name;
+                        BedInfoList[index].PatientName = data.Name + "\n" + data.TreatType;
                         BedInfoList[index].PatientData = data;
-                        
                         BedPatientList.Remove((BedPatientData)draggedItem);
 
                         DateTime dt1 = GetDate();
@@ -1084,6 +1095,17 @@ namespace WpfApplication1
             }
         }
 
+        private void UncheckOtherToggleButton()
+        {
+            foreach (var i in GridDay.Children)
+            {
+                if ((i is ToggleButton))
+                {
+                    ((ToggleButton)i).IsChecked = false;
+                }
+            }
+        }
+
         private void BtnInfect_OnClick(object sender, RoutedEventArgs e)
         {
             ToggleButton btn = (ToggleButton)sender;
@@ -1207,6 +1229,7 @@ namespace WpfApplication1
         public Int64 BedId { get; set; }
         public string Name { get; set; }
         public string PatientId { get; set; }
+        public string TreatType { get; set; }
         public string InfectionType { get; set; }
         public string ToolTips { get; set; }
 
