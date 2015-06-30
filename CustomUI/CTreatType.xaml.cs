@@ -216,7 +216,7 @@ namespace WpfApplication1.CustomUI
             //throw new NotImplementedException();
             using (var treatTypeDao = new TreatTypeDao())
             {
-                if (Datalist[ListView1.SelectedIndex].Id == 0)
+                if (Datalist[ListView1.SelectedIndex].Id == 1)
                 {
                     var a = new RemindMessageBox1();
                     a.remindText.Text = (string)FindResource("Message1002");

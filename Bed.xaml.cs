@@ -833,7 +833,7 @@ namespace WpfApplication1
                 BedPatientData data = (BedPatientData)draggedItem;
                 //TODO:需要通过method查询type
 
-                if (BedInfoList[index].TreatType == data.Type || treatid == 0)
+                if (BedInfoList[index].TreatType == data.Type || treatid == 1)
                 {
                     //此处还需要检查病人是否属于这个病区，也就是感染类型是否对应
                     long patientInfectTypeId = -1;
