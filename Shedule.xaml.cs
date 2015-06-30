@@ -740,7 +740,7 @@ namespace WpfApplication1
             
             
             ListboxItemStatusesList[index] = listboxItem;
-            //ListBox1.Items.Refresh();
+            ListBox1.Items.Refresh();
             RefreshStatistics();
 
 
