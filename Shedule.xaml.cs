@@ -903,7 +903,7 @@ namespace WpfApplication1
                     int dayofweek = (int) DateTime.Now.DayOfWeek - 1;
                     if (dayofweek == -1) dayofweek = 6;
                     DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
-                    DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 14);
+                    DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 13);
                     foreach (var v in schedule.Hemodialysis)
                     {
                         if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 &&
@@ -1004,7 +1004,7 @@ namespace WpfApplication1
                     int dayofweek = (int)DateTime.Now.DayOfWeek - 1;
                     if (dayofweek == -1) dayofweek = 6;
                     DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
-                    DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 14);
+                    DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 13);
                     foreach (var v in schedule.Hemodialysis)
                     {
                         if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 &&
