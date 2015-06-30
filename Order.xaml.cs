@@ -41,7 +41,7 @@ namespace WpfApplication1
             this.MedicalOrderlistView.ItemsSource = TreatOrderList;
             EndatePicker.Text = DateTime.Now.ToString();
             BeginDatePicker.Text = (DateTime.Now - TimeSpan.FromDays(3)).ToString();
-
+            
             this.SexComboBox.Items.Clear();
             this.SexComboBox.Items.Add("所有");
             this.SexComboBox.Items.Add("男");
@@ -121,15 +121,15 @@ namespace WpfApplication1
                                         {
                                             var treat = new TreatOrder();
                                             treat.TreatMethod = details[0];
-                                        
+
                                             var medicalOrderParaDao = new MedicalOrderParaDao();
                                             var condition1 = new Dictionary<string, object>();
                                             condition1["ID"] = details[1];
                                             var list1 = medicalOrderParaDao.SelectInterval(condition1);
                                             //string type = list1[0].Type;
                                             //string count = list1[0].Count.ToString();
-                                        
-                                        
+
+
                                             //treat.Type = details[1];
                                             treat.Type = list1[0].Name;
                                             treat.TreatTimes = int.Parse(details[2]);
@@ -148,7 +148,7 @@ namespace WpfApplication1
                     MainWindow.Log.WriteErrorLog("Init.xaml.cs-CheckPatientPatientIdValidity", ex);
                     //return false;
                 }
-               
+
             }
         }
 
@@ -248,7 +248,7 @@ namespace WpfApplication1
 
         private void PatientlistView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-           
+
         }
 
         private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
@@ -1102,7 +1102,7 @@ namespace WpfApplication1
     //        _treatMethod = str;
     //    }
 
-        
+
     //    public string TreatMethod
     //    {
     //        get { return _treatMethod; }

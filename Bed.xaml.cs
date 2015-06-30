@@ -404,7 +404,7 @@ namespace WpfApplication1
                             {
                                 delPatients.Add(patient);
                                 UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id);
-                                bed.PatientName = patient.Name + "\n" + patient.TreatType;
+                                bed.PatientName = patient.Name + "\n" + patient.TreatMethod;
                                 bed.PatientData = patient;
                                 break;
                             }
@@ -427,7 +427,93 @@ namespace WpfApplication1
         private void EndatePicker_CalendarOpened(object sender, RoutedEventArgs e)
         {
         }
+        public int[] Paixiflag = new int[11] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
+        {
+            ListSortDirection sortDirection = ListSortDirection.Ascending;
 
+
+            if (e.OriginalSource is GridViewColumnHeader)
+            {
+                //Get clicked column
+                GridViewColumn clickedColumn = (e.OriginalSource as GridViewColumnHeader).Column; //得到单击的列
+                int columnflag = 0;
+                columnflag = ((GridView)PatientlistView.View).Columns.IndexOf(clickedColumn);
+
+
+                if (clickedColumn != null)
+                {
+                    //Get binding property of clicked column
+                    //string bindingProperty = (clickedColumn.DisplayMemberBinding as Binding).Path.Path; //得到单击列所绑定的属性
+                    string bindingProperty = "";
+                    if (clickedColumn.Header is Grid & columnflag == 0)
+                    {
+                        if (Paixiflag[0] == 0)
+                        {
+                            Paixiflag[0] = 1;
+                            sortDirection = ListSortDirection.Ascending;
+                        }
+                        else
+                        {
+                            Paixiflag[0] = 0;
+                            sortDirection = ListSortDirection.Descending;
+                        }
+                        bindingProperty = "PatientId";
+                        
+                    }
+                    else if (clickedColumn.Header is Grid && columnflag == 1)
+                    {
+                        if (Paixiflag[1] == 0)
+                        {
+                            Paixiflag[1] = 1;
+                            sortDirection = ListSortDirection.Ascending;
+                        }
+                        else
+                        {
+                            Paixiflag[1] = 0;
+                            sortDirection = ListSortDirection.Descending;
+                        }
+                        bindingProperty = "Name";
+                        
+                    }
+                    else if (clickedColumn.Header is Grid && columnflag == 2)
+                    {
+                        if (Paixiflag[2] == 0)
+                        {
+                            Paixiflag[2] = 1;
+                            sortDirection = ListSortDirection.Ascending;
+                        }
+                        else
+                        {
+                            Paixiflag[2] = 0;
+                            sortDirection = ListSortDirection.Descending;
+                        }
+                        bindingProperty = "InfectionType";
+                        
+                    }
+
+                    SortDescriptionCollection sdc = PatientlistView.Items.SortDescriptions;
+                    if (sdc.Count > 0)
+                    {
+                        SortDescription sd = sdc[0];
+                        sortDirection = (ListSortDirection)((((int)sd.Direction) + 1) % 2);
+                        //判断此列当前的排序方式:升序0,倒序1,并取反进行排序。
+                        sdc.Clear();
+                    }
+
+                    sdc.Add(new SortDescription(bindingProperty, sortDirection));
+                    var temp = new ObservableCollection<BedPatientData>();
+                    for (int i = 0; i < PatientlistView.Items.Count; i++)
+                    {
+                        temp.Add((BedPatientData)PatientlistView.Items[i]);
+                    }
+                    BedPatientList.Clear();
+                    BedPatientList = temp;
+                    PatientlistView.ItemsSource = BedPatientList;
+                    sdc.Clear();
+                }
+            }
+        }
         private void EndatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             if (selectoperation == 1)
@@ -658,7 +744,7 @@ namespace WpfApplication1
                         {
                             if (bedPatientData.BedId == bedInfo.Id)
                             {
-                                bedInfo.PatientName = bedPatientData.Name;
+                                bedInfo.PatientName = bedPatientData.Name + "\n" + bedPatientData.TreatMethod;
                                 bedInfo.PatientData = bedPatientData;
                                 BedPatientList.Remove(bedPatientData);
                                 break;
@@ -708,7 +794,7 @@ namespace WpfApplication1
                                     patientInfo.Name = patientlist[0].Name;
                                     patientInfo.PatientId = patientlist[0].PatientId; //可能为空
                                     patientInfo.BedId = patient.BedId;
-                                    patientInfo.TreatType = patient.Method;
+                                    patientInfo.TreatMethod = patient.Method;
                                     //TODO:需要通过method查询type Name
                                     using (TreatMethodDao treatMethodDao = new TreatMethodDao())
                                     {
@@ -958,7 +1044,7 @@ namespace WpfApplication1
                             BedPatientList.Add(BedInfoList[index].PatientData);
                         }
                         BedPatientData data = (BedPatientData)draggedItem;
-                        BedInfoList[index].PatientName = data.Name + "\n" + data.TreatType;
+                        BedInfoList[index].PatientName = data.Name + "\n" + data.TreatMethod;
                         BedInfoList[index].PatientData = data;
                         BedPatientList.Remove((BedPatientData)draggedItem);
 
@@ -1206,6 +1292,7 @@ namespace WpfApplication1
         private Int64 _id;
         private string _treatType;
         private Brush _itemBgBrush;
+        private string _method;
 
         private static Dictionary<string, Color> TreatMethodDictionary = new Dictionary<string, Color>();
         public BedPatientData()
@@ -1229,7 +1316,17 @@ namespace WpfApplication1
         public Int64 BedId { get; set; }
         public string Name { get; set; }
         public string PatientId { get; set; }
-        public string TreatType { get; set; }
+
+        public string TreatMethod
+        {
+            get { return _method; }
+            set
+            {
+                _method = value;
+                _itemBgBrush = new SolidColorBrush(StrColorConverter(_method));
+                OnPropertyChanged("ItemBgBrush");
+            }
+        }
         public string InfectionType { get; set; }
         public string ToolTips { get; set; }
 
@@ -1239,9 +1336,9 @@ namespace WpfApplication1
             set
             {
                 _treatType = value;
-                _itemBgBrush = new SolidColorBrush(StrColorConverter(_treatType));
+                //_itemBgBrush = new SolidColorBrush(StrColorConverter(_treatType));
                 OnPropertyChanged("Type");
-                OnPropertyChanged("ItemBgBrush");
+                //OnPropertyChanged("ItemBgBrush");
             }
         }
 
@@ -1265,7 +1362,7 @@ namespace WpfApplication1
         {
             try
             {
-                using (var typeDao = new TreatTypeDao())
+                /*using (var typeDao = new TreatTypeDao())
                 {
                     TreatMethodDictionary.Clear();
                     var condition = new Dictionary<string, object>();
@@ -1299,7 +1396,42 @@ namespace WpfApplication1
                         treatTypeData.Description = pa.Description;
                         TreatMethodDictionary.Add(pa.Name, ((SolidColorBrush)treatTypeData.BgColor).Color);
                     }
+                }*/
+
+
+                using (var methodDao = new TreatMethodDao())
+                {
+                    TreatMethodDictionary.Clear();
+                    var condition = new Dictionary<string, object>();
+                    var list = methodDao.SelectTreatMethod(condition);
+                    foreach (var pa in list)
+                    {
+                        var treatMethodData = new TreatMethodData();
+                        treatMethodData.Id = pa.Id;
+                        treatMethodData.Name = pa.Name;
+                        {
+                            using (var treatTypeDao = new TreatTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.TreatTypeId;
+                                var arealist = treatTypeDao.SelectTreatType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatMethodData.Type = arealist[0].Name;
+                                }
+                            }
+                        }
+                        string bgColor = pa.BgColor;
+                        if (bgColor != "" && bgColor != null)
+                            treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
+                        else
+                            treatMethodData.BgColor = Brushes.LightGray;
+                        treatMethodData.Description = pa.Description;
+                        treatMethodData.IsAvailable = pa.IsAvailable;
+                        TreatMethodDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
+                    }
                 }
+
             }
             catch (Exception ex)
             {

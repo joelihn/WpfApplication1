@@ -260,7 +260,7 @@
                 <Button Content="自动分配" Style="{StaticResource DialogButton}" Margin="149,11,31,11" Click="AutoClick"/>
             </Grid>
             <StackPanel Height="750" Orientation="Horizontal">
-                <ListView  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center" ItemsSource="{Binding}" Width="280" x:Name="PatientlistView" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{DynamicResource ListBoxItemStyle2}"  IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}"
+                <ListView  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center" ItemsSource="{Binding}" Width="280" x:Name="PatientlistView" GridViewColumnHeader.Click="GridViewColumnHeader_Click" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{DynamicResource ListBoxItemStyle2}"  IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}"
                                dragDropListBox:DragDropHelper.IsDragSource="true" dragDropListBox:DragDropHelper.IsDropTarget="true" dragDropListBox:DragDropHelper.DragDropTemplate="{StaticResource planetTemplateDrag}"
                            >
                     <ListView.View>
