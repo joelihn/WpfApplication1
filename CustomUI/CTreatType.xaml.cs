@@ -217,7 +217,12 @@ namespace WpfApplication1.CustomUI
             using (var treatTypeDao = new TreatTypeDao())
             {
                 if (Datalist[ListView1.SelectedIndex].Id == 0)
+                {
+                    var a = new RemindMessageBox1();
+                    a.remindText.Text = (string)FindResource("Message1002");
+                    a.ShowDialog();
                     return;
+                }
                 treatTypeDao.DeleteTreatType(Datalist[ListView1.SelectedIndex].Id);
                 RefreshData();
             }
