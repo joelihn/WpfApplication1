@@ -145,7 +145,7 @@ namespace WpfApplication1.CustomUI
                     treatMethodDao.InsertTreatMethod(treatMethod, ref lastInsertId);
                     //UI
                     TreatMethodData treatMethodData = new TreatMethodData();
-                    treatMethodData.Id = treatMethod.Id;
+                    treatMethodData.Id = lastInsertId;
                     treatMethodData.Name = treatMethod.Name;
                     treatMethodData.Type = ComboBoxTreatType.Text;
                     treatMethodData.Description = treatMethod.Description;
