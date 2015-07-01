@@ -195,6 +195,10 @@ namespace WpfApplication1.CustomUI
                         {
                             patientArea.InfectTypeId = arealist[0].Id;
                         }
+                        else
+                        {
+                            patientArea.InfectTypeId = 1;
+                        }
                     }
                     patientArea.Description = this.DescriptionTextBox.Text;
                     int lastInsertId = -1;
@@ -245,6 +249,10 @@ namespace WpfApplication1.CustomUI
                     if (arealist.Count == 1)
                     {
                         fileds["INFECTTYPEID"] = arealist[0].Id;
+                    }
+                    else
+                    {
+                        fileds["INFECTTYPEID"] = 1;
                     }
                 }
                 fileds["DESCRIPTION"] =DescriptionTextBox.Text;
