@@ -1060,7 +1060,7 @@ namespace WpfApplication1
                 int dayofweek = (int)DateTime.Now.DayOfWeek - 1;
                 if (dayofweek == -1) dayofweek = 6;
                 DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
-                DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 7);
+                DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 6);
 
                 using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
                 {
