@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
 using System.Data.SQLite;
 using System.Linq;
@@ -36,7 +37,8 @@ namespace WpfApplication1
         private Shedule sheduleContent;
         private Bed bedContent;
         private Config configContent;
-
+        public ObservableCollection<string> TopMenuCollection = new ObservableCollection<string>();
+        
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
         {
             ReportCrash((Exception)unhandledExceptionEventArgs.ExceptionObject);
@@ -135,6 +137,10 @@ namespace WpfApplication1
             else
                 this.ConfigButton.IsEnabled = false;
             this.RightContent.Content = initContent;
+
+            TopMenuListBox.ItemsSource = TopMenuCollection;
+            TopMenuCollection.Add("hello");
+            TopMenuCollection.Add("world");
         }
 
 

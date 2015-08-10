@@ -140,6 +140,9 @@
     <Compile Include="Order.xaml.cs">
       <DependentUpon>Order.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SignUP.xaml.cs">
+      <DependentUpon>SignUP.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\DragDropHelper.cs" />
     <Compile Include="Utils\DraggedAdorner.cs" />
     <Compile Include="Utils\InsertionAdorner.cs" />
@@ -242,6 +245,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Shedule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SignUP.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

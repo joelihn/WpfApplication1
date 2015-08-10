@@ -18,6 +18,7 @@
             <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
                 <!--<Border Grid.Row="5" Grid.Column="1" BorderThickness="0" >
                     --><!--<Image Source="/fMRISystem;component/Resources/AD.png" Margin="50,20,0,0" />--><!--
@@ -46,6 +47,7 @@
                 <Button Style="{StaticResource ButtonStyle1}" Name="CloseButton" Grid.Row="5" Click="CloseButton_Click"  ContentTemplate="{DynamicResource CloseMain}">
                 </Button>
                 <ContentControl Name="RightContent" Grid.Column="1"  Grid.RowSpan="7" Foreground="GreenYellow"></ContentControl>
+                <ListBox Name="TopMenuListBox" Grid.Column="2" Grid.RowSpan="6" />
             </Grid>
     </Viewbox>
     </Grid>
