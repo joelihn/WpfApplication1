@@ -64,7 +64,7 @@
             <Button Content="{DynamicResource  ViewText}" HorizontalAlignment="Left" Margin="431,770,0,0" VerticalAlignment="Top" Name="CheckButton" Style="{StaticResource DialogButton}" Click="CheckButton_Click" TabIndex="10011" />
             <Button Content="{DynamicResource  DelectText}" HorizontalAlignment="Right" Margin="0,770,138,0" Name="DeleteButton" VerticalAlignment="Top" Click="DeleteButton_Click" Style="{StaticResource DialogButton}" TabIndex="10013" />
             <Button Content="{DynamicResource  NewText}" HorizontalAlignment="Left" Margin="120,770,0,0" Name="NewButton" VerticalAlignment="Top" Click="NewButtonClick" Style="{StaticResource DialogButton}" TabIndex="10010" />
-            <ListView ItemsSource="{Binding}" Height="660"  Margin="0,90,0,0" Name="PatientlistView" VerticalAlignment="Top" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}" MouseDoubleClick="PatientlistView_MouseDoubleClick" GridViewColumnHeader.Click="GridViewColumnHeader_Click" IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}">
+            <ListView ItemsSource="{Binding}" Height="204.776"  Margin="1025,545.224,0,0" Name="PatientlistView" VerticalAlignment="Top" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}" MouseDoubleClick="PatientlistView_MouseDoubleClick" GridViewColumnHeader.Click="GridViewColumnHeader_Click" IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}">
                 <ListView.View>
                     <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
                         <GridViewColumn Width="100" CellTemplate="{StaticResource PatientId}">
@@ -193,6 +193,32 @@
             <RadioButton Content="{DynamicResource In3DaysText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" Margin="0,60,138,0" x:Name="TimeRadioButton3" VerticalAlignment="Top" GroupName="TimeSelecet"  IsChecked="True" Click="TimeRadioButton1_Click" HorizontalAlignment="Right" TabIndex="10007" />
 
             <Rectangle Height="4" HorizontalAlignment="Stretch" Margin="0,750,0,0" Name="rectangle1" Stroke="Black" VerticalAlignment="Top" Fill="Black" StrokeThickness="1" IsHitTestVisible="True" />
+            <Grid HorizontalAlignment="Left" Height="607.463" Margin="71.642,110.447,0,0" VerticalAlignment="Top" Width="585.075">
+            	<Grid.ColumnDefinitions>
+            		<ColumnDefinition Width="100"/>
+            		<ColumnDefinition/>
+            	</Grid.ColumnDefinitions>
+            	<Grid.RowDefinitions>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            		<RowDefinition/>
+            	</Grid.RowDefinitions>
+            	<Label Content="Label" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            </Grid>
         </Grid>
         <Grid  HorizontalAlignment="Stretch" Margin="0,0,0,0" IsEnabled="False" Name="grid1" VerticalAlignment="Bottom" Style="{StaticResource DialogGridBottomBacGround}">
             <Grid Style="{StaticResource GridBackGround1}">
