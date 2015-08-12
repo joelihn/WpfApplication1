@@ -217,8 +217,44 @@
             		<RowDefinition/>
             		<RowDefinition/>
             	</Grid.RowDefinitions>
-            	<Label Content="Label" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            </Grid>
+            	<Label Content="编号" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+            	<Label Content="姓名*" Grid.Row="1" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="性别*" Grid.Row="2" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="出生日期*" Grid.Row="3" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="国际/户口地" Grid.Row="4" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="婚姻状况" Grid.Row="5" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="身高cm" Grid.Row="6" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="血型" Grid.Row="7" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="感染情况*" Grid.Row="8" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="治疗状态*" Grid.Row="9" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="固定床位*" Grid.Row="10" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="唯一识别码" Grid.Row="11" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="所属分区*" Grid.Row="12" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="联系电话*" Grid.Row="13" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="邮箱" Grid.Row="14" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="微信号" Grid.Row="15" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="付款方式" Grid.Row="16" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="1"/>
+				<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="2" VerticalContentAlignment="Center" Width="130.333"/>
+				<DatePicker Grid.Column="1" Grid.Row="3" Height="32.406" Width="320.667" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="4"/>
+				<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="5" VerticalContentAlignment="Center" Width="130.333"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="6"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="7"/>
+				<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="33.691,9.999,0,0" Grid.Row="8" VerticalAlignment="Top"/>
+				<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="179.69,9.896,0,0" Grid.Row="8" VerticalAlignment="Top"/>
+				<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="10" VerticalContentAlignment="Center" Width="130.333"/>
+				<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="33.691,10,0,0" Grid.Row="9" VerticalAlignment="Top"/>
+				<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="179.69,9.896,0,0" Grid.Row="9" VerticalAlignment="Top"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="11"/>
+				<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="12" VerticalContentAlignment="Center" Width="130.333"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="13"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="14"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="15"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="16"/>
+
+			</Grid>
         </Grid>
         <Grid  HorizontalAlignment="Stretch" Margin="0,0,0,0" IsEnabled="False" Name="grid1" VerticalAlignment="Bottom" Style="{StaticResource DialogGridBottomBacGround}">
             <Grid Style="{StaticResource GridBackGround1}">
