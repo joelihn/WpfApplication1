@@ -120,6 +120,25 @@ namespace WpfApplication1.DAOModule
         public string Reserved { get; set; }
     }
 
+    public class PatientGroup
+    {
+        public Int64 Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Reserved { get; set; }
+    }
+
+    public class PatientGroupPara
+    {
+        public Int64 Id { get; set; }
+        public Int64 GroupId { get; set; }
+        public string Key { get; set; }
+        public string Symbol { get; set; }
+        public string Value { get; set; }
+        public string Description { get; set; }
+        public string Reserved { get; set; }
+    }
+
     public class PatientRoom
     {
         public Int64 Id { get; set; }
