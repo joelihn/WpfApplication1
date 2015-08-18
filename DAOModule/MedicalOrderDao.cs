@@ -58,30 +58,28 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO INFECTTYPE (PATIENTID,TOTALQUANTITY,TOTALINTERVAL,HDFQUANTITY,HDFINTERVAL,HDHPQUANTITY,HDHPINTERVAL,
-                           DURATION,DESCRIPTION,RESERVED1,RESERVED2,RESERVED3,RESERVED4) VALUES 
-                        (@PATIENTID,@TOTALQUANTITY,@TOTALINTERVAL,@HDFQUANTITY,@HDFINTERVAL,@HDHPQUANTITY,@HDHPINTERVAL
-                            ,@DURATION,@DESCRIPTION,@RESERVED1,@RESERVED2,@RESERVED3,@RESERVED4)";
+                        @"INSERT INTO MEDICALORDER (PATIENTID,ACTIVATED,SEQ,PALN,METHODID,INTERVAL,TIMES,
+                           DESCRIPTION,RESERVED1,RESERVED2) VALUES 
+                        (@PATIENTID,@ACTIVATED,@SEQ,@PALN,@INTERVAL,@TIMES,
+                            @DESCRIPTION ,@RESERVED1,@RESERVED2)";
                     sqlcomm.Parameters.Add("@PATIENTID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTID"].Value = medicalOrder.PatientId;
 
-                    sqlcomm.Parameters.Add("@TOTALQUANTITY", DbType.Int32);
-                    sqlcomm.Parameters["@TOTALQUANTITY"].Value = medicalOrder.TotalQuantity;
-                    sqlcomm.Parameters.Add("@TOTALINTERVAL", DbType.String);
-                    sqlcomm.Parameters["@TOTALINTERVAL"].Value = medicalOrder.TotalInterval;
+                    sqlcomm.Parameters.Add("@ACTIVATED", DbType.Boolean);
+                    sqlcomm.Parameters["@ACTIVATED"].Value = medicalOrder.Activated;
+                    sqlcomm.Parameters.Add("@SEQ", DbType.String);
+                    sqlcomm.Parameters["@SEQ"].Value = medicalOrder.Seq;
 
-                    sqlcomm.Parameters.Add("@HDFQUANTITY", DbType.Int32);
-                    sqlcomm.Parameters["@HDFQUANTITY"].Value = medicalOrder.HdfQuantity;
-                    sqlcomm.Parameters.Add("@HDFINTERVAL", DbType.String);
-                    sqlcomm.Parameters["@HDFINTERVAL"].Value = medicalOrder.HdfInterval;
+                    sqlcomm.Parameters.Add("@PALN", DbType.String);
+                    sqlcomm.Parameters["@PALN"].Value = medicalOrder.Plan;
+                    sqlcomm.Parameters.Add("@METHODID", DbType.Int32);
+                    sqlcomm.Parameters["@METHODID"].Value = medicalOrder.MethodId;
 
-                    sqlcomm.Parameters.Add("@HDHPQUANTITY", DbType.Int32);
-                    sqlcomm.Parameters["@HDHPQUANTITY"].Value = medicalOrder.HdhpQuantity;
-                    sqlcomm.Parameters.Add("@HDHPINTERVAL", DbType.Int32);
-                    sqlcomm.Parameters["@HDHPINTERVAL"].Value = medicalOrder.HdhpInterval;
+                    sqlcomm.Parameters.Add("@INTERVAL", DbType.Int32);
+                    sqlcomm.Parameters["@INTERVAL"].Value = medicalOrder.Interval;
+                    sqlcomm.Parameters.Add("@TIMES", DbType.Int32);
+                    sqlcomm.Parameters["@TIMES"].Value = medicalOrder.Times;
 
-                    sqlcomm.Parameters.Add("@DURATION", DbType.String);
-                    sqlcomm.Parameters["@DURATION"].Value = medicalOrder.Duration;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
                     sqlcomm.Parameters["@DESCRIPTION"].Value = medicalOrder.Description;
 
@@ -89,10 +87,6 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters["@RESERVED1"].Value = medicalOrder.Reserved1;
                     sqlcomm.Parameters.Add("@RESERVED2", DbType.String);
                     sqlcomm.Parameters["@RESERVED2"].Value = medicalOrder.Reserved2;
-                    sqlcomm.Parameters.Add("@RESERVED3", DbType.String);
-                    sqlcomm.Parameters["@RESERVED3"].Value = medicalOrder.Reserved3;
-                    sqlcomm.Parameters.Add("@RESERVED4", DbType.String);
-                    sqlcomm.Parameters["@RESERVED4"].Value = medicalOrder.Reserved4;
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
                     //set last insert id of this table this connection

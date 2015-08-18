@@ -57,18 +57,15 @@ namespace WpfApplication1.DAOModule
     {
         public Int64 Id { get; set; }
         public Int64 PatientId { get; set; }
-        public Int64 TotalQuantity { get; set; }
-        public string TotalInterval { get; set; }
-        public Int64 HdfQuantity { get; set; }
-        public string HdfInterval { get; set; }
-        public Int64 HdhpQuantity { get; set; }
-        public string HdhpInterval { get; set; }
-        public string Duration { get; set; }
+        public bool Activated { get; set; }
+        public string Seq { get; set; }
+        public string Plan { get; set; }
+        public Int64 MethodId { get; set; }
+        public Int64 Interval { get; set; }
+        public Int64 Times { get; set; }
         public string Description { get; set; }
         public string Reserved1 { get; set; }
         public string Reserved2 { get; set; }
-        public string Reserved3 { get; set; }
-        public string Reserved4 { get; set; }
     }
 
     public class Patient
@@ -177,7 +174,7 @@ namespace WpfApplication1.DAOModule
     {
         public Int64 Id { get; set; }
         public string Name { get; set; }
-        public Int64 TreatTypeId { get; set; }
+        public string SuitMachineTypeId { get; set; }
         public string Description { get; set; }
         public string Reserved { get; set; }
         public string BgColor { get; set; }
@@ -197,6 +194,7 @@ namespace WpfApplication1.DAOModule
     {
         public Int64 Id { get; set; }
         public string Name { get; set; }
+        public bool Activated { get; set; }
         public string Description { get; set; }
         public string Reserved { get; set; }
     }

@@ -58,12 +58,12 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO TREATMETHOD (NAME,TREATTYPEID,DESCRIPTION,RESERVED,BGCOLOR,ISAVAILABLE) VALUES 
-                        (@NAME,@TREATTYPEID,@DESCRIPTION,@RESERVED,@BGCOLOR,@ISAVAILABLE)";
+                        @"INSERT INTO TREATMETHOD (NAME,SUITMACHINETYPEID,DESCRIPTION,RESERVED,BGCOLOR,ISAVAILABLE) VALUES 
+                        (@NAME,@SUITMACHINETYPEID,@DESCRIPTION,@RESERVED,@BGCOLOR,@ISAVAILABLE)";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
                     sqlcomm.Parameters["@NAME"].Value = treatMethod.Name;
-                    sqlcomm.Parameters.Add("@TREATTYPEID", DbType.Int32);
-                    sqlcomm.Parameters["@TREATTYPEID"].Value = treatMethod.TreatTypeId;
+                    sqlcomm.Parameters.Add("@SUITMACHINETYPEID", DbType.String);
+                    sqlcomm.Parameters["@SUITMACHINETYPEID"].Value = treatMethod.SuitMachineTypeId;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
                     sqlcomm.Parameters["@DESCRIPTION"].Value = treatMethod.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
