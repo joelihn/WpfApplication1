@@ -59,8 +59,8 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO BED (PATIENTAREAID,NAME,TREATTYPEID,ISAVAILABLE, ISOCCUPY,DESCRIPTION,RESERVED) VALUES 
-                        (@PATIENTAREAID,@NAME,@TREATTYPEID,@ISAVAILABLE,@ISOCCUPY,@DESCRIPTION,@RESERVED)";
+                        @"INSERT INTO BED (PATIENTAREAID,NAME,TREATTYPEID,ISAVAILABLE, ISOCCUPY,DESCRIPTION,RESERVED,ISTEMP, MACHINETYPEID) VALUES 
+                        (@PATIENTAREAID,@NAME,@TREATTYPEID,@ISAVAILABLE,@ISOCCUPY,@DESCRIPTION,@RESERVED,@ISTEMP,@MACHINETYPEID)";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
                     sqlcomm.Parameters["@NAME"].Value = bed.Name;
                     sqlcomm.Parameters.Add("@TREATTYPEID", DbType.Int32);
@@ -72,8 +72,13 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
                     sqlcomm.Parameters["@DESCRIPTION"].Value = bed.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
+                    sqlcomm.Parameters["@RESERVED"].Value = bed.Reserved;
                     sqlcomm.Parameters.Add("@PATIENTAREAID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTAREAID"].Value = bed.PatientAreaId;
+                    sqlcomm.Parameters.Add("@ISTEMP", DbType.Boolean);
+                    sqlcomm.Parameters["@ISTEMP"].Value = bed.IsTemp;
+                    sqlcomm.Parameters.Add("@MACHINETYPEID", DbType.Int32);
+                    sqlcomm.Parameters["@MACHINETYPEID"].Value = bed.MachineTypeId;
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
                     //set last insert id of this table this connection
