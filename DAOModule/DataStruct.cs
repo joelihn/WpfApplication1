@@ -67,12 +67,21 @@ namespace WpfApplication1.DAOModule
         public string Name { get; set; }
         public string Dob { get; set; }
         public string Gender { get; set; }
-        public string Mobile { get; set; }
-        public string Orders { get; set; }
-        public Int64 TreatStatusId { get; set; }
-        public string RegisitDate { get; set; }
+        public string Nationality { get; set; }
+        public string Marriage { get; set; }
+        public Int64 Height { get; set; }
+        public string BloodType { get; set; }
         public Int64 InfectTypeId { get; set; }
+        public Int64 TreatStatusId { get; set; }
         public bool IsFixedBed { get; set; }
+        public string IdCode { get; set; }
+        public Int64 AreaId { get; set; }
+        public string Mobile { get; set; }
+        public string ZipCode { get; set; }
+        public string WeiXinHao { get; set; }
+        public string Payment { get; set; }
+        public string Orders { get; set; }
+        public string RegisitDate { get; set; }
         public Int64 BedId { get; set; }
         public bool IsAssigned { get; set; }
         public string Description { get; set; }

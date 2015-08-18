@@ -68,8 +68,10 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO PATIENT (PATIENTID,NAME,DOB,GENDER, MOBILE, ORDERS, TREATSTATUSID,REGISITDATE,INFECTTYPEID,ISFIXEDBED,BEDID,ISASSIGNED,DESCRIPTION,RESERVED1,RESERVED2) VALUES 
-                        (@PATIENTID,@NAME,@DOB,@GENDER,@MOBILE,@ORDERS,@TREATSTATUSID,@REGISITDATE,@INFECTTYPEID,@ISFIXEDBED,@BEDID,@ISASSIGNED,@DESCRIPTION,@RESERVED1,@RESERVED2)";
+                        @"INSERT INTO PATIENT (PATIENTID,NAME,DOB,GENDER,NATIONALITY,MARRIAGE,HEIGHT,BLOODTYPE,IDCODE, MOBILE, ORDERS, TREATSTATUSID,REGISITDATE,
+                                                AREAID,ZIPCODE,WEIXINHAO,PAYMENT,INFECTTYPEID,ISFIXEDBED,BEDID,ISASSIGNED,DESCRIPTION,RESERVED1,RESERVED2) VALUES 
+                                            (@PATIENTID,@NAME,@DOB,@GENDER,@NATIONALITY,@MARRIAGE,@HEIGHT,@BLOODTYPE, @IDCODE, @MOBILE,@ORDERS,@TREATSTATUSID,@REGISITDATE,
+                                                @AREAID,@ZIPCODE,@WEIXINHAO,@PAYMENT,@INFECTTYPEID,@ISFIXEDBED,@BEDID,@ISASSIGNED,@DESCRIPTION,@RESERVED1,@RESERVED2)";
                     sqlcomm.Parameters.Add("@PATIENTID", DbType.String);
                     sqlcomm.Parameters["@PATIENTID"].Value = patient.PatientId;
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
@@ -78,6 +80,14 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters["@DOB"].Value = patient.Dob;
                     sqlcomm.Parameters.Add("@GENDER", DbType.String);
                     sqlcomm.Parameters["@GENDER"].Value = patient.Gender;
+                    sqlcomm.Parameters.Add("@NATIONALITY", DbType.String);
+                    sqlcomm.Parameters["@NATIONALITY"].Value = patient.Gender;
+                    sqlcomm.Parameters.Add("@MARRIAGE", DbType.String);
+                    sqlcomm.Parameters["@MARRIAGE"].Value = patient.Gender;
+                    sqlcomm.Parameters.Add("@HEIGHT", DbType.Int64);
+                    sqlcomm.Parameters["@HEIGHT"].Value = patient.Gender;
+                    sqlcomm.Parameters.Add("@BLOODTYPE", DbType.String);
+                    sqlcomm.Parameters["@BLOODTYPE"].Value = patient.Mobile;
                     sqlcomm.Parameters.Add("@MOBILE", DbType.String);
                     sqlcomm.Parameters["@MOBILE"].Value = patient.Mobile;
                     sqlcomm.Parameters.Add("@ORDERS", DbType.String);
