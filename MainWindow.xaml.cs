@@ -132,15 +132,19 @@ namespace WpfApplication1
             sheduleContent = new Shedule(this);
             bedContent = new Bed(this);
             configContent = new Config(this);
-            if (ConstDefinition.Runlevel == 1)
+           /* if (ConstDefinition.Runlevel == 1)
                 this.ConfigButton.IsEnabled = true;
             else
-                this.ConfigButton.IsEnabled = false;
+                this.ConfigButton.IsEnabled = false;*/
             this.RightContent.Content = initContent;
 
             TopMenuListBox.ItemsSource = TopMenuCollection;
-            TopMenuCollection.Add("hello");
-            TopMenuCollection.Add("world");
+            TopMenuCollection.Add("登记");
+            TopMenuCollection.Add("医嘱");
+            TopMenuCollection.Add("排班");
+            TopMenuCollection.Add("排床");
+            TopMenuCollection.Add("设置");
+            TopMenuCollection.Add("报表");
         }
 
 
@@ -176,6 +180,30 @@ namespace WpfApplication1
             var shutdownwindow = new Newshutdown(this);
             shutdownwindow.parent = this;
             shutdownwindow.ShowDialog();
+        }
+
+        private void listbox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListBox listBox = (ListBox)sender;
+            if (listBox.SelectedIndex == -1) return;
+            switch (listBox.SelectedIndex)
+            {
+                case 0:
+                    this.RightContent.Content = initContent;
+                    break;
+                case 1:
+                    this.RightContent.Content = orderContent;
+                    break;
+                case 2:
+                    this.RightContent.Content = sheduleContent;
+                    break;
+                case 3:
+                    this.RightContent.Content = bedContent;
+                    break;
+                case 4:
+                    this.RightContent.Content = configContent;
+                    break;
+            }
         }
     }
 }

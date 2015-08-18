@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,10 @@ namespace WpfApplication1
         private CTreatMethod cTreatMethod;
         private CTreatStatus cTreatStatus;
         private CDataBaseSetting cDateBaseSetting;
+
+        public ObservableCollection<string> ConfigMenuCollection = new ObservableCollection<string>();
+        
+
         public Config(MainWindow window)
         {
             InitializeComponent();
@@ -47,6 +52,17 @@ namespace WpfApplication1
             this.RightContent.Content = cPatientArea;
         }
 
+        private void InitConfigMenu()
+        {
+            ConifgMenuListBox.ItemsSource = ConfigMenuCollection;
+            ConfigMenuCollection.Add("病区设置");
+            ConfigMenuCollection.Add("床位设置");
+            ConfigMenuCollection.Add("感染类型");
+            ConfigMenuCollection.Add("机器类型");
+            ConfigMenuCollection.Add("治疗方法");
+            ConfigMenuCollection.Add("数据库设置");
+            ConfigMenuCollection.Add("患者组");
+        }
         private void PatientAreaButton_OnClick(object sender, RoutedEventArgs e)
         {
 
@@ -99,5 +115,46 @@ namespace WpfApplication1
             this.RightContent.Content = cDateBaseSetting;
 
         }
+
+        private void ConifgMenuListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            InitConfigMenu();
+        }
+
+
+        private void listbox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListBox listBox = (ListBox)sender;
+            if (listBox.SelectedIndex == -1) return;
+            switch (listBox.SelectedIndex)
+            {
+                case 0:
+                    this.RightContent.Content = cPatientArea;
+                    break;
+                case 1:
+                    this.RightContent.Content = cBed;
+                    break;
+                case 2:
+                    this.RightContent.Content = cInfectType;
+                    break;
+                case 3:
+                    this.RightContent.Content = cMedicalOrderPara;
+                    break;
+                case 4:
+                    this.RightContent.Content = cTreatType;
+                    break;
+                case 5:
+                    this.RightContent.Content = cTreatMethod;
+                    break;
+                case 6:
+                    this.RightContent.Content = cTreatStatus;
+                    break;
+                case 7:
+                    this.RightContent.Content = cDateBaseSetting;
+                    break;
+            }
+        }
+
+
     }
 }
