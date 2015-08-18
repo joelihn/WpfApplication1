@@ -199,6 +199,17 @@ namespace WpfApplication1.DAOModule
         public string Reserved { get; set; }
     }
 
+    public class TreatTime
+    {
+        public Int64 Id { get; set; }
+        public bool Activated { get; set; }
+        public string Name { get; set; }
+        public string BeginTime { get; set; }
+        public string EndTime { get; set; }
+        public string Description { get; set; }
+        public string Reserved { get; set; }
+    }
+
     public class BedDetails
     {
         public Int64 Id { get; set; }
