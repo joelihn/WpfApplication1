@@ -107,6 +107,8 @@ namespace WpfApplication1.DAOModule
         public string Type { get; set; }
         public Int64 InfectTypeId { get; set; }
         public string Description { get; set; }
+        public Int64 Seq { get; set; }
+        public string Position { get; set; }
         public string Reserved { get; set; }
     }
 

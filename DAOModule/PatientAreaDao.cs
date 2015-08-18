@@ -58,14 +58,18 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO PATIENTAREA (NAME,TYPE,DESCRIPTION,INFECTTYPEID,RESERVED) VALUES 
-                        (@NAME,@TYPE,@DESCRIPTION,@INFECTTYPEID,@RESERVED)";
+                        @"INSERT INTO PATIENTAREA (NAME,TYPE,DESCRIPTION,INFECTTYPEID,SEQ,POSITION,RESERVED) VALUES 
+                        (@NAME,@TYPE,@DESCRIPTION,@INFECTTYPEID,@SEQ,@POSITION,@RESERVED)";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
                     sqlcomm.Parameters["@NAME"].Value = patientArea.Name;
                     sqlcomm.Parameters.Add("@TYPE", DbType.String);
                     sqlcomm.Parameters["@TYPE"].Value = patientArea.Type;
                     sqlcomm.Parameters.Add("@INFECTTYPEID", DbType.Int32);
                     sqlcomm.Parameters["@INFECTTYPEID"].Value = patientArea.InfectTypeId;
+                    sqlcomm.Parameters.Add("@SEQ", DbType.Int32);
+                    sqlcomm.Parameters["@SEQ"].Value = patientArea.Seq;
+                    sqlcomm.Parameters.Add("@POSITION", DbType.String);
+                    sqlcomm.Parameters["@POSITION"].Value = patientArea.Position;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
                     sqlcomm.Parameters["@DESCRIPTION"].Value = patientArea.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
