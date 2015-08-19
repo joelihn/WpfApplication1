@@ -55,6 +55,7 @@ namespace WpfApplication1
         private void InitConfigMenu()
         {
             ConifgMenuListBox.ItemsSource = ConfigMenuCollection;
+            ConfigMenuCollection.Clear();
             ConfigMenuCollection.Add("病区设置");
             ConfigMenuCollection.Add("床位设置");
             ConfigMenuCollection.Add("感染类型");

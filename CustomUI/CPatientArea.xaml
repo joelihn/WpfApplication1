@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="500" Loaded="CPatientArea_OnLoaded">
+             d:DesignHeight="600" Loaded="CPatientArea_OnLoaded" Width="635.821">
     <UserControl.Resources>
         <DataTemplate x:Key="Id">
             <TextBlock Text="{Binding Id}" />
@@ -23,9 +23,15 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid Style="{StaticResource GridBackGround1}">
-        <StackPanel Margin="0,0">
+    	<Grid.RowDefinitions>
+    		<RowDefinition Height="50"/>
+    		<RowDefinition/>
+    		<RowDefinition Height="50"/>
+    		<RowDefinition/>
+    	</Grid.RowDefinitions>
+        <StackPanel Margin="176.12,277.612,117.91,135.821">
             <TextBlock Name="TitleTextBlock" Margin="0" HorizontalAlignment="Center" Style="{StaticResource TextBlockStyle1}" Text="病区信息" />
-            <ListView ItemsSource="{Binding}" x:Name="ListViewPatientArea" Height="400" Margin="0,0,0,0" Style="{StaticResource ListViewStyle}"
+            <ListView ItemsSource="{Binding}" x:Name="ListViewPatientArea" Height="280.597" Style="{StaticResource ListViewStyle}"
             	VerticalAlignment="Top" FontSize="16" Loaded="ListViewCPatientArea_OnLoaded"  SelectionChanged="ListViewCPatientArea_OnSelectionChanged">
                 <ListView.View>
                     <GridView>
@@ -77,5 +83,58 @@
             </Grid>
         </StackPanel>
         <TextBlock Margin="212,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Red" Style="{StaticResource RightTextBlock1}" Text="{DynamicResource SettingnosaveText}" Visibility="Hidden" />
+        <Grid>
+        	<Grid.ColumnDefinitions>
+        		<ColumnDefinition Width="100"/>
+        		<ColumnDefinition Width="100"/>
+        		<ColumnDefinition/>
+        		<ColumnDefinition Width="100"/>
+        		<ColumnDefinition Width="100"/>
+        	</Grid.ColumnDefinitions>
+        	<Button Content="新建" Style="{DynamicResource FunctionButtonStyle}" Margin="0,0,3,0"/>
+			<Button Content="删除" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="1" IsEnabled="False" />
+			<Button Content="应用" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="3" Margin="0,0,3,0" />
+			<Button Content="取消" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="4" />
+			<Label Content="病区设置" Grid.Column="2" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
+        </Grid>
+        <Grid Grid.Row="1">
+        	<Grid.ColumnDefinitions>
+        		<ColumnDefinition Width="150"/>
+        		<ColumnDefinition/>
+        	</Grid.ColumnDefinitions>
+        	<Grid.RowDefinitions>
+        		<RowDefinition/>
+        		<RowDefinition/>
+        		<RowDefinition/>
+        		<RowDefinition/>
+        		<RowDefinition/>
+        		<RowDefinition Height="3*"/>
+        	</Grid.RowDefinitions>
+        	<Label Content="病区名字" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3"/>
+			<Label Content="感染类型" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3"/>
+            <Label Content="所在位置" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3"/>
+            <Label Content="病区描述" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3"/>
+            <Label Content="病区顺序*" Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3"/>
+            <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="TextBox" Width="252" VerticalContentAlignment="Center" Margin="0,3.5"/>
+            <RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="10,8,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <RadioButton Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="116,8,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="132,3.836,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120"/>
+            <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Grid.Row="2" TextWrapping="Wrap" Text="TextBox" Width="252" Margin="0,0"/>
+			<TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Grid.Row="3" TextWrapping="Wrap" Text="TextBox" Width="252" Margin="0,0"/>
+			<TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Grid.Row="4" TextWrapping="Wrap" Text="TextBox" Width="252" Margin="0,0"/>
+        </Grid>
+        <Grid Grid.Row="2">
+        	<Grid.ColumnDefinitions>
+        		<ColumnDefinition Width="100"/>
+        		<ColumnDefinition Width="100"/>
+        		<ColumnDefinition Width="100"/>
+        		<ColumnDefinition Width="100"/>
+        	</Grid.ColumnDefinitions>
+			<Label Content="病区名字" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3,3,3"/>
+			<Label Content="感染类型" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3,3,3"/>
+            <Label Content="所在位置" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3,3,3"/>
+            <Label Content="病区描述" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3"/>
+            
+        </Grid>
     </Grid>
 </UserControl>
