@@ -22,7 +22,7 @@ namespace WpfApplication1.DAOModule
         public bool IsTemp { get; set; }
         public Int64 PatientAreaId { get; set; }
         public Int64 MachineTypeId { get; set; }
-        //public Int64 InfectTypeId { get; set; }
+        public Int64 InfectTypeId { get; set; }//Joe
         public string Reserved { get; set; }
     }
 
@@ -179,6 +179,7 @@ namespace WpfApplication1.DAOModule
         public string Reserved { get; set; }
         public string BgColor { get; set; }
         public bool IsAvailable { get; set; }
+        public Int64 TreatTypeId { get; set; }//Joe
     }
 
     public class TreatType
