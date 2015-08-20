@@ -278,7 +278,7 @@
             <SolidColorBrush x:Key="LeftButtonBackground33" Color="#FF1C85F9" />
             <SolidColorBrush x:Key="MiddleButtonBackground" Color="#FF5C85F9" />
             <SolidColorBrush x:Key="ButtonSelectedBackground" Color="#FF8E9CC5" />
-            <SolidColorBrush x:Key="BacGround1" Color="#FFBAC2D9" />
+            <SolidColorBrush x:Key="BacGround1" Color="White" />
             <SolidColorBrush x:Key="BacGround2" x:Shared="true" Color="White" />
             <SolidColorBrush x:Key="TextColor1" Color="Black" />
             <SolidColorBrush x:Key="TextColor2" Color="White" />
@@ -411,7 +411,7 @@
             </Style>
 
 
-            <SolidColorBrush x:Key="ButtonBackgroundColor1" Color="#FFD1CDCD" />
+            <SolidColorBrush x:Key="ButtonBackgroundColor1" Color="#FF808080" />
             <SolidColorBrush x:Key="ButtonBorderColor1" Color="#FF8D8686" />
 
             <Style x:Key="ButtonNormalStyle" TargetType="{x:Type Button}">
@@ -465,6 +465,7 @@
                                                 <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
                                                     <EasingColorKeyFrame KeyTime="0" Value="#FF519342"/>
                                                 </ColorAnimationUsingKeyFrames>
+                                                
                                             </Storyboard>
                                         </VisualState>
                                         <VisualState x:Name="SelectedUnfocused"/>
@@ -472,8 +473,8 @@
                                 </VisualStateManager.VisualStateGroups>
                                 <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
                                     <Grid x:Name="grid">
-                                        <Rectangle x:Name="rectangle" Fill="#FFBCBCBD" HorizontalAlignment="Stretch" Height="Auto" Stroke="#FF878787" VerticalAlignment="Stretch" RadiusY="15.5" RadiusX="15.5" StrokeThickness="4"/>
-                                        <Label Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                                        <Rectangle x:Name="rectangle" Fill="#FFBBB7B7" HorizontalAlignment="Stretch" Height="Auto" Stroke="#FF959090" VerticalAlignment="Stretch" RadiusY="15.5" RadiusX="15.5" StrokeThickness="4"/>
+                                        <Label x:Name="label" Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
                                     </Grid>
                                 </Border>
                             </Grid>
@@ -497,6 +498,60 @@
                 </Setter>
             </Style>
 
+            <Style x:Key="MenuStyle2" TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+                <Setter Property="Padding" Value="2,0,0,0"/>
+                <Setter Property="Height" Value="50"/>
+                <Setter Property="Margin" Value="3"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Grid Margin="0,0,2,0">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="SelectionStates">
+                                        <VisualState x:Name="Unselected"/>
+                                        <VisualState x:Name="Selected">
+                                            <Storyboard>
+                                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                                                    <EasingColorKeyFrame KeyTime="0" Value="#FF77C56A"/>
+                                                </ColorAnimationUsingKeyFrames>
+                                                <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                                                    <EasingColorKeyFrame KeyTime="0" Value="#FF519342"/>
+                                                </ColorAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="SelectedUnfocused"/>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                                    <Grid x:Name="grid">
+                                        <Rectangle x:Name="rectangle" Fill="White" HorizontalAlignment="Stretch" Height="Auto" Stroke="#FF959090" VerticalAlignment="Stretch" RadiusY="15.5" RadiusX="15.5" StrokeThickness="4"/>
+                                        <Label  x:Name="label" Content="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="true">
+                                </Trigger>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected" Value="true"/>
+                                        <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"/>
+                                </MultiTrigger>
+                                <Trigger Property="IsEnabled" Value="false">
+                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            
             <Style x:Key="FunctionButtonStyle" TargetType="{x:Type Button}">
                 <Setter Property="BorderThickness" Value="1"/>
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
@@ -530,13 +585,38 @@
                                         <Rectangle x:Name="rectangle" HorizontalAlignment="Stretch" Height="Auto" RadiusY="0" RadiusX="0" Stroke="{x:Null}" VerticalAlignment="Stretch" Width="Auto">
                                             <Rectangle.Fill>
                                                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                                                    <GradientStop Color="#FFF1F1F9"/>
-                                                    <GradientStop Color="#FF0B0BF3" Offset="0.448"/>
-                                                    <GradientStop Color="#FF3213F9" Offset="0.996"/>
+                                                    <GradientStop Color="White"/>
+                                                    <!--<GradientStop Color="MediumBlue" Offset="0.448"/>-->
+                                                    <GradientStop Color="MediumBlue" Offset="0.7"/>
                                                 </LinearGradientBrush>
                                             </Rectangle.Fill>
                                         </Rectangle>
-                                        <Label Content="{TemplateBinding Content}" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14.667"/>
+                                        <Label Foreground="White" Content="{TemplateBinding Content}"  VerticalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14.667"/>
+                                    </Grid>
+                                </Border>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="FunctionLabelStyle" TargetType="{x:Type Label}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Label">
+                            <Grid>
+                                <Border BorderBrush="{x:Null}" BorderThickness="1" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto">
+                                    <Grid>
+                                        <Rectangle x:Name="rectangle" HorizontalAlignment="Stretch" Height="Auto" RadiusY="0" RadiusX="0" Stroke="{x:Null}" VerticalAlignment="Stretch" Width="Auto">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                                    <GradientStop Color="LightGray"/>
+                                                    <!--<GradientStop Color="MediumBlue" Offset="0.448"/>-->
+                                                    <GradientStop Color="Gray" Offset="0.9"/>
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <Label Foreground="Black" Content="{TemplateBinding Content}"  VerticalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="14.667"/>
                                     </Grid>
                                 </Border>
                             </Grid>

@@ -23,7 +23,7 @@
         <Button Style="{StaticResource ButtonStyle1}" Click="DataBasesetting_OnClick" Name="DataBasesettingButton" Grid.Column="0" Height="50" FontSize="17" Content="数据库设置" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,350,0,624"/>
          -->
         <ContentControl Name="RightContent" Grid.Column="1" Grid.Row="0" ></ContentControl>
-        <ListBox Name="ConifgMenuListBox" SelectionChanged="listbox1_SelectionChanged" ItemContainerStyle="{DynamicResource MenuStyle}" Loaded="ConifgMenuListBox_Loaded"/>
+        <ListBox Name="ConifgMenuListBox" SelectionChanged="listbox1_SelectionChanged" ItemContainerStyle="{DynamicResource MenuStyle2}" Loaded="ConifgMenuListBox_Loaded"/>
 
     </Grid>
 
