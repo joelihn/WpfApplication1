@@ -31,7 +31,7 @@ namespace WpfApplication1.CustomUI
             InitializeComponent();
 
             this.ListViewPatientArea.ItemsSource = Datalist;
-
+            this.PationAreaInfos.ItemsSource = Datalist;
             //this.TypeComboBox.Items.Add("阴性");
             //this.TypeComboBox.Items.Add("阳性");
             this.TypeComboBox.Text = "阴性";
@@ -326,7 +326,7 @@ namespace WpfApplication1.CustomUI
     {
         private Int64 _id;
         private string _name;
-        private string _type;
+        private string _type;   
         private string _infecttype;
         private string _description;
         private string _infectionType;
