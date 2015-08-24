@@ -26,15 +26,14 @@ namespace WpfApplication1.CustomUI
         public ObservableCollection<PatientAreaData> Datalist = new ObservableCollection<PatientAreaData>();
         public ObservableCollection<InfectTypeData> Datalist1 = new ObservableCollection<InfectTypeData>();
 
+        private bool isNew = false;
+        private int currnetIndex = -1;
+
         public CPatientArea()
         {
             InitializeComponent();
 
             this.ListViewPatientArea.ItemsSource = Datalist;
-            this.PationAreaInfos.ItemsSource = Datalist;
-            //this.TypeComboBox.Items.Add("阴性");
-            //this.TypeComboBox.Items.Add("阳性");
-            this.TypeComboBox.Text = "阴性";
            
         }
 
@@ -54,7 +53,8 @@ namespace WpfApplication1.CustomUI
                         patientAreaData.Id = pa.Id;
                         patientAreaData.Name = pa.Name;
                         patientAreaData.Type = pa.Type;
-
+                        patientAreaData.Position = pa.Position;
+                        patientAreaData.Seq = pa.Seq;
                         {
                             using (var infectTypeDao = new InfectTypeDao())
                             {
@@ -67,7 +67,18 @@ namespace WpfApplication1.CustomUI
                                 }
                             }
                         }
+                        if (patientAreaData.Type.Equals("0"))
+                        {
+                            this.InfectionComboBox.IsEnabled = false;
+                            this.RadioButton1.IsChecked = true;
+                            patientAreaData.InfectionType = "阴性";
+                        }
 
+                        else if (patientAreaData.Type.Equals("1"))
+                        {
+                            this.InfectionComboBox.IsEnabled = true;
+                            this.RadioButton2.IsChecked = true;
+                        }
                         patientAreaData.Description = pa.Description;
                         Datalist.Add(patientAreaData);
                     }
@@ -93,7 +104,7 @@ namespace WpfApplication1.CustomUI
             }
             catch (Exception ex)
             {
-                MainWindow.Log.WriteInfoConsole("In CInfectType.xaml.cs:ListViewCInfectType_OnLoaded exception messsage: " + ex.Message);
+                MainWindow.Log.WriteInfoConsole("In CPatientArea.xaml.cs:ListViewCInfectType_OnLoaded exception messsage: " + ex.Message);
             }
 
         }
@@ -113,6 +124,9 @@ namespace WpfApplication1.CustomUI
                         patientAreaData.Id = pa.Id;
                         patientAreaData.Name = pa.Name;
                         patientAreaData.Type = pa.Type;
+                        patientAreaData.Position = pa.Position;
+                        patientAreaData.Seq = pa.Seq;
+                       
                         {
                             using (var infectTypeDao = new InfectTypeDao())
                             {
@@ -124,6 +138,18 @@ namespace WpfApplication1.CustomUI
                                     patientAreaData.InfectionType = arealist[0].Name;
                                 }
                             }
+                        }
+                        if (patientAreaData.Type.Equals("0"))
+                        {
+                            this.InfectionComboBox.IsEnabled = false;
+                            this.RadioButton1.IsChecked = true;
+                            patientAreaData.InfectionType = "阴性";
+                        }
+
+                        else if (patientAreaData.Type.Equals("1"))
+                        {
+                            this.InfectionComboBox.IsEnabled = true;
+                            this.RadioButton2.IsChecked = true;
                         }
                         patientAreaData.Description = pa.Description;
                         Datalist.Add(patientAreaData);
@@ -142,10 +168,31 @@ namespace WpfApplication1.CustomUI
             //throw new NotImplementedException();
             if (ListViewPatientArea.SelectedIndex >= 0)
             {
+                currnetIndex = ListViewPatientArea.SelectedIndex;
+                this.ButtonNew.IsEnabled = true;
+                this.ButtonDelete.IsEnabled = true;
+                this.ButtonApply.IsEnabled = true;
+                this.ButtonCancel.IsEnabled = true;
+
+                isNew = false;
+
                 NameTextBox.Text = Datalist[ListViewPatientArea.SelectedIndex].Name;
-                TypeComboBox.Text = Datalist[ListViewPatientArea.SelectedIndex].Type;
                 InfectionComboBox.Text = Datalist[ListViewPatientArea.SelectedIndex].InfectionType;
                 DescriptionTextBox.Text = Datalist[ListViewPatientArea.SelectedIndex].Description;
+                PositionTextBox.Text = Datalist[ListViewPatientArea.SelectedIndex].Position;
+                SeqTextBox.Text = Datalist[ListViewPatientArea.SelectedIndex].Seq.ToString();
+                if (Datalist[ListViewPatientArea.SelectedIndex].Type.Equals("0"))
+                {
+                    this.InfectionComboBox.IsEnabled = false;
+                    this.RadioButton1.IsChecked = true;
+                }
+
+                else if (Datalist[ListViewPatientArea.SelectedIndex].Type.Equals("1"))
+                {
+                    this.InfectionComboBox.IsEnabled = true;
+                    this.RadioButton2.IsChecked = true;
+                }
+                
             }
         }
 
@@ -165,133 +212,6 @@ namespace WpfApplication1.CustomUI
                 return true;
 
             }
-        }
-
-        private void AddButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            //throw new NotImplementedException();
-            try
-            {
-                if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
-                {
-                    var a = new RemindMessageBox1();
-                    a.remindText.Text = (string)FindResource("Message1001"); ;
-                    a.ShowDialog();
-                    return;
-                }
-
-                using (PatientAreaDao patientAreaDao = new PatientAreaDao())
-                {
-                    PatientArea patientArea = new PatientArea();
-                    patientArea.Name = this.NameTextBox.Text;
-                    patientArea.Type = this.TypeComboBox.Text;
-                    var condition = new Dictionary<string, object>();
-                    using (var infectTypeDao = new InfectTypeDao())
-                    {
-                        condition.Clear();
-                        condition["Name"] = InfectionComboBox.Text;
-                        var arealist = infectTypeDao.SelectInfectType(condition);
-                        if (arealist.Count == 1)
-                        {
-                            patientArea.InfectTypeId = arealist[0].Id;
-                        }
-                        else
-                        {
-                            patientArea.InfectTypeId = 1;
-                        }
-                    }
-                    patientArea.Description = this.DescriptionTextBox.Text;
-                    int lastInsertId = -1;
-                    patientAreaDao.InsertPatientArea(patientArea, ref lastInsertId);
-                    //UI
-                    PatientAreaData patientAreaData = new PatientAreaData();
-                    patientAreaData.Name = patientArea.Name;
-                    patientAreaData.Type = patientArea.Type;
-                    patientAreaData.InfectionType = InfectionComboBox.Text;
-                    patientAreaData.Description = patientArea.Description;
-                    Datalist.Add(patientAreaData);
-                }
-            }
-            catch (Exception ex)
-            {
-                MainWindow.Log.WriteInfoConsole("In CPatientArea.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
-            }
-
-        }
-
-        private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (ListViewPatientArea.SelectedIndex == -1) return;
-
-            if (this.NameTextBox.Text.Equals("") )
-            {
-                var a = new RemindMessageBox1();
-                a.remindText.Text = (string)FindResource("Message1001"); ;
-                a.ShowDialog();
-                return;
-            }
-
-            //throw new NotImplementedException();
-            using (var patientAreaDao = new PatientAreaDao())
-            {
-                var condition = new Dictionary<string, object>();
-                condition["ID"] = Datalist[ListViewPatientArea.SelectedIndex].Id;
-
-                var fileds = new Dictionary<string, object>();
-                fileds["NAME"] = NameTextBox.Text;
-                fileds["TYPE"] = TypeComboBox.Text;
-                var condition2 = new Dictionary<string, object>();
-                using (var infectTypeDao = new InfectTypeDao())
-                {
-                    condition2.Clear();
-                    condition2["Name"] = InfectionComboBox.Text;
-                    var arealist = infectTypeDao.SelectInfectType(condition2);
-                    if (arealist.Count == 1)
-                    {
-                        fileds["INFECTTYPEID"] = arealist[0].Id;
-                    }
-                    else
-                    {
-                        fileds["INFECTTYPEID"] = 1;
-                    }
-                }
-                fileds["DESCRIPTION"] =DescriptionTextBox.Text;
-                patientAreaDao.UpdatePatientArea(fileds,condition);
-                RefreshData();
-            }
-        }
-
-        private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (ListViewPatientArea.SelectedIndex == -1) return;
-            //throw new NotImplementedException();
-            using (var patientAreaDao = new PatientAreaDao())
-            {
-                patientAreaDao.DeletePatientArea(Datalist[ListViewPatientArea.SelectedIndex].Id);
-                RefreshData();
-            }
-        }
-
-        private void TypeComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ComboBoxItem cbi = (ComboBoxItem)this.TypeComboBox.SelectedItem;
-            if (cbi.Content.Equals("阴性"))
-            {
-                this.InfectionComboBox.Text = "阴性";
-                this.InfectionComboBox.IsEnabled = false;
-            }
-            else
-            {
-                this.InfectionComboBox.IsEnabled = true;
-                this.InfectionComboBox.SelectedIndex = 1;
-            }
-
-            
-            //var mSystemConfig = new ConfigModule.SystemConfig();
-            //mSystemConfig.Write("RegistrationManner", "Enable", cbi.Content.ToString());
-            //ConstDefinition.RegistrationManner = cbi.Content.ToString();
-       
-
         }
 
         private void CPatientArea_OnLoaded(object sender, RoutedEventArgs e)
@@ -319,14 +239,205 @@ namespace WpfApplication1.CustomUI
             #endregion
         }
 
+
+        private void ButtonNew_OnClick(object sender, RoutedEventArgs e)
+        {
+            isNew = true;
+            NameTextBox.Text = "";
+            InfectionComboBox.Text = "";
+            DescriptionTextBox.Text = "";
+            PositionTextBox.Text = "";
+            SeqTextBox.Text = "";
+            this.RadioButton1.IsChecked = true;
+
+            this.ButtonNew.IsEnabled = false;
+            this.ButtonDelete.IsEnabled = false;
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+        }
+
+        private void ButtonDelete_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (ListViewPatientArea.SelectedIndex == -1) return;
+
+            //throw new NotImplementedException();
+            using (var patientAreaDao = new PatientAreaDao())
+            {
+                patientAreaDao.DeletePatientArea(Datalist[ListViewPatientArea.SelectedIndex].Id);
+                RefreshData();
+            }
+
+            this.ButtonDelete.IsEnabled = false;
+            this.ButtonApply.IsEnabled = false;
+            this.ButtonCancel.IsEnabled = false;
+            isNew = false;
+        }
+
+        private void ButtonApply_OnClick(object sender, RoutedEventArgs e)
+        {
+            
+           
+            if (isNew)
+            {
+                //throw new NotImplementedException();
+                try
+                {
+                    if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
+                    {
+                        var a = new RemindMessageBox1();
+                        a.remindText.Text = (string)FindResource("Message1001"); ;
+                        a.ShowDialog();
+                        return;
+                    }
+
+                    using (PatientAreaDao patientAreaDao = new PatientAreaDao())
+                    {
+                        PatientArea patientArea = new PatientArea();
+                        patientArea.Name = this.NameTextBox.Text;
+                        var condition = new Dictionary<string, object>();
+                        using (var infectTypeDao = new InfectTypeDao())
+                        {
+                            condition.Clear();
+                            condition["Name"] = InfectionComboBox.Text;
+                            var arealist = infectTypeDao.SelectInfectType(condition);
+                            if (arealist.Count == 1)
+                            {
+                                patientArea.InfectTypeId = arealist[0].Id;
+                            }
+                            else
+                            {
+                                patientArea.InfectTypeId = 1;
+                            }
+                        }
+                        if ((bool)this.RadioButton1.IsChecked)
+                            patientArea.Type = "0";
+                        else if ((bool)this.RadioButton2.IsChecked)
+                            patientArea.Type = "1";
+                        patientArea.Description = this.DescriptionTextBox.Text;
+                        patientArea.Position = this.PositionTextBox.Text;
+                        patientArea.Seq = int.Parse(this.SeqTextBox.Text);
+                        int lastInsertId = -1;
+                        patientAreaDao.InsertPatientArea(patientArea, ref lastInsertId);
+                        //UI
+                        PatientAreaData patientAreaData = new PatientAreaData();
+                        patientAreaData.Name = patientArea.Name;
+                        if ((bool) this.RadioButton1.IsChecked)
+                        {
+                             patientAreaData.InfectionType = "阴性";
+                             patientAreaData.Type = "0";
+                        }
+                        
+                        else if((bool) this.RadioButton2.IsChecked)
+                            patientAreaData.Type = "1";
+                       
+                        patientAreaData.Description = patientArea.Description;
+                        patientAreaData.Position = patientArea.Position;
+                        patientAreaData.Seq = patientArea.Seq;
+
+                        Datalist.Add(patientAreaData);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MainWindow.Log.WriteInfoConsole("In CPatientArea.xaml.cs:ButtonApply_OnClick exception messsage: " + ex.Message);
+                    return;
+                }
+                this.ButtonNew.IsEnabled = true;
+                this.ButtonDelete.IsEnabled = true;
+                this.ButtonApply.IsEnabled = true;
+                this.ButtonCancel.IsEnabled = true;
+            }
+            else
+            {
+                if (ListViewPatientArea.SelectedIndex == -1) return;
+
+                if (this.NameTextBox.Text.Equals(""))
+                {
+                    var a = new RemindMessageBox1();
+                    a.remindText.Text = (string)FindResource("Message1001"); ;
+                    a.ShowDialog();
+                    return;
+                }
+
+                //throw new NotImplementedException();
+                using (var patientAreaDao = new PatientAreaDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["ID"] = Datalist[ListViewPatientArea.SelectedIndex].Id;
+
+                    var fileds = new Dictionary<string, object>();
+                    fileds["NAME"] = NameTextBox.Text;
+                    var condition2 = new Dictionary<string, object>();
+                    using (var infectTypeDao = new InfectTypeDao())
+                    {
+                        condition2.Clear();
+                        condition2["NAME"] = InfectionComboBox.Text;
+                        var arealist = infectTypeDao.SelectInfectType(condition2);
+                        if (arealist.Count == 1)
+                        {
+                            fileds["INFECTTYPEID"] = arealist[0].Id;
+                        }
+                        else
+                        {
+                            fileds["INFECTTYPEID"] = 1;
+                        }
+                    }
+                    if ((bool)this.RadioButton1.IsChecked)
+                        fileds["TYPE"] = "0";
+                    else if ((bool)this.RadioButton2.IsChecked)
+                        fileds["TYPE"] = "1";
+                    fileds["SEQ"] = SeqTextBox.Text;
+                    fileds["POSITION"] = PositionTextBox.Text;
+                    fileds["DESCRIPTION"] = DescriptionTextBox.Text;
+                    patientAreaDao.UpdatePatientArea(fileds, condition);
+                    RefreshData();
+                }
+                isNew = false;
+            }
+            this.ButtonApply.IsEnabled = false;
+
+        }
+
+        private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (isNew)
+            {
+                NameTextBox.Text = "";
+                InfectionComboBox.Text = "";
+                DescriptionTextBox.Text = "";
+                PositionTextBox.Text = "";
+                SeqTextBox.Text = "";
+                this.RadioButton1.IsChecked = true;
+
+                this.ButtonNew.IsEnabled = false;
+                this.ButtonDelete.IsEnabled = false;
+                this.ButtonApply.IsEnabled = true;
+                this.ButtonCancel.IsEnabled = true;
+            }
+            else
+            {
+                this.ListViewPatientArea.SelectedIndex = -1;
+                this.ListViewPatientArea.SelectedIndex = currnetIndex;
+            }
+
+        }
+
         
+        private void RadioButton2_OnChecked(object sender, RoutedEventArgs e)
+        {
+
+            if ((bool) RadioButton2.IsChecked)
+                this.InfectionComboBox.IsEnabled = true;
+        }
     }
 
     public class PatientAreaData : INotifyPropertyChanged
     {
         private Int64 _id;
+        private Int64 _seq;
         private string _name;
-        private string _type;   
+        private string _type;
+        private string _position;
         private string _infecttype;
         private string _description;
         private string _infectionType;
@@ -343,6 +454,26 @@ namespace WpfApplication1.CustomUI
             {
                 _id = value;
                 OnPropertyChanged("Id");
+            }
+        }
+
+        public Int64 Seq
+        {
+            get { return _seq; }
+            set
+            {
+                _seq = value;
+                OnPropertyChanged("Seq");
+            }
+        }
+
+        public string Position
+        {
+            get { return _position; }
+            set
+            {
+                _position = value;
+                OnPropertyChanged("Position");
             }
         }
 

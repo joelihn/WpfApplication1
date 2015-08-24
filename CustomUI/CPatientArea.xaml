@@ -12,6 +12,9 @@
         <DataTemplate x:Key="Name">
             <TextBlock  Text="{Binding Name}" />
         </DataTemplate>
+        <DataTemplate x:Key="Position">
+            <TextBlock  Text="{Binding Position}" />
+        </DataTemplate>
         <DataTemplate x:Key="Type">
             <TextBlock  Text="{Binding Type}" />
         </DataTemplate>
@@ -22,166 +25,113 @@
             <TextBlock Text="{Binding Description}" />
         </DataTemplate>
 
-		<Style x:Key="PaitientAreaListboxItemStyle" TargetType="{x:Type ListBoxItem}">
-			<Setter Property="Background" Value="Transparent"/>
-			<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-			<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-			<Setter Property="Padding" Value="2,0,0,0"/>
-			<Setter Property="Template">
-				<Setter.Value>
-					<ControlTemplate TargetType="{x:Type ListBoxItem}">
-						<Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
-							<Grid>
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition/>
-									<ColumnDefinition/>
-									<ColumnDefinition/>
-									<ColumnDefinition/>
-								</Grid.ColumnDefinitions>
-								<Label Content="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-								<Label Content="{Binding InfectionType}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
-								<Label Content="{Binding Location}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2"/>
-								<Label Content="{Binding Description}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
+        <Style x:Key="PaitientAreaListboxItemStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Padding" Value="2,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="{Binding InfectionType}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
+                                <Label Content="{Binding Position}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2"/>
+                                <Label Content="{Binding Description}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
 
-							</Grid>
-						</Border>
-						<ControlTemplate.Triggers>
-							<Trigger Property="IsSelected" Value="true">
-								<Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
-							</Trigger>
-							<MultiTrigger>
-								<MultiTrigger.Conditions>
-									<Condition Property="IsSelected" Value="true"/>
-									<Condition Property="Selector.IsSelectionActive" Value="false"/>
-								</MultiTrigger.Conditions>
-								<Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-							</MultiTrigger>
-							<Trigger Property="IsEnabled" Value="false">
-								<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-							</Trigger>
-						</ControlTemplate.Triggers>
-					</ControlTemplate>
-				</Setter.Value>
-			</Setter>
-		</Style>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="true"/>
+                                    <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid Style="{StaticResource GridBackGround1}">
-    	<Grid.RowDefinitions>
-    		<RowDefinition Height="50"/>
-    		<RowDefinition/>
-    		<RowDefinition Height="50"/>
-    		<RowDefinition/>
-    	</Grid.RowDefinitions>
-        <StackPanel Margin="176.12,277.612,117.91,135.821">
-            <TextBlock Name="TitleTextBlock" Margin="0" HorizontalAlignment="Center" Style="{StaticResource TextBlockStyle1}" Text="病区信息" />
-            <ListView ItemsSource="{Binding}" x:Name="ListViewPatientArea" Height="280.597" Style="{StaticResource ListViewStyle}"
-            	VerticalAlignment="Top" FontSize="16" Loaded="ListViewCPatientArea_OnLoaded"  SelectionChanged="ListViewCPatientArea_OnSelectionChanged">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Width="80" CellTemplate="{StaticResource Id}" Header="编号" />
-                        <GridViewColumn Width="80" CellTemplate="{StaticResource Name}" Header="名称" />
-                        <GridViewColumn Width="100" CellTemplate="{StaticResource Type}" Header="类型" />
-                        <GridViewColumn Width="100" CellTemplate="{StaticResource InfectionType}" Header="感染类型" />
-                        <GridViewColumn Width="200" CellTemplate="{StaticResource Description}" Header="描述" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Width="73" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="名称" />
-                <TextBlock Width="73" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="类型" Grid.Column="1" />
-                <TextBlock Width="73" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="感染类型" Grid.Column="2" />
-                <TextBlock Width="73" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="描述" Grid.Column="3" />
-            </Grid>
-            <Grid Margin="0,0,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="4*"/>
-                </Grid.ColumnDefinitions>
-                <TextBox Name="NameTextBox" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
-                <ComboBox Name="TypeComboBox" FontSize="16"  Height="27"  Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" SelectionChanged="TypeComboBox_OnSelectionChanged"  >
-                    <ComboBoxItem Content="阴性" />
-                    <ComboBoxItem Content="阳性" />
-                </ComboBox>
-                <ComboBox  Name="InfectionComboBox" FontSize="16"  Height="27"  Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" />
-                <TextBox Name="DescriptionTextBox" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" Grid.Column="3" />
-            </Grid>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="27*"/>
-                    <ColumnDefinition Width="473*"/>
-                </Grid.ColumnDefinitions>
-                <Button Name="AddButton" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddButton_OnClick"  Content="{DynamicResource  AddText}" Style="{StaticResource RightButton1}" Margin="25,0,0,0" Grid.ColumnSpan="2" />
-                <Button Name="UpdateButton" Margin="138,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="UpdateButton_OnClick"  Content="{DynamicResource  UpadateText}" Style="{StaticResource RightButton1}" Grid.Column="1" />
-                <Button Name="DeleteButton" Margin="278,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="DeleteButton_OnClick"  Content="{DynamicResource  DelectText}" Style="{StaticResource RightButton1}" Grid.Column="1" />
-            </Grid>
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <TextBlock Margin="212,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Red" Style="{StaticResource RightTextBlock1}" Text="{DynamicResource SettingnosaveText}" Visibility="Hidden" />
         <Grid>
-        	<Grid.ColumnDefinitions>
-        		<ColumnDefinition Width="100"/>
-        		<ColumnDefinition Width="100"/>
-        		<ColumnDefinition/>
-        		<ColumnDefinition Width="100"/>
-        		<ColumnDefinition Width="100"/>
-        	</Grid.ColumnDefinitions>
-        	<Button Content="新建" Style="{DynamicResource FunctionButtonStyle}" Margin="0,0,3,0"/>
-			<Button Content="删除" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="1"  />
-			<Button Content="应用" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="3" Margin="0,0,3,0" />
-            <Button Content="取消" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="4" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="ButtonNew" Content="新建" Style="{DynamicResource FunctionButtonStyle}" Margin="0,0,3,0" Click="ButtonNew_OnClick"/>
+            <Button IsEnabled="False" Name="ButtonDelete" Content="删除" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="1" Click="ButtonDelete_OnClick"  />
+            <Button IsEnabled="False" Name="ButtonApply" Content="应用" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="3" Margin="0,0,3,0" Click="ButtonApply_OnClick" />
+            <Button IsEnabled="False" Name="ButtonCancel" Content="取消" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="4" Click="ButtonCancel_OnClick" />
             <Label  Content="病区设置"  Style="{DynamicResource FunctionLabelStyle}" Grid.Column="2" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
-            
+
         </Grid>
         <Grid Grid.Row="1">
-        	<Grid.ColumnDefinitions>
-        		<ColumnDefinition Width="150"/>
-        		<ColumnDefinition/>
-        	</Grid.ColumnDefinitions>
-        	<Grid.RowDefinitions>
-        		<RowDefinition/>
-        		<RowDefinition/>
-        		<RowDefinition/>
-        		<RowDefinition/>
-        		<RowDefinition/>
-        		<RowDefinition Height="3*"/>
-        	</Grid.RowDefinitions>
-            <Label Content="病区名字" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center"/>
-            <Label Content="感染类型" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center"/>
-            <Label Content="所在位置" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center"/>
-            <Label Content="病区描述" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center"/>
-            <Label Content="病区顺序*" Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Height="31" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Margin="0,3.5"/>
-            <RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="10,22.02,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-            <RadioButton Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="116,22.02,0,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="0.75,2.794"/>
-            <ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="132,19.02,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120"/>
-            <TextBox Grid.Column="1" Height="31" Grid.Row="2" TextWrapping="Wrap" Text="TextBox" Margin="0,0"/>
-			<TextBox Grid.Column="1" Height="31" Grid.Row="3" TextWrapping="Wrap" Text="TextBox" Margin="0,0"/>
-			<TextBox Grid.Column="1" Height="31" Grid.Row="4" TextWrapping="Wrap" Text="TextBox" Margin="0,0"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <Label Content="病区名字" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <Label Content="感染类型" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <Label Content="所在位置" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <Label Content="病区描述" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <Label Content="病区顺序*" Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <TextBox Name="NameTextBox" FontSize="14" Grid.Column="1" Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Margin="0,3.5"/>
+            <RadioButton  Name="RadioButton1" FontSize="14" Content="阴性" IsChecked="True" Grid.Column="1" HorizontalAlignment="Left" Margin="10,17,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <RadioButton Checked="RadioButton2_OnChecked" Name="RadioButton2"  Grid.Column="1" HorizontalAlignment="Left" Margin="112,22,0,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="0.75,2.794"/>
+            <ComboBox Name="InfectionComboBox" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="132,14,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120"/>
+            <TextBox Name="PositionTextBox" FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="2" TextWrapping="Wrap" Text="" Margin="0,0"/>
+            <TextBox  Name="DescriptionTextBox"   FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="3" TextWrapping="Wrap" Text="" Margin="0,0"/>
+            <TextBox  Name="SeqTextBox"   FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="4" TextWrapping="Wrap" Text="" Margin="0,0"/>
         </Grid>
         <Grid Grid.Row="2">
-        	<Grid.ColumnDefinitions>
-        		<ColumnDefinition Width="100"/>
-        		<ColumnDefinition Width="100"/>
-        		<ColumnDefinition Width="100"/>
-        		<ColumnDefinition Width="100"/>
-        	</Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
             <Label Content="病区名字"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
             <Label Content="感染类型" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
             <Label Content="所在位置" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
             <Label Content="病区描述" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3"/>
-            
+
         </Grid>
-        <ListBox Name="PationAreaInfos" HorizontalAlignment="Left" Grid.Row="3" Width="399" ItemContainerStyle="{DynamicResource PaitientAreaListboxItemStyle}"/>
+        <ListBox SelectionChanged="ListViewCPatientArea_OnSelectionChanged" Loaded="ListViewCPatientArea_OnLoaded" FontSize="14" Name="ListViewPatientArea" HorizontalAlignment="Left" Grid.Row="3" Width="1000" ItemContainerStyle="{DynamicResource PaitientAreaListboxItemStyle}"/>
     </Grid>
 </UserControl>
