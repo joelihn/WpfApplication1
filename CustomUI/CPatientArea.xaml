@@ -111,13 +111,13 @@
             <Label Content="所在位置" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
             <Label Content="病区描述" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
             <Label Content="病区顺序*" Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
-            <TextBox Name="NameTextBox" FontSize="14" Grid.Column="1" Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Margin="0,3.5"/>
-            <RadioButton  Name="RadioButton1" FontSize="14" Content="阴性" IsChecked="True" Grid.Column="1" HorizontalAlignment="Left" Margin="10,17,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <TextBox TextChanged="OnTextChanged" Name="NameTextBox" FontSize="14" Grid.Column="1" Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Margin="0,3.5"/>
+            <RadioButton Checked="RadioButton1_OnChecked"  Name="RadioButton1" FontSize="14" Content="阴性" IsChecked="True" Grid.Column="1" HorizontalAlignment="Left" Margin="10,17,0,0" Grid.Row="1" VerticalAlignment="Top"/>
             <RadioButton Checked="RadioButton2_OnChecked" Name="RadioButton2"  Grid.Column="1" HorizontalAlignment="Left" Margin="112,22,0,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="0.75,2.794"/>
             <ComboBox Name="InfectionComboBox" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="132,14,0,0" Grid.Row="1" VerticalAlignment="Top" Width="120"/>
-            <TextBox Name="PositionTextBox" FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="2" TextWrapping="Wrap" Text="" Margin="0,0"/>
-            <TextBox  Name="DescriptionTextBox"   FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="3" TextWrapping="Wrap" Text="" Margin="0,0"/>
-            <TextBox  Name="SeqTextBox"   FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="4" TextWrapping="Wrap" Text="" Margin="0,0"/>
+            <TextBox   TextChanged="OnTextChanged" Name="PositionTextBox" FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="2" TextWrapping="Wrap" Text="" Margin="0,0"/>
+            <TextBox  TextChanged="OnTextChanged"  Name="DescriptionTextBox"   FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="3" TextWrapping="Wrap" Text="" Margin="0,0"/>
+            <TextBox  TextChanged="OnTextChanged"  Name="SeqTextBox"   FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="4" TextWrapping="Wrap" Text="" Margin="0,0"/>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>

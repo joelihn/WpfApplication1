@@ -192,7 +192,8 @@ namespace WpfApplication1.CustomUI
                     this.InfectionComboBox.IsEnabled = true;
                     this.RadioButton2.IsChecked = true;
                 }
-                
+                this.ButtonApply.IsEnabled = true;
+                this.ButtonCancel.IsEnabled = true;
             }
         }
 
@@ -390,7 +391,9 @@ namespace WpfApplication1.CustomUI
                     fileds["POSITION"] = PositionTextBox.Text;
                     fileds["DESCRIPTION"] = DescriptionTextBox.Text;
                     patientAreaDao.UpdatePatientArea(fileds, condition);
+                    int temp = this.ListViewPatientArea.SelectedIndex;
                     RefreshData();
+                    this.ListViewPatientArea.SelectedIndex = temp;
                 }
                 isNew = false;
             }
@@ -409,10 +412,10 @@ namespace WpfApplication1.CustomUI
                 SeqTextBox.Text = "";
                 this.RadioButton1.IsChecked = true;
 
-                this.ButtonNew.IsEnabled = false;
+                this.ButtonNew.IsEnabled = true;
                 this.ButtonDelete.IsEnabled = false;
-                this.ButtonApply.IsEnabled = true;
-                this.ButtonCancel.IsEnabled = true;
+                this.ButtonApply.IsEnabled = false;
+                this.ButtonCancel.IsEnabled = false;
             }
             else
             {
@@ -428,6 +431,19 @@ namespace WpfApplication1.CustomUI
 
             if ((bool) RadioButton2.IsChecked)
                 this.InfectionComboBox.IsEnabled = true;
+        }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+        }
+
+        private void RadioButton1_OnChecked(object sender, RoutedEventArgs e)
+        {
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+
         }
     }
 
