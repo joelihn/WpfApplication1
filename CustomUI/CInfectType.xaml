@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="500">
+             d:DesignHeight="1024" d:DesignWidth="1000">
     <UserControl.Resources>
         <DataTemplate x:Key="Id">
             <TextBlock Text="{Binding Id}" />
@@ -15,8 +15,97 @@
         <DataTemplate x:Key="Description">
             <TextBlock Text="{Binding Description}" />
         </DataTemplate>
+        <Style x:Key="InfectTypeListboxItemStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Padding" Value="2,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="250"/>
+                                    <ColumnDefinition Width="250"/>
+                                </Grid.ColumnDefinitions>
+                                <!--<Label Content="{Binding Id}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>-->
+                                <Label Content="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="0"/>
+                                <Label Content="{Binding Description}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
+
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="true"/>
+                                    <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
-    <Grid  Style="{StaticResource GridBackGround1}">
+    <Grid Style="{StaticResource GridBackGround1}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Margin="212,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Red" Style="{StaticResource RightTextBlock1}" Text="{DynamicResource SettingnosaveText}" Visibility="Hidden" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="ButtonNew" Content="新建" Style="{DynamicResource FunctionButtonStyle}" Margin="0,0,3,0" Click="ButtonNew_OnClick"/>
+            <Button IsEnabled="False" Name="ButtonDelete" Content="删除" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="1" Click="ButtonDelete_OnClick"  />
+            <Button IsEnabled="False" Name="ButtonApply" Content="应用" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="3" Margin="0,0,3,0" Click="ButtonApply_OnClick" />
+            <Button IsEnabled="False" Name="ButtonCancel" Content="取消" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="4" Click="ButtonCancel_OnClick" />
+            <Label  Content="感染类型"  Style="{DynamicResource FunctionLabelStyle}" Grid.Column="2" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
+
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <Label Content="感染类型" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <Label Content="描述" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <TextBox TextChanged="OnTextChanged" Name="NameTextBox" FontSize="14" Grid.Column="1" Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Margin="0,3.5"/>
+            <TextBox TextChanged="OnTextChanged" Name="DescriptionTextBox" FontSize="14" Grid.Row="1" Grid.Column="1" Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Margin="0,3.5"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="感染类型"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
+            <Label Content="描述" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
+        </Grid>
+        <ListBox SelectionChanged="ListViewInfectType_OnSelectionChanged" Loaded="ListViewInfectType_OnLoaded" FontSize="14" Name="ListViewInfectType" HorizontalAlignment="Left" Grid.Row="3" Width="1000" ItemContainerStyle="{DynamicResource InfectTypeListboxItemStyle}"/>
+    </Grid>
+    <!--<Grid  Style="{StaticResource GridBackGround1}">
         <StackPanel Margin="0,0">
             <TextBlock Name="TitleTextBlock" Margin="0" HorizontalAlignment="Center" Style="{StaticResource TextBlockStyle1}" Text="感染类型" />
             <ListView x:Name="ListView1" ItemsSource="{Binding}" Height="400" Margin="0,0,0,0" Style="{StaticResource ListViewStyle}"
@@ -25,19 +114,19 @@
                     <GridView>
                         <GridViewColumn Width="80" CellTemplate="{StaticResource Id}" Header="编号" />
                         <GridViewColumn Width="120" CellTemplate="{StaticResource Name}" Header="名称" />
-                        <!--<GridViewColumn Width="100" DisplayMemberBinding="{Binding XPath=Type}" Header="类型" />-->
+                        --><!--<GridViewColumn Width="100" DisplayMemberBinding="{Binding XPath=Type}" Header="类型" />--><!--
                         <GridViewColumn Width="240" CellTemplate="{StaticResource Description}" Header="描述" />
                     </GridView>
                 </ListView.View>
             </ListView>
             <Grid>
                 <TextBlock Width="73" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="名称" />
-                <!--<TextBlock Width="73" Margin="140,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="类型" />-->
+                --><!--<TextBlock Width="73" Margin="140,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="类型" />--><!--
                 <TextBlock Width="73" Margin="150,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="描述" />
             </Grid>
             <Grid Margin="0,0,0,10">
                 <TextBox Name="NameTextBox" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
-                <!--<TextBox Name="TypeTextBox" Width="100" Margin="150,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />-->
+                --><!--<TextBox Name="TypeTextBox" Width="100" Margin="150,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />--><!--
                 <TextBox Name="DescriptionTextBox" Width="100" Margin="150,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
             </Grid>
             <Grid>
@@ -48,5 +137,5 @@
         </StackPanel>
         <TextBlock Margin="212,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Red" Style="{StaticResource RightTextBlock1}" Text="{DynamicResource SettingnosaveText}" Visibility="Hidden" />
 
-    </Grid>
+    </Grid>-->
 </UserControl>

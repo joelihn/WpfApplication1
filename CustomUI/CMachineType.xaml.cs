@@ -26,7 +26,9 @@ namespace WpfApplication1.CustomUI
     public partial class CTreatType : UserControl
     {
 
-        public ObservableCollection<TreatTypeData> Datalist = new ObservableCollection<TreatTypeData>();
+        public ObservableCollection<MachineTypeData> Datalist = new ObservableCollection<MachineTypeData>();
+
+        private int currnetIndex = -1;
 
         public CTreatType()
         {
@@ -39,17 +41,17 @@ namespace WpfApplication1.CustomUI
             //throw new NotImplementedException();
             try
             {
-                using (var treatTypeDao = new TreatTypeDao())
+                using (var machineTypeDao = new MachineTypeDao())
                 {
                     Datalist.Clear();
                     var condition = new Dictionary<string, object>();
-                    var list = treatTypeDao.SelectTreatType(condition);
+                    var list = machineTypeDao.SelectMachineType(condition);
                     foreach (var type in list)
                     {
-                        var treatTypeData = new TreatTypeData();
-                        treatTypeData.Id = type.Id;
-                        treatTypeData.Name = type.Name;
-                        treatTypeData.Description = type.Description;
+                        var machineTypeData = new MachineTypeData();
+                        machineTypeData.Id = type.Id;
+                        machineTypeData.Name = type.Name;
+                        machineTypeData.Description = type.Description;
 
                       
 
@@ -58,13 +60,13 @@ namespace WpfApplication1.CustomUI
                         if (bgColor != "" && bgColor != null)
                         {
                             Brush bgBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
-                            treatTypeData.BgColor = bgBrush;
+                            machineTypeData.BgColor = bgBrush;
                         }
                             
                         else
-                            treatTypeData.BgColor = Brushes.Gray;
+                            machineTypeData.BgColor = Brushes.Gray;
 
-                        Datalist.Add(treatTypeData);
+                        Datalist.Add(machineTypeData);
                     }
                 }
             }
@@ -79,6 +81,10 @@ namespace WpfApplication1.CustomUI
             //throw new NotImplementedException();
             if (ListViewMachineType.SelectedIndex >= 0)
             {
+                currnetIndex = ListViewMachineType.SelectedIndex;
+                this.ButtonApply.IsEnabled = false;
+                this.ButtonCancel.IsEnabled = false;
+
                 NameTextBox.Text = Datalist[ListViewMachineType.SelectedIndex].Name;
                 DescriptionTextBox.Text = Datalist[ListViewMachineType.SelectedIndex].Description;
                 Buttonrectangle.Fill = Datalist[ListViewMachineType.SelectedIndex].BgColor;
@@ -88,10 +94,10 @@ namespace WpfApplication1.CustomUI
 
         private bool CheckNameIsExist(string name)
         {
-            using (var bedDao = new TreatTypeDao())
+            using (var machineTypeDao = new MachineTypeDao())
             {
                 var condition = new Dictionary<string, object>();
-                var list = bedDao.SelectTreatType(condition);
+                var list = machineTypeDao.SelectMachineType(condition);
                 foreach (var pa in list)
                 {
                     if (name.Equals(pa.Name))
@@ -177,30 +183,30 @@ namespace WpfApplication1.CustomUI
         {
             try
             {
-                using (var treatTypeDao = new TreatTypeDao())
+                using (var machineTypeDao = new MachineTypeDao())
                 {
                     Datalist.Clear();
 
                     var condition = new Dictionary<string, object>();
-                    var list = treatTypeDao.SelectTreatType(condition);
+                    var list = machineTypeDao.SelectMachineType(condition);
                     foreach (var pa in list)
                     {
-                        var treatTypeData = new TreatTypeData();
-                        treatTypeData.Id = pa.Id;
-                        treatTypeData.Name = pa.Name;
-                        treatTypeData.Description = pa.Description;
+                        var machineTypeData = new MachineTypeData();
+                        machineTypeData.Id = pa.Id;
+                        machineTypeData.Name = pa.Name;
+                        machineTypeData.Description = pa.Description;
 
                         string bgColor = pa.BgColor;
 
                         if (bgColor != "" && bgColor != null)
                         {
                             Brush bgBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
-                            treatTypeData.BgColor = bgBrush;
+                            machineTypeData.BgColor = bgBrush;
                         }
                             
                         else
-                            treatTypeData.BgColor = Brushes.Gray;
-                        Datalist.Add(treatTypeData);
+                            machineTypeData.BgColor = Brushes.Gray;
+                        Datalist.Add(machineTypeData);
                     }
                 }
             }
@@ -237,6 +243,9 @@ namespace WpfApplication1.CustomUI
             var dalog = new ColorDialog();
             if (dalog.ShowDialog() == DialogResult.OK)
             {
+
+                this.ButtonApply.IsEnabled = true;
+                this.ButtonCancel.IsEnabled = true;
                 ((Rectangle)sender).Fill =
                     new SolidColorBrush(Color.FromRgb(dalog.Color.R, dalog.Color.G, dalog.Color.B));
             }
@@ -256,7 +265,7 @@ namespace WpfApplication1.CustomUI
             //}
 
             //throw new NotImplementedException();
-            using (var treatTypeDao = new TreatTypeDao())
+            using (var machineTypeDao = new MachineTypeDao())
             {
                 var condition = new Dictionary<string, object>();
                 condition["ID"] = Datalist[ListViewMachineType.SelectedIndex].Id;
@@ -264,37 +273,44 @@ namespace WpfApplication1.CustomUI
                 var fileds = new Dictionary<string, object>();
                 fileds["DESCRIPTION"] = DescriptionTextBox.Text;
                 fileds["BGCOLOR"] = ((SolidColorBrush)Buttonrectangle.Fill).Color.ToString();
-                treatTypeDao.UpdateTreatType(fileds, condition);
+                machineTypeDao.UpdateMachineType(fileds, condition);
+                int temp = this.ListViewMachineType.SelectedIndex;
                 RefreshData();
+                this.ListViewMachineType.SelectedIndex = temp;
             }
+            this.ButtonApply.IsEnabled = false;
         }
 
         private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
         {
-
-
+            {
+                this.ListViewMachineType.SelectedIndex = -1;
+                this.ListViewMachineType.SelectedIndex = currnetIndex;
+            }
         }
 
         private void Buttonrectangle_OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            
 
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
         }
 
         private void DescriptionTextBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            
 
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
         }
     }
 
-    public class TreatTypeData : INotifyPropertyChanged
+    public class MachineTypeData : INotifyPropertyChanged
     {
         private Int64 _id;
         private string _name;
         private string _description;
         private Brush _bgColor;
-        public TreatTypeData()
+        public MachineTypeData()
         {
         }
 

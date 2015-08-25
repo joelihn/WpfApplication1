@@ -68,7 +68,7 @@ namespace WpfApplication1.CustomUI
                             using (var machineTypeDao = new MachineTypeDao())
                             {
                                 condition.Clear();
-                                condition["ID"] = pa.PatientAreaId;
+                                condition["ID"] = pa.MachineTypeId;
                                 var arealist = machineTypeDao.SelectMachineType(condition);
                                 if (arealist.Count == 1)
                                 {
@@ -211,19 +211,20 @@ namespace WpfApplication1.CustomUI
 
                         }
                         {
-                            using (var treatMethodDao = new TreatTypeDao())
+                            using (var machineTypeDao = new MachineTypeDao())
                             {
                                 condition.Clear();
-                                condition["ID"] = pa.TreatTypeId;
-                                var arealist = treatMethodDao.SelectTreatType(condition);
+                                condition["ID"] = pa.MachineTypeId;
+                                var arealist = machineTypeDao.SelectMachineType(condition);
                                 if (arealist.Count == 1)
                                 {
-                                    bedData.TreatType = arealist[0].Name;
+                                    bedData.MachineType = arealist[0].Name;
                                 }
                             }
                         }
                         bedData.IsAvailable = pa.IsAvailable;
                         bedData.IsOccupy = pa.IsOccupy;
+                        bedData.IsTemp = pa.IsTemp;
                         bedData.Description = pa.Description;
                         Datalist.Add(bedData);
                     }
@@ -392,7 +393,9 @@ namespace WpfApplication1.CustomUI
                         bedData.IsAvailable = bed.IsAvailable;
                         bedData.IsOccupy = bed.IsOccupy;
                         bedData.Description = bed.Description;
-                        Datalist.Add(bedData);
+                        int temp = this.ListViewBed.SelectedIndex;
+                        RefreshData();
+                        this.ListViewBed.SelectedIndex = temp;
                     }
                 }
                 catch (Exception ex)
@@ -428,9 +431,9 @@ namespace WpfApplication1.CustomUI
                     
                     using (var machianTypeDao = new MachineTypeDao())
                     {
-                        condition.Clear();
-                        condition["Name"] = MachineTypeComboBox.Text;
-                        var arealist = machianTypeDao.SelectMachineType(condition);
+                        condition2.Clear();
+                        condition2["Name"] = MachineTypeComboBox.Text;
+                        var arealist = machianTypeDao.SelectMachineType(condition2);
                         if (arealist.Count == 1)
                         {
                             fileds["MachineTypeId"] = arealist[0].Id;
@@ -467,7 +470,9 @@ namespace WpfApplication1.CustomUI
                             scheduleDao.UpdateScheduleTemplate1("-1", Datalist[ListViewBed.SelectedIndex].Id.ToString(), DateTime.Now.Date);
                         }
                     }
+                    int temp = this.ListViewBed.SelectedIndex;
                     RefreshData();
+                    this.ListViewBed.SelectedIndex = temp;
                 }
                 isNew = false;
             }
@@ -523,13 +528,15 @@ namespace WpfApplication1.CustomUI
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            
 
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
         }
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
 
         }
     }

@@ -12,9 +12,56 @@
         <DataTemplate x:Key="Name">
             <TextBlock  Text="{Binding Name}" />
         </DataTemplate>
+        <DataTemplate x:Key="BgColor">
+            <TextBlock Text="{Binding BgColor}" />
+        </DataTemplate>
         <DataTemplate x:Key="Description">
             <TextBlock Text="{Binding Description}" />
         </DataTemplate>
+        <Style x:Key="MachineTypeListboxItemStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Padding" Value="2,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="{Binding Id}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
+                                <Label Content="{Binding BgColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2"/>
+                                <Label Content="{Binding Description}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
+
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="true"/>
+                                    <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </UserControl.Resources>
     <Grid Style="{StaticResource GridBackGround1}">
         <Grid.RowDefinitions>
@@ -51,9 +98,9 @@
             <Label Content="机型" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
             <Label Content="颜色" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
             <Label Content="描述" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
-            <TextBox Grid.Column="1"  Name="NameTextBox" FontSize="14"  Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Margin="0,3.5"/>
+            <TextBox IsEnabled="False" Grid.Column="1"  Name="NameTextBox" FontSize="14"  Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Margin="0,3.5"/>
             <Rectangle DataContextChanged="Buttonrectangle_OnDataContextChanged" Grid.Column="1" Grid.Row="1" Name="Buttonrectangle" Width="49" Margin="10,17,0,10" HorizontalAlignment="Left" Fill="#FF8686C1" MouseLeftButtonDown="Button4rectangle_MouseLeftButtonDown" Stroke="Black" />
-            <TextBox Grid.Column="1" Grid.Row="2" TextChanged="DescriptionTextBox_OnTextChanged"  Name="DescriptionTextBox"   FontSize="14" VerticalContentAlignment="Center"  Height="50" TextWrapping="Wrap" Text="" Margin="0,0"/>
+            <TextBox   Grid.Column="1" Grid.Row="2" TextChanged="DescriptionTextBox_OnTextChanged"  Name="DescriptionTextBox"   FontSize="14" VerticalContentAlignment="Center"  Height="50" TextWrapping="Wrap" Text="" Margin="0,0"/>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -68,6 +115,6 @@
             <Label Content="描述" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3"/>
 
         </Grid>
-        <ListBox SelectionChanged="ListViewMachineType_OnSelectionChanged" Loaded="ListViewMachineType_OnLoaded" FontSize="14" Name="ListViewMachineType" HorizontalAlignment="Left" Grid.Row="3" Width="1000" ItemContainerStyle="{DynamicResource PaitientAreaListboxItemStyle}"/>
+        <ListBox SelectionChanged="ListViewMachineType_OnSelectionChanged" Loaded="ListViewMachineType_OnLoaded" FontSize="14" Name="ListViewMachineType" HorizontalAlignment="Left" Grid.Row="3" Width="1000" ItemContainerStyle="{DynamicResource MachineTypeListboxItemStyle}"/>
     </Grid>
 </UserControl>

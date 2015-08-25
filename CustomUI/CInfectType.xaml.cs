@@ -25,13 +25,16 @@ namespace WpfApplication1.CustomUI
     {
         public ObservableCollection<InfectTypeData> Datalist = new ObservableCollection<InfectTypeData>();
 
+        private bool isNew = false;
+        private int currnetIndex = -1;
+
         public CInfectType()
         {
             InitializeComponent();
-            this.ListView1.ItemsSource = Datalist;
+            this.ListViewInfectType.ItemsSource = Datalist;
         }
 
-        private void ListViewCInfectType_OnLoaded(object sender, RoutedEventArgs e)
+        private void ListViewInfectType_OnLoaded(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
             try
@@ -60,13 +63,21 @@ namespace WpfApplication1.CustomUI
             }
         }
 
-        private void ListViewCInfectType_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ListViewInfectType_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //throw new NotImplementedException();
-            if (ListView1.SelectedIndex >= 0)
+            if (ListViewInfectType.SelectedIndex >= 0)
             {
-                NameTextBox.Text = Datalist[ListView1.SelectedIndex].Name;
-                DescriptionTextBox.Text = Datalist[ListView1.SelectedIndex].Description;
+                currnetIndex = ListViewInfectType.SelectedIndex;
+                this.ButtonNew.IsEnabled = true;
+                this.ButtonDelete.IsEnabled = true;
+                this.ButtonApply.IsEnabled = false;
+                this.ButtonCancel.IsEnabled = false;
+
+                isNew = false;
+
+                NameTextBox.Text = Datalist[ListViewInfectType.SelectedIndex].Name;
+                DescriptionTextBox.Text = Datalist[ListViewInfectType.SelectedIndex].Description;
             }
         }
 
@@ -85,66 +96,6 @@ namespace WpfApplication1.CustomUI
                 }
                 return true;
 
-            }
-        }
-
-        private void AddButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            //throw new NotImplementedException();
-            try
-            {
-                if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
-                {
-                    var a = new RemindMessageBox1();
-                    a.remindText.Text = (string)FindResource("Message1001"); ;
-                    a.ShowDialog();
-                    return;
-                }
-                using (var infectTypeDao = new InfectTypeDao())
-                {
-                    var infectType = new InfectType();
-                    infectType.Name = this.NameTextBox.Text;
-                    infectType.Description = this.DescriptionTextBox.Text;
-                    int lastInsertId = -1;
-                    infectTypeDao.InsertInfectType(infectType, ref lastInsertId);
-                    //UI
-                    var infectTypeData = new InfectTypeData();
-                    infectTypeData.Id = infectType.Id;
-                    infectTypeData.Name = infectType.Name;
-                    infectTypeData.Description = infectType.Description;
-                    Datalist.Add(infectTypeData);
-                }
-            }
-            catch (Exception ex)
-            {
-                MainWindow.Log.WriteInfoConsole("In CInfectType.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
-            }
-            
-        }
-
-        private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (ListView1.SelectedIndex == -1) return;
-
-            if (this.NameTextBox.Text.Equals("") )
-            {
-                var a = new RemindMessageBox1();
-                a.remindText.Text = (string)FindResource("Message1001"); ;
-                a.ShowDialog();
-                return;
-            }
-
-            //throw new NotImplementedException();
-            using (var infectTypeDao = new InfectTypeDao())
-            {
-                var condition = new Dictionary<string, object>();
-                condition["ID"] = Datalist[ListView1.SelectedIndex].Id;
-
-                var fileds = new Dictionary<string, object>();
-                fileds["NAME"] = NameTextBox.Text;
-                fileds["DESCRIPTION"] = DescriptionTextBox.Text;
-                infectTypeDao.UpdateInfectType(fileds, condition);
-                RefreshData();
             }
         }
 
@@ -174,15 +125,128 @@ namespace WpfApplication1.CustomUI
             }
         }
 
-        private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
+        private void ButtonNew_OnClick(object sender, RoutedEventArgs e)
         {
-            if (ListView1.SelectedIndex == -1) return;
+            isNew = true;
+            NameTextBox.Text = "";
+            DescriptionTextBox.Text = "";
+
+            this.ButtonNew.IsEnabled = false;
+            this.ButtonDelete.IsEnabled = false;
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+
+        }
+
+        private void ButtonDelete_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (ListViewInfectType.SelectedIndex == -1) return;
             //throw new NotImplementedException();
             using (var infectTypeDao = new InfectTypeDao())
             {
-                infectTypeDao.DeleteInfectType(Datalist[ListView1.SelectedIndex].Id);
+                infectTypeDao.DeleteInfectType(Datalist[ListViewInfectType.SelectedIndex].Id);
                 RefreshData();
             }
+
+            this.ButtonDelete.IsEnabled = false;
+            this.ButtonApply.IsEnabled = false;
+            this.ButtonCancel.IsEnabled = false;
+            isNew = false;
+        }
+
+        private void ButtonApply_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (isNew)
+            {
+                //throw new NotImplementedException();
+                try
+                {
+                    if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
+                    {
+                        var a = new RemindMessageBox1();
+                        a.remindText.Text = (string)FindResource("Message1001"); ;
+                        a.ShowDialog();
+                        return;
+                    }
+                    using (var infectTypeDao = new InfectTypeDao())
+                    {
+                        var infectType = new InfectType();
+                        infectType.Name = this.NameTextBox.Text;
+                        infectType.Description = this.DescriptionTextBox.Text;
+                        int lastInsertId = -1;
+                        infectTypeDao.InsertInfectType(infectType, ref lastInsertId);
+                        //UI
+                        var infectTypeData = new InfectTypeData();
+                        infectTypeData.Id = infectType.Id;
+                        infectTypeData.Name = infectType.Name;
+                        infectTypeData.Description = infectType.Description;
+                        Datalist.Add(infectTypeData);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MainWindow.Log.WriteInfoConsole("In CInfectType.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
+                }
+            }
+            else
+            {
+                if (ListViewInfectType.SelectedIndex == -1) return;
+
+                if (this.NameTextBox.Text.Equals(""))
+                {
+                    var a = new RemindMessageBox1();
+                    a.remindText.Text = (string)FindResource("Message1001"); ;
+                    a.ShowDialog();
+                    return;
+                }
+
+                //throw new NotImplementedException();
+                using (var infectTypeDao = new InfectTypeDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["ID"] = Datalist[ListViewInfectType.SelectedIndex].Id;
+
+                    var fileds = new Dictionary<string, object>();
+                    fileds["NAME"] = NameTextBox.Text;
+                    fileds["DESCRIPTION"] = DescriptionTextBox.Text;
+                    infectTypeDao.UpdateInfectType(fileds, condition);
+                    int temp = this.ListViewInfectType.SelectedIndex;
+                    RefreshData();
+                    this.ListViewInfectType.SelectedIndex = temp;
+                }
+                isNew = false;
+            }
+            this.ButtonApply.IsEnabled = false;
+
+        }
+
+        private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (isNew)
+            {
+                NameTextBox.Text = "";
+                DescriptionTextBox.Text = "";
+
+                this.ButtonNew.IsEnabled = true;
+                this.ButtonDelete.IsEnabled = false;
+                this.ButtonApply.IsEnabled = false;
+                this.ButtonCancel.IsEnabled = false;
+                this.ListViewInfectType.SelectedIndex = -1;
+                this.ListViewInfectType.SelectedIndex = currnetIndex;
+            }
+            else
+            {
+                this.ListViewInfectType.SelectedIndex = -1;
+                this.ListViewInfectType.SelectedIndex = currnetIndex;
+            }
+
+        }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+
         }
     }
 
