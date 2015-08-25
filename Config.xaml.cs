@@ -61,6 +61,7 @@ namespace WpfApplication1
             ConfigMenuCollection.Add("感染类型");
             ConfigMenuCollection.Add("机器类型");
             ConfigMenuCollection.Add("治疗方法");
+            ConfigMenuCollection.Add("治疗状态");
             ConfigMenuCollection.Add("数据库设置");
             ConfigMenuCollection.Add("患者组");
         }
@@ -139,20 +140,21 @@ namespace WpfApplication1
                     this.RightContent.Content = cInfectType;
                     break;
                 case 3:
-                    this.RightContent.Content = cMedicalOrderPara;
-                    break;
-                case 4:
                     this.RightContent.Content = cTreatType;
                     break;
-                case 5:
+                case 4:
                     this.RightContent.Content = cTreatMethod;
+                    break;
+                case 5:
+                    this.RightContent.Content = cTreatStatus;
                     break;
                 case 6:
                     this.RightContent.Content = cTreatStatus;
                     break;
                 case 7:
-                    this.RightContent.Content = cDateBaseSetting;
+                    this.RightContent.Content = cTreatStatus;
                     break;
+
             }
         }
 

@@ -171,8 +171,8 @@ namespace WpfApplication1.CustomUI
                 currnetIndex = ListViewPatientArea.SelectedIndex;
                 this.ButtonNew.IsEnabled = true;
                 this.ButtonDelete.IsEnabled = true;
-                this.ButtonApply.IsEnabled = true;
-                this.ButtonCancel.IsEnabled = true;
+                this.ButtonApply.IsEnabled = false;
+                this.ButtonCancel.IsEnabled = false;
 
                 isNew = false;
 
@@ -192,8 +192,8 @@ namespace WpfApplication1.CustomUI
                     this.InfectionComboBox.IsEnabled = true;
                     this.RadioButton2.IsChecked = true;
                 }
-                this.ButtonApply.IsEnabled = true;
-                this.ButtonCancel.IsEnabled = true;
+                //this.ButtonApply.IsEnabled = true;
+                //this.ButtonCancel.IsEnabled = true;
             }
         }
 
@@ -416,6 +416,8 @@ namespace WpfApplication1.CustomUI
                 this.ButtonDelete.IsEnabled = false;
                 this.ButtonApply.IsEnabled = false;
                 this.ButtonCancel.IsEnabled = false;
+                this.ListViewPatientArea.SelectedIndex = -1;
+                this.ListViewPatientArea.SelectedIndex = currnetIndex;
             }
             else
             {
@@ -428,9 +430,12 @@ namespace WpfApplication1.CustomUI
         
         private void RadioButton2_OnChecked(object sender, RoutedEventArgs e)
         {
-
             if ((bool) RadioButton2.IsChecked)
+            {
                 this.InfectionComboBox.IsEnabled = true;
+                this.InfectionComboBox.SelectedIndex = 0;
+            }
+            
         }
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)

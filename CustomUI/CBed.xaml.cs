@@ -25,10 +25,13 @@ namespace WpfApplication1.CustomUI
     {
         public ObservableCollection<BedData> Datalist = new ObservableCollection<BedData>();
 
+        private bool isNew = false;
+        private int currnetIndex = -1;
+
         public CBed()
         {
             InitializeComponent();
-            this.ListView1.ItemsSource = Datalist;
+            this.ListViewBed.ItemsSource = Datalist;
         }
 
         private void ListViewCBed_OnLoaded(object sender, RoutedEventArgs e)
@@ -60,6 +63,21 @@ namespace WpfApplication1.CustomUI
                             }
 
                         }
+
+                        {
+                            using (var machineTypeDao = new MachineTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.PatientAreaId;
+                                var arealist = machineTypeDao.SelectMachineType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    bedData.MachineType = arealist[0].Name;
+                                }
+                            }
+
+                        }
+
                         {
                             using (var treatMethodDao = new TreatTypeDao())
                             {
@@ -84,6 +102,7 @@ namespace WpfApplication1.CustomUI
                         }
                         bedData.IsAvailable = pa.IsAvailable;
                         bedData.IsOccupy = pa.IsOccupy;
+                        bedData.IsTemp = pa.IsTemp;
                         bedData.Description = pa.Description;
                         Datalist.Add(bedData);
                     }
@@ -99,14 +118,28 @@ namespace WpfApplication1.CustomUI
         private void ListViewCBed_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //throw new NotImplementedException();
-            if (ListView1.SelectedIndex >= 0)
+            if (ListViewBed.SelectedIndex >= 0)
             {
-                NameTextBox.Text = Datalist[ListView1.SelectedIndex].Name;
-                ComboBoxPatientArea.Text = Datalist[ListView1.SelectedIndex].PatientArea;
-                ComboBoxType.Text = Datalist[ListView1.SelectedIndex].TreatType;
-                CheckBoxIsAvailable.IsChecked = Datalist[ListView1.SelectedIndex].IsAvailable;
-                CheckBoxIsOccupy.IsChecked = Datalist[ListView1.SelectedIndex].IsOccupy;
-                DescriptionTextBox.Text = Datalist[ListView1.SelectedIndex].Description;
+                currnetIndex = ListViewBed.SelectedIndex;
+                this.ButtonNew.IsEnabled = true;
+                this.ButtonDelete.IsEnabled = true;
+                this.ButtonApply.IsEnabled = false;
+                this.ButtonCancel.IsEnabled = false;
+
+                isNew = false;
+
+                NameTextBox.Text = Datalist[ListViewBed.SelectedIndex].Name;
+                ComboBoxPatientArea.Text = Datalist[ListViewBed.SelectedIndex].PatientArea;
+                MachineTypeComboBox.Text = Datalist[ListViewBed.SelectedIndex].MachineType;
+                if(Datalist[ListViewBed.SelectedIndex].IsAvailable)
+                    IsAvilComboBox.Text = "可用";
+                else
+                    IsAvilComboBox.Text = "不可用";
+                if (Datalist[ListViewBed.SelectedIndex].IsTemp)
+                    IsTempComboBox.Text = "是";
+                else
+                    IsTempComboBox.Text = "否";
+                DescriptionTextBox.Text = Datalist[ListViewBed.SelectedIndex].Description;
             }
         }
 
@@ -125,170 +158,6 @@ namespace WpfApplication1.CustomUI
                 }
                 return true;
 
-            }
-        }
-
-        private void AddButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            //throw new NotImplementedException();
-            try
-            {
-                if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
-                {
-                    var a = new RemindMessageBox1();
-                    a.remindText.Text = (string)FindResource("Message1001"); ;
-                    a.ShowDialog();
-                    return;
-                }
-
-                using (var bedDao = new BedDao())
-                {
-                    var bed = new DAOModule.Bed();
-                    bed.Name = this.NameTextBox.Text;
-
-                    var condition = new Dictionary<string, object>();
-                    /*using (var patientRoomDao = new PatientRoomDao())
-                    {
-                        condition.Clear();
-                        condition["Name"] = ComboBoxPatientArea.Text;
-                        var arealist = patientRoomDao.SelectPatientRoom(condition);
-                        if (arealist.Count == 1)
-                        {
-                            bed.PatientRoomId = arealist[0].Id;
-                        }
-                    }*/
-                    using (var treatMethodDao = new TreatTypeDao())
-                    {
-                        condition.Clear();
-                        condition["Name"] = ComboBoxType.Text;
-                        var arealist = treatMethodDao.SelectTreatType(condition);
-                        if (arealist.Count == 1)
-                        {
-                            bed.TreatTypeId = arealist[0].Id;
-                        }
-                    }
-                    using (var patientAreaDao = new PatientAreaDao())
-                    {
-                        condition.Clear();
-                        condition["Name"] = ComboBoxPatientArea.Text;
-                        var arealist = patientAreaDao.SelectPatientArea(condition);
-                        if (arealist.Count == 1)
-                        {
-                            bed.PatientAreaId = arealist[0].Id;
-                        }
-                    }
-                    /*using (var infectTypeDao = new InfectTypeDao())
-                    {
-                        condition.Clear();
-                        condition["Name"] = ComboBoxInfectType.Text;
-                        var arealist = infectTypeDao.SelectInfectType(condition);
-                        if (arealist.Count == 1)
-                        {
-                            bed.InfectTypeId = arealist[0].Id;
-                        }
-                    }*/
-
-                    var isChecked = this.CheckBoxIsAvailable.IsChecked;
-                    if (isChecked != null)
-                        bed.IsAvailable = (bool)isChecked;
-                    isChecked = this.CheckBoxIsOccupy.IsChecked;
-                    if (isChecked != null)
-                        bed.IsOccupy = (bool)isChecked;
-                    bed.Description = this.DescriptionTextBox.Text;
-                    int lastInsertId = -1;
-                    bedDao.InsertBed(bed, ref lastInsertId);
-                    //UI
-                    BedData bedData = new BedData();
-                    bedData.Id = lastInsertId;
-                    bedData.Name = bed.Name;
-                    bedData.PatientArea = ComboBoxPatientArea.Text;
-                    bedData.TreatType = ComboBoxType.Text;
-                    bedData.InfectType = ComboBoxPatientArea.Text;
-                    bedData.IsAvailable = bed.IsAvailable;
-                    bedData.IsOccupy = bed.IsOccupy;
-                    bedData.Description = bed.Description;
-                    Datalist.Add(bedData);
-                }
-            }
-            catch (Exception ex)
-            {
-                MainWindow.Log.WriteInfoConsole("In CBed.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
-            }
-        }
-
-        private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (ListView1.SelectedIndex == -1) return;
-
-            if (this.NameTextBox.Text.Equals("") )
-            {
-                var a = new RemindMessageBox1();
-                a.remindText.Text = (string)FindResource("Message1001"); ;
-                a.ShowDialog();
-                return;
-            }
-            //throw new NotImplementedException();
-            using (var bedDao = new BedDao())
-            {
-                var condition = new Dictionary<string, object>();
-                condition["ID"] = Datalist[ListView1.SelectedIndex].Id;
-
-                var fileds = new Dictionary<string, object>();
-                fileds["NAME"] = NameTextBox.Text;
-
-                var condition2 = new Dictionary<string, object>();
-                /*using (var patientRoomDao = new PatientRoomDao())
-                {
-                    condition2.Clear();
-                    condition2["Name"] = ComboBoxPatientArea.Text;
-                    var arealist = patientRoomDao.SelectPatientRoom(condition2);
-                    if (arealist.Count == 1)
-                    {
-                        fileds["PATIENTROOMID"] = arealist[0].Id;
-                    }
-                }*/
-                using (var treatMethodDao = new TreatTypeDao())
-                {
-                    condition2.Clear();
-                    condition2["Name"] = ComboBoxType.Text;
-                    var arealist = treatMethodDao.SelectTreatType(condition2);
-                    if (arealist.Count == 1)
-                    {
-                        fileds["TREATTYPEID"] = arealist[0].Id;
-                    }
-                }
-                using (var patientAreaDao = new PatientAreaDao())
-                {
-                    condition2.Clear();
-                    condition2["Name"] = ComboBoxPatientArea.Text;
-                    var arealist = patientAreaDao.SelectPatientArea(condition2);
-                    if (arealist.Count == 1)
-                    {
-                        fileds["PATIENTAREAID"] = arealist[0].Id;
-                    }
-                }
-                /*using (var infectTypeDao = new InfectTypeDao())
-                {
-                    condition2.Clear();
-                    condition2["Name"] = ComboBoxInfectType.Text;
-                    var arealist = infectTypeDao.SelectInfectType(condition2);
-                    if (arealist.Count == 1)
-                    {
-                        fileds["INFECTTYPEID"] = arealist[0].Id;
-                    }
-                }*/
-                fileds["ISAVAILABLE"] = CheckBoxIsAvailable.IsChecked;
-                fileds["ISOCCUPY"] = CheckBoxIsOccupy.IsChecked;
-                fileds["DESCRIPTION"] = DescriptionTextBox.Text;
-                bedDao.UpdateBed(fileds, condition);
-                if (CheckBoxIsAvailable.IsChecked == false)
-                {
-                    using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
-                    {
-                        scheduleDao.UpdateScheduleTemplate1("-1", Datalist[ListView1.SelectedIndex].Id.ToString(), DateTime.Now.Date);
-                    }
-                }
-                RefreshData();
             }
         }
 
@@ -366,42 +235,26 @@ namespace WpfApplication1.CustomUI
             }
         }
 
-        private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (ListView1.SelectedIndex == -1) return;
-            //throw new NotImplementedException();
-            using (var bedDao = new BedDao())
-            {
-                bedDao.DeleteBed(Datalist[ListView1.SelectedIndex].Id);
-
-                using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
-                {
-                    scheduleDao.UpdateScheduleTemplate1("-1", Datalist[ListView1.SelectedIndex].Id.ToString(), DateTime.Now.Date);
-                }
-                RefreshData();
-            }
-        }
-
         private void CBed_OnLoaded(object sender, RoutedEventArgs e)
         {
             //throw new NotImplementedException();
 
 
             #region fill infecttype combox items
-            this.ComboBoxType.Items.Clear();
+            this.MachineTypeComboBox.Items.Clear();
             try
             {
-                using (var treatMethodDao = new TreatTypeDao())
+                using (var machineTypeDao = new MachineTypeDao())
                 {
                     var condition = new Dictionary<string, object>();
-                    var list = treatMethodDao.SelectTreatType(condition);
+                    var list = machineTypeDao.SelectMachineType(condition);
                     foreach (var pa in list)
                     {
                         //if(pa.IsAvailable == true )
-                        this.ComboBoxType.Items.Add(pa.Name);
+                        this.MachineTypeComboBox.Items.Add(pa.Name);
                     }
                     if (list.Count > 0)
-                        this.ComboBoxType.SelectedIndex = 0;
+                        this.MachineTypeComboBox.SelectedIndex = 0;
                 }
             }
             catch (Exception ex)
@@ -454,6 +307,231 @@ namespace WpfApplication1.CustomUI
             }*/
             #endregion
         }
+
+        private void ButtonNew_OnClick(object sender, RoutedEventArgs e)
+        {
+            isNew = true;
+            NameTextBox.Text = "";
+            ComboBoxPatientArea.Text = "";
+            DescriptionTextBox.Text = "";
+            MachineTypeComboBox.Text = "";
+            IsAvilComboBox.Text = "";
+            IsTempComboBox.Text = "";
+
+            this.ButtonNew.IsEnabled = false;
+            this.ButtonDelete.IsEnabled = false;
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+
+        }
+
+        private void ButtonApply_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (isNew)
+            {
+                try
+                {
+                    if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
+                    {
+                        var a = new RemindMessageBox1();
+                        a.remindText.Text = (string)FindResource("Message1001"); ;
+                        a.ShowDialog();
+                        return;
+                    }
+
+                    using (var bedDao = new BedDao())
+                    {
+                        var bed = new DAOModule.Bed();
+                        bed.Name = this.NameTextBox.Text;
+
+                        var condition = new Dictionary<string, object>();
+                        using (var machianTypeDao = new MachineTypeDao())
+                        {
+                            condition.Clear();
+                            condition["Name"] = MachineTypeComboBox.Text;
+                            var arealist = machianTypeDao.SelectMachineType(condition);
+                            if (arealist.Count == 1)
+                            {
+                                bed.MachineTypeId = arealist[0].Id;
+                            }
+                        }
+                        using (var patientAreaDao = new PatientAreaDao())
+                        {
+                            condition.Clear();
+                            condition["Name"] = ComboBoxPatientArea.Text;
+                            var arealist = patientAreaDao.SelectPatientArea(condition);
+                            if (arealist.Count == 1)
+                            {
+                                bed.PatientAreaId = arealist[0].Id;
+                            }
+                        }
+
+                        if (IsAvilComboBox.Text.Equals("可用"))
+                            bed.IsAvailable = true;
+                        else if (IsAvilComboBox.Text.Equals("不可用"))
+                            bed.IsAvailable = false;
+
+                        if (IsTempComboBox.Text.Equals("是"))
+                            bed.IsTemp = true;
+                        else if (IsTempComboBox.Text.Equals("否"))
+                            bed.IsTemp = false;
+
+                        bed.IsOccupy = false;
+                        bed.Description = this.DescriptionTextBox.Text;
+                        int lastInsertId = -1;
+                        bedDao.InsertBed(bed, ref lastInsertId);
+                        //UI
+                        BedData bedData = new BedData();
+                        bedData.Id = lastInsertId;
+                        bedData.Name = bed.Name;
+                        bedData.PatientArea = ComboBoxPatientArea.Text;
+                        bedData.TreatType = "";
+                        bedData.IsTemp = bed.IsTemp;
+                        bedData.MachineType = MachineTypeComboBox.Text;
+                        bedData.InfectType = "";
+                        bedData.IsAvailable = bed.IsAvailable;
+                        bedData.IsOccupy = bed.IsOccupy;
+                        bedData.Description = bed.Description;
+                        Datalist.Add(bedData);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MainWindow.Log.WriteInfoConsole("In CBed.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
+                }
+                this.ButtonNew.IsEnabled = true;
+                this.ButtonDelete.IsEnabled = true;
+                this.ButtonApply.IsEnabled = true;
+                this.ButtonCancel.IsEnabled = true;
+            }
+            else
+            {
+                if (ListViewBed.SelectedIndex == -1) return;
+
+                if (this.NameTextBox.Text.Equals(""))
+                {
+                    var a = new RemindMessageBox1();
+                    a.remindText.Text = (string)FindResource("Message1001"); ;
+                    a.ShowDialog();
+                    return;
+                }
+                //throw new NotImplementedException();
+                using (var bedDao = new BedDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["ID"] = Datalist[ListViewBed.SelectedIndex].Id;
+
+                    var fileds = new Dictionary<string, object>();
+                    fileds["NAME"] = NameTextBox.Text;
+
+                    var condition2 = new Dictionary<string, object>();
+                    
+                    using (var machianTypeDao = new MachineTypeDao())
+                    {
+                        condition.Clear();
+                        condition["Name"] = MachineTypeComboBox.Text;
+                        var arealist = machianTypeDao.SelectMachineType(condition);
+                        if (arealist.Count == 1)
+                        {
+                            fileds["MachineTypeId"] = arealist[0].Id;
+                        }
+                    }
+
+                    using (var patientAreaDao = new PatientAreaDao())
+                    {
+                        condition2.Clear();
+                        condition2["Name"] = ComboBoxPatientArea.Text;
+                        var arealist = patientAreaDao.SelectPatientArea(condition2);
+                        if (arealist.Count == 1)
+                        {
+                            fileds["PATIENTAREAID"] = arealist[0].Id;
+                        }
+                    }
+                    if (IsAvilComboBox.Text.Equals("可用"))
+                        fileds["ISAVAILABLE"] = true;
+                    else if (IsAvilComboBox.Text.Equals("不可用"))
+                        fileds["ISAVAILABLE"] = false;
+
+                    if (IsTempComboBox.Text.Equals("是"))
+                        fileds["ISTEMP"] = true;
+                    else if (IsTempComboBox.Text.Equals("否"))
+                        fileds["ISTEMP"] = false;
+
+                    //fileds["ISOCCUPY"] = CheckBoxIsOccupy.IsChecked;
+                    fileds["DESCRIPTION"] = DescriptionTextBox.Text;
+                    bedDao.UpdateBed(fileds, condition);
+                    if (IsAvilComboBox.Text.Equals("不可用"))
+                    {
+                        using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                        {
+                            scheduleDao.UpdateScheduleTemplate1("-1", Datalist[ListViewBed.SelectedIndex].Id.ToString(), DateTime.Now.Date);
+                        }
+                    }
+                    RefreshData();
+                }
+                isNew = false;
+            }
+            this.ButtonApply.IsEnabled = false;
+        }
+
+        private void ButtonDelete_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (ListViewBed.SelectedIndex == -1) return;
+            //throw new NotImplementedException();
+            using (var bedDao = new BedDao())
+            {
+                bedDao.DeleteBed(Datalist[ListViewBed.SelectedIndex].Id);
+
+                using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                {
+                    scheduleDao.UpdateScheduleTemplate1("-1", Datalist[ListViewBed.SelectedIndex].Id.ToString(), DateTime.Now.Date);
+                }
+                RefreshData();
+            }
+
+            this.ButtonDelete.IsEnabled = false;
+            this.ButtonApply.IsEnabled = false;
+            this.ButtonCancel.IsEnabled = false;
+            isNew = false;
+        }
+
+        private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (isNew)
+            {
+                NameTextBox.Text = "";
+                ComboBoxPatientArea.Text = "";
+                DescriptionTextBox.Text = "";
+                MachineTypeComboBox.Text = "";
+                IsAvilComboBox.Text = "";
+                IsTempComboBox.Text = "";
+
+                this.ButtonNew.IsEnabled = true;
+                this.ButtonDelete.IsEnabled = false;
+                this.ButtonApply.IsEnabled = false;
+                this.ButtonCancel.IsEnabled = false;
+                this.ListViewBed.SelectedIndex = -1;
+                this.ListViewBed.SelectedIndex = currnetIndex;
+            }
+            else
+            {
+                this.ListViewBed.SelectedIndex = -1;
+                this.ListViewBed.SelectedIndex = currnetIndex;
+            }
+
+        }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            
+
+        }
+
+        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
+
+        }
     }
 
     public class BedData : INotifyPropertyChanged
@@ -463,8 +541,10 @@ namespace WpfApplication1.CustomUI
         private string _treatType;
         private bool _isAvailable;
         private bool _isOccupy;
+        private bool _isTemp;
         private string _description;
         private string _patientArea;
+        private string _machineType;
         private string _infecttype;
 
         public BedData()
@@ -551,6 +631,16 @@ namespace WpfApplication1.CustomUI
             }
         }
 
+        public string MachineType
+        {
+            get { return _machineType; }
+            set
+            {
+                _machineType = value;
+                OnPropertyChanged("MachineType");
+            }
+        }
+
         public string InfectType
         {
             get { return _infecttype; }
@@ -558,6 +648,16 @@ namespace WpfApplication1.CustomUI
             {
                 _infecttype = value;
                 OnPropertyChanged("InfectType");
+            }
+        }
+
+        public bool IsTemp
+        {
+            get { return _isTemp; }
+            set
+            {
+                _isTemp = value;
+                OnPropertyChanged("IsTemp");
             }
         }
 

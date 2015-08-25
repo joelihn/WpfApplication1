@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="500" Loaded="CBed_OnLoaded">
+             d:DesignHeight="1024" d:DesignWidth="1000" Loaded="CBed_OnLoaded">
     <UserControl.Resources>
         <DataTemplate x:Key="Id">
             <TextBlock Text="{Binding Id}" />
@@ -31,46 +31,80 @@
             <TextBlock Text="{Binding Description}" />
         </DataTemplate>
     </UserControl.Resources>
-    <Grid  Style="{StaticResource GridBackGround1}">
-        <StackPanel Margin="0,0">
-            <TextBlock Name="TitleTextBlock" Margin="0" HorizontalAlignment="Center" Style="{StaticResource TextBlockStyle1}" Text="床位信息" />
-            <ListView x:Name="ListView1" ItemsSource="{Binding}" Height="400" Margin="0,0,0,0" Style="{StaticResource ListViewStyle}"
-            	VerticalAlignment="Top" FontSize="16" Loaded="ListViewCBed_OnLoaded"  SelectionChanged="ListViewCBed_OnSelectionChanged">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Width="80" CellTemplate="{StaticResource Id}" Header="编号" />
-                        <GridViewColumn Width="80" CellTemplate="{StaticResource Name}" Header="名称" />
-                        <GridViewColumn Width="80" CellTemplate="{StaticResource TreatMethod}" Header="治疗类型" />
-                        <GridViewColumn Width="80" CellTemplate="{StaticResource PatientArea}" Header="病区" />
-                        <GridViewColumn Width="50" CellTemplate="{StaticResource IsAvailable}" Header="可用" />
-                        <GridViewColumn Width="50" CellTemplate="{StaticResource IsOccupy}" Header="占用" />
-                        <GridViewColumn Width="140" CellTemplate="{StaticResource Description}" Header="描述" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
-            <Grid>
-                <TextBlock Width="73" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="名称" />
-                <TextBlock Width="73" Margin="80,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="治疗类型" />
-                <TextBlock Width="73" Margin="160,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="病区" />
-                <TextBlock Width="73" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="是否可用" />
-                <TextBlock Width="73" Margin="320,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="是否占用" />
-                <TextBlock Width="73" Margin="400,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBlock1}" Text="描述" />
-            </Grid>
-            <Grid Margin="0,0,0,10">
-                <TextBox Name="NameTextBox" Width="80" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
-                <ComboBox Name="ComboBoxType" FontSize="16"  Height="27"  Width="75" Margin="80,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
-                <ComboBox Name="ComboBoxPatientArea" FontSize="16"  Height="27"  Width="75" Margin="160,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  />
-                <CheckBox Name="CheckBoxIsAvailable" Width="80" IsChecked="True" Margin="240,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CheckBoxStyle1}" />
-                <CheckBox Name="CheckBoxIsOccupy" Width="80" Margin="320,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Style="{StaticResource CheckBoxStyle1}" />
-                <TextBox Name="DescriptionTextBox" Width="80" Margin="400,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource RightTextBox1}" />
-            </Grid>
-            <Grid>
-                <Button Name="AddButton" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddButton_OnClick"  Content="{DynamicResource  AddText}" Style="{StaticResource RightButton1}" />
-                <Button Name="UpdateButton" Margin="140,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="UpdateButton_OnClick"  Content="{DynamicResource  UpadateText}" Style="{StaticResource RightButton1}" />
-                <Button Name="DeleteButton" Margin="280,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="DeleteButton_OnClick"  Content="{DynamicResource  DelectText}" Style="{StaticResource RightButton1}" />
-            </Grid>
-        </StackPanel>
+    <Grid Style="{StaticResource GridBackGround1}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         <TextBlock Margin="212,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Red" Style="{StaticResource RightTextBlock1}" Text="{DynamicResource SettingnosaveText}" Visibility="Hidden" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Button Name="ButtonNew" Content="新建" Style="{DynamicResource FunctionButtonStyle}" Margin="0,0,3,0" Click="ButtonNew_OnClick"/>
+            <Button IsEnabled="False" Name="ButtonDelete" Content="删除" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="1" Click="ButtonDelete_OnClick"  />
+            <Button IsEnabled="False" Name="ButtonApply" Content="应用" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="3" Margin="0,0,3,0" Click="ButtonApply_OnClick" />
+            <Button IsEnabled="False" Name="ButtonCancel" Content="取消" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="4" Click="ButtonCancel_OnClick" />
+            <Label  Content="床位设置"  Style="{DynamicResource FunctionLabelStyle}" Grid.Column="2" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
 
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <Label Content="所属病区" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <Label Content="床位号" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <Label Content="机器类型" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <Label Content="是否可用" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <Label Content="是否临时床" Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <Label Content="描述" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+
+            <ComboBox SelectionChanged="OnSelectionChanged" Name="ComboBoxPatientArea" Height="40" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="0" VerticalAlignment="Top" Width="291"/>
+            <TextBox TextChanged="OnTextChanged" Name="NameTextBox" FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="1" TextWrapping="Wrap" Text="" Margin="0,0"/>
+            <ComboBox SelectionChanged="OnSelectionChanged" Name="MachineTypeComboBox" Height="40" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="291"/>
+            <ComboBox SelectionChanged="OnSelectionChanged" Name="IsAvilComboBox" Height="40" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="3" VerticalAlignment="Top" Width="291">
+                <ComboBoxItem Content="可用" HorizontalAlignment="Left" Width="289"/>
+                <ComboBoxItem Content="不可用" HorizontalAlignment="Left" Width="289"/>
+            </ComboBox>
+            <ComboBox SelectionChanged="OnSelectionChanged" Name="IsTempComboBox" Height="40" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="4" VerticalAlignment="Top" Width="291">
+                <ComboBoxItem Content="是" HorizontalAlignment="Left" Width="289"/>
+                <ComboBoxItem Content="否" HorizontalAlignment="Left" Width="289"/>
+            </ComboBox>
+            <TextBox  TextChanged="OnTextChanged"  Name="DescriptionTextBox"   FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="5" TextWrapping="Wrap" Text="" Margin="0,0"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="所属病区" Grid.Column="0"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
+            <Label Content="床位号" Grid.Column="1"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
+            <Label Content="机器类型" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
+            <Label Content="是否可用" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
+            <Label Content="是否临时床" Grid.Column="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
+            <Label Content="描述" Grid.Column="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3"/>
+
+        </Grid>
+        <ListBox SelectionChanged="ListViewCBed_OnSelectionChanged" Loaded="ListViewCBed_OnLoaded" FontSize="14" Name="ListViewBed" HorizontalAlignment="Left" Grid.Row="3" Width="1000" ItemContainerStyle="{DynamicResource PaitientAreaListboxItemStyle}"/>
     </Grid>
 </UserControl>
