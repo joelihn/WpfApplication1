@@ -126,10 +126,10 @@
                 <ColumnDefinition Width="250"/>
                 <ColumnDefinition Width="250"/>
             </Grid.ColumnDefinitions>
-            <Label Content="病区名字"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
-            <Label Content="感染类型" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
-            <Label Content="所在位置" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
-            <Label Content="病区描述" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3"/>
+            <Label Content="病区名字"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="0"/>
+            <Label Content="感染类型" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="1"/>
+            <Label Content="所在位置" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="2"/>
+            <Label Content="病区描述" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" MouseDown="Label_MouseDown"/>
 
         </Grid>
         <ListBox SelectionChanged="ListViewCPatientArea_OnSelectionChanged" Loaded="ListViewCPatientArea_OnLoaded" FontSize="14" Name="ListViewPatientArea" HorizontalAlignment="Left" Grid.Row="3" Width="1000" ItemContainerStyle="{DynamicResource PaitientAreaListboxItemStyle}"/>

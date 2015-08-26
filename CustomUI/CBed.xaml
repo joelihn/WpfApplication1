@@ -150,11 +150,11 @@
                 <ColumnDefinition Width="150"/>
                 <ColumnDefinition Width="250"/>
             </Grid.ColumnDefinitions>
-            <Label Content="所属病区" Grid.Column="0"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
-            <Label Content="床位号" Grid.Column="1"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
-            <Label Content="机器类型" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
-            <Label Content="是否可用" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
-            <Label Content="是否临时床" Grid.Column="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
+            <Label Content="所属病区" Grid.Column="0"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="0"/>
+            <Label Content="床位号" Grid.Column="1"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="1"/>
+            <Label Content="机器类型" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="2"/>
+            <Label Content="是否可用" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="3"/>
+            <Label Content="是否临时床" Grid.Column="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="4"/>
             <Label Content="描述" Grid.Column="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3"/>
 
         </Grid>

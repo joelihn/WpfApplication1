@@ -450,6 +450,163 @@ namespace WpfApplication1.CustomUI
             this.ButtonCancel.IsEnabled = true;
 
         }
+
+        public int[] Paixiflag = new int[11] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Label lb = (Label) sender;
+            string bindingProperty = "";
+            ListSortDirection sortDirection = ListSortDirection.Ascending;
+            string strn = (string) (lb.Tag);
+            if( strn == "0")
+            {
+                if (Paixiflag[0] == 0)
+                {
+                    Paixiflag[0] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[0] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Name";
+            }
+            else if (strn == "1")
+            {
+                if (Paixiflag[1] == 0)
+                {
+                    Paixiflag[1] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[1] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "InfectionType";
+            }
+            else if (strn == "2")
+            {
+                if (Paixiflag[2] == 0)
+                {
+                    Paixiflag[2] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[2] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Position";
+            }
+            SortDescriptionCollection sdc = ListViewPatientArea.Items.SortDescriptions;
+            if (sdc.Count > 0)
+            {
+                SortDescription sd = sdc[0];
+                sortDirection = (ListSortDirection)((((int)sd.Direction) + 1) % 2);
+                //判断此列当前的排序方式:升序0,倒序1,并取反进行排序。
+                sdc.Clear();
+            }
+
+            sdc.Add(new SortDescription(bindingProperty, sortDirection));
+            var temp = new ObservableCollection<PatientAreaData>();
+            for (int i = 0; i < ListViewPatientArea.Items.Count; i++)
+            {
+                temp.Add((PatientAreaData)ListViewPatientArea.Items[i]);
+            }
+            Datalist.Clear();
+            Datalist = temp;
+            ListViewPatientArea.ItemsSource = Datalist;
+            sdc.Clear();
+        }
+
+        /*private void GridViewColumnHeader_Click(object sender, RoutedEventArgs e)
+        {
+            ListSortDirection sortDirection = ListSortDirection.Ascending;
+
+
+            if (e.OriginalSource is GridViewColumnHeader)
+            {
+                //Get clicked column
+                GridViewColumn clickedColumn = (e.OriginalSource as GridViewColumnHeader).Column; //得到单击的列
+                int columnflag = 0;
+                columnflag = ((GridView)PatientlistView.View).Columns.IndexOf(clickedColumn);
+
+
+                if (clickedColumn != null)
+                {
+                    //Get binding property of clicked column
+                    //string bindingProperty = (clickedColumn.DisplayMemberBinding as Binding).Path.Path; //得到单击列所绑定的属性
+                    string bindingProperty = "";
+                    if (clickedColumn.Header is Grid & columnflag == 0)
+                    {
+                        if (Paixiflag[0] == 0)
+                        {
+                            Paixiflag[0] = 1;
+                            sortDirection = ListSortDirection.Ascending;
+                        }
+                        else
+                        {
+                            Paixiflag[0] = 0;
+                            sortDirection = ListSortDirection.Descending;
+                        }
+                        bindingProperty = "PatientId";
+
+                    }
+                    else if (clickedColumn.Header is Grid && columnflag == 1)
+                    {
+                        if (Paixiflag[1] == 0)
+                        {
+                            Paixiflag[1] = 1;
+                            sortDirection = ListSortDirection.Ascending;
+                        }
+                        else
+                        {
+                            Paixiflag[1] = 0;
+                            sortDirection = ListSortDirection.Descending;
+                        }
+                        bindingProperty = "Name";
+
+                    }
+                    else if (clickedColumn.Header is Grid && columnflag == 2)
+                    {
+                        if (Paixiflag[2] == 0)
+                        {
+                            Paixiflag[2] = 1;
+                            sortDirection = ListSortDirection.Ascending;
+                        }
+                        else
+                        {
+                            Paixiflag[2] = 0;
+                            sortDirection = ListSortDirection.Descending;
+                        }
+                        bindingProperty = "InfectionType";
+
+                    }
+
+                    SortDescriptionCollection sdc = PatientlistView.Items.SortDescriptions;
+                    if (sdc.Count > 0)
+                    {
+                        SortDescription sd = sdc[0];
+                        sortDirection = (ListSortDirection)((((int)sd.Direction) + 1) % 2);
+                        //判断此列当前的排序方式:升序0,倒序1,并取反进行排序。
+                        sdc.Clear();
+                    }
+
+                    sdc.Add(new SortDescription(bindingProperty, sortDirection));
+                    var temp = new ObservableCollection<BedPatientData>();
+                    for (int i = 0; i < PatientlistView.Items.Count; i++)
+                    {
+                        temp.Add((BedPatientData)PatientlistView.Items[i]);
+                    }
+                    BedPatientList.Clear();
+                    BedPatientList = temp;
+                    PatientlistView.ItemsSource = BedPatientList;
+                    sdc.Clear();
+                }
+            }
+        }*/
     }
 
     public class PatientAreaData : INotifyPropertyChanged
