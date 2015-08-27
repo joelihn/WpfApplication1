@@ -248,6 +248,63 @@ namespace WpfApplication1.CustomUI
             this.ButtonCancel.IsEnabled = true;
 
         }
+
+        public int[] Paixiflag = new int[11] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Label lb = (Label)sender;
+            string bindingProperty = "";
+            ListSortDirection sortDirection = ListSortDirection.Ascending;
+            string strn = (string)(lb.Tag);
+            if (strn == "0")
+            {
+                if (Paixiflag[0] == 0)
+                {
+                    Paixiflag[0] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[0] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Name";
+            }
+            else if (strn == "1")
+            {
+                if (Paixiflag[1] == 0)
+                {
+                    Paixiflag[1] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[1] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Description";
+            }
+            
+            SortDescriptionCollection sdc = ListViewInfectType.Items.SortDescriptions;
+            if (sdc.Count > 0)
+            {
+                SortDescription sd = sdc[0];
+                sortDirection = (ListSortDirection)((((int)sd.Direction) + 1) % 2);
+                //判断此列当前的排序方式:升序0,倒序1,并取反进行排序。
+                sdc.Clear();
+            }
+
+            sdc.Add(new SortDescription(bindingProperty, sortDirection));
+            var temp = new ObservableCollection<InfectTypeData>();
+            for (int i = 0; i < ListViewInfectType.Items.Count; i++)
+            {
+                temp.Add((InfectTypeData)ListViewInfectType.Items[i]);
+            }
+            Datalist.Clear();
+            Datalist = temp;
+            ListViewInfectType.ItemsSource = Datalist;
+            sdc.Clear();
+        }
     }
 
     public class InfectTypeData : INotifyPropertyChanged
