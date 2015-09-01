@@ -19,6 +19,14 @@ namespace WpfApplication1
     /// </summary>
     public partial class SignUP : Window
     {
+        public string name;
+        public string sex;
+        public string birthday;
+        public string infectionType;
+        public string treatmentStatus;
+        public bool isFixBed;
+        public string uid;
+        public string area;
         public SignUP()
         {
             InitializeComponent();

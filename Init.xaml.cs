@@ -1564,6 +1564,34 @@ namespace WpfApplication1
             this.SexComboBox1.Items.Add("女");
             SexComboBox1.SelectedIndex = 0;
         }
+
+        private void ButtonNew_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.ButtonNew.IsEnabled = false;
+            this.ButtonDelete.IsEnabled = false;
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+
+        }
+
+        private void ButtonApply_OnClick(object sender, RoutedEventArgs e)
+        {
+            
+            this.ButtonApply.IsEnabled = false;
+        }
+
+        private void ButtonDelete_OnClick(object sender, RoutedEventArgs e)
+        {
+            //if (ListViewBed.SelectedIndex == -1) return;
+            
+        }
+
+        private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
+        {
+            
+
+        }
+
     }
 
     public class PatientInfo : INotifyPropertyChanged
