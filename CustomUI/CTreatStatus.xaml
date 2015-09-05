@@ -98,7 +98,7 @@
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <Label Content="是否启用" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Top" Height="50" Margin="0,0,0,0"/>
-            <Label Content="感染类型"  Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Top" Height="50" Margin="0,0,0,0"/>
+            <Label Content="转归类型"  Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Top" Height="50" Margin="0,0,0,0"/>
             <Label Content="描述" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Top" Height="50" Margin="0,0,0,0"/>
             
             <TextBox TextChanged="OnTextChanged" Name="NameTextBox" Grid.Row="1"  FontSize="14" Grid.Column="1" Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0" Grid.ColumnSpan="2"/>
@@ -115,7 +115,7 @@
             </Grid.ColumnDefinitions>
             <Label Content="序号"  Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="0"/>
             <Label Content="是否启用"  Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="1"/>
-            <Label Content="感染类型"  Grid.Column="2"   HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="2"/>
+            <Label Content="转归类型"  Grid.Column="2"   HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="2"/>
             <Label Content="描述" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"  MouseDown="Label_MouseDown" Tag="3"/>
         </Grid>
         <ListBox SelectionChanged="ListViewCTreatStatus_OnSelectionChanged" Loaded="ListViewCTreatStatus_OnLoaded" FontSize="14" Name="ListViewTreatType" HorizontalAlignment="Left" Grid.Row="3" Width="1000" ItemContainerStyle="{DynamicResource InfectTypeListboxItemStyle}"/>
