@@ -212,7 +212,7 @@ namespace WpfApplication1.CustomUI
             }
             catch (Exception ex)
             {
-                MainWindow.Log.WriteInfoConsole("In CTreatType.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
+                MainWindow.Log.WriteInfoConsole("In CMachineType.xaml.cs:RefreshData exception messsage: " + ex.Message);
             }
         }
 

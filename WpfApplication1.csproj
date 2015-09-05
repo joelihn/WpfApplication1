@@ -101,6 +101,9 @@
     <Compile Include="CustomUI\CMachineType.xaml.cs">
       <DependentUpon>CMachineType.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomUI\CTreatTime.xaml.cs">
+      <DependentUpon>CTreatTime.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomUI\Newshutdown.xaml.cs">
       <DependentUpon>Newshutdown.xaml</DependentUpon>
     </Compile>
@@ -136,6 +139,7 @@
     <Compile Include="DAOModule\ScheduleTypeDao.cs" />
     <Compile Include="DAOModule\TreatMethodDao.cs" />
     <Compile Include="DAOModule\TreatStatusDao.cs" />
+    <Compile Include="DAOModule\TreatTimesDao.cs" />
     <Compile Include="DAOModule\TreatTypeDao.cs" />
     <Compile Include="DataStructures\PatientSchedule.cs" />
     <Compile Include="Order.xaml.cs">
@@ -187,6 +191,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomUI\CMachineType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomUI\CTreatTime.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

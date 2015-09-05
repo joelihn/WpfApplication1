@@ -1,0 +1,141 @@
+﻿<UserControl x:Class="WpfApplication1.CustomUI.CTreatTime"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+            d:DesignHeight="1024" d:DesignWidth="1000">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="Id">
+            <TextBlock Text="{Binding Id}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Name">
+            <TextBlock  Text="{Binding Name}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Activated">
+            <TextBlock Text="{Binding Activated}" />
+        </DataTemplate>
+        <DataTemplate x:Key="BeginTime">
+            <TextBlock Text="{Binding BeginTime}" />
+        </DataTemplate>
+        <DataTemplate x:Key="EndTime">
+            <TextBlock Text="{Binding EndTime}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Description">
+            <TextBlock Text="{Binding Description}" />
+        </DataTemplate>
+        <Style x:Key="TreatTimeListboxItemStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Padding" Value="2,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="{Binding Id}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="{Binding Activated}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
+                                <Label Content="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2"/>
+                                <Label Content="{Binding BeginTime}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
+                                <Label Content="{Binding EndTime}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="4"/>
+                                <Label Content="{Binding Description}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="5"/>
+
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="true"/>
+                                    <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid Style="{StaticResource GridBackGround1}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Margin="212,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Red" Style="{StaticResource RightTextBlock1}" Text="{DynamicResource SettingnosaveText}" Visibility="Hidden" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Button IsEnabled="False" Name="ButtonApply" Content="应用" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="3" Margin="0,0,3,0" Click="ButtonApply_OnClick" />
+            <Button IsEnabled="False" Name="ButtonCancel" Content="取消" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="4" Click="ButtonCancel_OnClick" />
+            <Label  Content="治疗班次"  Style="{DynamicResource FunctionLabelStyle}" Grid.Column="0" Grid.ColumnSpan="3" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
+
+        </Grid>
+        <Grid Margin="0,40,0,10" Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <Label Content="治疗方法" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <Label Content="是否启用" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <Label Content="开始时间" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <Label Content="结束时间" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <Label Content="描述" Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
+            <TextBox IsEnabled="False" Grid.Column="1"  Name="NameTextBox" FontSize="14"  Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Margin="0,3.5"/>
+            <TextBox Grid.Row="2" Grid.Column="1" TextChanged="DescriptionTextBox_OnTextChanged"  Name="BeginTextBox" FontSize="14"  Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Margin="0,3.5"/>
+            <TextBox Grid.Row="3" Grid.Column="1" TextChanged="DescriptionTextBox_OnTextChanged"  Name="EndTextBox" FontSize="14"  Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Margin="0,3.5"/>
+            <TextBox Grid.Row="4" Grid.Column="1" TextChanged="DescriptionTextBox_OnTextChanged"  Name="DescriptionTextBox"   FontSize="14" VerticalContentAlignment="Center"  Height="50" TextWrapping="Wrap" Text="" Margin="0,0"/>
+            <RadioButton Checked="RadioButton1_OnChecked" Name="RadioButton1" Content="启动" Grid.Column="1" HorizontalAlignment="Left" Margin="34,21,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <RadioButton Checked="RadioButton1_OnChecked" Name="RadioButton2" Content="停用" Grid.Column="1" HorizontalAlignment="Left" Margin="174,21,0,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="2.239,0.5"/>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="序号"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
+            <Label Content="是否启用" Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
+            <Label Content="名称" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
+            <Label Content="开始时间" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3"/>
+            <Label Content="结束时间" Grid.Column="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3"/>
+            <Label Content="描述" Grid.Column="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3"/>
+        </Grid>
+        <ListBox SelectionChanged="ListViewTreatTime_OnSelectionChanged" Loaded="ListViewTreatTime_OnLoaded" FontSize="14" Name="ListViewTreatTime" HorizontalAlignment="Left" Grid.Row="3" Width="1000" ItemContainerStyle="{DynamicResource TreatTimeListboxItemStyle}"/>
+    </Grid>
+</UserControl>

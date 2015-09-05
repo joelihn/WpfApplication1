@@ -30,6 +30,7 @@ namespace WpfApplication1
         private CMedicalOrderPara cMedicalOrderPara;
         private CTreatType cTreatType;
         private CTreatMethod cTreatMethod;
+        private CTreatTime cTreatTime;
         private CTreatStatus cTreatStatus;
         private CDataBaseSetting cDateBaseSetting;
 
@@ -47,6 +48,7 @@ namespace WpfApplication1
             cMedicalOrderPara = new CMedicalOrderPara();
             cTreatType = new CTreatType();
             cTreatMethod = new CTreatMethod();
+            cTreatTime = new CTreatTime();
             cTreatStatus = new CTreatStatus();
             cDateBaseSetting = new CDataBaseSetting();
             this.RightContent.Content = cPatientArea;
@@ -61,6 +63,7 @@ namespace WpfApplication1
             ConfigMenuCollection.Add("感染类型");
             ConfigMenuCollection.Add("机器类型");
             ConfigMenuCollection.Add("治疗方法");
+            ConfigMenuCollection.Add("治疗班次");
             ConfigMenuCollection.Add("治疗状态");
             ConfigMenuCollection.Add("数据库设置");
             ConfigMenuCollection.Add("患者组");
@@ -146,12 +149,15 @@ namespace WpfApplication1
                     this.RightContent.Content = cTreatMethod;
                     break;
                 case 5:
-                    this.RightContent.Content = cTreatStatus;
+                    this.RightContent.Content = cTreatTime;
                     break;
                 case 6:
                     this.RightContent.Content = cTreatStatus;
                     break;
                 case 7:
+                    this.RightContent.Content = cTreatStatus;
+                    break;
+                case 8:
                     this.RightContent.Content = cTreatStatus;
                     break;
 
