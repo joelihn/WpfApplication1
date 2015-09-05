@@ -16,7 +16,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApplication1.DAOModule;
-using Label = System.Windows.Controls.Label;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace WpfApplication1.CustomUI
@@ -28,92 +27,71 @@ namespace WpfApplication1.CustomUI
     {
         public ObservableCollection<TreatMethodData> Datalist = new ObservableCollection<TreatMethodData>();
 
-        private int currnetIndex = -1;
 
         public CTreatMethod()
         {
             InitializeComponent();
-            this.ListViewTreatMethod.ItemsSource = Datalist;
+            this.ListView1.ItemsSource = Datalist;
         }
 
-        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        private void ListViewCTreatMethod_OnLoaded(object sender, RoutedEventArgs e)
         {
-
-            this.ButtonApply.IsEnabled = true;
-            this.ButtonCancel.IsEnabled = true;
+            //throw new NotImplementedException();
+            #region refresh data list
+            try
+            {
+                using (var methodDao = new TreatMethodDao())
+                {
+                    Datalist.Clear();
+                    var condition = new Dictionary<string, object>();
+                    var list = methodDao.SelectTreatMethod(condition);
+                    foreach (var pa in list)
+                    {
+                        var treatMethodData = new TreatMethodData();
+                        treatMethodData.Id = pa.Id;
+                        treatMethodData.Name = pa.Name;
+                        {
+                            using (var treatTypeDao = new TreatTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.TreatTypeId;
+                                var arealist = treatTypeDao.SelectTreatType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatMethodData.Type = arealist[0].Name;
+                                }
+                            }
+                        }
+                        string bgColor = pa.BgColor;
+                        if(bgColor != "" && bgColor != null)
+                            treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
+                        else
+                            treatMethodData.BgColor = Brushes.LightGray;
+                        treatMethodData.Description = pa.Description;
+                        treatMethodData.IsAvailable = pa.IsAvailable;
+                        Datalist.Add(treatMethodData);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:ListViewCPatientRoom_OnLoaded 3 exception messsage: " + ex.Message);
+            }
+            #endregion
         }
 
-        private void Buttonrectangle_OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void ListViewCTreatMethod_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            this.ButtonApply.IsEnabled = true;
-            this.ButtonCancel.IsEnabled = true;
+            //throw new NotImplementedException();
+            if (ListView1.SelectedIndex >= 0)
+            {
+                NameTextBox.Text = Datalist[ListView1.SelectedIndex].Name;
+                ComboBoxTreatType.Text = Datalist[ListView1.SelectedIndex].Type;
+                DescriptionTextBox.Text = Datalist[ListView1.SelectedIndex].Description;
+                CheckBoxIsAvailable.IsChecked = Datalist[ListView1.SelectedIndex].IsAvailable;
+                Buttonrectangle.Fill = Datalist[ListView1.SelectedIndex].BgColor;
+            }
         }
-
-        private void RadioButton1_OnChecked(object sender, RoutedEventArgs e)
-        {
-            this.ButtonApply.IsEnabled = true;
-            this.ButtonCancel.IsEnabled = true;
-
-        }
-
-        //private void ListViewCTreatMethod_OnLoaded(object sender, RoutedEventArgs e)
-        //{
-        //    //throw new NotImplementedException();
-        //    #region refresh data list
-        //    try
-        //    {
-        //        using (var methodDao = new TreatMethodDao())
-        //        {
-        //            Datalist.Clear();
-        //            var condition = new Dictionary<string, object>();
-        //            var list = methodDao.SelectTreatMethod(condition);
-        //            foreach (var pa in list)
-        //            {
-        //                var treatMethodData = new TreatMethodData();
-        //                treatMethodData.Id = pa.Id;
-        //                treatMethodData.Name = pa.Name;
-        //                {
-        //                    using (var treatTypeDao = new TreatTypeDao())
-        //                    {
-        //                        condition.Clear();
-        //                        condition["ID"] = pa.TreatTypeId;
-        //                        var arealist = treatTypeDao.SelectTreatType(condition);
-        //                        if (arealist.Count == 1)
-        //                        {
-        //                            treatMethodData.Type = arealist[0].Name;
-        //                        }
-        //                    }
-        //                }
-        //                string bgColor = pa.BgColor;
-        //                if(bgColor != "" && bgColor != null)
-        //                    treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
-        //                else
-        //                    treatMethodData.BgColor = Brushes.LightGray;
-        //                treatMethodData.Description = pa.Description;
-        //                treatMethodData.IsAvailable = pa.IsAvailable;
-        //                Datalist.Add(treatMethodData);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:ListViewCPatientRoom_OnLoaded 3 exception messsage: " + ex.Message);
-        //    }
-        //    #endregion
-        //}
-
-        //private void ListViewCTreatMethod_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        //{
-        //    //throw new NotImplementedException();
-        //    if (ListView1.SelectedIndex >= 0)
-        //    {
-        //        NameTextBox.Text = Datalist[ListView1.SelectedIndex].Name;
-        //        ComboBoxTreatType.Text = Datalist[ListView1.SelectedIndex].Type;
-        //        DescriptionTextBox.Text = Datalist[ListView1.SelectedIndex].Description;
-        //        CheckBoxIsAvailable.IsChecked = Datalist[ListView1.SelectedIndex].IsAvailable;
-        //        Buttonrectangle.Fill = Datalist[ListView1.SelectedIndex].BgColor;
-        //    }
-        //}
 
         private bool CheckNameIsExist(string name)
         {
@@ -133,102 +111,102 @@ namespace WpfApplication1.CustomUI
             }
         }
 
-        //private void AddButton_OnClick(object sender, RoutedEventArgs e)
-        //{
-        //    //throw new NotImplementedException();
-        //    try
-        //    {
-        //        if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
-        //        {
-        //            var a = new RemindMessageBox1();
-        //            a.remindText.Text = (string)FindResource("Message1001"); ;
-        //            a.ShowDialog();
-        //            return;
-        //        }
-        //        using (var treatMethodDao = new TreatMethodDao())
-        //        {
-        //            var treatMethod = new TreatMethod();
-        //            treatMethod.Name = this.NameTextBox.Text;
+        private void AddButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+            try
+            {
+                if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
+                {
+                    var a = new RemindMessageBox1();
+                    a.remindText.Text = (string)FindResource("Message1001"); ;
+                    a.ShowDialog();
+                    return;
+                }
+                using (var treatMethodDao = new TreatMethodDao())
+                {
+                    var treatMethod = new TreatMethod();
+                    treatMethod.Name = this.NameTextBox.Text;
 
-        //            var condition = new Dictionary<string, object>();
-        //            using (var treatTypeDao = new TreatTypeDao())
-        //            {
-        //                condition.Clear();
-        //                condition["Name"] = ComboBoxTreatType.Text;
-        //                var arealist = treatTypeDao.SelectTreatType(condition);
-        //                if (arealist.Count == 1)
-        //                {
-        //                    treatMethod.TreatTypeId = arealist[0].Id;
-        //                }
-        //            }
-        //            treatMethod.Description = this.DescriptionTextBox.Text;
-        //            treatMethod.BgColor = ((SolidColorBrush)Buttonrectangle.Fill).Color.ToString();
-        //            int lastInsertId = -1;
-        //            treatMethodDao.InsertTreatMethod(treatMethod, ref lastInsertId);
-        //            //UI
-        //            TreatMethodData treatMethodData = new TreatMethodData();
-        //            treatMethodData.Id = lastInsertId;
-        //            treatMethodData.Name = treatMethod.Name;
-        //            treatMethodData.Type = ComboBoxTreatType.Text;
-        //            treatMethodData.Description = treatMethod.Description;
-        //            treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(treatMethod.BgColor));
-        //            treatMethodData.IsAvailable = treatMethod.IsAvailable;
-        //            Datalist.Add(treatMethodData);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
-        //    }
-        //}
+                    var condition = new Dictionary<string, object>();
+                    using (var treatTypeDao = new TreatTypeDao())
+                    {
+                        condition.Clear();
+                        condition["Name"] = ComboBoxTreatType.Text;
+                        var arealist = treatTypeDao.SelectTreatType(condition);
+                        if (arealist.Count == 1)
+                        {
+                            treatMethod.TreatTypeId = arealist[0].Id;
+                        }
+                    }
+                    treatMethod.Description = this.DescriptionTextBox.Text;
+                    treatMethod.BgColor = ((SolidColorBrush)Buttonrectangle.Fill).Color.ToString();
+                    int lastInsertId = -1;
+                    treatMethodDao.InsertTreatMethod(treatMethod, ref lastInsertId);
+                    //UI
+                    TreatMethodData treatMethodData = new TreatMethodData();
+                    treatMethodData.Id = lastInsertId;
+                    treatMethodData.Name = treatMethod.Name;
+                    treatMethodData.Type = ComboBoxTreatType.Text;
+                    treatMethodData.Description = treatMethod.Description;
+                    treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(treatMethod.BgColor));
+                    treatMethodData.IsAvailable = treatMethod.IsAvailable;
+                    Datalist.Add(treatMethodData);
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
+            }
+        }
 
-        //private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
-        //{
-        //    if (ListView1.SelectedIndex == -1) return;
+        private void UpdateButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (ListView1.SelectedIndex == -1) return;
 
-        //    if (this.NameTextBox.Text.Equals("") )
-        //    {
-        //        var a = new RemindMessageBox1();
-        //        a.remindText.Text = (string)FindResource("Message1001"); ;
-        //        a.ShowDialog();
-        //        return;
-        //    }
-        //    //throw new NotImplementedException();
-        //    using (var treatMethodDao = new TreatMethodDao())
-        //    {
-        //        var condition = new Dictionary<string, object>();
-        //        condition["ID"] = Datalist[ListView1.SelectedIndex].Id;
+            if (this.NameTextBox.Text.Equals("") )
+            {
+                var a = new RemindMessageBox1();
+                a.remindText.Text = (string)FindResource("Message1001"); ;
+                a.ShowDialog();
+                return;
+            }
+            //throw new NotImplementedException();
+            using (var treatMethodDao = new TreatMethodDao())
+            {
+                var condition = new Dictionary<string, object>();
+                condition["ID"] = Datalist[ListView1.SelectedIndex].Id;
 
-        //        var fileds = new Dictionary<string, object>();
-        //        fileds["NAME"] = NameTextBox.Text;
+                var fileds = new Dictionary<string, object>();
+                fileds["NAME"] = NameTextBox.Text;
 
-        //        var condition2 = new Dictionary<string, object>();
-        //        using (var treatTypeDao = new TreatTypeDao())
-        //        {
-        //            condition2.Clear();
-        //            condition2["Name"] = ComboBoxTreatType.Text;
-        //            var arealist = treatTypeDao.SelectTreatType(condition2);
-        //            if (arealist.Count == 1)
-        //            {
-        //                fileds["TREATTYPEID"] = arealist[0].Id;
-        //            }
-        //        }
-        //        fileds["DESCRIPTION"] = DescriptionTextBox.Text;
-        //        fileds["ISAVAILABLE"] = CheckBoxIsAvailable.IsChecked;
-        //        fileds["BGCOLOR"] = ((SolidColorBrush)Buttonrectangle.Fill).Color.ToString();
+                var condition2 = new Dictionary<string, object>();
+                using (var treatTypeDao = new TreatTypeDao())
+                {
+                    condition2.Clear();
+                    condition2["Name"] = ComboBoxTreatType.Text;
+                    var arealist = treatTypeDao.SelectTreatType(condition2);
+                    if (arealist.Count == 1)
+                    {
+                        fileds["TREATTYPEID"] = arealist[0].Id;
+                    }
+                }
+                fileds["DESCRIPTION"] = DescriptionTextBox.Text;
+                fileds["ISAVAILABLE"] = CheckBoxIsAvailable.IsChecked;
+                fileds["BGCOLOR"] = ((SolidColorBrush)Buttonrectangle.Fill).Color.ToString();
 
-        //        var messageBox2 = new RemindMessageBox2();
-        //        messageBox2.textBlock1.Text = "执行该操作将影响医嘱及排班";
-        //        messageBox2.ShowDialog();
-        //        if (messageBox2.remindflag == 1)
-        //        {
-        //            treatMethodDao.UpdateTreatMethod(fileds, condition);
-        //            RefreshData();
-        //        }
+                var messageBox2 = new RemindMessageBox2();
+                messageBox2.textBlock1.Text = "执行该操作将影响医嘱及排班";
+                messageBox2.ShowDialog();
+                if (messageBox2.remindflag == 1)
+                {
+                    treatMethodDao.UpdateTreatMethod(fileds, condition);
+                    RefreshData();
+                }
 
                 
-        //    }
-        //}
+            }
+        }
 
         private void RefreshData()
         {
@@ -244,8 +222,18 @@ namespace WpfApplication1.CustomUI
                         var treatMethodData = new TreatMethodData();
                         treatMethodData.Id = pa.Id;
                         treatMethodData.Name = pa.Name;
-                        treatMethodData.SinglePump = pa.SinglePump;
-                        treatMethodData.DoublePump = pa.DoublePump;
+                        {
+                            using (var treatTypeDao = new TreatTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.TreatTypeId;
+                                var arealist = treatTypeDao.SelectTreatType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatMethodData.Type = arealist[0].Name;
+                                }
+                            }
+                        }
                         treatMethodData.IsAvailable = pa.IsAvailable;
                         treatMethodData.Description = pa.Description;
                         treatMethodData.BgColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString(pa.BgColor)); 
@@ -259,25 +247,22 @@ namespace WpfApplication1.CustomUI
             }
         }
 
-        //private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
-        //{
-        //    if (ListView1.SelectedIndex == -1) return;
-        //    //throw new NotImplementedException();
-        //    using (var treatMethodDao = new TreatMethodDao())
-        //    {
-        //        treatMethodDao.DeleteTreatMethod(Datalist[ListView1.SelectedIndex].Id);
-        //        RefreshData();
-        //    }
-        //}
+        private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (ListView1.SelectedIndex == -1) return;
+            //throw new NotImplementedException();
+            using (var treatMethodDao = new TreatMethodDao())
+            {
+                treatMethodDao.DeleteTreatMethod(Datalist[ListView1.SelectedIndex].Id);
+                RefreshData();
+            }
+        }
 
         private void Button4rectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var dalog = new ColorDialog();
             if (dalog.ShowDialog() == DialogResult.OK)
             {
-
-                this.ButtonApply.IsEnabled = true;
-                this.ButtonCancel.IsEnabled = true;
                 ((Rectangle)sender).Fill =
                     new SolidColorBrush(Color.FromRgb(dalog.Color.R, dalog.Color.G, dalog.Color.B));
             }
@@ -286,318 +271,34 @@ namespace WpfApplication1.CustomUI
         {
             //throw new NotImplementedException();
             #region fill patientarea combox items
-            //this.ComboBoxTreatType.Items.Clear();
-            //try
-            //{
-            //    using (var treatTypeDao = new TreatTypeDao())
-            //    {
-            //        var condition = new Dictionary<string, object>();
-            //        var list = treatTypeDao.SelectTreatType(condition);
-            //        foreach (var pa in list)
-            //        {
-            //            this.ComboBoxTreatType.Items.Add(pa.Name);
-            //        }
-            //        if (list.Count > 0)
-            //            this.ComboBoxTreatType.SelectedIndex = 0;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:ListViewCPatientRoom_OnLoaded 1 exception messsage: " + ex.Message);
-            //}
-            #endregion
-        }
-
-        private void ButtonApply_OnClick(object sender, RoutedEventArgs e)
-        {
-
-            if (ListViewTreatMethod.SelectedIndex == -1) return;
-
-            if (this.NameTextBox.Text.Equals(""))
-            {
-                var a = new RemindMessageBox1();
-                a.remindText.Text = (string)FindResource("Message1001"); ;
-                a.ShowDialog();
-                return;
-            }
-            //throw new NotImplementedException();
-            using (var treatMethodDao = new TreatMethodDao())
-            {
-                var condition = new Dictionary<string, object>();
-                condition["ID"] = Datalist[ListViewTreatMethod.SelectedIndex].Id;
-
-                var fileds = new Dictionary<string, object>();
-                fileds["NAME"] = NameTextBox.Text;
-                if ((bool) (this.CheckBox1.IsChecked))
-                {
-                    fileds["SINGLEPUMP"] = true;
-                }
-                else
-                {
-                    fileds["SINGLEPUMP"] = false;
-                }
-                if ((bool)(this.CheckBox2.IsChecked))
-                {
-                    fileds["DOUBLEPUMP"] = true;
-                }
-                else
-                {
-                    fileds["DOUBLEPUMP"] = false;
-                }
-
-                if ((bool) (this.RadioButton1.IsChecked))
-                {
-                    fileds["ISAVAILABLE"] = true;
-                }else if ((bool) (this.RadioButton2.IsChecked))
-                {
-                    fileds["ISAVAILABLE"] = false;
-                }
-
-                fileds["DESCRIPTION"] = DescriptionTextBox.Text;
-               
-                fileds["BGCOLOR"] = ((SolidColorBrush)Buttonrectangle.Fill).Color.ToString();
-
-                var messageBox2 = new RemindMessageBox2();
-                messageBox2.textBlock1.Text = "执行该操作将影响医嘱及排班";
-                messageBox2.ShowDialog();
-                if (messageBox2.remindflag == 1)
-                {
-                    treatMethodDao.UpdateTreatMethod(fileds, condition);
-                    int temp = this.ListViewTreatMethod.SelectedIndex;
-                    RefreshData();
-                    this.ListViewTreatMethod.SelectedIndex = temp;
-                }
-
-
-            }
-
-            this.ButtonApply.IsEnabled = false;
-
-        }
-
-        private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
-        {
-            this.ListViewTreatMethod.SelectedIndex = -1;
-            this.ListViewTreatMethod.SelectedIndex = currnetIndex;
-        }
-
-        public int[] Paixiflag = new int[11] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Label lb = (Label)sender;
-            string bindingProperty = "";
-            ListSortDirection sortDirection = ListSortDirection.Ascending;
-            string strn = (string)(lb.Tag);
-            if (strn == "0")
-            {
-                if (Paixiflag[0] == 0)
-                {
-                    Paixiflag[0] = 1;
-                    sortDirection = ListSortDirection.Ascending;
-                }
-                else
-                {
-                    Paixiflag[0] = 0;
-                    sortDirection = ListSortDirection.Descending;
-                }
-                bindingProperty = "Id";
-            }
-            else if (strn == "1")
-            {
-                if (Paixiflag[1] == 0)
-                {
-                    Paixiflag[1] = 1;
-                    sortDirection = ListSortDirection.Ascending;
-                }
-                else
-                {
-                    Paixiflag[1] = 0;
-                    sortDirection = ListSortDirection.Descending;
-                }
-                bindingProperty = "Activated";
-            }
-            else if (strn == "2")
-            {
-                if (Paixiflag[2] == 0)
-                {
-                    Paixiflag[2] = 1;
-                    sortDirection = ListSortDirection.Ascending;
-                }
-                else
-                {
-                    Paixiflag[2] = 0;
-                    sortDirection = ListSortDirection.Descending;
-                }
-                bindingProperty = "Name";
-            }
-            //else if (strn == "3")
-            //{
-            //    if (Paixiflag[3] == 0)
-            //    {
-            //        Paixiflag[3] = 1;
-            //        sortDirection = ListSortDirection.Ascending;
-            //    }
-            //    else
-            //    {
-            //        Paixiflag[3] = 0;
-            //        sortDirection = ListSortDirection.Descending;
-            //    }
-            //    bindingProperty = "BgColor";
-            //}
-            else if (strn == "4")
-            {
-                if (Paixiflag[4] == 0)
-                {
-                    Paixiflag[4] = 1;
-                    sortDirection = ListSortDirection.Ascending;
-                }
-                else
-                {
-                    Paixiflag[4] = 0;
-                    sortDirection = ListSortDirection.Descending;
-                }
-                bindingProperty = "SinglePump";
-            }
-            else if (strn == "5")
-            {
-                if (Paixiflag[5] == 0)
-                {
-                    Paixiflag[5] = 1;
-                    sortDirection = ListSortDirection.Ascending;
-                }
-                else
-                {
-                    Paixiflag[5] = 0;
-                    sortDirection = ListSortDirection.Descending;
-                }
-                bindingProperty = "DoublePump";
-            }
-            else if (strn == "6")
-            {
-                if (Paixiflag[6] == 0)
-                {
-                    Paixiflag[6] = 1;
-                    sortDirection = ListSortDirection.Ascending;
-                }
-                else
-                {
-                    Paixiflag[6] = 0;
-                    sortDirection = ListSortDirection.Descending;
-                }
-                bindingProperty = "Description";
-            }
-            SortDescriptionCollection sdc = ListViewTreatMethod.Items.SortDescriptions;
-            if (sdc.Count > 0)
-            {
-                SortDescription sd = sdc[0];
-                sortDirection = (ListSortDirection)((((int)sd.Direction) + 1) % 2);
-                //判断此列当前的排序方式:升序0,倒序1,并取反进行排序。
-                sdc.Clear();
-            }
-
-            sdc.Add(new SortDescription(bindingProperty, sortDirection));
-            var temp = new ObservableCollection<TreatMethodData>();
-            for (int i = 0; i < ListViewTreatMethod.Items.Count; i++)
-            {
-                temp.Add((TreatMethodData)ListViewTreatMethod.Items[i]);
-            }
-            Datalist.Clear();
-            Datalist = temp;
-            ListViewTreatMethod.ItemsSource = Datalist;
-            sdc.Clear();
-        }
-
-        private void ListViewTreatMethod_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            //throw new NotImplementedException();
+            this.ComboBoxTreatType.Items.Clear();
             try
             {
-                using (TreatMethodDao treatMethodDao = new TreatMethodDao())
+                using (var treatTypeDao = new TreatTypeDao())
                 {
-                    Datalist.Clear();
-                    Dictionary<string, object> condition = new Dictionary<string, object>();
-                    var list = treatMethodDao.SelectTreatMethod(condition);
-                    foreach (TreatMethod pa in list)
+                    var condition = new Dictionary<string, object>();
+                    var list = treatTypeDao.SelectTreatType(condition);
+                    foreach (var pa in list)
                     {
-                        TreatMethodData treatMethodData = new TreatMethodData();
-                        treatMethodData.Id = pa.Id;
-                        treatMethodData.Name = pa.Name;
-                        treatMethodData.SinglePump = pa.SinglePump;
-                        treatMethodData.DoublePump = pa.DoublePump;
-                        treatMethodData.IsAvailable = pa.IsAvailable;
-                        string bgColor = pa.BgColor;
-
-                        if (bgColor != "" && bgColor != null)
-                        {
-                            Brush bgBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
-                            treatMethodData.BgColor = bgBrush;
-                        }
-                        else
-                            treatMethodData.BgColor = Brushes.Gray;
-                        treatMethodData.Description = pa.Description;
-                        Datalist.Add(treatMethodData);
+                        this.ComboBoxTreatType.Items.Add(pa.Name);
                     }
+                    if (list.Count > 0)
+                        this.ComboBoxTreatType.SelectedIndex = 0;
                 }
             }
             catch (Exception ex)
             {
-                MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:ListViewTreatMethod_OnLoaded exception messsage: " + ex.Message);
+                MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:ListViewCPatientRoom_OnLoaded 1 exception messsage: " + ex.Message);
             }
-
+            #endregion
         }
-
-        private void ListViewTreatMethod_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //throw new NotImplementedException();
-            if (ListViewTreatMethod.SelectedIndex >= 0)
-            {
-                currnetIndex = ListViewTreatMethod.SelectedIndex;
-                this.ButtonApply.IsEnabled = false;
-                this.ButtonCancel.IsEnabled = false;
-
-
-                NameTextBox.Text = Datalist[ListViewTreatMethod.SelectedIndex].Name;
-                DescriptionTextBox.Text = Datalist[ListViewTreatMethod.SelectedIndex].Description;
-                if (Datalist[ListViewTreatMethod.SelectedIndex].IsAvailable)
-                {
-                    this.RadioButton1.IsChecked = true;
-                }
-                else 
-                {
-                    this.RadioButton2.IsChecked = true;
-                }
-                Buttonrectangle.Fill = Datalist[ListViewTreatMethod.SelectedIndex].BgColor;
-                if (Datalist[ListViewTreatMethod.SelectedIndex].SinglePump)
-                {
-                    this.CheckBox1.IsChecked = true;
-                }
-                else
-                {
-                    this.CheckBox1.IsChecked = false;
-                }
-                if (Datalist[ListViewTreatMethod.SelectedIndex].DoublePump)
-                {
-                    this.CheckBox2.IsChecked = true;
-                }
-                else
-                {
-                    this.CheckBox2.IsChecked = false;
-                }
-                //this.ButtonApply.IsEnabled = true;
-                //this.ButtonCancel.IsEnabled = true;
-            }
-        }
-
-
     }
 
     public class TreatMethodData : INotifyPropertyChanged
     {
         private Int64 _id;
-        private string _type;//Need Delete
         private string _name;
-        private bool _singlePump;
-        private bool _doublePump;
+        private string _type;
         private string _description;
         private Brush _bgColor;
         private bool _isAvailable;
@@ -625,16 +326,6 @@ namespace WpfApplication1.CustomUI
             }
         }
 
-        public string Type
-        {
-            get { return _type; }
-            set
-            {
-                _type = value;
-                OnPropertyChanged("Type");
-            }
-        }
-
         public string Name
         {
             get { return _name; }
@@ -655,23 +346,13 @@ namespace WpfApplication1.CustomUI
             }
         }
 
-        public bool SinglePump
+        public string Type
         {
-            get { return _singlePump; }
+            get { return _type; }
             set
             {
-                _singlePump = value;
-                OnPropertyChanged("SinglePump");
-            }
-        }
-
-        public bool DoublePump
-        {
-            get { return _doublePump; }
-            set
-            {
-                _doublePump = value;
-                OnPropertyChanged("DoublePump");
+                _type = value;
+                OnPropertyChanged("Type");
             }
         }
 

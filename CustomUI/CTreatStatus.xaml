@@ -86,10 +86,11 @@
             <Label  Content="转归类型"  Style="{DynamicResource FunctionLabelStyle}" Grid.Column="0" Grid.ColumnSpan="3" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
 
         </Grid>
-        <Grid Grid.Row="1" VerticalAlignment="Top" Margin="0,10,0,0">
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="346*"/>
+                <ColumnDefinition Width="79*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
@@ -97,14 +98,13 @@
                 <RowDefinition/>
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
-            <Label Content="是否启用" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Top" Height="50" Margin="0,0,0,0"/>
-            <Label Content="转归类型"  Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Top" Height="50" Margin="0,0,0,0"/>
-            <Label Content="描述" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Top" Height="50" Margin="0,0,0,0"/>
-            
-            <TextBox TextChanged="OnTextChanged" Name="NameTextBox" Grid.Row="1"  FontSize="14" Grid.Column="1" Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0" Grid.ColumnSpan="2"/>
-            <TextBox TextChanged="OnTextChanged" Name="DescriptionTextBox" FontSize="14" Grid.Row="2" Grid.Column="1" Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" VerticalAlignment="Top" Margin="0,0,0,0" Grid.ColumnSpan="2"/>
-            <RadioButton Name="RadioButton1" Checked="ToggleButton_OnChecked" Content="启用" Grid.Column="1" HorizontalAlignment="Left" Margin="49,18,0,0" VerticalAlignment="Top"/>
-            <RadioButton Name="RadioButton2" Checked="ToggleButton_OnChecked" Content="停用" Grid.Column="1" HorizontalAlignment="Left" Margin="203,21,0,0" VerticalAlignment="Top"/>
+            <Label Content="是否启用" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,14,0,13"/>
+            <Label Content="感染类型"  Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,13,0,14"/>
+            <Label Content="描述" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,14,0,13"/>
+            <CheckBox Name="CheckBox1" Checked="ToggleButton_OnChecked" FontSize="14" Grid.Row="0" Grid.Column="1" Height="50"  VerticalContentAlignment="Center" Margin="0,14,0,13" Grid.ColumnSpan="2"/>
+            <TextBox TextChanged="OnTextChanged" Name="NameTextBox" Grid.Row="1"  FontSize="14" Grid.Column="1" Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Margin="0,13,0,14" Grid.ColumnSpan="2"/>
+            <TextBox TextChanged="OnTextChanged" Name="DescriptionTextBox" FontSize="14" Grid.Row="2" Grid.Column="1" Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Margin="0,14,0,13" Grid.ColumnSpan="2"/>
+
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -114,9 +114,9 @@
                 <ColumnDefinition Width="250"/>
             </Grid.ColumnDefinitions>
             <Label Content="序号"  Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="0"/>
-            <Label Content="是否启用"  Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="1"/>
-            <Label Content="转归类型"  Grid.Column="2"   HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="2"/>
-            <Label Content="描述" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"  MouseDown="Label_MouseDown" Tag="3"/>
+            <Label Content="是否启用"  Grid.Column="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="0"/>
+            <Label Content="感染类型"  Grid.Column="2"   HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="0"/>
+            <Label Content="描述" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3"/>
         </Grid>
         <ListBox SelectionChanged="ListViewCTreatStatus_OnSelectionChanged" Loaded="ListViewCTreatStatus_OnLoaded" FontSize="14" Name="ListViewTreatType" HorizontalAlignment="Left" Grid.Row="3" Width="1000" ItemContainerStyle="{DynamicResource InfectTypeListboxItemStyle}"/>
     </Grid>

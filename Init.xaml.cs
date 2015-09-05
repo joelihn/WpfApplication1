@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -20,6 +21,8 @@ using System.Windows.Shapes;
 using WpfApplication1.CustomUI;
 using WpfApplication1.DAOModule;
 using WpfApplication1.Utils;
+using ListViewItem = System.Windows.Controls.ListViewItem;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace WpfApplication1
 {
@@ -1567,10 +1570,20 @@ namespace WpfApplication1
 
         private void ButtonNew_OnClick(object sender, RoutedEventArgs e)
         {
-            this.ButtonNew.IsEnabled = false;
+            SignUP signUpDlg = new SignUP();
+            signUpDlg.ShowDialog();
+            if (signUpDlg.result == DialogResult.OK)
+            {
+                
+            }
+            /*this.ButtonNew.IsEnabled = false;
             this.ButtonDelete.IsEnabled = false;
             this.ButtonApply.IsEnabled = true;
-            this.ButtonCancel.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;*/
+
+            
+
+
 
         }
 

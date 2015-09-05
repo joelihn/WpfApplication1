@@ -64,27 +64,18 @@ namespace WpfApplication1.CustomUI
 
                         }
 
-                        //{
-                        //    using (var machineTypeDao = new MachineTypeDao())
-                        //    {
-                        //        condition.Clear();
-                        //        condition["ID"] = pa.MachineTypeId;
-                        //        var arealist = machineTypeDao.SelectMachineType(condition);
-                        //        if (arealist.Count == 1)
-                        //        {
-                        //            bedData.MachineType = arealist[0].Name;
-                        //        }
-                        //    }
-
-                        //}
-
-                        if (pa.MachineTypeId == 0)
                         {
-                            bedData.MachineType = "单泵机";
-                        }
-                        else if (pa.MachineTypeId == 1)
-                        {
-                            bedData.MachineType = "双泵机";
+                            using (var machineTypeDao = new MachineTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.MachineTypeId;
+                                var arealist = machineTypeDao.SelectMachineType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    bedData.MachineType = arealist[0].Name;
+                                }
+                            }
+
                         }
 
                         {
@@ -139,23 +130,15 @@ namespace WpfApplication1.CustomUI
 
                 NameTextBox.Text = Datalist[ListViewBed.SelectedIndex].Name;
                 ComboBoxPatientArea.Text = Datalist[ListViewBed.SelectedIndex].PatientArea;
-                if (Datalist[ListViewBed.SelectedIndex].MachineType.Equals("单泵机"))
-                {
-                    this.RadioButton1.IsChecked = true;
-                }
-                else if (Datalist[ListViewBed.SelectedIndex].MachineType.Equals("双泵机"))
-                {
-                    this.RadioButton2.IsChecked = true;
-                }
-                //MachineTypeComboBox.Text = Datalist[ListViewBed.SelectedIndex].MachineType;
-                if (Datalist[ListViewBed.SelectedIndex].IsAvailable)
-                    this.RadioButton3.IsChecked = true;
+                MachineTypeComboBox.Text = Datalist[ListViewBed.SelectedIndex].MachineType;
+                if(Datalist[ListViewBed.SelectedIndex].IsAvailable)
+                    IsAvilComboBox.Text = "可用";
                 else
-                    this.RadioButton4.IsChecked = true;
+                    IsAvilComboBox.Text = "不可用";
                 if (Datalist[ListViewBed.SelectedIndex].IsTemp)
-                    this.RadioButton5.IsChecked = true;
+                    IsTempComboBox.Text = "是";
                 else
-                    this.RadioButton6.IsChecked = true;
+                    IsTempComboBox.Text = "否";
                 DescriptionTextBox.Text = Datalist[ListViewBed.SelectedIndex].Description;
             }
         }
@@ -227,24 +210,17 @@ namespace WpfApplication1.CustomUI
                             }
 
                         }
-                        //{
-                        //    using (var machineTypeDao = new MachineTypeDao())
-                        //    {
-                        //        condition.Clear();
-                        //        condition["ID"] = pa.MachineTypeId;
-                        //        var arealist = machineTypeDao.SelectMachineType(condition);
-                        //        if (arealist.Count == 1)
-                        //        {
-                        //            bedData.MachineType = arealist[0].Name;
-                        //        }
-                        //    }
-                        //}
-                        if (pa.MachineTypeId == 0)
                         {
-                            bedData.MachineType = "单泵机";
-                        }else if (pa.MachineTypeId == 1)
-                        {
-                            bedData.MachineType = "双泵机";
+                            using (var machineTypeDao = new MachineTypeDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = pa.MachineTypeId;
+                                var arealist = machineTypeDao.SelectMachineType(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    bedData.MachineType = arealist[0].Name;
+                                }
+                            }
                         }
                         bedData.IsAvailable = pa.IsAvailable;
                         bedData.IsOccupy = pa.IsOccupy;
@@ -266,26 +242,26 @@ namespace WpfApplication1.CustomUI
 
 
             #region fill infecttype combox items
-            //this.MachineTypeComboBox.Items.Clear();
-            //try
-            //{
-            //    using (var machineTypeDao = new MachineTypeDao())
-            //    {
-            //        var condition = new Dictionary<string, object>();
-            //        var list = machineTypeDao.SelectMachineType(condition);
-            //        foreach (var pa in list)
-            //        {
-            //            //if(pa.IsAvailable == true )
-            //            this.MachineTypeComboBox.Items.Add(pa.Name);
-            //        }
-            //        if (list.Count > 0)
-            //            this.MachineTypeComboBox.SelectedIndex = 0;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    MainWindow.Log.WriteInfoConsole("In CBed.xaml.cs:ListViewCPatientRoom_OnLoaded 2 exception messsage: " + ex.Message);
-            //}
+            this.MachineTypeComboBox.Items.Clear();
+            try
+            {
+                using (var machineTypeDao = new MachineTypeDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    var list = machineTypeDao.SelectMachineType(condition);
+                    foreach (var pa in list)
+                    {
+                        //if(pa.IsAvailable == true )
+                        this.MachineTypeComboBox.Items.Add(pa.Name);
+                    }
+                    if (list.Count > 0)
+                        this.MachineTypeComboBox.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CBed.xaml.cs:ListViewCPatientRoom_OnLoaded 2 exception messsage: " + ex.Message);
+            }
             #endregion
 
             #region fill patientarea combox items
@@ -339,9 +315,9 @@ namespace WpfApplication1.CustomUI
             NameTextBox.Text = "";
             ComboBoxPatientArea.Text = "";
             DescriptionTextBox.Text = "";
-            this.RadioButton1.IsChecked = true;
-            this.RadioButton3.IsChecked = true;
-            this.RadioButton5.IsChecked = true;
+            MachineTypeComboBox.Text = "";
+            IsAvilComboBox.Text = "";
+            IsTempComboBox.Text = "";
 
             this.ButtonNew.IsEnabled = false;
             this.ButtonDelete.IsEnabled = false;
@@ -370,22 +346,15 @@ namespace WpfApplication1.CustomUI
                         bed.Name = this.NameTextBox.Text;
 
                         var condition = new Dictionary<string, object>();
-                        //using (var machianTypeDao = new MachineTypeDao())
-                        //{
-                        //    condition.Clear();
-                        //    condition["Name"] = MachineTypeComboBox.Text;
-                        //    var arealist = machianTypeDao.SelectMachineType(condition);
-                        //    if (arealist.Count == 1)
-                        //    {
-                        //        bed.MachineTypeId = arealist[0].Id;
-                        //    }
-                        //}
-                        if ((bool) (this.RadioButton1.IsChecked))
+                        using (var machianTypeDao = new MachineTypeDao())
                         {
-                            bed.MachineTypeId = 0;
-                        }else if ((bool) (this.RadioButton2.IsChecked))
-                        {
-                            bed.MachineTypeId = 1;
+                            condition.Clear();
+                            condition["Name"] = MachineTypeComboBox.Text;
+                            var arealist = machianTypeDao.SelectMachineType(condition);
+                            if (arealist.Count == 1)
+                            {
+                                bed.MachineTypeId = arealist[0].Id;
+                            }
                         }
                         using (var patientAreaDao = new PatientAreaDao())
                         {
@@ -398,14 +367,14 @@ namespace WpfApplication1.CustomUI
                             }
                         }
 
-                        if ((bool)(RadioButton3.IsChecked))
+                        if (IsAvilComboBox.Text.Equals("可用"))
                             bed.IsAvailable = true;
-                        else if ((bool)(RadioButton4.IsChecked))
+                        else if (IsAvilComboBox.Text.Equals("不可用"))
                             bed.IsAvailable = false;
 
-                        if ((bool)(RadioButton5.IsChecked))
+                        if (IsTempComboBox.Text.Equals("是"))
                             bed.IsTemp = true;
-                        else if ((bool)(RadioButton6.IsChecked))
+                        else if (IsTempComboBox.Text.Equals("否"))
                             bed.IsTemp = false;
 
                         bed.IsOccupy = false;
@@ -419,10 +388,7 @@ namespace WpfApplication1.CustomUI
                         bedData.PatientArea = ComboBoxPatientArea.Text;
                         bedData.TreatType = "";
                         bedData.IsTemp = bed.IsTemp;
-                        if (bed.MachineTypeId==0)
-                            bedData.MachineType = "单泵机";
-                        else if (bed.MachineTypeId == 1)
-                            bedData.MachineType = "双泵机";
+                        bedData.MachineType = MachineTypeComboBox.Text;
                         bedData.InfectType = "";
                         bedData.IsAvailable = bed.IsAvailable;
                         bedData.IsOccupy = bed.IsOccupy;
@@ -463,24 +429,15 @@ namespace WpfApplication1.CustomUI
 
                     var condition2 = new Dictionary<string, object>();
                     
-                    //using (var machianTypeDao = new MachineTypeDao())
-                    //{
-                    //    condition2.Clear();
-                    //    condition2["Name"] = MachineTypeComboBox.Text;
-                    //    var arealist = machianTypeDao.SelectMachineType(condition2);
-                    //    if (arealist.Count == 1)
-                    //    {
-                    //        fileds["MachineTypeId"] = arealist[0].Id;
-                    //    }
-                    //}
-
-                    if ((bool)(this.RadioButton1.IsChecked))
+                    using (var machianTypeDao = new MachineTypeDao())
                     {
-                        fileds["MachineTypeId"] = 0;
-                    }
-                    else if ((bool)(this.RadioButton2.IsChecked))
-                    {
-                        fileds["MachineTypeId"] = 1;
+                        condition2.Clear();
+                        condition2["Name"] = MachineTypeComboBox.Text;
+                        var arealist = machianTypeDao.SelectMachineType(condition2);
+                        if (arealist.Count == 1)
+                        {
+                            fileds["MachineTypeId"] = arealist[0].Id;
+                        }
                     }
 
                     using (var patientAreaDao = new PatientAreaDao())
@@ -493,20 +450,20 @@ namespace WpfApplication1.CustomUI
                             fileds["PATIENTAREAID"] = arealist[0].Id;
                         }
                     }
-                    if ((bool)(this.RadioButton3.IsChecked))
+                    if (IsAvilComboBox.Text.Equals("可用"))
                         fileds["ISAVAILABLE"] = true;
-                    else if ((bool)(this.RadioButton4.IsChecked))
+                    else if (IsAvilComboBox.Text.Equals("不可用"))
                         fileds["ISAVAILABLE"] = false;
 
-                    if ((bool)(this.RadioButton5.IsChecked))
+                    if (IsTempComboBox.Text.Equals("是"))
                         fileds["ISTEMP"] = true;
-                    else if ((bool)(this.RadioButton6.IsChecked))
+                    else if (IsTempComboBox.Text.Equals("否"))
                         fileds["ISTEMP"] = false;
 
                     //fileds["ISOCCUPY"] = CheckBoxIsOccupy.IsChecked;
                     fileds["DESCRIPTION"] = DescriptionTextBox.Text;
                     bedDao.UpdateBed(fileds, condition);
-                    if ((bool)(this.RadioButton4.IsChecked))
+                    if (IsAvilComboBox.Text.Equals("不可用"))
                     {
                         using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
                         {
@@ -550,9 +507,9 @@ namespace WpfApplication1.CustomUI
                 NameTextBox.Text = "";
                 ComboBoxPatientArea.Text = "";
                 DescriptionTextBox.Text = "";
-                this.RadioButton1.IsChecked = true;
-                this.RadioButton3.IsChecked = true;
-                this.RadioButton5.IsChecked = true;
+                MachineTypeComboBox.Text = "";
+                IsAvilComboBox.Text = "";
+                IsTempComboBox.Text = "";
 
                 this.ButtonNew.IsEnabled = true;
                 this.ButtonDelete.IsEnabled = false;
@@ -660,20 +617,6 @@ namespace WpfApplication1.CustomUI
                     sortDirection = ListSortDirection.Descending;
                 }
                 bindingProperty = "IsTemp";
-            }
-            else if (strn == "5")
-            {
-                if (Paixiflag[5] == 0)
-                {
-                    Paixiflag[5] = 1;
-                    sortDirection = ListSortDirection.Ascending;
-                }
-                else
-                {
-                    Paixiflag[5] = 0;
-                    sortDirection = ListSortDirection.Descending;
-                }
-                bindingProperty = "Description";
             }
             SortDescriptionCollection sdc = ListViewBed.Items.SortDescriptions;
             if (sdc.Count > 0)

@@ -72,14 +72,6 @@ namespace WpfApplication1.CustomUI
 
                 NameTextBox.Text = Datalist[ListViewTreatType.SelectedIndex].Name;
                 DescriptionTextBox.Text = Datalist[ListViewTreatType.SelectedIndex].Description;
-                if (Datalist[ListViewTreatType.SelectedIndex].Activated)
-                {
-                    this.RadioButton1.IsChecked = true;
-                }
-                else
-                {
-                    this.RadioButton2.IsChecked = true;
-                }
             }
         }
 
@@ -209,21 +201,14 @@ namespace WpfApplication1.CustomUI
 
                 var fileds = new Dictionary<string, object>();
                 fileds["NAME"] = NameTextBox.Text;
-                if ((bool) (this.RadioButton1.IsChecked))
-                {
-                    fileds["ACTIVATED"] = true;
-                }else if ((bool) (this.RadioButton2.IsChecked))
-                {
-                    fileds["ACTIVATED"] = false;
-                }
-
+                fileds["ACTIVATED"] = this.CheckBox1.IsChecked;
                 fileds["DESCRIPTION"] = DescriptionTextBox.Text;
                 treatStatusDao.UpdateTreatStatus(fileds, condition);
                 int temp = this.ListViewTreatType.SelectedIndex;
                 RefreshData();
                 this.ListViewTreatType.SelectedIndex = temp;
             }
-            this.ButtonApply.IsEnabled = false;
+
 
         }
         private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
@@ -232,8 +217,6 @@ namespace WpfApplication1.CustomUI
             {
                 this.ListViewTreatType.SelectedIndex = -1;
                 this.ListViewTreatType.SelectedIndex = currnetIndex;
-                this.ButtonApply.IsEnabled = false;
-                this.ButtonCancel.IsEnabled = false;
             }
         }
         //private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
@@ -242,7 +225,7 @@ namespace WpfApplication1.CustomUI
         //    //throw new NotImplementedException();
         //    using (var treatStatusDao = new TreatStatusDao())
         //    {
-        //        treatStatusDao.DeleteTreatStatus(Datalist[ListViewTreatType.SelecButtonApply_OnClicktedIndex].Id);
+        //        treatStatusDao.DeleteTreatStatus(Datalist[ListViewTreatType.SelectedIndex].Id);
         //        RefreshData();
         //    }
         //}
@@ -315,20 +298,6 @@ namespace WpfApplication1.CustomUI
                 }
                 bindingProperty = "Name";
             }
-            else if (strn == "3")
-            {
-                if (Paixiflag[3] == 0)
-                {
-                    Paixiflag[3] = 1;
-                    sortDirection = ListSortDirection.Ascending;
-                }
-                else
-                {
-                    Paixiflag[3] = 0;
-                    sortDirection = ListSortDirection.Descending;
-                }
-                bindingProperty = "Description";
-            }
             
             SortDescriptionCollection sdc = ListViewTreatType.Items.SortDescriptions;
             if (sdc.Count > 0)
@@ -350,6 +319,8 @@ namespace WpfApplication1.CustomUI
             ListViewTreatType.ItemsSource = Datalist;
             sdc.Clear();
         }
+
+    
     }
 
     public class TreatStatusData : INotifyPropertyChanged

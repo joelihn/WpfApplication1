@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Forms;
@@ -31,50 +30,18 @@ namespace WpfApplication1.CustomUI
         public CDataBaseSetting()
         {
             InitializeComponent();
-            IpAddressTextBox.Text = config.AppSettings.Settings["IpAddress"].Value;
-            UserTextBox.Text = config.AppSettings.Settings["Username"].Value;
-            PasswordTextBox.Text = config.AppSettings.Settings["Password"].Value;
-            DatabaseNameTextBox.Text = config.AppSettings.Settings["Database"].Value;
-        }
-
-        private void ButtonApply_OnClick(object sender, RoutedEventArgs e)
-        {
-            config.AppSettings.Settings["IpAddress"].Value = IpAddressTextBox.Text;
-            config.AppSettings.Settings["Username"].Value = UserTextBox.Text;
-            config.AppSettings.Settings["Password"].Value = PasswordTextBox.Text;
-            config.AppSettings.Settings["Database"].Value = DatabaseNameTextBox.Text;
-
-            config.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("appSettings");
-
-            this.ButtonApply.IsEnabled = false;
-        }
-        private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
-        {
-            IpAddressTextBox.Text = config.AppSettings.Settings["IpAddress"].Value;
-            UserTextBox.Text = config.AppSettings.Settings["Username"].Value;
-            PasswordTextBox.Text = config.AppSettings.Settings["Password"].Value;
-            DatabaseNameTextBox.Text = config.AppSettings.Settings["Database"].Value;
-            this.ButtonApply.IsEnabled = false;
-            this.ButtonCancel.IsEnabled = false;
-        }
-
-        private void OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.ButtonApply.IsEnabled = true;
-            this.ButtonCancel.IsEnabled = true;
-
+            DataBasePath.Text = config.AppSettings.Settings["DataBasePath"].Value;
         }
 
         private void OkButton_OnClick(object sender, RoutedEventArgs e)
         {
-            
+            config.AppSettings.Settings["DataBasePath"].Value = DataBasePath.Text;
         }
         private void PathSelButton_OnClick(object sender, RoutedEventArgs e)
         {
-            //FolderBrowserDialog folderDlg = new FolderBrowserDialog();
-            //if(folderDlg.ShowDialog() == DialogResult.OK)
-            //    DataBasePath.Text = folderDlg.SelectedPath;
+            FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+            if(folderDlg.ShowDialog() == DialogResult.OK)
+                DataBasePath.Text = folderDlg.SelectedPath;
         }
         
     }

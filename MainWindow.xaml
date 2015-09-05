@@ -33,7 +33,7 @@
 
                 </Border>-->
                 <ContentControl Name="RightContent" Grid.Column="1"  Grid.RowSpan="7" Foreground="GreenYellow"></ContentControl>
-                <ListBox SelectionChanged="listbox1_SelectionChanged" Name="TopMenuListBox" Grid.RowSpan="6" ItemContainerStyle="{DynamicResource MenuStyle}" />
+                <ListBox SelectionChanged="listbox1_SelectionChanged" Name="TopMenuListBox" Grid.RowSpan="6" ItemContainerStyle="{DynamicResource MenuStyle}" BorderBrush="{x:Null}" />
             </Grid>
     </Viewbox>
     </Grid>

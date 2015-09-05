@@ -364,8 +364,8 @@
 				<RowDefinition Height="50"/>
 				<RowDefinition/>
 			</Grid.RowDefinitions>
-			<ComboBox/>
-			<ListBox Grid.Row="1"/>
+			<ComboBox Style="{DynamicResource ComboBoxStyle4}"/>
+			<ListBox Grid.Row="1" BorderBrush="{x:Null}"/>
 		</Grid>
 	</Grid>
 </UserControl>

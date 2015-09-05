@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="SignUP" 
-        Width="432.356" Height="602.311">
+        Width="432.356" Height="602.311" Closed="Window_Closed" Loaded="Window_Loaded">
 
     <Viewbox x:Name="LayoutRoot" Stretch="Fill">
         <Grid Height="450" Width="632">
@@ -40,26 +40,26 @@
             		<Label Content="固定床位*" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3"/>
             		<Label Content="唯一识别码" Grid.Row="6" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3"/>
             		<Label Content="所属分区*" Grid.Row="7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3"/>
-            		<TextBox Grid.Column="1" Height="25" TextWrapping="Wrap" Text="TextBox" Margin="20,0,0,0"/>
+            		<TextBox Name="tbName" Grid.Column="1" Height="25" TextWrapping="Wrap" Margin="20,0,0,0"/>
             		<Grid Grid.Column="1" Grid.Row="1" Margin="20,3,0,3" Background="White">
             			<Grid.ColumnDefinitions>
             				<ColumnDefinition/>
             				<ColumnDefinition/>
             			</Grid.ColumnDefinitions>
-            			<RadioButton Content="男" HorizontalAlignment="Left" Margin="49.529,10,0,0" VerticalAlignment="Top" IsChecked="True"/>
-            			<RadioButton Content="女" Grid.Column="1" HorizontalAlignment="Left" Margin="42.064,10,0,0" VerticalAlignment="Top"/>
+            			<RadioButton Name="rbM" Content="男" HorizontalAlignment="Left" Margin="49.529,10,0,0" VerticalAlignment="Top" IsChecked="True"/>
+            			<RadioButton Name="rbF" Content="女" Grid.Column="1" HorizontalAlignment="Left" Margin="42.064,10,0,0" VerticalAlignment="Top"/>
             		</Grid>
-            		<DatePicker Grid.Column="1" HorizontalAlignment="Left" Margin="20,7.457,0,0" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Top" Height="32.406" Width="320.667"/>
-            		<RadioButton Content="阴性" Grid.Column="1" HorizontalAlignment="Left" Margin="20,12.913,0,0" Grid.Row="3" VerticalAlignment="Top"/>
-            		<RadioButton Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="191.771,12.913,0,0" Grid.Row="3" VerticalAlignment="Top"/>
-            		<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="220.667,9.913,0,0" Grid.Row="3" VerticalAlignment="Top" Width="120"/>
-            		<RadioButton Content="在治" Grid.Column="1" HorizontalAlignment="Left" Margin="20,11.456,0,0" Grid.Row="4" VerticalAlignment="Top"/>
-            		<RadioButton Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="191.771,11.456,0,0" Grid.Row="4" VerticalAlignment="Top" RenderTransformOrigin="5.39,0.659"/>
-            		<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="220.667,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="120"/>
-            		<RadioButton Content="固定" Grid.Column="1" HorizontalAlignment="Left" Margin="51.658,11.456,0,0" Grid.Row="5" VerticalAlignment="Top"/>
-            		<RadioButton Content="不固定" Grid.Column="1" HorizontalAlignment="Left" Margin="191.771,12.596,0,0" Grid.Row="5" VerticalAlignment="Top"/>
-            		<TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="20,10,0,0" Grid.Row="6" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="320.667"/>
-            		<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="20,10,0,0" Grid.Row="7" VerticalAlignment="Top" Width="320.667"/>
+            		<DatePicker Name="dpBirthday" Grid.Column="1" HorizontalAlignment="Left" Margin="20,7.457,0,0" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Top" Height="32.406" Width="320.667"/>
+                    <RadioButton Name="rbNegative" GroupName="1" Content="阴性" Grid.Column="1" HorizontalAlignment="Left" Margin="20,12.913,0,0" Grid.Row="3" VerticalAlignment="Top" Checked="RadioButton_Checked" Tag="0" IsChecked="True"/>
+                    <RadioButton Content="" GroupName="1" Grid.Column="1" HorizontalAlignment="Left" Margin="191.771,12.913,0,0" Grid.Row="3" VerticalAlignment="Top" Checked="RadioButton_Checked" Tag="1"/>
+            		<ComboBox Name="cbInfectionType" Grid.Column="1" HorizontalAlignment="Left" Margin="220.667,9.913,0,0" Grid.Row="3" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+                    <RadioButton Name="rbTreatStatus" GroupName="2" Content="在治" Grid.Column="1" HorizontalAlignment="Left" Margin="20,11.456,0,0" Grid.Row="4" VerticalAlignment="Top" Checked="rbTreatStatus_Checked" Tag="0" IsChecked="True"/>
+                    <RadioButton Content="" GroupName="2" Grid.Column="1" HorizontalAlignment="Left" Margin="191.771,11.456,0,0" Grid.Row="4" VerticalAlignment="Top" RenderTransformOrigin="5.39,0.659" Checked="rbTreatStatus_Checked" Tag="1"/>
+            		<ComboBox Name="cbTreatMentStatus" Grid.Column="1" HorizontalAlignment="Left" Margin="220.667,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+            		<RadioButton Name="rbFixBed" GroupName="3" Content="固定" Grid.Column="1" HorizontalAlignment="Left" Margin="51.658,11.456,0,0" Grid.Row="5" VerticalAlignment="Top"/>
+                    <RadioButton Content="不固定" GroupName="3" Grid.Column="1" HorizontalAlignment="Left" Margin="191.771,12.596,0,0" Grid.Row="5" VerticalAlignment="Top" IsChecked="True"/>
+            		<TextBox Name="tbUid" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="20,10,0,0" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Top" Width="320.667"/>
+            		<ComboBox Name="cbArea" Grid.Column="1" HorizontalAlignment="Left" Margin="20,10,0,0" Grid.Row="7" VerticalAlignment="Top" Width="320.667"/>
             	</Grid>
             </Border>
             <Border BorderThickness="3,0,3,3" Grid.Row="2" BorderBrush="{DynamicResource ButtonBorderColor1}" Background="{DynamicResource ButtonBackgroundColor1}">
@@ -70,8 +70,8 @@
                 		<ColumnDefinition/>
                 		<ColumnDefinition/>
                 	</Grid.ColumnDefinitions>
-            		<Button Content="取消" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="25.918" Width="114.422" Style="{DynamicResource ButtonNormalStyle}"/>
-            		<Button Content="确定" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="25" Style="{DynamicResource ButtonNormalStyle}"/>
+            		<Button Content="取消" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Height="25.918" Width="114.422" Style="{DynamicResource ButtonNormalStyle}" Click="Button_Click"/>
+            		<Button Content="确定" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="100" Height="25" Style="{DynamicResource ButtonNormalStyle}" Click="Button_Click_1"/>
             	</Grid>
             </Border>
         </Grid>
