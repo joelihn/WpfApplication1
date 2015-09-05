@@ -94,6 +94,9 @@
     <Compile Include="CustomUI\CMedicalOrderPara.xaml.cs">
       <DependentUpon>CMedicalOrderPara.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomUI\CPatientGroup.xaml.cs">
+      <DependentUpon>CPatientGroup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomUI\CTreatMethod.xaml.cs">
       <DependentUpon>CTreatMethod.xaml</DependentUpon>
     </Compile>
@@ -133,6 +136,8 @@
     <Compile Include="DAOModule\PatientAreaDao.cs" />
     <Compile Include="DAOModule\PatientDao.cs" />
     <Compile Include="DAOModule\PatientDepartmentDao.cs" />
+    <Compile Include="DAOModule\PatientGroupDao.cs" />
+    <Compile Include="DAOModule\PatientGroupParaDao.cs" />
     <Compile Include="DAOModule\PatientRoomDao.cs" />
     <Compile Include="DAOModule\ScheduleTemplateDao.cs" />
     <Compile Include="DAOModule\ScheduleTypeDao.cs" />
@@ -177,6 +182,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomUI\CMedicalOrderPara.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomUI\CPatientGroup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

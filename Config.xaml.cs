@@ -32,6 +32,7 @@ namespace WpfApplication1
         private CTreatMethod cTreatMethod;
         private CTreatStatus cTreatStatus;
         private CDataBaseSetting cDateBaseSetting;
+        private CPatientGroup cPatientGroup;
 
         public ObservableCollection<string> ConfigMenuCollection = new ObservableCollection<string>();
         
@@ -49,6 +50,7 @@ namespace WpfApplication1
             cTreatMethod = new CTreatMethod();
             cTreatStatus = new CTreatStatus();
             cDateBaseSetting = new CDataBaseSetting();
+            cPatientGroup = new CPatientGroup();
             this.RightContent.Content = cPatientArea;
         }
 
@@ -152,7 +154,7 @@ namespace WpfApplication1
                     this.RightContent.Content = cTreatStatus;
                     break;
                 case 7:
-                    this.RightContent.Content = cTreatStatus;
+                    this.RightContent.Content = cPatientGroup;
                     break;
 
             }

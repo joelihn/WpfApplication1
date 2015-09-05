@@ -129,9 +129,12 @@ namespace WpfApplication1.DAOModule
     {
         public Int64 Id { get; set; }
         public Int64 GroupId { get; set; }
+        public string Left { get; set; }
         public string Key { get; set; }
         public string Symbol { get; set; }
         public string Value { get; set; }
+        public string Right { get; set; }
+        public string Logic { get; set; }
         public string Description { get; set; }
         public string Reserved { get; set; }
     }

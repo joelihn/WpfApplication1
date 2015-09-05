@@ -59,16 +59,22 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO PATIENTGROUPPARA (GROUPID,KEY,SYMBOL,VALUE,DESCRIPTION,RESERVED) VALUES 
-                        (@NAME,@KEY,@SYMBOL,@VALUE,@DESCRIPTION,@RESERVED)";
+                        @"INSERT INTO PATIENTGROUPPARA (GROUPID,LEFT,KEY,SYMBOL,VALUE,RIGHT,LOGIC,DESCRIPTION,RESERVED) VALUES 
+                        (@NAME,@LEFT,@KEY,@SYMBOL,@VALUE,@RIGHT,@LOGIC,@DESCRIPTION,@RESERVED)";
                     sqlcomm.Parameters.Add("@GROUPID", DbType.Int64);
                     sqlcomm.Parameters["@GROUPID"].Value = PatientGroupPara.GroupId;
+                    sqlcomm.Parameters.Add("@LEFT", DbType.String);
+                    sqlcomm.Parameters["@LEFT"].Value = PatientGroupPara.Left;
                     sqlcomm.Parameters.Add("@KEY", DbType.String);
                     sqlcomm.Parameters["@KEY"].Value = PatientGroupPara.Key;
                     sqlcomm.Parameters.Add("@SYMBOL", DbType.String);
                     sqlcomm.Parameters["@SYMBOL"].Value = PatientGroupPara.Symbol;
                     sqlcomm.Parameters.Add("@VALUE", DbType.String);
                     sqlcomm.Parameters["@VALUE"].Value = PatientGroupPara.Value;
+                    sqlcomm.Parameters.Add("@RIGHT", DbType.String);
+                    sqlcomm.Parameters["@RIGHT"].Value = PatientGroupPara.Right;
+                    sqlcomm.Parameters.Add("@LOGIC", DbType.String);
+                    sqlcomm.Parameters["@LOGIC"].Value = PatientGroupPara.Logic;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
                     sqlcomm.Parameters["@DESCRIPTION"].Value = PatientGroupPara.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
