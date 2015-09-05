@@ -107,7 +107,7 @@
             <Label  Content="床位设置"  Style="{DynamicResource FunctionLabelStyle}" Grid.Column="2" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
 
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" VerticalAlignment="Top" Margin="0,10,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150"/>
                 <ColumnDefinition/>
@@ -130,16 +130,19 @@
 
             <ComboBox SelectionChanged="OnSelectionChanged" Name="ComboBoxPatientArea" Height="40" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="0" VerticalAlignment="Top" Width="291"/>
             <TextBox TextChanged="OnTextChanged" Name="NameTextBox" FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="1" TextWrapping="Wrap" Text="" Margin="0,0"/>
-            <ComboBox SelectionChanged="OnSelectionChanged" Name="MachineTypeComboBox" Height="40" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="2" VerticalAlignment="Top" Width="291"/>
-            <ComboBox SelectionChanged="OnSelectionChanged" Name="IsAvilComboBox" Height="40" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="3" VerticalAlignment="Top" Width="291">
-                <ComboBoxItem Content="可用" HorizontalAlignment="Left" Width="289"/>
-                <ComboBoxItem Content="不可用" HorizontalAlignment="Left" Width="289"/>
-            </ComboBox>
-            <ComboBox SelectionChanged="OnSelectionChanged" Name="IsTempComboBox" Height="40" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="4" VerticalAlignment="Top" Width="291">
-                <ComboBoxItem Content="是" HorizontalAlignment="Left" Width="289"/>
-                <ComboBoxItem Content="否" HorizontalAlignment="Left" Width="289"/>
-            </ComboBox>
             <TextBox  TextChanged="OnTextChanged"  Name="DescriptionTextBox"   FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="5" TextWrapping="Wrap" Text="" Margin="0,0"/>
+            <Grid Grid.Column="1" Grid.Row="2">
+                <RadioButton Name="RadioButton1" Content="单泵机"  HorizontalAlignment="Left" Margin="49,18,0,0"  VerticalAlignment="Top"/>
+                <RadioButton Name="RadioButton2" Content="双泵机"  HorizontalAlignment="Left" Margin="171,18,0,0"  VerticalAlignment="Top"/>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="3">
+                <RadioButton Name="RadioButton3" Content="是"  HorizontalAlignment="Left" Margin="49,18,0,0"  VerticalAlignment="Top"/>
+                <RadioButton Name="RadioButton4" Content="否"  HorizontalAlignment="Left" Margin="171,18,0,0"  VerticalAlignment="Top"/>
+            </Grid>
+            <Grid Grid.Column="1" Grid.Row="4">
+                <RadioButton Name="RadioButton5" Content="是"  HorizontalAlignment="Left" Margin="49,18,0,0"  VerticalAlignment="Top"/>
+                <RadioButton Name="RadioButton6" Content="否"  HorizontalAlignment="Left" Margin="171,18,0,0"  VerticalAlignment="Top"/>
+            </Grid>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -155,7 +158,7 @@
             <Label Content="机器类型" Grid.Column="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="2"/>
             <Label Content="是否可用" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="3"/>
             <Label Content="是否临时床" Grid.Column="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3,3,3" MouseDown="Label_MouseDown" Tag="4"/>
-            <Label Content="描述" Grid.Column="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3"/>
+            <Label Content="描述" Grid.Column="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" Tag="5"/>
 
         </Grid>
         <ListBox SelectionChanged="ListViewCBed_OnSelectionChanged" Loaded="ListViewCBed_OnLoaded" FontSize="14" Name="ListViewBed" HorizontalAlignment="Left" Grid.Row="3" Width="1000" ItemContainerStyle="{DynamicResource BedListboxItemStyle}"/>
