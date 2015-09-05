@@ -223,7 +223,7 @@ namespace WpfApplication1.CustomUI
                 RefreshData();
                 this.ListViewTreatType.SelectedIndex = temp;
             }
-
+            this.ButtonApply.IsEnabled = false;
 
         }
         private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
@@ -232,6 +232,8 @@ namespace WpfApplication1.CustomUI
             {
                 this.ListViewTreatType.SelectedIndex = -1;
                 this.ListViewTreatType.SelectedIndex = currnetIndex;
+                this.ButtonApply.IsEnabled = false;
+                this.ButtonCancel.IsEnabled = false;
             }
         }
         //private void DeleteButton_OnClick(object sender, RoutedEventArgs e)
@@ -240,7 +242,7 @@ namespace WpfApplication1.CustomUI
         //    //throw new NotImplementedException();
         //    using (var treatStatusDao = new TreatStatusDao())
         //    {
-        //        treatStatusDao.DeleteTreatStatus(Datalist[ListViewTreatType.SelectedIndex].Id);
+        //        treatStatusDao.DeleteTreatStatus(Datalist[ListViewTreatType.SelecButtonApply_OnClicktedIndex].Id);
         //        RefreshData();
         //    }
         //}

@@ -155,7 +155,7 @@ namespace WpfApplication1
                     this.RightContent.Content = cTreatStatus;
                     break;
                 case 7:
-                    this.RightContent.Content = cTreatStatus;
+                    this.RightContent.Content = cDateBaseSetting;
                     break;
                 case 8:
                     this.RightContent.Content = cTreatStatus;
