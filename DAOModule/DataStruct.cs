@@ -174,12 +174,13 @@ namespace WpfApplication1.DAOModule
     {
         public Int64 Id { get; set; }
         public string Name { get; set; }
-        public string SuitMachineTypeId { get; set; }
+        public bool SinglePump { get; set; }
+        public bool DoublePump { get; set; }
         public string Description { get; set; }
         public string Reserved { get; set; }
         public string BgColor { get; set; }
         public bool IsAvailable { get; set; }
-        public Int64 TreatTypeId { get; set; }//Joe
+        public Int64 TreatTypeId { get; set; }//Need Delete
     }
 
     public class TreatType

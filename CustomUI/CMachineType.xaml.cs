@@ -73,7 +73,7 @@ namespace WpfApplication1.CustomUI
             }
             catch (Exception ex)
             {
-                MainWindow.Log.WriteInfoConsole("In CTreatType.xaml.cs:ListViewCTreatType_OnLoaded exception messsage: " + ex.Message);
+                MainWindow.Log.WriteInfoConsole("In CMachineType.xaml.cs:ListViewMachineType_OnLoaded exception messsage: " + ex.Message);
             }
         }
 
