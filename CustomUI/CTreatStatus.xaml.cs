@@ -72,6 +72,14 @@ namespace WpfApplication1.CustomUI
 
                 NameTextBox.Text = Datalist[ListViewTreatType.SelectedIndex].Name;
                 DescriptionTextBox.Text = Datalist[ListViewTreatType.SelectedIndex].Description;
+                if (Datalist[ListViewTreatType.SelectedIndex].Activated)
+                {
+                    this.RadioButton1.IsChecked = true;
+                }
+                else
+                {
+                    this.RadioButton2.IsChecked = true;
+                }
             }
         }
 
@@ -201,7 +209,14 @@ namespace WpfApplication1.CustomUI
 
                 var fileds = new Dictionary<string, object>();
                 fileds["NAME"] = NameTextBox.Text;
-                fileds["ACTIVATED"] = this.CheckBox1.IsChecked;
+                if ((bool) (this.RadioButton1.IsChecked))
+                {
+                    fileds["ACTIVATED"] = true;
+                }else if ((bool) (this.RadioButton2.IsChecked))
+                {
+                    fileds["ACTIVATED"] = false;
+                }
+
                 fileds["DESCRIPTION"] = DescriptionTextBox.Text;
                 treatStatusDao.UpdateTreatStatus(fileds, condition);
                 int temp = this.ListViewTreatType.SelectedIndex;
@@ -298,6 +313,20 @@ namespace WpfApplication1.CustomUI
                 }
                 bindingProperty = "Name";
             }
+            else if (strn == "3")
+            {
+                if (Paixiflag[3] == 0)
+                {
+                    Paixiflag[3] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[3] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Description";
+            }
             
             SortDescriptionCollection sdc = ListViewTreatType.Items.SortDescriptions;
             if (sdc.Count > 0)
@@ -319,8 +348,6 @@ namespace WpfApplication1.CustomUI
             ListViewTreatType.ItemsSource = Datalist;
             sdc.Clear();
         }
-
-    
     }
 
     public class TreatStatusData : INotifyPropertyChanged

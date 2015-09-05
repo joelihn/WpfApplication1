@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApplication1.DAOModule;
+using Label = System.Windows.Controls.Label;
 using UserControl = System.Windows.Controls.UserControl;
 
 namespace WpfApplication1.CustomUI
@@ -301,6 +302,90 @@ namespace WpfApplication1.CustomUI
 
             this.ButtonApply.IsEnabled = true;
             this.ButtonCancel.IsEnabled = true;
+        }
+
+        public int[] Paixiflag = new int[11] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Label lb = (Label)sender;
+            string bindingProperty = "";
+            ListSortDirection sortDirection = ListSortDirection.Ascending;
+            string strn = (string)(lb.Tag);
+            if (strn == "0")
+            {
+                if (Paixiflag[0] == 0)
+                {
+                    Paixiflag[0] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[0] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Id";
+            }
+            else if (strn == "1")
+            {
+                if (Paixiflag[1] == 0)
+                {
+                    Paixiflag[1] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[1] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Name";
+            }
+            else if (strn == "2")
+            {
+                if (Paixiflag[2] == 0)
+                {
+                    Paixiflag[2] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[2] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "BgColor";
+            }
+            else if (strn == "3")
+            {
+                if (Paixiflag[3] == 0)
+                {
+                    Paixiflag[3] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[3] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Description";
+            }
+            SortDescriptionCollection sdc = ListViewMachineType.Items.SortDescriptions;
+            if (sdc.Count > 0)
+            {
+                SortDescription sd = sdc[0];
+                sortDirection = (ListSortDirection)((((int)sd.Direction) + 1) % 2);
+                //判断此列当前的排序方式:升序0,倒序1,并取反进行排序。
+                sdc.Clear();
+            }
+
+            sdc.Add(new SortDescription(bindingProperty, sortDirection));
+            var temp = new ObservableCollection<MachineTypeData>();
+            for (int i = 0; i < ListViewMachineType.Items.Count; i++)
+            {
+                temp.Add((MachineTypeData)ListViewMachineType.Items[i]);
+            }
+            Datalist.Clear();
+            Datalist = temp;
+            ListViewMachineType.ItemsSource = Datalist;
+            sdc.Clear();
         }
     }
 

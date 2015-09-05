@@ -500,6 +500,20 @@ namespace WpfApplication1.CustomUI
                 }
                 bindingProperty = "Position";
             }
+            else if (strn == "3")
+            {
+                if (Paixiflag[3] == 0)
+                {
+                    Paixiflag[3] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[3] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Description";
+            }
             SortDescriptionCollection sdc = ListViewPatientArea.Items.SortDescriptions;
             if (sdc.Count > 0)
             {

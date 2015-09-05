@@ -179,7 +179,121 @@ namespace WpfApplication1.CustomUI
             this.ButtonApply.IsEnabled = true;
             this.ButtonCancel.IsEnabled = true;
         }
+
+          public int[] Paixiflag = new int[11] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Label lb = (Label)sender;
+            string bindingProperty = "";
+            ListSortDirection sortDirection = ListSortDirection.Ascending;
+            string strn = (string)(lb.Tag);
+            if (strn == "0")
+            {
+                if (Paixiflag[0] == 0)
+                {
+                    Paixiflag[0] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[0] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Id";
+            }
+            else if (strn == "1")
+            {
+                if (Paixiflag[1] == 0)
+                {
+                    Paixiflag[1] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[1] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Activated";
+            }
+            else if (strn == "2")
+            {
+                if (Paixiflag[2] == 0)
+                {
+                    Paixiflag[2] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[2] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Name";
+            }
+                else if (strn == "3")
+            {
+                if (Paixiflag[3] == 0)
+                {
+                    Paixiflag[3] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[3] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "BeginTime";
+            }
+                else if (strn == "4")
+            {
+                if (Paixiflag[4] == 0)
+                {
+                    Paixiflag[4] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[4] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "EndTime";
+            }
+            else if (strn == "5")
+            {
+                if (Paixiflag[5] == 0)
+                {
+                    Paixiflag[5] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[5] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Description";
+            }
+            
+            SortDescriptionCollection sdc = ListViewTreatTime.Items.SortDescriptions;
+            if (sdc.Count > 0)
+            {
+                SortDescription sd = sdc[0];
+                sortDirection = (ListSortDirection)((((int)sd.Direction) + 1) % 2);
+                //判断此列当前的排序方式:升序0,倒序1,并取反进行排序。
+                sdc.Clear();
+            }
+
+            sdc.Add(new SortDescription(bindingProperty, sortDirection));
+            var temp = new ObservableCollection<TreatTimeData>();
+            for (int i = 0; i < ListViewTreatTime.Items.Count; i++)
+            {
+                temp.Add((TreatTimeData)ListViewTreatTime.Items[i]);
+            }
+            Datalist.Clear();
+            Datalist = temp;
+            ListViewTreatTime.ItemsSource = Datalist;
+            sdc.Clear();
+        }
     }
+    
 
     public class TreatTimeData : INotifyPropertyChanged
     {

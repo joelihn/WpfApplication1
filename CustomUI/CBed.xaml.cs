@@ -618,6 +618,20 @@ namespace WpfApplication1.CustomUI
                 }
                 bindingProperty = "IsTemp";
             }
+            else if (strn == "5")
+            {
+                if (Paixiflag[5] == 0)
+                {
+                    Paixiflag[5] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[5] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Description";
+            }
             SortDescriptionCollection sdc = ListViewBed.Items.SortDescriptions;
             if (sdc.Count > 0)
             {
