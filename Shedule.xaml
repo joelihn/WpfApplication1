@@ -44,7 +44,7 @@
                         <Border ToolTip="{Binding ToolTips}" x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" Height="50">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="140"/>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
@@ -536,61 +536,6 @@
 			</Grid>
 			<ListBoxItem Grid.Column="1" HorizontalAlignment="Left" Margin="162.5,83.5,0,0" Grid.Row="1" VerticalAlignment="Top" Template="{DynamicResource PatientListboxItem}" Width="100" Height="50"/>
 			<Grid Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="162.5,577,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>
-			<Border BorderBrush="#FFAEA9A9" BorderThickness="3,3,0,0" Grid.Column="1" Grid.Row="1">
-				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="650"/>
-						<RowDefinition/>
-					</Grid.RowDefinitions>
-					<ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{DynamicResource BacGround1}" x:Name="ListBox1" 
-						ItemContainerStyle="{DynamicResource ListBoxItemStyle2}" ItemsSource="{Binding}" SelectionChanged="PatientlistView_SelectionChanged" BorderThickness="0" />
-
-					<Grid x:Name="StatisticsGrid" Grid.Row="1" Style="{StaticResource GridBackGround1}">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
-						</Grid.ColumnDefinitions>
-						<Grid.RowDefinitions>
-							<RowDefinition/>
-							<RowDefinition/>
-							<RowDefinition/>
-						</Grid.RowDefinitions>
-
-						<!--<StackPanel Grid.RowSpan="3" Grid.ColumnSpan="2">
-                <StackPanel Name="AmPanel" Orientation="Horizontal" Height="50">
-                    <Label Width="40" Content="AM" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
-                </StackPanel>
-                <StackPanel Name="PmPanel" Orientation="Horizontal" Height="50">
-                    <Label Width="40" Content="PM" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
-                </StackPanel>
-                <StackPanel Name="EPanel" Orientation="Horizontal" Height="50">
-                    <Label Width="40" Content="E" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
-                </StackPanel>
-            </StackPanel>-->
-
-
-					</Grid>
-				</Grid>
-			</Border>
-			<Border BorderBrush="#FFAEA9A9" BorderThickness="0,3,0,0" Grid.Row="1">
-				<ListBox BorderBrush="{x:Null}" BorderThickness="0" Foreground="#FFAEA9A9"/>
-			</Border>
 			<Border BorderBrush="#FFAEA9A9" BorderThickness="3,0,0,0" Grid.Column="1">
 				<Grid>
 					<Grid.RowDefinitions>
@@ -709,6 +654,58 @@
 							<Button Content="医嘱" Template="{DynamicResource ButtonControlTemplate4}"/>
 							<Button Content="排床" Template="{DynamicResource ButtonControlTemplate4}" Grid.Column="1"/>
 						</Grid>
+
+					</Grid>
+				</Grid>
+			</Border>
+			<Border BorderBrush="#FFAEA9A9" BorderThickness="3,3,0,0" Grid.Row="1" Grid.ColumnSpan="2">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="650"/>
+						<RowDefinition/>
+					</Grid.RowDefinitions>
+					<ListBox ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="{DynamicResource BacGround1}" x:Name="ListBox1" 
+						ItemContainerStyle="{DynamicResource ListBoxItemStyle2}" ItemsSource="{Binding}" SelectionChanged="PatientlistView_SelectionChanged" BorderThickness="0" />
+
+					<Grid x:Name="StatisticsGrid" Grid.Row="1" Style="{StaticResource GridBackGround1}">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+							<ColumnDefinition/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition/>
+							<RowDefinition/>
+							<RowDefinition/>
+						</Grid.RowDefinitions>
+
+						<!--<StackPanel Grid.RowSpan="3" Grid.ColumnSpan="2">
+                <StackPanel Name="AmPanel" Orientation="Horizontal" Height="50">
+                    <Label Width="40" Content="AM" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+                </StackPanel>
+                <StackPanel Name="PmPanel" Orientation="Horizontal" Height="50">
+                    <Label Width="40" Content="PM" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+                </StackPanel>
+                <StackPanel Name="EPanel" Orientation="Horizontal" Height="50">
+                    <Label Width="40" Content="E" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+                </StackPanel>
+            </StackPanel>-->
+
 
 					</Grid>
 				</Grid>

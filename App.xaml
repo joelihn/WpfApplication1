@@ -460,7 +460,17 @@
                                                 
             								</Storyboard>
             							</VisualState>
-            							<VisualState x:Name="SelectedUnfocused"/>
+            							<VisualState x:Name="SelectedUnfocused">
+            								<Storyboard>
+            									<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+            										<EasingColorKeyFrame KeyTime="0" Value="#FF77C56A"/>
+            									</ColorAnimationUsingKeyFrames>
+            									<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+            										<EasingColorKeyFrame KeyTime="0" Value="#FF519342"/>
+            									</ColorAnimationUsingKeyFrames>
+                                                
+            								</Storyboard>
+            							</VisualState>
             						</VisualStateGroup>
             					</VisualStateManager.VisualStateGroups>
             					<Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
@@ -513,7 +523,16 @@
             									</ColorAnimationUsingKeyFrames>
             								</Storyboard>
             							</VisualState>
-            							<VisualState x:Name="SelectedUnfocused"/>
+            							<VisualState x:Name="SelectedUnfocused">
+            								<Storyboard>
+            									<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+            										<EasingColorKeyFrame KeyTime="0" Value="#FF77C56A"/>
+            									</ColorAnimationUsingKeyFrames>
+            									<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+            										<EasingColorKeyFrame KeyTime="0" Value="#FF519342"/>
+            									</ColorAnimationUsingKeyFrames>
+            								</Storyboard>
+            							</VisualState>
             						</VisualStateGroup>
             					</VisualStateManager.VisualStateGroups>
             					<Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
