@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="1024" d:DesignWidth="1230" Loaded="Init_OnLoaded">
+             d:DesignHeight="1024" d:DesignWidth="1090" Loaded="Init_OnLoaded">
     <UserControl.Resources>
         <collections:ArrayList x:Key="informationlist">
         </collections:ArrayList>
@@ -99,10 +99,6 @@
 
     </UserControl.Resources>
     <Grid>
-    	<Grid.ColumnDefinitions>
-    		<ColumnDefinition Width="140"/>
-    		<ColumnDefinition/>
-    	</Grid.ColumnDefinitions>
 		<Grid Style="{StaticResource GridBackGround1}" Grid.Column="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="50"/>
@@ -359,13 +355,6 @@
 				</Grid>
 			</StackPanel>
 		</Grid>
-		<Grid>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="50"/>
-				<RowDefinition/>
-			</Grid.RowDefinitions>
-			<ComboBox Style="{DynamicResource ComboBoxStyle4}"/>
-			<ListBox Grid.Row="1" BorderBrush="{x:Null}"/>
-		</Grid>
+		
 	</Grid>
 </UserControl>

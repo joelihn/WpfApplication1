@@ -60,7 +60,7 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO PATIENTGROUPPARA (GROUPID,LEFT,KEY,SYMBOL,VALUE,RIGHT,LOGIC,DESCRIPTION,RESERVED) VALUES 
-                        (@NAME,@LEFT,@KEY,@SYMBOL,@VALUE,@RIGHT,@LOGIC,@DESCRIPTION,@RESERVED)";
+                        (@GROUPID,@LEFT,@KEY,@SYMBOL,@VALUE,@RIGHT,@LOGIC,@DESCRIPTION,@RESERVED)";
                     sqlcomm.Parameters.Add("@GROUPID", DbType.Int64);
                     sqlcomm.Parameters["@GROUPID"].Value = PatientGroupPara.GroupId;
                     sqlcomm.Parameters.Add("@LEFT", DbType.String);

@@ -52,6 +52,8 @@ namespace WpfApplication1
             this.SexComboBox.Items.Add("男");
             this.SexComboBox.Items.Add("女");
             SexComboBox.SelectedIndex = 0;
+
+           
         }
 
         private void BeginDatePicker_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -1605,6 +1607,7 @@ namespace WpfApplication1
 
         }
 
+       
     }
 
     public class PatientInfo : INotifyPropertyChanged

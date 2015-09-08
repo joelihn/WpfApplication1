@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="1024" d:DesignWidth="1280" Loaded="Order_OnLoaded">
+             d:DesignHeight="1024" d:DesignWidth="1090" Loaded="Order_OnLoaded">
     <UserControl.Resources>
         <collections:ArrayList x:Key="informationlist">
         </collections:ArrayList>
@@ -101,15 +101,11 @@
 
     </UserControl.Resources>
     <Grid>
-    	<Grid.RowDefinitions>
-    		<RowDefinition Height="50"/>
-    		<RowDefinition/>
-    	</Grid.RowDefinitions>
-    	<Grid.ColumnDefinitions>
-    		<ColumnDefinition Width="140"/>
-    		<ColumnDefinition/>
-    	</Grid.ColumnDefinitions>
-		<StackPanel Margin="748.6,780,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="748.6,780,0,0">
 			<Grid x:Name="TopGrid" Margin="0,0,0,0" Style="{StaticResource GridBackGround1}" Height="1022">
 				<TextBlock Visibility="Hidden"  HorizontalAlignment="Left" Margin="20,20,0,0" x:Name="textBlock9" Text="{DynamicResource IDtext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
 				<TextBox Visibility="Hidden" HorizontalAlignment="Right" Margin="0,20,603,0" x:Name="IDTextBox" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10001" IsTabStop="True" DataContext="{Binding}" Height="27" VerticalAlignment="Top" />
@@ -302,8 +298,8 @@
 			</Grid>
 
 		</StackPanel>
-		<ListBox Grid.Row="1"/>
-		<ComboBox Style="{DynamicResource ComboBoxStyle4}"/>
+		<!--<ListBox Grid.Row="1"/>
+		<ComboBox Style="{DynamicResource ComboBoxStyle4}"/>-->
 		<Grid Grid.Column="1">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition/>

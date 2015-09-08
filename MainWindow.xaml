@@ -17,6 +17,7 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="140" />
+                    <ColumnDefinition Width="140" />
                     <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
                 <!--<Border Grid.Row="5" Grid.Column="1" BorderThickness="0" >
@@ -32,7 +33,9 @@
                     </Grid>
 
                 </Border>-->
-                <ContentControl Name="RightContent" Grid.Column="1"  Grid.RowSpan="7" Foreground="GreenYellow"></ContentControl>
+                <ContentControl Name="RightContentR" Grid.Column="2"  Grid.RowSpan="7" Foreground="GreenYellow"></ContentControl>
+                <ContentControl Name="RightContentL" Grid.Column="1"  Grid.RowSpan="7" Foreground="GreenYellow"></ContentControl>
+                <ContentControl Name="RightContentA" Grid.Column="1" Grid.ColumnSpan="2"  Grid.RowSpan="7" Foreground="GreenYellow"></ContentControl>
                 <ListBox SelectionChanged="listbox1_SelectionChanged" Name="TopMenuListBox" Grid.RowSpan="6" ItemContainerStyle="{DynamicResource MenuStyle}" BorderBrush="{x:Null}" />
             </Grid>
     </Viewbox>

@@ -29,9 +29,11 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static int ComboBoxPatientGroupIndex = 0;
         public static readonly LogHelper Log = LogHelper.GetInstance();
         Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            
+
+        private PatientGroupPanel patientGroupPanel;
         private Init initContent;
         private Order orderContent;
         private Shedule sheduleContent;
@@ -125,8 +127,9 @@ namespace WpfApplication1
             //    bedDao.DeleteBed((int)list[0].Id);
             //}
             #endregion
-           
 
+
+            patientGroupPanel = new PatientGroupPanel(this);
             initContent = new Init(this);
             orderContent = new Order(this);
             sheduleContent = new Shedule(this);
@@ -136,7 +139,8 @@ namespace WpfApplication1
                 this.ConfigButton.IsEnabled = true;
             else
                 this.ConfigButton.IsEnabled = false;*/
-            this.RightContent.Content = initContent;
+            this.RightContentR.Content = initContent;
+            this.RightContentL.Content = patientGroupPanel;
 
             TopMenuListBox.ItemsSource = TopMenuCollection;
             TopMenuCollection.Add("登记");
@@ -151,27 +155,30 @@ namespace WpfApplication1
 
         private void InitButton_Click(object sender, RoutedEventArgs e)
         {
-            this.RightContent.Content = initContent;
+            this.RightContentR.Content = initContent;
+            this.RightContentL.Content = patientGroupPanel;
         }
 
         private void OrderButton_Click(object sender, RoutedEventArgs e)
         {
-            this.RightContent.Content = orderContent;
+            this.RightContentR.Content = orderContent;
+            this.RightContentL.Content = patientGroupPanel;
         }
 
         private void SheduleButton_Click(object sender, RoutedEventArgs e)
         {
-            this.RightContent.Content = sheduleContent;
+            this.RightContentR.Content = sheduleContent;
+            this.RightContentL.Content = patientGroupPanel;
         }
 
         private void BedButton_Click(object sender, RoutedEventArgs e)
         {
-            this.RightContent.Content = bedContent;
+            this.RightContentA.Content = bedContent;
         }
 
         private void ConfigButton_Click(object sender, RoutedEventArgs e)
         {
-            this.RightContent.Content = configContent;
+            this.RightContentA.Content = configContent;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -189,19 +196,25 @@ namespace WpfApplication1
             switch (listBox.SelectedIndex)
             {
                 case 0:
-                    this.RightContent.Content = initContent;
+                    this.RightContentA.Content = "";
+                    this.RightContentR.Content = initContent;
+                    this.RightContentL.Content = patientGroupPanel;
                     break;
                 case 1:
-                    this.RightContent.Content = orderContent;
+                    this.RightContentA.Content = "";
+                    this.RightContentR.Content = orderContent;
+                    this.RightContentL.Content = patientGroupPanel;
                     break;
                 case 2:
-                    this.RightContent.Content = sheduleContent;
+                    this.RightContentA.Content = "";
+                    this.RightContentR.Content = sheduleContent;
+                    this.RightContentL.Content = patientGroupPanel;
                     break;
                 case 3:
-                    this.RightContent.Content = bedContent;
+                    this.RightContentA.Content = bedContent;
                     break;
                 case 4:
-                    this.RightContent.Content = configContent;
+                    this.RightContentA.Content = configContent;
                     break;
             }
         }

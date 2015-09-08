@@ -118,6 +118,9 @@
     <Compile Include="CustomUI\CPatientRoom.xaml.cs">
       <DependentUpon>CPatientRoom.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomUI\PatientGroupPanel.xaml.cs">
+      <DependentUpon>PatientGroupPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomUI\RemindMessageBox1.xaml.cs">
       <DependentUpon>RemindMessageBox1.xaml</DependentUpon>
     </Compile>
@@ -218,6 +221,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CustomUI\CPatientRoom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomUI\PatientGroupPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -138,7 +138,7 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid Style="{StaticResource GridBackGround1}">
+    <Grid  Style="{StaticResource GridBackGround1}">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="50"/>
@@ -177,28 +177,29 @@
         <ListView  Style="{StaticResource ListViewStyle}" SelectionChanged="ListViewPatientGroup_OnSelectionChanged"  Loaded="ListViewPatientGroup_OnLoaded"  Grid.Row="1" Grid.RowSpan="2" x:Name="ListViewPatientGroup" ItemsSource="{Binding}" >
             <ListView.View>
                 <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
+                    
                     <GridViewColumn Width="200">
 
                         <Grid Tag="0">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock  Width="200" Text="组名称" />
+                                <TextBlock FontWeight="Bold"  Width="200" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="组名称" />
                             </StackPanel>
                         </Grid>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="200" Text="{Binding Name}" Height="50" TextChanged="TextBoxBase_OnTextChanged" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBox GotFocus="UIElement_OnGotFocus" FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="200" Text="{Binding Name}" Height="50" TextChanged="TextBoxBase_OnTextChanged" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="800">
+                    <GridViewColumn Width="780">
                         <Grid Tag="1">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Width="800" Text="组描述"  />
+                                <TextBlock FontWeight="Bold"  Width="780" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="组描述"  />
                             </StackPanel>
                         </Grid>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="800" Text="{Binding Description}" Height="50" TextChanged="TextBoxBase_OnTextChanged"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+                                <TextBox GotFocus="UIElement_OnGotFocus" FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="780" Text="{Binding Description}" Height="50" TextChanged="TextBoxBase_OnTextChanged"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -220,7 +221,7 @@
             <Label  Content="患者组参数设置"  Style="{DynamicResource FunctionLabelStyle}" Grid.Column="2" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
 
         </Grid>
-        <Grid Grid.Row="4">
+        <!--<Grid Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="160"/>
                 <ColumnDefinition Width="160"/>
@@ -237,6 +238,87 @@
             <Label Content="逻辑关系" Grid.Column="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" MouseDown="Para_Label_MouseDown" Tag="5"/>
 
         </Grid>
-        <ListBox SelectionChanged="ListViewPatientGroupPara_OnSelectionChanged"  Loaded="ListViewPatientGroupPara_OnLoaded"  FontSize="14" Name="ListViewPatientGroupPara" HorizontalAlignment="Left" Grid.Row="5" Width="1000" ItemContainerStyle="{DynamicResource PaitientGroupParaListboxItemStyle}"/>
+        <ListBox SelectionChanged="ListViewPatientGroupPara_OnSelectionChanged"  Loaded="ListViewPatientGroupPara_OnLoaded"  FontSize="14" Name="ListViewPatientGroupPara" HorizontalAlignment="Left" Grid.Row="5" Width="1000" ItemContainerStyle="{DynamicResource PaitientGroupParaListboxItemStyle}"/>-->
+        <ListView Name="ListViewPatientGroupPara"  Style="{StaticResource ListViewStyle}" SelectionChanged="ListViewPatientGroupPara_OnSelectionChanged"  Loaded="ListViewPatientGroupPara_OnLoaded"  Grid.Row="4" Grid.RowSpan="2"  ItemsSource="{Binding}" >
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
+                    <GridViewColumn Width="160">
+                        <Grid Tag="0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontWeight="Bold"  Width="160" TextAlignment="Center"  HorizontalAlignment="Center" VerticalAlignment="Center" Text="左括号" />
+                            </StackPanel>
+                        </Grid>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="160" Text="{Binding Left}" Height="50" TextChanged="TextBoxBase_OnTextChanged_Para" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="160">
+                        <Grid Tag="1">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontWeight="Bold"  Width="160" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="参数"  />
+                            </StackPanel>
+                        </Grid>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <!--<TextBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="160" Text="{Binding Key}" Height="50" TextChanged="TextBoxBase_OnTextChanged_Para"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>-->
+                                <ComboBox  GotFocus="UIElement_OnGotFocus_Para"  Name="ComboBoxKey" SelectionChanged="ComboBoxKey_OnSelectionChanged"  Initialized="ComboBoxKey_OnInitialized"  SelectedValue="{Binding Key}" Width="210" Height="50" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="160">
+                        <Grid Tag="2">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontWeight="Bold"  Width="160" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="表达式"  />
+                            </StackPanel>
+                        </Grid>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <!--<TextBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="160" Text="{Binding Symbol}" Height="50" TextChanged="TextBoxBase_OnTextChanged_Para"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>-->
+                                <ComboBox  GotFocus="UIElement_OnGotFocus_Para" Name="ComboBoxSymbol" SelectionChanged="ComboBoxSymbol_OnSelectionChanged"  Initialized="ComboBoxSymbol_OnInitialized"  SelectedValue="{Binding Symbol}" Width="210" Height="50" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="160">
+                        <Grid Tag="3">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontWeight="Bold"  Width="160" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="值"  />
+                            </StackPanel>
+                        </Grid>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                    <!--<ComboBox Visibility="Hidden" GotFocus="UIElement_OnGotFocus_Para" Name="ComboBoxValue" SelectionChanged="ComboBoxValue_OnSelectionChanged"  Initialized="ComboBoxValue_OnInitialized"  SelectedValue="{Binding Value}" Width="210" Height="50" />-->
+                                <TextBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="160" Text="{Binding Value}" Height="50" TextChanged="TextBoxBase_OnTextChanged_Para"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="160">
+                        <Grid Tag="4">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontWeight="Bold"  Width="160" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="右括号"  />
+                            </StackPanel>
+                        </Grid>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="160" Text="{Binding Right}" Height="50" TextChanged="TextBoxBase_OnTextChanged_Para"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="180">
+                        <Grid Tag="5">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontWeight="Bold"  Width="180" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Text="逻辑关系"  />
+                            </StackPanel>
+                        </Grid>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="180" Text="{Binding Logic}" Height="50" TextChanged="TextBoxBase_OnTextChanged_Para"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </UserControl>

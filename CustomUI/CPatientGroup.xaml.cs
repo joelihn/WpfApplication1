@@ -66,6 +66,7 @@ namespace WpfApplication1.CustomUI
                 RefreshData();
             }
 
+            this.ButtonNew.IsEnabled = true;
             this.ButtonDelete.IsEnabled = false;
             this.ButtonApply.IsEnabled = false;
             this.ButtonCancel.IsEnabled = false;
@@ -94,133 +95,141 @@ namespace WpfApplication1.CustomUI
             }
             catch (Exception ex)
             {
-                MainWindow.Log.WriteInfoConsole("In CPatientGroup.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
+                MainWindow.Log.WriteInfoConsole("In CPatientGroup.xaml.cs:RefreshData exception messsage: " + ex.Message);
             }
         }
 
+        private bool CheckNameIsExist(string name)
+        {
+            using (var patientGroupDao = new PatientGroupDao())
+            {
+                var condition = new Dictionary<string, object>();
+                var list = patientGroupDao.SelectPatientGroup(condition);
+                foreach (var pa in list)
+                {
+                    if (name.Equals(pa.Name))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+
+            }
+        }
+
+
         private void ButtonApply_OnClick(object sender, RoutedEventArgs e)
         {
-            //if (isNew)
-            //{
-            //    //throw new NotImplementedException();
-            //    try
-            //    {
-            //        if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
-            //        {
-            //            var a = new RemindMessageBox1();
-            //            a.remindText.Text = (string)FindResource("Message1001"); ;
-            //            a.ShowDialog();
-            //            return;
-            //        }
+            if (isNew)
+            {
+                //throw new NotImplementedException();
+                try
+                {
+                    int index = ListViewPatientGroup.SelectedIndex;
+                    if (index == -1) return;
 
-            //        using (PatientAreaDao patientAreaDao = new PatientAreaDao())
-            //        {
-            //            PatientArea patientArea = new PatientArea();
-            //            patientArea.Name = this.NameTextBox.Text;
-            //            var condition = new Dictionary<string, object>();
-            //            using (var infectTypeDao = new InfectTypeDao())
-            //            {
-            //                condition.Clear();
-            //                condition["Name"] = InfectionComboBox.Text;
-            //                var arealist = infectTypeDao.SelectInfectType(condition);
-            //                if (arealist.Count == 1)
-            //                {
-            //                    patientArea.InfectTypeId = arealist[0].Id;
-            //                }
-            //                else
-            //                {
-            //                    patientArea.InfectTypeId = 1;
-            //                }
-            //            }
-            //            if ((bool)this.RadioButton1.IsChecked)
-            //                patientArea.Type = "0";
-            //            else if ((bool)this.RadioButton2.IsChecked)
-            //                patientArea.Type = "1";
-            //            patientArea.Description = this.DescriptionTextBox.Text;
-            //            patientArea.Position = this.PositionTextBox.Text;
-            //            patientArea.Seq = int.Parse(this.SeqTextBox.Text);
-            //            int lastInsertId = -1;
-            //            patientAreaDao.InsertPatientArea(patientArea, ref lastInsertId);
-            //            //UI
-            //            PatientAreaData patientAreaData = new PatientAreaData();
-            //            patientAreaData.Name = patientArea.Name;
-            //            if ((bool)this.RadioButton1.IsChecked)
-            //            {
-            //                patientAreaData.InfectionType = "阴性";
-            //                patientAreaData.Type = "0";
-            //            }
+                    if (Datalist[index].Name.Equals("") || !CheckNameIsExist(Datalist[index].Name))
+                    {
+                        var a = new RemindMessageBox1();
+                        a.remindText.Text = (string)FindResource("Message1001"); ;
+                        a.ShowDialog();
+                        return;
+                    }
 
-            //            else if ((bool)this.RadioButton2.IsChecked)
-            //                patientAreaData.Type = "1";
+                    using (PatientGroupDao patientGroupDao = new PatientGroupDao())
+                    {
+                        PatientGroup patientGroup = new PatientGroup();
+                        patientGroup.Name = Datalist[index].Name;
+                        patientGroup.Description = Datalist[index].Description;
+                        int lastInsertId = -1;
+                        patientGroupDao.InsertPatientGroup(patientGroup, ref lastInsertId);
+                        //UI
+                        //PatientGroupData patientGroupData = new PatientGroupData();
+                        //patientGroupData.Id = lastInsertId;
+                        //patientGroupData.Name = patientGroup.Name;
+                        //patientGroupData.Description = patientGroup.Description;
 
-            //            patientAreaData.Description = patientArea.Description;
-            //            patientAreaData.Position = patientArea.Position;
-            //            patientAreaData.Seq = patientArea.Seq;
+                        //Datalist.Add(patientGroupData);
+                        Datalist[index].Id = lastInsertId;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MainWindow.Log.WriteInfoConsole("In CPatientGroup.xaml.cs:ButtonApply_OnClick exception messsage: " + ex.Message);
+                    return;
+                }
+                this.ButtonNew.IsEnabled = true;
+                this.ButtonDelete.IsEnabled = true;
+                this.ButtonApply.IsEnabled = true;
+                this.ButtonCancel.IsEnabled = true;
+                isNew = false;
+            }
+            else
+            {
+                int index = ListViewPatientGroup.SelectedIndex;
+                if (index == -1) return;
 
-            //            Datalist.Add(patientAreaData);
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MainWindow.Log.WriteInfoConsole("In CPatientArea.xaml.cs:ButtonApply_OnClick exception messsage: " + ex.Message);
-            //        return;
-            //    }
-            //    this.ButtonNew.IsEnabled = true;
-            //    this.ButtonDelete.IsEnabled = true;
-            //    this.ButtonApply.IsEnabled = true;
-            //    this.ButtonCancel.IsEnabled = true;
-            //}
-            //else
-            //{
-            //    if (ListViewPatientArea.SelectedIndex == -1) return;
+                if (this.Datalist[index].Name.Equals(""))
+                {
+                    var a = new RemindMessageBox1();
+                    a.remindText.Text = (string)FindResource("Message1001"); ;
+                    a.ShowDialog();
+                    return;
+                }
 
-            //    if (this.NameTextBox.Text.Equals(""))
-            //    {
-            //        var a = new RemindMessageBox1();
-            //        a.remindText.Text = (string)FindResource("Message1001"); ;
-            //        a.ShowDialog();
-            //        return;
-            //    }
+                //throw new NotImplementedException();
+                using (var patientGroupDao = new PatientGroupDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["ID"] = Datalist[index].Id;
 
-            //    //throw new NotImplementedException();
-            //    using (var patientAreaDao = new PatientAreaDao())
-            //    {
-            //        var condition = new Dictionary<string, object>();
-            //        condition["ID"] = Datalist[ListViewPatientArea.SelectedIndex].Id;
+                    var fileds = new Dictionary<string, object>();
+                    fileds["NAME"] = Datalist[index].Name;
+                    fileds["DESCRIPTION"] = Datalist[index].Description;
+                    patientGroupDao.UpdatePatientGroup(fileds, condition);
+                    int temp = this.ListViewPatientGroup.SelectedIndex;
+                    RefreshData();
+                    this.ListViewPatientGroup.SelectedIndex = temp;
+                }
+               
+            }
 
-            //        var fileds = new Dictionary<string, object>();
-            //        fileds["NAME"] = NameTextBox.Text;
-            //        var condition2 = new Dictionary<string, object>();
-            //        using (var infectTypeDao = new InfectTypeDao())
-            //        {
-            //            condition2.Clear();
-            //            condition2["NAME"] = InfectionComboBox.Text;
-            //            var arealist = infectTypeDao.SelectInfectType(condition2);
-            //            if (arealist.Count == 1)
-            //            {
-            //                fileds["INFECTTYPEID"] = arealist[0].Id;
-            //            }
-            //            else
-            //            {
-            //                fileds["INFECTTYPEID"] = 1;
-            //            }
-            //        }
-            //        if ((bool)this.RadioButton1.IsChecked)
-            //            fileds["TYPE"] = "0";
-            //        else if ((bool)this.RadioButton2.IsChecked)
-            //            fileds["TYPE"] = "1";
-            //        fileds["SEQ"] = SeqTextBox.Text;
-            //        fileds["POSITION"] = PositionTextBox.Text;
-            //        fileds["DESCRIPTION"] = DescriptionTextBox.Text;
-            //        patientAreaDao.UpdatePatientArea(fileds, condition);
-            //        int temp = this.ListViewPatientArea.SelectedIndex;
-            //        RefreshData();
-            //        this.ListViewPatientArea.SelectedIndex = temp;
-            //    }
-            //    isNew = false;
-            //}
-            //this.ButtonApply.IsEnabled = false;
+            this.ButtonDelete.IsEnabled = true;
+            this.ButtonApply.IsEnabled = false;
+        }
 
+
+
+        private void RefreshDataPara()
+        {
+            try
+            {
+                using (var patientGroupParaDao = new PatientGroupParaDao())
+                {
+                    DatalistPara.Clear();
+
+                    var condition = new Dictionary<string, object>();
+                    var list = patientGroupParaDao.SelectPatientGroupPara(condition);
+                    foreach (var pa in list)
+                    {
+                        var patientGroupParaData = new PatientGroupParaData();
+                        patientGroupParaData.Id = pa.Id;
+                        patientGroupParaData.GroupId = pa.GroupId;
+                        patientGroupParaData.Left = pa.Left;
+                        patientGroupParaData.Key = pa.Key;
+                        patientGroupParaData.Symbol = pa.Symbol;
+                        patientGroupParaData.Value = pa.Value;
+                        patientGroupParaData.Right = pa.Right;
+                        patientGroupParaData.Logic = pa.Logic;
+                        patientGroupParaData.Description = pa.Description;
+                        DatalistPara.Add(patientGroupParaData);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CPatientGroup.xaml.cs:RefreshDataPara exception messsage: " + ex.Message);
+            }
         }
 
         private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
@@ -242,43 +251,196 @@ namespace WpfApplication1.CustomUI
                 this.ListViewPatientGroup.SelectedIndex = -1;
                 this.ListViewPatientGroup.SelectedIndex = currnetIndex;
             }
-
         }
 
 
         private void ButtonParaNew_OnClick(object sender, RoutedEventArgs e)
         {
+            if (this.ListViewPatientGroup.SelectedIndex == -1)
+                return;
+
+            isNewPara = true;
+
+            PatientGroupParaData patientGroupParaData = new PatientGroupParaData();
+            patientGroupParaData.GroupId = Datalist[this.ListViewPatientGroup.SelectedIndex].Id;
+            patientGroupParaData.Left = "";
+            patientGroupParaData.Key = "";
+            patientGroupParaData.Symbol = "";
+            patientGroupParaData.Value = "";
+            patientGroupParaData.Right = "";
+            patientGroupParaData.Logic = "";
+            patientGroupParaData.Description = "";
+            DatalistPara.Add(patientGroupParaData);
+
+            this.ButtonParaNew.IsEnabled = false;
+            this.ButtonParaDelete.IsEnabled = false;
+            this.ButtonParaApply.IsEnabled = true;
+            this.ButtonParaCancel.IsEnabled = true;
         }
 
         private void ButtonParaDelete_OnClick(object sender, RoutedEventArgs e)
         {
+            if (ListViewPatientGroupPara.SelectedIndex == -1) return;
+
+            //throw new NotImplementedException();
+            using (var patientGroupParaDao = new PatientGroupParaDao())
+            {
+                patientGroupParaDao.DeletePatientGroupPara(Datalist[ListViewPatientGroupPara.SelectedIndex].Id);
+                RefreshDataPara();
+            }
+
+            this.ButtonParaNew.IsEnabled = true;
+            this.ButtonParaDelete.IsEnabled = false;
+            this.ButtonParaApply.IsEnabled = false;
+            this.ButtonParaCancel.IsEnabled = false;
+            isNewPara = false;
         }
 
         private void ButtonParaApply_OnClick(object sender, RoutedEventArgs e)
         {
+            if (isNewPara)
+            {
+                //throw new NotImplementedException();
+                try
+                {
+                    int index = ListViewPatientGroupPara.SelectedIndex;
+                    if (index == -1) return;
+
+                    //if (DatalistPara[index].Name.Equals("") || !CheckNameIsExist(DatalistPara[index].Name))
+                    //{
+                    //    var a = new RemindMessageBox1();
+                    //    a.remindText.Text = (string)FindResource("Message1001"); ;
+                    //    a.ShowDialog();
+                    //    return;
+                    //}
+
+                    using (PatientGroupParaDao patientGroupParaDao = new PatientGroupParaDao())
+                    {
+                        PatientGroupPara patientGroupPara = new PatientGroupPara();
+                        patientGroupPara.GroupId = Datalist[ListViewPatientGroup.SelectedIndex].Id;
+                        patientGroupPara.Left = DatalistPara[index].Left;
+                        patientGroupPara.Key = DatalistPara[index].Key;
+                        patientGroupPara.Symbol = DatalistPara[index].Symbol;
+                        patientGroupPara.Value = DatalistPara[index].Value;
+                        patientGroupPara.Right = DatalistPara[index].Right;
+                        patientGroupPara.Logic = DatalistPara[index].Logic;
+                        patientGroupPara.Description = DatalistPara[index].Description;
+                        int lastInsertId = -1;
+                        patientGroupParaDao.InsertPatientGroupPara(patientGroupPara, ref lastInsertId);
+                        //UI
+                        //PatientGroupData patientGroupData = new PatientGroupData();
+                        //patientGroupData.Id = lastInsertId;
+                        //patientGroupData.Name = patientGroup.Name;
+                        //patientGroupData.Description = patientGroup.Description;
+
+                        //Datalist.Add(patientGroupData);
+                        DatalistPara[index].Id = lastInsertId;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MainWindow.Log.WriteInfoConsole("In CPatientGroup.xaml.cs:ButtonParaApply_OnClick exception messsage: " + ex.Message);
+                    return;
+                }
+                this.ButtonParaNew.IsEnabled = true;
+                this.ButtonParaDelete.IsEnabled = true;
+                this.ButtonParaApply.IsEnabled = true;
+                this.ButtonParaCancel.IsEnabled = true;
+                isNewPara = false;
+            }
+            else
+            {
+                int index = ListViewPatientGroupPara.SelectedIndex;
+                if (index == -1) return;
+
+                //if (this.DatalisParat[index].Name.Equals(""))
+                //{
+                //    var a = new RemindMessageBox1();
+                //    a.remindText.Text = (string)FindResource("Message1001"); ;
+                //    a.ShowDialog();
+                //    return;
+                //}
+
+                //throw new NotImplementedException();
+                using (var patientGroupParaDao = new PatientGroupParaDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["ID"] = DatalistPara[index].Id;
+
+                    var fileds = new Dictionary<string, object>();
+                    fileds["LEFT"] = DatalistPara[index].Left;
+                    fileds["KEY"] = DatalistPara[index].Key;
+                    fileds["SYMBOL"] = DatalistPara[index].Symbol;
+                    fileds["VALUE"] = DatalistPara[index].Value;
+                    fileds["RIGHT"] = DatalistPara[index].Right;
+                    fileds["LOGIC"] = DatalistPara[index].Logic;
+                    fileds["DESCRIPTION"] = Datalist[index].Description;
+                    patientGroupParaDao.UpdatePatientGroupPara(fileds, condition);
+                    int temp = this.ListViewPatientGroupPara.SelectedIndex;
+                    RefreshDataPara();
+                    this.ListViewPatientGroupPara.SelectedIndex = temp;
+                }
+
+            }
+
+            this.ButtonParaDelete.IsEnabled = true;
+            this.ButtonParaApply.IsEnabled = false;
         }
 
         private void ButtonParaCancel_OnClick(object sender, RoutedEventArgs e)
         {
+            if (isNewPara)
+            {
+                RefreshDataPara();
 
+                this.ButtonParaNew.IsEnabled = true;
+                this.ButtonParaDelete.IsEnabled = false;
+                this.ButtonParaApply.IsEnabled = false;
+                this.ButtonParaCancel.IsEnabled = false;
+                this.ListViewPatientGroupPara.SelectedIndex = -1;
+                this.ListViewPatientGroupPara.SelectedIndex = currnetIndexPara;
+                isNewPara = false;
+            }
+            else
+            {
+                this.ListViewPatientGroupPara.SelectedIndex = -1;
+                this.ListViewPatientGroupPara.SelectedIndex = currnetIndexPara;
+            }
         }
 
 
         private void ListViewPatientGroup_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (isNew)
+            try
             {
-                var messageBox2 = new RemindMessageBox2();
-                messageBox2.textBlock1.Text = "是否保存当前行的修改？";
-                messageBox2.ShowDialog();
-                if (messageBox2.remindflag == 1)
+                currnetIndex = this.ListViewPatientGroup.SelectedIndex;
+                using (var patientGroupParaDao = new PatientGroupParaDao())
                 {
-
+                    DatalistPara.Clear();
+                    var condition = new Dictionary<string, object>();
+                    condition["GROUPID"] = Datalist[this.ListViewPatientGroup.SelectedIndex].Id;
+                    var list = patientGroupParaDao.SelectPatientGroupPara(condition);
+                    foreach (var type in list)
+                    {
+                        var patientGroupParaData = new PatientGroupParaData
+                        {
+                            Id = type.Id,
+                            GroupId = type.GroupId,
+                            Left = type.Left,
+                            Key = type.Key,
+                            Symbol = type.Symbol,
+                            Value = type.Value,
+                            Right = type.Right,
+                            Logic = type.Logic,
+                            Description = type.Description
+                        };
+                        DatalistPara.Add(patientGroupParaData);
+                    }
                 }
-                else
-                {
-                }
-                isNew = false;
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CPatientGroup.xaml.cs:ListViewPatientGroup_OnSelectionChanged exception messsage: " + ex.Message);
             }
 
         }
@@ -314,20 +476,60 @@ namespace WpfApplication1.CustomUI
 
         private void ListViewPatientGroupPara_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            currnetIndexPara = this.ListViewPatientGroupPara.SelectedIndex;
+            ////throw new NotImplementedException();
+            //try
+            //{
+            //    using (var patientGroupParaDao = new PatientGroupParaDao())
+            //    {
+            //        DatalistPara.Clear();
+            //        var condition = new Dictionary<string, object>();
+            //        var list = patientGroupParaDao.SelectPatientGroupPara(condition);
+            //        foreach (var type in list)
+            //        {
+            //            var patientGroupParaData = new PatientGroupParaData
+            //            {
+            //                Id = type.Id,
+            //                GroupId = type.GroupId,//TODO
+            //                Left = type.Left,
+            //                Key = type.Key,
+            //                Symbol = type.Symbol,
+            //                Value = type.Value,
+            //                Right = type.Right,
+            //                Logic = type.Logic,
+            //                Description = type.Description
+            //            };
+            //            DatalistPara.Add(patientGroupParaData);
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    MainWindow.Log.WriteInfoConsole("In CPatient.xaml.cs:ListViewPatientGroupPara_OnSelectionChanged exception messsage: " + ex.Message);
+            //}
+
+        }
+
+        private void ListViewPatientGroupPara_OnLoaded(object sender, RoutedEventArgs e)
+        {
             //throw new NotImplementedException();
+            if (this.ListViewPatientGroup.SelectedIndex == -1)
+                return;
+
             try
             {
                 using (var patientGroupParaDao = new PatientGroupParaDao())
                 {
                     DatalistPara.Clear();
                     var condition = new Dictionary<string, object>();
+                    condition["GROUPID"] = Datalist[this.ListViewPatientGroup.SelectedIndex].Id;
                     var list = patientGroupParaDao.SelectPatientGroupPara(condition);
                     foreach (var type in list)
                     {
                         var patientGroupParaData = new PatientGroupParaData
                         {
                             Id = type.Id,
-                            GroupId = type.GroupId,//TODO
+                            GroupId = type.GroupId,
                             Left = type.Left,
                             Key = type.Key,
                             Symbol = type.Symbol,
@@ -342,14 +544,8 @@ namespace WpfApplication1.CustomUI
             }
             catch (Exception ex)
             {
-                MainWindow.Log.WriteInfoConsole("In CPatient.xaml.cs:ListViewPatientGroupPara_OnSelectionChanged exception messsage: " + ex.Message);
+                MainWindow.Log.WriteInfoConsole("In CPatientGroup.xaml.cs:ListViewPatientGroupPara_OnLoaded exception messsage: " + ex.Message);
             }
-
-        }
-
-        private void ListViewPatientGroupPara_OnLoaded(object sender, RoutedEventArgs e)
-        {
-            
 
         }
 
@@ -367,7 +563,96 @@ namespace WpfApplication1.CustomUI
 
         private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            
+
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+        }
+
+        private void TextBoxBase_OnTextChanged_Para(object sender, TextChangedEventArgs e)
+        {
+
+            this.ButtonParaApply.IsEnabled = true;
+            this.ButtonParaCancel.IsEnabled = true;
+        }
+
+        private void UIElement_OnGotFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                var aa = textBox.DataContext;
+                ListViewPatientGroup.SelectedItem = aa;
+            }
+        }
+
+        private void UIElement_OnGotFocus_Para(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                var aa = textBox.DataContext;
+                ListViewPatientGroupPara.SelectedItem = aa;
+            }
+
+            var comboBox = sender as ComboBox;
+            if (comboBox != null)
+            {
+                var aa = comboBox.DataContext;
+                ListViewPatientGroupPara.SelectedItem = aa;
+            }
+        }
+
+        private void ComboBoxKey_OnInitialized(object sender, EventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            cb.Items.Add("姓名");
+            cb.Items.Add("性别");
+            cb.Items.Add("血型");
+            cb.Items.Add("婚姻状况");
+            cb.Items.Add("感染情况");
+            cb.Items.Add("治疗状态");
+            cb.Items.Add("固定床位");
+            cb.Items.Add("所属分区");
+        }
+
+        private void ComboBoxKey_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            if (cb.SelectedItem.Equals("姓名"))
+            {
+                //this.ListViewPatientGroupPara
+            }
+              this.ButtonParaApply.IsEnabled = true;
+            this.ButtonParaCancel.IsEnabled = true;
+        
+        }
+
+        private void ComboBoxSymbol_OnInitialized(object sender, EventArgs e)
+        {
+            ComboBox cb = (ComboBox)sender;
+            cb.Items.Add("大于");
+            cb.Items.Add("小于");
+            cb.Items.Add("等于");
+            cb.Items.Add("包含");
+            cb.Items.Add("不包含");
+        }
+
+        private void ComboBoxSymbol_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            this.ButtonParaApply.IsEnabled = true;
+            this.ButtonParaCancel.IsEnabled = true;
+        }
+
+        private void ComboBoxValue_OnInitialized(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ComboBoxValue_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.ButtonParaApply.IsEnabled = true;
+            this.ButtonParaCancel.IsEnabled = true;
 
         }
     }

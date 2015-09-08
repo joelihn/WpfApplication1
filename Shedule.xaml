@@ -518,15 +518,11 @@
 			</Grid>
 		</Viewbox>
 		<Grid>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="170"/>
-				<RowDefinition/>
-			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="140"/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
-			<Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="170"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!--<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition/>
 					<RowDefinition Height="50"/>
@@ -535,7 +531,7 @@
 				<StackPanel/>
 			</Grid>
 			<ListBoxItem Grid.Column="1" HorizontalAlignment="Left" Margin="162.5,83.5,0,0" Grid.Row="1" VerticalAlignment="Top" Template="{DynamicResource PatientListboxItem}" Width="100" Height="50"/>
-			<Grid Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="162.5,577,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>
+			<Grid Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="162.5,577,0,0" Grid.Row="1" VerticalAlignment="Top" Width="100"/>-->
 			<Border BorderBrush="#FFAEA9A9" BorderThickness="3,0,0,0" Grid.Column="1">
 				<Grid>
 					<Grid.RowDefinitions>

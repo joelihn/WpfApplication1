@@ -233,6 +233,7 @@ namespace WpfApplication1.CustomUI
                 this.ButtonCancel.IsEnabled = false;
                 this.ListViewInfectType.SelectedIndex = -1;
                 this.ListViewInfectType.SelectedIndex = currnetIndex;
+
             }
             else
             {
