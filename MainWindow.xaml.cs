@@ -217,24 +217,26 @@ namespace WpfApplication1
             switch (listBox.SelectedIndex)
             {
                 case 0:
-                    this.RightContentA.Content = "";
+                    this.RightContentA.Visibility = Visibility.Hidden;
                     this.RightContentR.Content = initContent;
                     this.RightContentL.Content = patientGroupPanel;
                     break;
                 case 1:
-                    this.RightContentA.Content = "";
+                    this.RightContentA.Visibility = Visibility.Hidden;
                     this.RightContentR.Content = orderContent;
                     this.RightContentL.Content = patientGroupPanel;
                     break;
                 case 2:
-                    this.RightContentA.Content = "";
+                    this.RightContentA.Visibility = Visibility.Hidden;
                     this.RightContentR.Content = sheduleContent;
                     this.RightContentL.Content = patientGroupPanel;
                     break;
                 case 3:
+                    this.RightContentA.Visibility = Visibility.Visible;
                     this.RightContentA.Content = bedContent;
                     break;
                 case 4:
+                    this.RightContentA.Visibility = Visibility.Visible;
                     this.RightContentA.Content = configContent;
                     break;
             }
