@@ -60,6 +60,41 @@ namespace WpfApplication1.CustomUI
         private void ComboBoxPatientGroup_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             MainWindow.ComboBoxPatientGroupIndex = this.ComboBoxPatientGroup.SelectedIndex;
+            ListBoxPatient.Items.Clear();
+            using (var patientGroupDao = new PatientGroupDao())
+            {
+                var condition = new Dictionary<string, object>();
+                condition["NAME"] = this.ComboBoxPatientGroup.SelectedItem;
+                var list = patientGroupDao.SelectPatientGroup(condition);
+                if (list.Count > 0)
+                {
+                    using (var patientGroupParaDao = new PatientGroupParaDao())
+                    {
+                        var conditionpara = new Dictionary<string, object>();
+                        conditionpara["GROUPID"] = list[0].Id;
+                        var listpara = patientGroupParaDao.SelectPatientGroupPara(conditionpara);
+
+                        if (listpara.Count > 0)
+                        {
+                            using (var patientDao = new PatientDao())
+                            {
+                                var patientlist = patientDao.SelectPatientSpecial(listpara);
+                                foreach (var patient in patientlist)
+                                {
+                                    ListBoxPatient.Items.Add(patient.Name);
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }
+
+        }
+
+        private void ListBoxPatient_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            
 
         }
     }

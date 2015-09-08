@@ -205,5 +205,36 @@ namespace WpfApplication1.DAOModule
                 return list;
             }
         }
+
+        public List<Patient> SelectPatientSpecial(List<PatientGroupPara> listinParas)
+        {
+            var list = new List<Patient>();
+            try
+            {
+                
+                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                {
+                    string condition = string.Empty;
+                    foreach (var patientGroupPara in listinParas)
+                    {
+                        condition += patientGroupPara.Left + MainWindow.Key[patientGroupPara.Key] +
+                            MainWindow.Symbol[patientGroupPara.Symbol] + "\"" + patientGroupPara.Value + "\"" +
+                            patientGroupPara.Right + patientGroupPara.Logic;
+                    }
+                    string sqlcommand = "select * from PATIENT where ";
+                    sqlcommand += condition;
+                    sqlcommand += " order by ID desc";
+                    sqlcomm.CommandText = sqlcommand;
+
+                    list = DatabaseOp.ExecuteQuery<Patient>(sqlcomm);
+                    return list;
+                }
+            }
+            catch (Exception e)
+            {
+                MainWindow.Log.WriteErrorLog("PatientDao.cs-SelectPatientSpecial", e);
+                return list;
+            }
+        }
     }
 }

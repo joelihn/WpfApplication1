@@ -29,6 +29,8 @@ namespace WpfApplication1
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static Dictionary<string,string> Key = new Dictionary<string, string>();
+        public static Dictionary<string, string> Symbol = new Dictionary<string, string>();
         public static int ComboBoxPatientGroupIndex = 0;
         public static readonly LogHelper Log = LogHelper.GetInstance();
         Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
@@ -62,9 +64,28 @@ namespace WpfApplication1
             reportCrash.Send(exception);
         }
 
+
+
         public MainWindow()
         {
             InitializeComponent();
+
+            Key["姓名"]="NAME";
+            Key["性别"] = "GENDER";
+            Key["血型"] = "BLOODTYPE";
+            Key["婚姻状况"] = "MARRIAGE";
+            Key["感染情况"] = "INFECTTYPEID";
+            Key["治疗状态"] = "TREATSTATUSID";
+            Key["固定床位"] = "ISFIXEDBED";
+            Key["所属分区"] = "AERAID";
+
+            Symbol["大于"] = ">";
+            Symbol["小于"] = "<";
+            Symbol["等于"] = "=";
+            Symbol["包含"] = "=";
+            Symbol["不包含"] = "=";
+
+   
 
             Dispatcher.UnhandledException +=Dispatcher_UnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
