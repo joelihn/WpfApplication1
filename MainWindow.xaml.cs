@@ -227,9 +227,17 @@ namespace WpfApplication1
                     this.RightContentL.Content = patientGroupPanel;
                     break;
                 case 2:
-                    this.RightContentA.Visibility = Visibility.Hidden;
-                    this.RightContentR.Content = sheduleContent;
-                    this.RightContentL.Content = patientGroupPanel;
+                    /*this.RightContentA.Visibility = Visibility.Hidden;
+                    this.RightContentR.Content = sheduleContent;*/
+
+                    this.RightContentA.Visibility = Visibility.Visible;
+                    this.RightContentA.Content = sheduleContent;
+                    /*this.RightContentL.Visibility = Visibility.Hidden;
+                    this.RightContentR.Visibility = Visibility.Hidden;*/
+
+
+                    //this.RightContentR.Content = sheduleContent;
+                    //this.RightContentL.Content = patientGroupPanel;
                     break;
                 case 3:
                     this.RightContentA.Visibility = Visibility.Visible;

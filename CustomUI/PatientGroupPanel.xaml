@@ -12,7 +12,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <ComboBox Name="ComboBoxPatientGroup" SelectionChanged="ComboBoxPatientGroup_OnSelectionChanged" Initialized="ComboBoxPatientGroup_OnInitialized" Style="{DynamicResource ComboBoxStyle4}"/>
-            <ListBox SelectionChanged="ListBoxPatient_OnSelectionChanged" Name="ListBoxPatient" Grid.Row="1" BorderBrush="{x:Null}"/>
+            <ListBox SelectionChanged="ListBoxPatient_OnSelectionChanged" Name="ListBoxPatient" Grid.Row="1" BorderBrush="{x:Null}" Style="{DynamicResource PatientGroupPanelListboxStyle}" ItemContainerStyle="{DynamicResource PatientGroupPanelListboxItemStyle}"/>
         </Grid>
         
     </Grid>

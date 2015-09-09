@@ -274,24 +274,31 @@ namespace WpfApplication1
             {
                 case 0:
                     BtnSun.IsChecked = true;
+                    btn6.IsChecked = true;
                     break;
                 case 1:
                     BtnMon.IsChecked = true;
+                    btn0.IsChecked = true;
                     break;
                 case 2:
                     BtnTue.IsChecked = true;
+                    btn1.IsChecked = true;
                     break;
                 case 3:
                     BtnWed.IsChecked = true;
+                    btn2.IsChecked = true;
                     break;
                 case 4:
                     BtnThe.IsChecked = true;
+                    btn3.IsChecked = true;
                     break;
                 case 5:
                     BtnFri.IsChecked = true;
+                    btn4.IsChecked = true;
                     break;
                 case 6:
                     BtnSta.IsChecked = true;
+                    btn5.IsChecked = true;
                     break;
             }
         }
@@ -2149,7 +2156,7 @@ namespace WpfApplication1
                     de = false;
                 }
             }
-            HideOutherImages(btn);
+            /*HideOutherImages(btn);
             Image i = FindChild(btn);
             if (i.Visibility == Visibility.Hidden)
             {
@@ -2171,7 +2178,7 @@ namespace WpfApplication1
                                        new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png",
                                                UriKind.RelativeOrAbsolute));
                 }
-            }
+            }*/
 
             ListBox1.Items.Refresh();
         }
@@ -2245,6 +2252,12 @@ namespace WpfApplication1
         {
             get { return patientID; }
             set { patientID = value; }
+        }
+
+        public Brush PatientNameBgColor
+        {
+            get { return new SolidColorBrush(Color.FromArgb(255,61, 193, 109 )); }
+            //set { patientName = value; }
         }
         public string PatientName
         {
