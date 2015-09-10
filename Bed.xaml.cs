@@ -154,6 +154,16 @@ namespace WpfApplication1
             lable4.Content = dtlist[4].ToString("MM-dd");
             lable5.Content = dtlist[5].ToString("MM-dd");
             lable6.Content = dtlist[6].ToString("MM-dd");
+
+
+            btn0.Content = dtlist[0].ToString("MM-dd");
+            btn1.Content = dtlist[1].ToString("MM-dd");
+            btn2.Content = dtlist[2].ToString("MM-dd");
+            btn3.Content = dtlist[3].ToString("MM-dd");
+            btn4.Content = dtlist[4].ToString("MM-dd");
+            btn5.Content = dtlist[5].ToString("MM-dd");
+            btn6.Content = dtlist[6].ToString("MM-dd");
+
             //for (int n = 0; n < 7; n++)
             //{
             //    CurrentWeek.days[n].dateTime = DateTime.Now.AddDays(-weeknow + n);

@@ -157,114 +157,279 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <ControlTemplate x:Key="ToggleButtonControlTemplate1" TargetType="{x:Type ToggleButton}">
+        	<Grid Margin="3,5">
+        		<VisualStateManager.VisualStateGroups>
+        			<VisualStateGroup x:Name="CheckStates">
+        				<VisualState x:Name="Checked">
+        					<Storyboard>
+        						<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="label">
+        							<EasingColorKeyFrame KeyTime="0" Value="Red"/>
+        						</ColorAnimationUsingKeyFrames>
+        						<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="label1">
+        							<EasingColorKeyFrame KeyTime="0" Value="Red"/>
+        						</ColorAnimationUsingKeyFrames>
+        					</Storyboard>
+        				</VisualState>
+        				<VisualState x:Name="Unchecked">
+        					<Storyboard>
+        						<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="label">
+        							<EasingColorKeyFrame KeyTime="0" Value="#FF9B9696"/>
+        						</ColorAnimationUsingKeyFrames>
+        						<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="label1">
+        							<EasingColorKeyFrame KeyTime="0" Value="#FF9B9696"/>
+        						</ColorAnimationUsingKeyFrames>
+        					</Storyboard>
+        				</VisualState>
+        				<VisualState x:Name="Indeterminate"/>
+        			</VisualStateGroup>
+        		</VisualStateManager.VisualStateGroups>
+        		<Rectangle x:Name="rectangle" Fill="#FFCFCFCF" HorizontalAlignment="Stretch" Height="Auto" RadiusY="5" RadiusX="5" Stroke="#FF9B9696" StrokeThickness="5" VerticalAlignment="Stretch" Width="Auto"/>
+        		<Grid Height="Auto" VerticalAlignment="Stretch" Width="Auto">
+        			<Grid.RowDefinitions>
+        				<RowDefinition Height="3*"/>
+        				<RowDefinition Height="2*"/>
+        			</Grid.RowDefinitions>
+        			<Label x:Name="label" Content="{TemplateBinding Tag}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White" FontSize="16" FontWeight="Bold"/>
+        			<Label x:Name="label1" Content="{TemplateBinding Content}" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF607C50"/>
+        		</Grid>
+        	</Grid>
+        </ControlTemplate>
+        <ControlTemplate x:Key="ToggleButtonControlTemplate2" TargetType="{x:Type ToggleButton}">
+        	<Grid Margin="3,5">
+        		<VisualStateManager.VisualStateGroups>
+        			<VisualStateGroup x:Name="CheckStates">
+        				<VisualState x:Name="Checked">
+        					<Storyboard>
+        						<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="label">
+        							<EasingColorKeyFrame KeyTime="0" Value="Red"/>
+        						</ColorAnimationUsingKeyFrames>
+        					</Storyboard>
+        				</VisualState>
+        				<VisualState x:Name="Unchecked"/>
+        				<VisualState x:Name="Indeterminate"/>
+        			</VisualStateGroup>
+        		</VisualStateManager.VisualStateGroups>
+        		<Rectangle Fill="#FFCFCFCF" Height="Auto" RadiusY="5" RadiusX="5" Stroke="#FF9B9696" StrokeThickness="5" VerticalAlignment="Stretch" Width="Auto"/>
+        		<Label x:Name="label" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" FontWeight="Bold" Foreground="#FF9B9696"/>
+        	</Grid>
+        </ControlTemplate>
+        <ControlTemplate x:Key="ToggleButtonControlTemplate3" TargetType="{x:Type ToggleButton}">
+        	<Grid>
+        		<VisualStateManager.VisualStateGroups>
+        			<VisualStateGroup x:Name="CheckStates">
+        				<VisualState x:Name="Checked">
+        					<Storyboard>
+        						<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="label">
+        							<EasingColorKeyFrame KeyTime="0" Value="Red"/>
+        						</ColorAnimationUsingKeyFrames>
+        						<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+        							<EasingColorKeyFrame KeyTime="0" Value="Red"/>
+        						</ColorAnimationUsingKeyFrames>
+        					</Storyboard>
+        				</VisualState>
+        				<VisualState x:Name="Unchecked"/>
+        				<VisualState x:Name="Indeterminate"/>
+        			</VisualStateGroup>
+        		</VisualStateManager.VisualStateGroups>
+        		<Rectangle x:Name="rectangle" Fill="#FFCFCFCF" HorizontalAlignment="Stretch" Height="Auto" RadiusY="5" RadiusX="5" Stroke="#FF9B9696" StrokeThickness="5" VerticalAlignment="Stretch"/>
+        		<Label x:Name="label" Content="{TemplateBinding Content}" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="13.333" Foreground="#FF9B9696"/>
+        	</Grid>
+        </ControlTemplate>
     </UserControl.Resources>
     <Grid Style="{StaticResource GridBackGround1}">
-        <StackPanel >
-            <Grid Height="100" x:Name="TopGrid" Margin="0,0,0,0"  Style="{StaticResource GridBackGround1}">
-                <StackPanel Name="TreatmentPanel" HorizontalAlignment="Left"  Height="100" Width="114" VerticalAlignment="Top" Margin="10,0,0,0"   />
+    	<Viewbox Stretch="Fill" Margin="692.5,1037.5,250.5,-239.5">
+    		<StackPanel Height="1024" Width="1230" >
+    			<Grid Height="100" x:Name="TopGrid" Margin="0,0,0,0"  Style="{StaticResource GridBackGround1}">
+    				<StackPanel x:Name="TreatmentPanel" HorizontalAlignment="Left"  Height="100" Width="114" VerticalAlignment="Top" Margin="10,0,0,0"   />
 
 
 
 
-                <TextBlock HorizontalAlignment="Left" Margin="219.928,20,0,0" x:Name="PatientIDtextBlock" Text="{DynamicResource PatientIDtext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
-                <TextBox HorizontalAlignment="Left" Margin="320.062,20,0,0" x:Name="PatientIDTextBox" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10001" IsTabStop="True" DataContext="{Binding}" Height="27" VerticalAlignment="Top" />
-                <TextBlock HorizontalAlignment="Left" Margin="219.928,60,0,0" x:Name="textBlock8" Text="{DynamicResource Nametext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
-                <TextBox HorizontalAlignment="Left" Margin="320.062,60,0,0" x:Name="NameTextBox" VerticalAlignment="Top" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10002" IsTabStop="True" />
+    				<TextBlock HorizontalAlignment="Left" Margin="219.928,20,0,0" x:Name="PatientIDtextBlock" Text="{DynamicResource PatientIDtext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
+    				<TextBox HorizontalAlignment="Left" Margin="320.062,20,0,0" x:Name="PatientIDTextBox" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10001" IsTabStop="True" DataContext="{Binding}" Height="27" VerticalAlignment="Top" />
+    				<TextBlock HorizontalAlignment="Left" Margin="219.928,60,0,0" x:Name="textBlock8" Text="{DynamicResource Nametext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
+    				<TextBox HorizontalAlignment="Left" Margin="320.062,60,0,0" x:Name="NameTextBox" VerticalAlignment="Top" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10002" IsTabStop="True" />
                 <!--<TextBlock Margin="220,20,0,0" x:Name="textBlock1" Text="{DynamicResource DateText}" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />-->
 
-                <TextBlock HorizontalAlignment="Left" Margin="479.928,20,0,0" x:Name="InfectTypetextBlock" Text="感染类型" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
-                <ComboBox HorizontalAlignment="Left" Margin="550.062,20,0,0" x:Name="InfectTypeComboBox" Width="150" VerticalAlignment="Top" Text="" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
+    				<TextBlock HorizontalAlignment="Left" Margin="479.928,20,0,0" x:Name="InfectTypetextBlock" Text="感染类型" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
+    				<ComboBox HorizontalAlignment="Left" Margin="550.062,20,0,0" x:Name="InfectTypeComboBox" Width="150" VerticalAlignment="Top" Text="" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
 
-                <CheckBox Visibility="Hidden" x:Name="IsFixedBedCheckBox" HorizontalAlignment="Left" Content="是否固定床位" Margin="480.062,60,0,0"  Width="150" VerticalAlignment="Top"  Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
+    				<CheckBox Visibility="Hidden" x:Name="IsFixedBedCheckBox" HorizontalAlignment="Left" Content="是否固定床位" Margin="480.062,60,0,0"  Width="150" VerticalAlignment="Top"  Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20009" IsTabStop="True" />
 
-                <TextBlock HorizontalAlignment="Left" Margin="479.928,60,0,0" x:Name="GendertextBlock" Text="性别" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
-                <ComboBox x:Name="SexComboBox" Margin="550.062,60,0,0" HorizontalAlignment="Left" Width="150" VerticalAlignment="Top" Text="男" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20007" IsTabStop="True" ItemsSource="{Binding}" />
+    				<TextBlock HorizontalAlignment="Left" Margin="479.928,60,0,0" x:Name="GendertextBlock" Text="性别" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
+    				<ComboBox x:Name="SexComboBox" Margin="550.062,60,0,0" HorizontalAlignment="Left" Width="150" VerticalAlignment="Top" Text="男" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20007" IsTabStop="True" ItemsSource="{Binding}" />
 
-                <TextBlock HorizontalAlignment="Right" Margin="0,20,400,0" x:Name="textBlock2" Text="{DynamicResource BeginText}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
-                <DatePicker HorizontalAlignment="Right" Margin="0,20,240,0" x:Name="BeginDatePicker" VerticalAlignment="Top" Width="130" SelectedDateFormat="Short" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" Padding="3,0" VerticalContentAlignment="Center" TabIndex="10003" Style="{StaticResource DatePickerStyle}" RenderTransformOrigin="2.033,0.475" />
-                <TextBlock HorizontalAlignment="Right" Margin="0,20,160,0" x:Name="textBlock3" Text="{DynamicResource EndText}" VerticalAlignment="Top" Width="45" Style="{StaticResource DialogTextBlock}" />
-                <DatePicker HorizontalAlignment="Right" Style="{StaticResource DatePickerStyle}" Margin="0,20,20,0" x:Name="EndatePicker" VerticalAlignment="Top" Width="130" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" VerticalContentAlignment="Center" Padding="3,0" TabIndex="10004" OpacityMask="{x:Null}"/>
-                <Button IsEnabled="False"  Content="{DynamicResource SearchText}" Margin="0,54,20,0" x:Name="InquireButton" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="InquireButton_Click" TabIndex="10008" />
-                <RadioButton Content="{DynamicResource AllDateText}" Style="{StaticResource RadioButtonStyle1}" HorizontalAlignment="Right" Margin="0,60,358,0" x:Name="TimeRadioButton1" VerticalAlignment="Top" FontSize="16" GroupName="TimeSelecet" Click="TimeRadioButton1_Click" TabIndex="10005" />
-                <RadioButton Content="{DynamicResource In7DayText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" HorizontalAlignment="Right" Margin="0,60,240,0" x:Name="TimeRadioButton2" VerticalAlignment="Top"  GroupName="TimeSelecet"  Click="TimeRadioButton1_Click" TabIndex="10006" />
-                <RadioButton Content="{DynamicResource In3DaysText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" Margin="0,60,138,0" x:Name="TimeRadioButton3" VerticalAlignment="Top" GroupName="TimeSelecet"  IsChecked="True" Click="TimeRadioButton1_Click" HorizontalAlignment="Right" TabIndex="10007" />
-
-
+    				<TextBlock HorizontalAlignment="Right" Margin="0,20,400,0" x:Name="textBlock2" Text="{DynamicResource BeginText}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
+    				<DatePicker HorizontalAlignment="Right" Margin="0,20,240,0" x:Name="BeginDatePicker" VerticalAlignment="Top" Width="130" SelectedDateFormat="Short" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" Padding="3,0" VerticalContentAlignment="Center" TabIndex="10003" Style="{StaticResource DatePickerStyle}" RenderTransformOrigin="2.033,0.475" />
+    				<TextBlock HorizontalAlignment="Right" Margin="0,20,160,0" x:Name="textBlock3" Text="{DynamicResource EndText}" VerticalAlignment="Top" Width="45" Style="{StaticResource DialogTextBlock}" />
+    				<DatePicker HorizontalAlignment="Right" Style="{StaticResource DatePickerStyle}" Margin="0,20,20,0" x:Name="EndatePicker" VerticalAlignment="Top" Width="130" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" VerticalContentAlignment="Center" Padding="3,0" TabIndex="10004" OpacityMask="{x:Null}"/>
+    				<Button IsEnabled="False"  Content="{DynamicResource SearchText}" Margin="0,54,20,0" x:Name="InquireButton" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="InquireButton_Click" TabIndex="10008" />
+    				<RadioButton Content="{DynamicResource AllDateText}" Style="{StaticResource RadioButtonStyle1}" HorizontalAlignment="Right" Margin="0,60,358,0" x:Name="TimeRadioButton1" VerticalAlignment="Top" FontSize="16" GroupName="TimeSelecet" Click="TimeRadioButton1_Click" TabIndex="10005" />
+    				<RadioButton Content="{DynamicResource In7DayText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" HorizontalAlignment="Right" Margin="0,60,240,0" x:Name="TimeRadioButton2" VerticalAlignment="Top"  GroupName="TimeSelecet"  Click="TimeRadioButton1_Click" TabIndex="10006" />
+    				<RadioButton Content="{DynamicResource In3DaysText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" Margin="0,60,138,0" x:Name="TimeRadioButton3" VerticalAlignment="Top" GroupName="TimeSelecet"  IsChecked="True" Click="TimeRadioButton1_Click" HorizontalAlignment="Right" TabIndex="10007" />
 
 
-            </Grid>
-            <Grid x:Name="GridDay" Height="70">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="280"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <ToggleButton x:Name="BtnSun" Grid.Column="7"  Style="{DynamicResource ToggleButtonStyle}" Tag="周日" Click="BtnDay_OnClick">
-                    <Label x:Name="lable6" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
-                </ToggleButton>
-                <ToggleButton x:Name="BtnMon" Grid.Column="1"  Style="{DynamicResource ToggleButtonStyle}" Tag="周一" Click="BtnDay_OnClick">
-                    <Label x:Name="lable0" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
-                </ToggleButton>
-                <ToggleButton x:Name="BtnTue" Grid.Column="2"  Style="{DynamicResource ToggleButtonStyle}" Tag="周二" Click="BtnDay_OnClick">
 
-                    <Label x:Name="lable1" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
-                </ToggleButton>
-                <ToggleButton x:Name="BtnWed" Grid.Column="3"  Style="{DynamicResource ToggleButtonStyle}" Tag="周三" Click="BtnDay_OnClick">
-                    <Label x:Name="lable2" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
-                </ToggleButton>
-                <ToggleButton x:Name="BtnThe" Grid.Column="4"  Style="{DynamicResource ToggleButtonStyle}" Tag="周四" Click="BtnDay_OnClick">
-                    <Label x:Name="lable3" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
-                </ToggleButton>
-                <ToggleButton x:Name="BtnFri" Grid.Column="5"  Style="{DynamicResource ToggleButtonStyle}" Tag="周五" Click="BtnDay_OnClick">
-                    <Label x:Name="lable4" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
-                </ToggleButton>
-                <ToggleButton x:Name="BtnSta" Grid.Column="6"  Style="{DynamicResource ToggleButtonStyle}" Tag="周六" Click="BtnDay_OnClick">
-                    <Label x:Name="lable5" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
-                </ToggleButton>
-            </Grid>
-            <Grid x:Name="AmPmEGrid" Height="50">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="280"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <ToggleButton  Grid.Column="1" IsChecked="True"  Style="{DynamicResource ToggleButtonStyle}" Tag="AM" Click="BtnAmPmE_OnClick"/>
-                <ToggleButton  Grid.Column="2"  Style="{DynamicResource ToggleButtonStyle}" Tag="PM" Click="BtnAmPmE_OnClick"/>
-                <ToggleButton  Grid.Column="3"  Style="{DynamicResource ToggleButtonStyle}" Tag="E" Click="BtnAmPmE_OnClick"/>
-                <!--<Label Content="未排患者" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF772689" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="26,8,172,8"/>
+
+    			</Grid>
+    			<Grid  Height="70">
+    				<Grid.ColumnDefinitions>
+    					<ColumnDefinition Width="280"/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    				</Grid.ColumnDefinitions>
+    				<ToggleButton x:Name="BtnSun" Grid.Column="7"  Style="{DynamicResource ToggleButtonStyle}" Tag="周日" Click="BtnDay_OnClick">
+    					<Label x:Name="lable6" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+    				</ToggleButton>
+    				<ToggleButton x:Name="BtnMon" Grid.Column="1"  Style="{DynamicResource ToggleButtonStyle}" Tag="周一" Click="BtnDay_OnClick">
+    					<Label x:Name="lable0" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+    				</ToggleButton>
+    				<ToggleButton x:Name="BtnTue" Grid.Column="2"  Style="{DynamicResource ToggleButtonStyle}" Tag="周二" Click="BtnDay_OnClick">
+
+    					<Label x:Name="lable1" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+    				</ToggleButton>
+    				<ToggleButton x:Name="BtnWed" Grid.Column="3"  Style="{DynamicResource ToggleButtonStyle}" Tag="周三" Click="BtnDay_OnClick">
+    					<Label x:Name="lable2" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+    				</ToggleButton>
+    				<ToggleButton x:Name="BtnThe" Grid.Column="4"  Style="{DynamicResource ToggleButtonStyle}" Tag="周四" Click="BtnDay_OnClick">
+    					<Label x:Name="lable3" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+    				</ToggleButton>
+    				<ToggleButton x:Name="BtnFri" Grid.Column="5"  Style="{DynamicResource ToggleButtonStyle}" Tag="周五" Click="BtnDay_OnClick">
+    					<Label x:Name="lable4" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+    				</ToggleButton>
+    				<ToggleButton x:Name="BtnSta" Grid.Column="6"  Style="{DynamicResource ToggleButtonStyle}" Tag="周六" Click="BtnDay_OnClick">
+    					<Label x:Name="lable5" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+    				</ToggleButton>
+    			</Grid>
+    			<Grid x:Name="AmPmEGrid" Height="50">
+    				<Grid.ColumnDefinitions>
+    					<ColumnDefinition Width="280"/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    				</Grid.ColumnDefinitions>
+    				<ToggleButton  Grid.Column="1" IsChecked="True"  Style="{DynamicResource ToggleButtonStyle}" Tag="AM" Click="BtnAmPmE_OnClick"/>
+    				<ToggleButton  Grid.Column="2"  Style="{DynamicResource ToggleButtonStyle}" Tag="PM" Click="BtnAmPmE_OnClick"/>
+    				<ToggleButton  Grid.Column="3"  Style="{DynamicResource ToggleButtonStyle}" Tag="E" Click="BtnAmPmE_OnClick"/>
+    				<!--<Label Content="未排患者" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF772689" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="26,8,172,8"/>
                 <Button Content="自动分配" Style="{StaticResource DialogButton}" Margin="149,11,31,11" Click="AutoClick"/>-->
-            </Grid>
+    			</Grid>
 
-            <Grid x:Name="InfectGrid" Height="50">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="280"/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Label Content="未排患者" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF772689" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="26,8,172,8"/>
-                <Button Content="自动分配" Style="{StaticResource DialogButton}" Margin="149,11,31,11" Click="AutoClick"/>
-            </Grid>
-            <StackPanel Height="750" Orientation="Horizontal">
-                <ListView  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center" ItemsSource="{Binding}" Width="280" x:Name="PatientlistView" GridViewColumnHeader.Click="GridViewColumnHeader_Click" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{DynamicResource ListBoxItemStyle2}"  IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}"
-                               dragDropListBox:DragDropHelper.IsDragSource="true" dragDropListBox:DragDropHelper.IsDropTarget="true" dragDropListBox:DragDropHelper.DragDropTemplate="{StaticResource planetTemplateDrag}"
+    			<Grid x:Name="InfectGrid" Height="50">
+    				<Grid.ColumnDefinitions>
+    					<ColumnDefinition Width="280"/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    				</Grid.ColumnDefinitions>
+    				<Label Content="未排患者" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF772689" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="26,8,172,8"/>
+    				<Button Content="自动分配" Style="{StaticResource DialogButton}" Margin="149,11,31,11" Click="AutoClick"/>
+    			</Grid>
+    			<StackPanel Height="750" Orientation="Horizontal"/>
+    		</StackPanel>
+    	</Viewbox>
+    	<Grid>
+    		<Grid.RowDefinitions>
+    			<RowDefinition Height="200"/>
+    			<RowDefinition/>
+    		</Grid.RowDefinitions>
+    		<Grid.ColumnDefinitions>
+    			<ColumnDefinition Width="280"/>
+    			<ColumnDefinition/>
+    		</Grid.ColumnDefinitions>
+    		<Border BorderBrush="#FFA09E9E" BorderThickness="3,0,0,3" Grid.Column="1">
+    			<Grid>
+    				<Grid.RowDefinitions>
+    					<RowDefinition/>
+    					<RowDefinition/>
+    				</Grid.RowDefinitions>
+    				<Grid x:Name="GridDay">
+    					<Grid.ColumnDefinitions>
+    						<ColumnDefinition/>
+    						<ColumnDefinition/>
+    						<ColumnDefinition/>
+    						<ColumnDefinition/>
+    						<ColumnDefinition/>
+    						<ColumnDefinition/>
+    						<ColumnDefinition/>
+    					</Grid.ColumnDefinitions>
+    					<ToggleButton x:Name="btn0" Content="ToggleButton" Template="{DynamicResource ToggleButtonControlTemplate1}" Tag="周一" Click="BtnDay_OnClick"/>
+    					<ToggleButton x:Name="btn1" Content="ToggleButton" Template="{DynamicResource ToggleButtonControlTemplate1}" Tag="周二" Click="BtnDay_OnClick" Grid.Column="1"/>
+    					<ToggleButton x:Name="btn2" Content="ToggleButton" Template="{DynamicResource ToggleButtonControlTemplate1}" Tag="周三" Click="BtnDay_OnClick" Grid.Column="2"/>
+    					<ToggleButton x:Name="btn3" Content="ToggleButton" Template="{DynamicResource ToggleButtonControlTemplate1}" Tag="周四" Click="BtnDay_OnClick" Grid.Column="3"/>
+    					<ToggleButton x:Name="btn4" Content="ToggleButton" Template="{DynamicResource ToggleButtonControlTemplate1}" Tag="周五" Click="BtnDay_OnClick" Grid.Column="4"/>
+    					<ToggleButton x:Name="btn5" Content="ToggleButton" Template="{DynamicResource ToggleButtonControlTemplate1}" Tag="周六" Click="BtnDay_OnClick" Grid.Column="5"/>
+    					<ToggleButton x:Name="btn6" Content="ToggleButton" Template="{DynamicResource ToggleButtonControlTemplate1}" Tag="周日" Click="BtnDay_OnClick" Grid.Column="6"/>
+    				</Grid>
+    				<Grid Grid.Row="1">
+    					<Grid.ColumnDefinitions>
+    						<ColumnDefinition/>
+    						<ColumnDefinition/>
+    						<ColumnDefinition/>
+    						<ColumnDefinition/>
+    						<ColumnDefinition/>
+    						<ColumnDefinition/>
+    						<ColumnDefinition/>
+    					</Grid.ColumnDefinitions>
+    					<ToggleButton Content="AM" Template="{DynamicResource ToggleButtonControlTemplate2}" Tag="AM" Click="BtnAmPmE_OnClick"/>
+    					<ToggleButton Content="PM" Template="{DynamicResource ToggleButtonControlTemplate2}" Tag="PM" Click="BtnAmPmE_OnClick" Grid.Column="1"/>
+    					<ToggleButton Content="E" Template="{DynamicResource ToggleButtonControlTemplate2}" Tag="E" Click="BtnAmPmE_OnClick" Grid.Column="2"/>
+    				</Grid>
+    			</Grid>
+    		</Border>
+    		<Grid Grid.Column="1" Grid.Row="1">
+    			<Grid.RowDefinitions>
+    				<RowDefinition Height="100"/>
+    				<RowDefinition/>
+    			</Grid.RowDefinitions>
+    			<Grid>
+    				<Grid.ColumnDefinitions>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    					<ColumnDefinition/>
+    				</Grid.ColumnDefinitions>
+    				<ToggleButton Content="ToggleButton" VerticalAlignment="Top" Height="38" Template="{DynamicResource ToggleButtonControlTemplate3}"/>
+    			</Grid>
+    			<Grid Grid.Row="1">
+    				<ListBox AllowDrop="True" x:Name="BedListBox" ItemContainerStyle="{DynamicResource ListBoxItemStyle1}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center"
+                             >
+    					<ListBox.ItemsPanel>
+    						<ItemsPanelTemplate>
+    							<WrapPanel/>
+    						</ItemsPanelTemplate>
+    					</ListBox.ItemsPanel>
+    				</ListBox>
+    			</Grid>
+    		</Grid>
+    		<Grid Grid.Row="1">
+    			<Grid.RowDefinitions>
+    				<RowDefinition Height="100"/>
+    				<RowDefinition/>
+    			</Grid.RowDefinitions>
+    			<Grid Grid.Row="1">
+    				<ListView  ScrollViewer.VerticalScrollBarVisibility="Visible" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center" ItemsSource="{Binding}" x:Name="PatientlistView" ButtonBase.Click="GridViewColumnHeader_Click" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{DynamicResource ListBoxItemStyle2}"  IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}"
+    					dragDropListBox:DragDropHelper.IsDragSource="true" dragDropListBox:DragDropHelper.IsDropTarget="true" dragDropListBox:DragDropHelper.DragDropTemplate="{StaticResource planetTemplateDrag}"
                            >
-                    <ListView.View>
-                        <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
+    					<ListView.View>
+    						<GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
                             <!--<GridViewColumn Width="0" CellTemplate="{StaticResource Id}">
                                 <Grid Tag="0">
                                     <StackPanel Orientation="Horizontal">
@@ -273,46 +438,39 @@
                                     </StackPanel>
                                 </Grid>
                             </GridViewColumn>-->
-                            <GridViewColumn Width="65" CellTemplate="{StaticResource Name}">
-                                <Grid Tag="2">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{DynamicResource PatientIDtext}" />
-                                        <Image Source="Resources/ArrowDown.png" x:Name="ArrowName" Visibility="Hidden" />
-                                    </StackPanel>
-                                </Grid>
+    							<GridViewColumn Width="65" CellTemplate="{StaticResource Name}">
+    								<Grid Tag="2">
+    									<StackPanel Orientation="Horizontal">
+    										<TextBlock Text="{DynamicResource PatientIDtext}" />
+    										<Image Source="Resources/ArrowDown.png" x:Name="ArrowName" Visibility="Hidden" />
+    									</StackPanel>
+    								</Grid>
 
-                            </GridViewColumn>
-                            <GridViewColumn Width="120" CellTemplate="{StaticResource PatientId}">
-                                <Grid Tag="1">
-                                    <StackPanel Orientation="Horizontal">
+    							</GridViewColumn>
+    							<GridViewColumn Width="120" CellTemplate="{StaticResource PatientId}">
+    								<Grid Tag="1">
+    									<StackPanel Orientation="Horizontal">
 
-                                        <TextBlock Text="{DynamicResource Nametext}" />
-                                        <Image Source="Resources/ArrowDown.png" x:Name="ArrowPatientID" Visibility="Hidden" />
-                                    </StackPanel>
-                                </Grid>
-                            </GridViewColumn>
-                            <GridViewColumn Width="70" CellTemplate="{StaticResource PatientId}">
-                                <Grid Tag="1">
-                                    <StackPanel Orientation="Horizontal">
+    										<TextBlock Text="{DynamicResource Nametext}" />
+    										<Image Source="Resources/ArrowDown.png" x:Name="ArrowPatientID" Visibility="Hidden" />
+    									</StackPanel>
+    								</Grid>
+    							</GridViewColumn>
+    							<GridViewColumn Width="70" CellTemplate="{StaticResource PatientId}">
+    								<Grid Tag="1">
+    									<StackPanel Orientation="Horizontal">
 
-                                        <TextBlock Text="{DynamicResource InfectionType}" />
-                                        <Image Source="Resources/ArrowDown.png" x:Name="ArrowPatientI" Visibility="Hidden" />
-                                    </StackPanel>
-                                </Grid>
-                            </GridViewColumn>
+    										<TextBlock Text="{DynamicResource InfectionType}" />
+    										<Image Source="Resources/ArrowDown.png" x:Name="ArrowPatientI" Visibility="Hidden" />
+    									</StackPanel>
+    								</Grid>
+    							</GridViewColumn>
 
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <ListBox AllowDrop="True" x:Name="BedListBox" ItemContainerStyle="{DynamicResource ListBoxItemStyle1}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" HorizontalContentAlignment="Center" Width="950"
-                             >
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel/>
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                </ListBox>
-            </StackPanel>
-        </StackPanel>
+    						</GridView>
+    					</ListView.View>
+    				</ListView>
+    			</Grid>
+    		</Grid>
+    	</Grid>
     </Grid>
 </UserControl>
