@@ -45,6 +45,8 @@ namespace WpfApplication1
             InitializeComponent();
             Basewindow = window;
             this.PatientlistView.ItemsSource = BedPatientList;
+            this.PatientListBox1.ItemsSource = BedPatientList;
+
             this.BedListBox.ItemsSource = BedInfoList;
             EndatePicker.Text = DateTime.Now.ToString();
             BeginDatePicker.Text = (DateTime.Now - TimeSpan.FromDays(3)).ToString();
@@ -1251,13 +1253,16 @@ namespace WpfApplication1
                     {
                         bedData.PatientArea = arealist[0].Name;
                     }*/
-                    int n = 1;
+                    int n = 0;
                     foreach (var infectType in arealist)
                     {
                         ToggleButton btn = new ToggleButton();
-                        btn.Tag = infectType.Name;
+                        btn.VerticalAlignment = VerticalAlignment.Top;
+                        btn.Height = 50;
+                        btn.Content = infectType.Name;
                         btn.Click += BtnInfect_OnClick;
-                        btn.Style = this.FindResource("ToggleButtonStyle") as Style;
+                        btn.Template = this.FindResource("ToggleButtonControlTemplate3") as ControlTemplate;
+                        //btn.Style = this.FindResource("ToggleButtonStyle") as Style;
                         Grid.SetColumn(btn, n);
                         Grid.SetRow(btn, 0);
 
@@ -1275,6 +1280,74 @@ namespace WpfApplication1
                 MessageBox.Show(ex.Message);
                 throw;
             }
+            
+        }
+
+        private void BtnSortByName_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ListSortDirection sortDirection = ListSortDirection.Ascending;
+
+            Button btn = (Button) sender;
+
+            //Get clicked column
+            int columnflag = 0;
+
+
+
+            //Get binding property of clicked column
+            //string bindingProperty = (clickedColumn.DisplayMemberBinding as Binding).Path.Path; //得到单击列所绑定的属性
+            string bindingProperty = "";
+            if (btn.Uid == "0")
+            {
+                if (Paixiflag[1] == 0)
+                {
+                    Paixiflag[1] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[1] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Name";
+
+            }
+            else if (btn.Uid == "1")
+            {
+                if (Paixiflag[2] == 0)
+                {
+                    Paixiflag[2] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[2] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "InfectionType";
+
+            }
+
+            SortDescriptionCollection sdc = PatientListBox1.Items.SortDescriptions;
+            if (sdc.Count > 0)
+            {
+                SortDescription sd = sdc[0];
+                sortDirection = (ListSortDirection)((((int)sd.Direction) + 1) % 2);
+                //判断此列当前的排序方式:升序0,倒序1,并取反进行排序。
+                sdc.Clear();
+            }
+
+            sdc.Add(new SortDescription(bindingProperty, sortDirection));
+            var temp = new ObservableCollection<BedPatientData>();
+            for (int i = 0; i < PatientListBox1.Items.Count; i++)
+            {
+                temp.Add((BedPatientData)PatientListBox1.Items[i]);
+            }
+            BedPatientList.Clear();
+            BedPatientList = temp;
+            PatientListBox1.ItemsSource = BedPatientList;
+            sdc.Clear();
+            
             
         }
 
