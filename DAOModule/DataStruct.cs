@@ -77,7 +77,7 @@ namespace WpfApplication1.DAOModule
         public string Gender { get; set; }
         public string Nationality { get; set; }
         public string Marriage { get; set; }
-        public Int64 Height { get; set; }
+        public string Height { get; set; }
         public string BloodType { get; set; }
         public Int64 InfectTypeId { get; set; }
         public Int64 TreatStatusId { get; set; }

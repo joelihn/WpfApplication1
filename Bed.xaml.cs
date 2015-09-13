@@ -546,7 +546,7 @@ namespace WpfApplication1
                     Dictionary<string, object> condition = new Dictionary<string, object>();
                     var list = infectTypeDao.SelectInfectType(condition);
                     InfectTypeComboBox.Items.Clear();
-                    InfectTypeComboBox.Items.Add("所有");
+                    //InfectTypeComboBox.Items.Add("所有");
                     foreach (InfectType type in list)
                     {
                         InfectTypeComboBox.Items.Add(type.Name);

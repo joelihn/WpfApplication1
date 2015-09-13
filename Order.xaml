@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="1024" d:DesignWidth="1090" Loaded="Order_OnLoaded">
+             d:DesignHeight="1024" d:DesignWidth="1090">
     <UserControl.Resources>
         <collections:ArrayList x:Key="informationlist">
         </collections:ArrayList>
@@ -124,7 +124,7 @@
 				<ComboBox x:Name="SexComboBox" Margin="350,60,0,0" HorizontalAlignment="Left" Width="150" VerticalAlignment="Top" Text="男" Padding="3,1" FontSize="16" VerticalContentAlignment="Center" Height="27" TabIndex="20007" IsTabStop="True" ItemsSource="{Binding}" />
 
 
-				<ListView ItemsSource="{Binding}" Height="650" Margin="0,90,0,0" x:Name="PatientlistView" VerticalAlignment="Top" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}" MouseDoubleClick="PatientlistView_MouseDoubleClick" ButtonBase.Click="GridViewColumnHeader_Click" IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}">
+				<!--<ListView ItemsSource="{Binding}" Height="650" Margin="0,90,0,0" x:Name="PatientlistView" VerticalAlignment="Top" SelectionChanged="PatientlistView_SelectionChanged" SelectedIndex="-1" ItemContainerStyle="{StaticResource myItemStyle}" MouseDoubleClick="PatientlistView_MouseDoubleClick" ButtonBase.Click="GridViewColumnHeader_Click" IsSynchronizedWithCurrentItem="True" Visibility="Visible" TabIndex="10009" Style="{StaticResource ListViewStyle}">
 					<ListView.View>
 						<GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
 							<GridViewColumn Width="100" CellTemplate="{StaticResource PatientId}">
@@ -222,12 +222,12 @@
 							<GridViewColumn Header="{DynamicResource descriptionText}" Width="200" CellTemplate="{StaticResource PatientDescription}"/>
 						</GridView>
 					</ListView.View>
-				</ListView>
+				</ListView>-->
 				<TextBlock HorizontalAlignment="Right" Margin="0,20,400,0" x:Name="textBlock2" Text="{DynamicResource BeginText}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" />
 				<DatePicker HorizontalAlignment="Right" Margin="0,20,240,0" x:Name="BeginDatePicker" VerticalAlignment="Top" Width="130" SelectedDateFormat="Short" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" Padding="3,0" VerticalContentAlignment="Center" TabIndex="10003" Style="{StaticResource DatePickerStyle}" RenderTransformOrigin="2.033,0.475" />
 				<TextBlock HorizontalAlignment="Right" Margin="0,20,160,0" x:Name="textBlock3" Text="{DynamicResource EndText}" VerticalAlignment="Top" Width="45" Style="{StaticResource DialogTextBlock}" />
 				<DatePicker HorizontalAlignment="Right" Style="{StaticResource DatePickerStyle}" Margin="0,20,20,0" x:Name="EndatePicker" VerticalAlignment="Top" Width="130" MouseLeftButtonDown="BeginDatePicker_MouseLeftButtonDown" CalendarOpened="EndatePicker_CalendarOpened" SelectedDateChanged="EndatePicker_SelectedDateChanged" Height="27" FontSize="16" VerticalContentAlignment="Center" Padding="3,0" TabIndex="10004" OpacityMask="{x:Null}"/>
-				<Button Content="{DynamicResource SearchText}" Margin="0,54,20,0" x:Name="InquireButton" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="InquireButton_Click" TabIndex="10008" />
+				<!--<Button Content="{DynamicResource SearchText}" Margin="0,54,20,0" x:Name="InquireButton" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="InquireButton_Click" TabIndex="10008" />-->
 
 				<RadioButton Content="{DynamicResource AllDateText}" Style="{StaticResource RadioButtonStyle1}" HorizontalAlignment="Right" Margin="0,60,358,0" x:Name="TimeRadioButton1" VerticalAlignment="Top" FontSize="16" GroupName="TimeSelecet" Click="TimeRadioButton1_Click" TabIndex="10005" />
 				<RadioButton Content="{DynamicResource In7DayText}" Style="{StaticResource RadioButtonStyle1}" FontSize="16" HorizontalAlignment="Right" Margin="0,60,240,0" x:Name="TimeRadioButton2" VerticalAlignment="Top"  GroupName="TimeSelecet"  Click="TimeRadioButton1_Click" TabIndex="10006" />
@@ -292,9 +292,9 @@
 						</GridView>
 					</ListView.View>
 				</ListView>
-				<Button Content="{DynamicResource NewText}" Margin="0,934,343,0" x:Name="InquireButton_New" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="NewButton_Click" TabIndex="10008" />
+				<!--<Button Content="{DynamicResource NewText}" Margin="0,934,343,0" x:Name="InquireButton_New" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="NewButton_Click" TabIndex="10008" />
 				<Button Content="{DynamicResource saveText}" Margin="0,934,177,0" x:Name="InquireButton_Save" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="SaveButton_Click" TabIndex="10008" />
-				<Button Content="{DynamicResource DelectText}" Margin="0,934,20,0" x:Name="InquireButton_Del" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="DelButton_Click" TabIndex="10008" />
+				<Button Content="{DynamicResource DelectText}" Margin="0,934,20,0" x:Name="InquireButton_Del" VerticalAlignment="Top" Style="{StaticResource DialogButton}" HorizontalAlignment="Right" Click="DelButton_Click" TabIndex="10008" />-->
 			</Grid>
 
 		</StackPanel>

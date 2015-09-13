@@ -12,23 +12,26 @@
         <DataTemplate x:Key="PatientId">
             <TextBlock x:Name="textlockID" Text="{Binding PatientId}" />
         </DataTemplate>
-        <DataTemplate x:Key="PatientPatientId">
-            <TextBlock x:Name="textlockPatientID" Text="{Binding PatientPatientId}" />
-        </DataTemplate>
         <DataTemplate x:Key="PatientName">
             <TextBlock x:Name="textlockname" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientName}" />
-        </DataTemplate>
-        <DataTemplate x:Key="PatientAge">
-            <TextBlock x:Name="textlockage" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientAge}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientGender">
             <TextBlock x:Name="textlocksex" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientGender}" />
         </DataTemplate>
-        <DataTemplate x:Key="PatientMobile">
-            <TextBlock x:Name="textlockMobile" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientMobile}" />
+        <DataTemplate x:Key="PatientDob">
+            <TextBlock x:Name="textlockage" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientDob}" />
         </DataTemplate>
-        <DataTemplate x:Key="PatientRegesiterDate">
-            <TextBlock x:Name="textlockdate" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientRegesiterDate}" />
+        <DataTemplate x:Key="PatientNationality">
+            <TextBlock x:Name="textlockage" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientNationality}" />
+        </DataTemplate>
+        <DataTemplate x:Key="PatientMarriage">
+            <TextBlock x:Name="textlockage" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientMarriage}" />
+        </DataTemplate>
+        <DataTemplate x:Key="PatientHeight">
+            <TextBlock x:Name="textlockage" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientHeight}" />
+        </DataTemplate>
+        <DataTemplate x:Key="PatientBloodType">
+            <TextBlock x:Name="textlockage" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientBloodType}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientInfectType">
             <TextBlock x:Name="textboxInfectType" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientInfectType}" />
@@ -38,6 +41,24 @@
         </DataTemplate>
         <DataTemplate x:Key="PatientIsFixedBed">
             <CheckBox IsEnabled="False" x:Name="textboxIsFixedBed" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding PatientIsFixedBed}" />
+        </DataTemplate>
+        <DataTemplate x:Key="PatientPatientId">
+            <TextBlock x:Name="textlockPatientID" Text="{Binding PatientPatientId}" />
+        </DataTemplate>
+        <DataTemplate x:Key="PatientAreaId">
+            <TextBlock x:Name="textlockPatientID" Text="{Binding PatientAreaId}" />
+        </DataTemplate>
+        <DataTemplate x:Key="PatientMobile">
+            <TextBlock x:Name="textlockMobile" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientMobile}" />
+        </DataTemplate>
+        <DataTemplate x:Key="PatientWeixinhao">
+            <TextBlock x:Name="textlockMobile" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientWeixinhao}" />
+        </DataTemplate>
+        <DataTemplate x:Key="PatientPayment">
+            <TextBlock x:Name="textlockMobile" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientPayment}" />
+        </DataTemplate>
+        <DataTemplate x:Key="PatientRegesiterDate">
+            <TextBlock x:Name="textlockdate" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientRegesiterDate}" />
         </DataTemplate>
         <DataTemplate x:Key="PatientBedId">
             <TextBlock x:Name="textboxBedId" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientBedId}" />
@@ -98,7 +119,7 @@
 
 
     </UserControl.Resources>
-    <Grid>
+    <Grid  Style="{StaticResource GridBackGround1}">
 		<Grid Style="{StaticResource GridBackGround1}" Grid.Column="1">
 			<Grid.RowDefinitions>
 				<RowDefinition Height="50"/>
@@ -117,7 +138,7 @@
 				<Button IsEnabled="False" x:Name="ButtonDelete" Content="删除" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="1" Click="ButtonDelete_OnClick"  />
 				<Button IsEnabled="False" x:Name="ButtonApply" Content="应用" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="3" Margin="0,0,3,0" Click="ButtonApply_OnClick" />
 				<Button IsEnabled="False" x:Name="ButtonCancel" Content="取消" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="4" Click="ButtonCancel_OnClick" />
-				<Label  Content="床位设置"  Style="{DynamicResource FunctionLabelStyle}" Grid.Column="2" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
+				<Label  Content="患者信息"  Style="{DynamicResource FunctionLabelStyle}" Grid.Column="2" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
 
 			</Grid>
 			<Grid VerticalAlignment="Top" Grid.Row="1">
@@ -127,7 +148,7 @@
 				</Grid.ColumnDefinitions>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="50"/>
-					<RowDefinition Height="1"/>
+					<RowDefinition Height="50"/>
 					<RowDefinition Height="50"/>
 					<RowDefinition Height="50"/>
 					<RowDefinition Height="50"/>
@@ -161,28 +182,43 @@
 				<Label Content="邮箱" Grid.Row="14" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
 				<Label Content="微信号" Grid.Row="15" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
 				<Label Content="付款方式" Grid.Row="16" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="1"/>
-				<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="2" VerticalContentAlignment="Center" Width="130.333"/>
-				<DatePicker Grid.Column="1" Grid.Row="3" Height="32.406" Width="320.667" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="4"/>
-				<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="5" VerticalContentAlignment="Center" Width="130.333"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="6"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="7"/>
-				<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="33.691,9.999,0,0" Grid.Row="8" VerticalAlignment="Top"/>
-				<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="179.69,9.896,0,0" Grid.Row="8" VerticalAlignment="Top"/>
-				<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="10" VerticalContentAlignment="Center" Width="130.333"/>
-				<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="33.691,10,0,0" Grid.Row="9" VerticalAlignment="Top"/>
-				<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="179.69,9.896,0,0" Grid.Row="9" VerticalAlignment="Top"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="11"/>
-				<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="12" VerticalContentAlignment="Center" Width="130.333"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="13"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="14"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="15"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="16"/>
+                <TextBox IsEnabled="False" Name="IDTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center"/>
+                <TextBox Name="NameTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="1"/>
+				<!--<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="2" VerticalContentAlignment="Center" Width="130.333"/>-->
+                <Grid Grid.Column="1" Grid.Row="2">
+                    <RadioButton Name="RadioButton1" Content="男"  HorizontalAlignment="Left" Margin="49,18,0,0"  VerticalAlignment="Top"/>
+                    <RadioButton Name="RadioButton2" Content="女"  HorizontalAlignment="Left" Margin="171,18,0,0"  VerticalAlignment="Top"/>
+                </Grid>
+                <DatePicker Name="DatePicker1" Grid.Column="1" Grid.Row="3" Height="32.406" Width="320.667" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="4"/>
+				<ComboBox Name="MarriageComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="5" VerticalContentAlignment="Center" Width="130.333"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="6"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="7"/>
+				<!--<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="33.691,9.999,0,0" Grid.Row="8" VerticalAlignment="Top"/>
+				<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="179.69,9.896,0,0" Grid.Row="8" VerticalAlignment="Top"/>-->
+                <Grid Grid.Column="1" Grid.Row="8">
+                    <RadioButton  Name="RadioButton5" FontSize="14" Content="阴性" IsChecked="True"  HorizontalAlignment="Left" Margin="10,17,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                    <RadioButton  Name="RadioButton6"   HorizontalAlignment="Left" Margin="112,22,0,0"  VerticalAlignment="Top" RenderTransformOrigin="0.75,2.794"/>
+                    <ComboBox Name="InfectTypeComboBox" FontSize="14"  HorizontalAlignment="Left" Margin="132,14,0,0"  VerticalAlignment="Top" Width="120"/>
+                </Grid>
+
+                <!--<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="10" VerticalContentAlignment="Center" Width="130.333"/>-->
+                <Grid Grid.Column="1" Grid.Row="10">
+                    <RadioButton Name="RadioButton3" Content="固定"  HorizontalAlignment="Left" Margin="49,18,0,0"  VerticalAlignment="Top"/>
+                    <RadioButton Name="RadioButton4" Content="不固定"  HorizontalAlignment="Left" Margin="171,18,0,0"  VerticalAlignment="Top"/>
+                </Grid>
+                <!--<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="33.691,10,0,0" Grid.Row="9" VerticalAlignment="Top"/>
+				<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="179.69,9.896,0,0" Grid.Row="9" VerticalAlignment="Top"/>-->
+                <ComboBox Name="StatusComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="9" VerticalContentAlignment="Center" Width="130.333"/>
+                <TextBox Name="PatientIDTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="11"/>
+                <ComboBox Name="AreaComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="12" VerticalContentAlignment="Center" Width="130.333"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="13"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="14"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="15"/>
+				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="16"/>
 
 			</Grid>
-			<StackPanel Margin="192,842,436,-58" Grid.Row="1">
+			<!--<StackPanel Margin="192,842,436,-58" Grid.Row="1">
 				<Grid x:Name="TopGrid" Margin="0,0,0,0" Style="{StaticResource GridBackGround1}">
 					<TextBlock Visibility="Hidden"  HorizontalAlignment="Left" Margin="20,20,0,0" x:Name="textBlock9" Text="{DynamicResource IDtext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
 					<TextBox Visibility="Hidden" HorizontalAlignment="Right" Margin="0,20,603,0" x:Name="IDTextBox" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10001" IsTabStop="True" DataContext="{Binding}" Height="27" VerticalAlignment="Top" />
@@ -290,7 +326,7 @@
 										</StackPanel>
 									</Grid>
 								</GridViewColumn>
-							<!--<GridViewColumn Width="90" CellTemplate="{StaticResource PatientRegesiterDate}">
+							--><!--<GridViewColumn Width="90" CellTemplate="{StaticResource PatientRegesiterDate}">
                                         <Grid Tag="9">
                                             <StackPanel Orientation="Horizontal">
 
@@ -298,7 +334,7 @@
                                                 <Image Source="Resources/ArrowDown.png" Name="ArrowDe" Visibility="Hidden" />
                                             </StackPanel>
                                         </Grid>
-                                    </GridViewColumn>-->
+                                    </GridViewColumn>--><!--
 								<GridViewColumn Header="{DynamicResource descriptionText}" Width="175" CellTemplate="{StaticResource PatientDescription}"/>
 							</GridView>
 						</ListView.View>
@@ -353,7 +389,7 @@
 						<Button Content="{DynamicResource giveupText}" HorizontalAlignment="Right" Margin="0,189,140,0" x:Name="AddCancelButton" VerticalAlignment="Top" Click="ButtonNewCancelClick" Style="{StaticResource DialogButton}" TabIndex="20017" />
 					</Grid>
 				</Grid>
-			</StackPanel>
+			</StackPanel>-->
 		</Grid>
 		
 	</Grid>

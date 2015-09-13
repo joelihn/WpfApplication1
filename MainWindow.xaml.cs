@@ -35,12 +35,12 @@ namespace WpfApplication1
         public static readonly LogHelper Log = LogHelper.GetInstance();
         Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 
-        private PatientGroupPanel patientGroupPanel;
-        private Init initContent;
-        private Order orderContent;
-        private Shedule sheduleContent;
-        private Bed bedContent;
-        private Config configContent;
+        public PatientGroupPanel patientGroupPanel;
+        public Init initContent;
+        public Order orderContent;
+        public Shedule sheduleContent;
+        public Bed bedContent;
+        public Config configContent;
         public ObservableCollection<string> TopMenuCollection = new ObservableCollection<string>();
         
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
@@ -85,8 +85,7 @@ namespace WpfApplication1
             Symbol["包含"] = "=";
             Symbol["不包含"] = "=";
 
-   
-
+          
             Dispatcher.UnhandledException +=Dispatcher_UnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
 
@@ -156,6 +155,13 @@ namespace WpfApplication1
             sheduleContent = new Shedule(this);
             bedContent = new Bed(this);
             configContent = new Config(this);
+
+            initContent.ButtonNew.Click += delegate
+            {
+                var a = new SignUP(this);
+                a.ShowDialog();
+            };
+
            /* if (ConstDefinition.Runlevel == 1)
                 this.ConfigButton.IsEnabled = true;
             else

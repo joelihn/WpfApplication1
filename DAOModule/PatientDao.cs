@@ -76,18 +76,20 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters["@PATIENTID"].Value = patient.PatientId;
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
                     sqlcomm.Parameters["@NAME"].Value = patient.Name;
-                    sqlcomm.Parameters.Add("@DOB", DbType.String);
-                    sqlcomm.Parameters["@DOB"].Value = patient.Dob;
                     sqlcomm.Parameters.Add("@GENDER", DbType.String);
                     sqlcomm.Parameters["@GENDER"].Value = patient.Gender;
+                    sqlcomm.Parameters.Add("@DOB", DbType.String);
+                    sqlcomm.Parameters["@DOB"].Value = patient.Dob;
                     sqlcomm.Parameters.Add("@NATIONALITY", DbType.String);
-                    sqlcomm.Parameters["@NATIONALITY"].Value = patient.Gender;
+                    sqlcomm.Parameters["@NATIONALITY"].Value = patient.Nationality;
                     sqlcomm.Parameters.Add("@MARRIAGE", DbType.String);
-                    sqlcomm.Parameters["@MARRIAGE"].Value = patient.Gender;
-                    sqlcomm.Parameters.Add("@HEIGHT", DbType.Int64);
-                    sqlcomm.Parameters["@HEIGHT"].Value = patient.Gender;
+                    sqlcomm.Parameters["@MARRIAGE"].Value = patient.Marriage;
+                    sqlcomm.Parameters.Add("@HEIGHT", DbType.String);
+                    sqlcomm.Parameters["@HEIGHT"].Value = patient.Height;
                     sqlcomm.Parameters.Add("@BLOODTYPE", DbType.String);
-                    sqlcomm.Parameters["@BLOODTYPE"].Value = patient.Mobile;
+                    sqlcomm.Parameters["@BLOODTYPE"].Value = patient.BloodType;
+                    sqlcomm.Parameters.Add("@IDCODE", DbType.String);
+                    sqlcomm.Parameters["@IDCODE"].Value = patient.IdCode;
                     sqlcomm.Parameters.Add("@MOBILE", DbType.String);
                     sqlcomm.Parameters["@MOBILE"].Value = patient.Mobile;
                     sqlcomm.Parameters.Add("@ORDERS", DbType.String);
@@ -96,6 +98,16 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters["@TREATSTATUSID"].Value = patient.TreatStatusId;
                     sqlcomm.Parameters.Add("@REGISITDATE", DbType.String);
                     sqlcomm.Parameters["@REGISITDATE"].Value = patient.RegisitDate;
+                    sqlcomm.Parameters.Add("@AREAID", DbType.Int32);
+                    sqlcomm.Parameters["@AREAID"].Value = patient.AreaId;
+
+                    sqlcomm.Parameters.Add("@ZIPCODE", DbType.String);
+                    sqlcomm.Parameters["@ZIPCODE"].Value = patient.ZipCode;
+                    sqlcomm.Parameters.Add("@WEIXINHAO", DbType.String);
+                    sqlcomm.Parameters["@WEIXINHAO"].Value = patient.WeiXinHao;
+                    sqlcomm.Parameters.Add("@PAYMENT", DbType.String);
+                    sqlcomm.Parameters["@PAYMENT"].Value = patient.Payment;
+
                     sqlcomm.Parameters.Add("@INFECTTYPEID", DbType.Int32);
                     sqlcomm.Parameters["@INFECTTYPEID"].Value = patient.InfectTypeId;
                     sqlcomm.Parameters.Add("@ISFIXEDBED", DbType.Boolean);

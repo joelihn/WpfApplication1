@@ -1,11 +1,11 @@
 ﻿<Window x:Class="WpfApplication1.SignUP"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="SignUP" 
-        Width="432.356" Height="602.311" Closed="Window_Closed" Loaded="Window_Loaded">
+        Title="患者登记" 
+        Width="432.356" Height="602.311" Closed="Window_Closed" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
 
     <Viewbox x:Name="LayoutRoot" Stretch="Fill">
-        <Grid Height="450" Width="632">
+        <Grid Height="450" Width="632" Style="{StaticResource GridBackGround1}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition/>
@@ -50,16 +50,16 @@
             			<RadioButton Name="rbF" Content="女" Grid.Column="1" HorizontalAlignment="Left" Margin="42.064,10,0,0" VerticalAlignment="Top"/>
             		</Grid>
             		<DatePicker Name="dpBirthday" Grid.Column="1" HorizontalAlignment="Left" Margin="20,7.457,0,0" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Top" Height="32.406" Width="320.667"/>
-                    <RadioButton Name="rbNegative" GroupName="1" Content="阴性" Grid.Column="1" HorizontalAlignment="Left" Margin="20,12.913,0,0" Grid.Row="3" VerticalAlignment="Top" Checked="RadioButton_Checked" Tag="0" IsChecked="True"/>
-                    <RadioButton Content="" GroupName="1" Grid.Column="1" HorizontalAlignment="Left" Margin="191.771,12.913,0,0" Grid.Row="3" VerticalAlignment="Top" Checked="RadioButton_Checked" Tag="1"/>
-            		<ComboBox Name="cbInfectionType" Grid.Column="1" HorizontalAlignment="Left" Margin="220.667,9.913,0,0" Grid.Row="3" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
-                    <RadioButton Name="rbTreatStatus" GroupName="2" Content="在治" Grid.Column="1" HorizontalAlignment="Left" Margin="20,11.456,0,0" Grid.Row="4" VerticalAlignment="Top" Checked="rbTreatStatus_Checked" Tag="0" IsChecked="True"/>
-                    <RadioButton Content="" GroupName="2" Grid.Column="1" HorizontalAlignment="Left" Margin="191.771,11.456,0,0" Grid.Row="4" VerticalAlignment="Top" RenderTransformOrigin="5.39,0.659" Checked="rbTreatStatus_Checked" Tag="1"/>
-            		<ComboBox Name="cbTreatMentStatus" Grid.Column="1" HorizontalAlignment="Left" Margin="220.667,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
-            		<RadioButton Name="rbFixBed" GroupName="3" Content="固定" Grid.Column="1" HorizontalAlignment="Left" Margin="51.658,11.456,0,0" Grid.Row="5" VerticalAlignment="Top"/>
-                    <RadioButton Content="不固定" GroupName="3" Grid.Column="1" HorizontalAlignment="Left" Margin="191.771,12.596,0,0" Grid.Row="5" VerticalAlignment="Top" IsChecked="True"/>
+                    <RadioButton Name="rbNegative1" GroupName="1" Content="阴性" Grid.Column="1" HorizontalAlignment="Left" Margin="20,12.913,0,0" Grid.Row="3" VerticalAlignment="Top" Checked="RadioButton_Checked" Tag="0" IsChecked="True"/>
+                    <RadioButton Name="rbNegative2" Content="" GroupName="1" Grid.Column="1" HorizontalAlignment="Left" Margin="191.771,12.913,0,0" Grid.Row="3" VerticalAlignment="Top" Checked="RadioButton_Checked" Tag="1"/>
+                    <ComboBox Name="InfectTypeComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="220.667,9.913,0,0" Grid.Row="3" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+                    <RadioButton Name="rbTreatStatus1" GroupName="2" Content="在治" Grid.Column="1" HorizontalAlignment="Left" Margin="20,11.456,0,0" Grid.Row="4" VerticalAlignment="Top" Checked="rbTreatStatus_Checked" Tag="0" IsChecked="True"/>
+                    <RadioButton Name="rbTreatStatus2"  Content="" GroupName="2" Grid.Column="1" HorizontalAlignment="Left" Margin="191.771,11.456,0,0" Grid.Row="4" VerticalAlignment="Top" RenderTransformOrigin="5.39,0.659" Checked="rbTreatStatus_Checked" Tag="1"/>
+                    <ComboBox Name="StatusComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="220.667,10,0,0" Grid.Row="4" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
+            		<RadioButton Name="rbFixBed1" GroupName="3" Content="固定" Grid.Column="1" HorizontalAlignment="Left" Margin="51.658,11.456,0,0" Grid.Row="5" VerticalAlignment="Top"/>
+                    <RadioButton Name="rbFixBed2" Content="不固定" GroupName="3" Grid.Column="1" HorizontalAlignment="Left" Margin="191.771,12.596,0,0" Grid.Row="5" VerticalAlignment="Top" IsChecked="True"/>
             		<TextBox Name="tbUid" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="20,10,0,0" Grid.Row="6" TextWrapping="Wrap" VerticalAlignment="Top" Width="320.667"/>
-            		<ComboBox Name="cbArea" Grid.Column="1" HorizontalAlignment="Left" Margin="20,10,0,0" Grid.Row="7" VerticalAlignment="Top" Width="320.667"/>
+                    <ComboBox Name="AreaComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="20,10,0,0" Grid.Row="7" VerticalAlignment="Top" Width="320.667"/>
             	</Grid>
             </Border>
             <Border BorderThickness="3,0,3,3" Grid.Row="2" BorderBrush="{DynamicResource ButtonBorderColor1}" Background="{DynamicResource ButtonBackgroundColor1}">

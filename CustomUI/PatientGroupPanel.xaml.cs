@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,11 +24,13 @@ namespace WpfApplication1.CustomUI
     public partial class PatientGroupPanel : UserControl
     {
 
+        public ObservableCollection<PatientData> Datalist = new ObservableCollection<PatientData>();
         public MainWindow Basewindow;
         public PatientGroupPanel(MainWindow mainWindow)
         {
             InitializeComponent();
             Basewindow = mainWindow;
+            this.ListBoxPatient.ItemsSource = Datalist;
             this.ComboBoxPatientGroup.SelectedIndex = MainWindow.ComboBoxPatientGroupIndex;
         }
 
@@ -59,8 +63,9 @@ namespace WpfApplication1.CustomUI
 
         private void ComboBoxPatientGroup_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
             MainWindow.ComboBoxPatientGroupIndex = this.ComboBoxPatientGroup.SelectedIndex;
-            ListBoxPatient.Items.Clear();
+            Datalist.Clear();
             using (var patientGroupDao = new PatientGroupDao())
             {
                 var condition = new Dictionary<string, object>();
@@ -81,7 +86,10 @@ namespace WpfApplication1.CustomUI
                                 var patientlist = patientDao.SelectPatientSpecial(listpara);
                                 foreach (var patient in patientlist)
                                 {
-                                    ListBoxPatient.Items.Add(patient.Name);
+                                    var patientData = new PatientData();
+                                    patientData.Id = patient.Id;
+                                    patientData.Name = patient.Name;
+                                    Datalist.Add(patientData);
                                 }
                             }
                         }
@@ -94,8 +102,50 @@ namespace WpfApplication1.CustomUI
 
         private void ListBoxPatient_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
 
+            MessageBox.Show(Datalist[this.ListBoxPatient.SelectedIndex].Id.ToString());
+
+        }
+    }
+
+    public class PatientData : INotifyPropertyChanged
+    {
+        private Int64 _id;
+        private string _name;
+        public PatientData()
+        {
+        }
+
+        public Int64 Id
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                OnPropertyChanged("Id");
+            }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #endregion
+
+        private void OnPropertyChanged(String info)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(info));
         }
     }
 }
