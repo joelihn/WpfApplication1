@@ -186,23 +186,180 @@ namespace WpfApplication1
 
         private void ButtonApply_OnClick(object sender, RoutedEventArgs e)
         {
-            
+            if(Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex==-1) return;
+
+            this.ButtonNew.IsEnabled = true;
+            this.ButtonDelete.IsEnabled = true;
             this.ButtonApply.IsEnabled = false;
+
+            using (PatientDao patientDao= new PatientDao())
+            {
+                var condition = new Dictionary<string, object>();
+                condition["ID"] = Basewindow.patientGroupPanel.Datalist[Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex].Id;
+
+                var fileds = new Dictionary<string, object>();
+
+                fileds["NAME"] = NameTextBox.Text;
+
+                if ((bool) RadioButton1.IsChecked)
+                    fileds["GENDER"] = "男";
+                else if ((bool)RadioButton2.IsChecked)
+                    fileds["GENDER"] = "女";
+
+                fileds["DOB"] = DatePicker1.Text;
+                fileds["NATIONALITY"] = NationalityTextBox.Text;
+                 fileds["MARRIAGE"] = MarriageComboBox.Text;
+                 fileds["HEIGHT"] = HeightTextBox.Text;
+                 fileds["BLOODTYPE"] = BloodTypeTextBox.Text;
+
+
+                 if ((bool) RadioButton5.IsChecked)
+                {
+                    fileds["INFECTTYPEID"] = 0;
+                }
+                 else if ((bool)RadioButton6.IsChecked)
+                {
+                   
+                    using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                    {
+                        var condition1 = new Dictionary<string, object>();
+                        condition1["NAME"] = InfectTypeComboBox.Text;
+                        var list1 = infectTypeDao.SelectInfectType(condition1);
+                        if ((list1 != null) && (list1.Count > 0))
+                        {
+                             fileds["INFECTTYPEID"] =  list1[0].Id;
+                        }
+                    }
+                }
+
+                using (TreatStatusDao treatStatusDao = new TreatStatusDao())
+                {
+                    var condition1 = new Dictionary<string, object>();
+                    condition1["NAME"] = StatusComboBox.Text;
+                    var list1 = treatStatusDao.SelectTreatStatus(condition1);
+                    if ((list1 != null) && (list1.Count > 0))
+                    {
+                        fileds["TREATSTATUSID"]  = list1[0].Id;
+                    }
+                }
+
+                if ((bool) RadioButton3.IsChecked)
+                    fileds["ISFIXEDBED"] = true;
+                else if ((bool)RadioButton4.IsChecked)
+                    fileds["ISFIXEDBED"] = false;
+
+                using (PatientAreaDao patientAreaDao = new PatientAreaDao())
+                {
+                    var condition1 = new Dictionary<string, object>();
+                    condition1["NAME"] = AreaComboBox.Text;
+                    var list1 = patientAreaDao.SelectPatientArea(condition1);
+                    if ((list1 != null) && (list1.Count > 0))
+                    {
+                        fileds["AREAID"] = list1[0].Id;
+                    }
+                }
+
+                fileds["PATIENTID"] = PatientIDTextBox.Text;
+                fileds["MOBILE"] = MobileTextBox.Text;
+                fileds["WEIXINHAO"] = WeixinhaoTextBox.Text;
+                fileds["PAYMENT"] = PaymentTextBox.Text;
+               
+
+                patientDao.UpdatePatient(fileds, condition);
+            }
         }
 
         private void ButtonDelete_OnClick(object sender, RoutedEventArgs e)
         {
             //if (ListViewBed.SelectedIndex == -1) return;
-            
+            if (Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex == -1) return;
+
+            //throw new NotImplementedException();
+            using (var patientDao = new PatientDao())
+            {
+                patientDao.DeletePatient((int)(Basewindow.patientGroupPanel.Datalist[Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex].Id));
+                Basewindow.patientGroupPanel.RemoveData(Basewindow.patientGroupPanel.Datalist[Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex].Id);
+            }
+
+            this.ButtonDelete.IsEnabled = false;
+            this.ButtonApply.IsEnabled = false;
+            this.ButtonCancel.IsEnabled = false;
         }
 
         private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
         {
-            
+            int temp = Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex;
+            Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex = -1;
+            Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex = temp;
+        }
+
+
+        private void RadioButton5_OnChecked(object sender, RoutedEventArgs e)
+        {
+            this.InfectTypeComboBox.IsEnabled = false;
+           
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+        }
+
+        private void RadioButton6_OnChecked(object sender, RoutedEventArgs e)
+        {
+
+            if ((bool)RadioButton6.IsChecked)
+            {
+                this.InfectTypeComboBox.IsEnabled = true;
+                
+            }
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+        }
+
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
 
         }
 
-       
+        private void RadioButton1_OnChecked(object sender, RoutedEventArgs e)
+        {
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+
+        }
+
+        private void RadioButton2_OnChecked(object sender, RoutedEventArgs e)
+        {
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+        }
+
+        private void DatePicker1_OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+        }
+
+        private void StatusComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+
+        }
+
+        private void RadioButton3_OnChecked(object sender, RoutedEventArgs e)
+        {
+
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+        }
+
+        private void RadioButton4_OnChecked(object sender, RoutedEventArgs e)
+        {
+
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+        }
     }
 
     public class PatientInfo : INotifyPropertyChanged

@@ -433,9 +433,10 @@ namespace WpfApplication1.CustomUI
             if ((bool) RadioButton2.IsChecked)
             {
                 this.InfectionComboBox.IsEnabled = true;
-                this.InfectionComboBox.SelectedIndex = 0;
+                //this.InfectionComboBox.SelectedIndex = 0;
             }
-            
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
         }
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
@@ -449,6 +450,7 @@ namespace WpfApplication1.CustomUI
             this.ButtonApply.IsEnabled = true;
             this.ButtonCancel.IsEnabled = true;
 
+            this.InfectionComboBox.IsEnabled = false;
         }
 
         public int[] Paixiflag = new int[11] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };

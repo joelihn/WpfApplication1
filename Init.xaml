@@ -163,7 +163,7 @@
 					<RowDefinition Height="50"/>
 					<RowDefinition Height="50"/>
 					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
+					<!--<RowDefinition Height="50"/>-->
 				</Grid.RowDefinitions>
 				<Label Content="编号" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
 				<Label Content="姓名*" Grid.Row="1" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
@@ -179,43 +179,44 @@
 				<Label Content="唯一识别码" Grid.Row="11" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
 				<Label Content="所属分区*" Grid.Row="12" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
 				<Label Content="联系电话*" Grid.Row="13" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="邮箱" Grid.Row="14" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="微信号" Grid.Row="15" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="付款方式" Grid.Row="16" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<!--<Label Content="邮箱" Grid.Row="14" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>-->
+				<Label Content="微信号" Grid.Row="14" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="付款方式" Grid.Row="15" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
                 <TextBox IsEnabled="False" Name="IDTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center"/>
-                <TextBox Name="NameTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="1"/>
+                <TextBox TextChanged="OnTextChanged" Name="NameTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="1"/>
 				<!--<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="2" VerticalContentAlignment="Center" Width="130.333"/>-->
                 <Grid Grid.Column="1" Grid.Row="2">
-                    <RadioButton Name="RadioButton1" Content="男"  HorizontalAlignment="Left" Margin="49,18,0,0"  VerticalAlignment="Top"/>
-                    <RadioButton Name="RadioButton2" Content="女"  HorizontalAlignment="Left" Margin="171,18,0,0"  VerticalAlignment="Top"/>
+                    <RadioButton Checked="RadioButton1_OnChecked" Name="RadioButton1" Content="男"  HorizontalAlignment="Left" Margin="49,18,0,0"  VerticalAlignment="Top"/>
+                    <RadioButton Checked="RadioButton2_OnChecked" Name="RadioButton2" Content="女"  HorizontalAlignment="Left" Margin="171,18,0,0"  VerticalAlignment="Top"/>
                 </Grid>
-                <DatePicker Name="DatePicker1" Grid.Column="1" Grid.Row="3" Height="32.406" Width="320.667" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="4"/>
+                <DatePicker DataContextChanged="DatePicker1_OnDataContextChanged" Name="DatePicker1" Grid.Column="1" Grid.Row="3" Height="32.406" Width="320.667" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+                <TextBox TextChanged="OnTextChanged" Name="NationalityTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="4"/>
 				<ComboBox Name="MarriageComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="5" VerticalContentAlignment="Center" Width="130.333"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="6"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="7"/>
+                <TextBox Name="HeightTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="6"/>
+                <TextBox Name="BloodTypeTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="7"/>
 				<!--<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="33.691,9.999,0,0" Grid.Row="8" VerticalAlignment="Top"/>
 				<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="179.69,9.896,0,0" Grid.Row="8" VerticalAlignment="Top"/>-->
                 <Grid Grid.Column="1" Grid.Row="8">
-                    <RadioButton  Name="RadioButton5" FontSize="14" Content="阴性" IsChecked="True"  HorizontalAlignment="Left" Margin="10,17,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-                    <RadioButton  Name="RadioButton6"   HorizontalAlignment="Left" Margin="112,22,0,0"  VerticalAlignment="Top" RenderTransformOrigin="0.75,2.794"/>
                     <ComboBox Name="InfectTypeComboBox" FontSize="14"  HorizontalAlignment="Left" Margin="132,14,0,0"  VerticalAlignment="Top" Width="120"/>
+                    <RadioButton Checked="RadioButton5_OnChecked" Name="RadioButton5" FontSize="14" Content="阴性" IsChecked="True"  HorizontalAlignment="Left" Margin="10,17,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+                    <RadioButton Checked="RadioButton6_OnChecked" Name="RadioButton6"   HorizontalAlignment="Left" Margin="112,22,0,0"  VerticalAlignment="Top" RenderTransformOrigin="0.75,2.794"/>
+                    
                 </Grid>
 
                 <!--<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="10" VerticalContentAlignment="Center" Width="130.333"/>-->
                 <Grid Grid.Column="1" Grid.Row="10">
-                    <RadioButton Name="RadioButton3" Content="固定"  HorizontalAlignment="Left" Margin="49,18,0,0"  VerticalAlignment="Top"/>
-                    <RadioButton Name="RadioButton4" Content="不固定"  HorizontalAlignment="Left" Margin="171,18,0,0"  VerticalAlignment="Top"/>
+                    <RadioButton Checked="RadioButton3_OnChecked" Name="RadioButton3" Content="固定"  HorizontalAlignment="Left" Margin="49,18,0,0"  VerticalAlignment="Top"/>
+                    <RadioButton Checked="RadioButton4_OnChecked" Name="RadioButton4" Content="不固定"  HorizontalAlignment="Left" Margin="171,18,0,0"  VerticalAlignment="Top"/>
                 </Grid>
                 <!--<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="33.691,10,0,0" Grid.Row="9" VerticalAlignment="Top"/>
 				<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="179.69,9.896,0,0" Grid.Row="9" VerticalAlignment="Top"/>-->
-                <ComboBox Name="StatusComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="9" VerticalContentAlignment="Center" Width="130.333"/>
-                <TextBox Name="PatientIDTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="11"/>
+                <ComboBox SelectionChanged="StatusComboBox_OnSelectionChanged" Name="StatusComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="9" VerticalContentAlignment="Center" Width="130.333"/>
+                <TextBox TextChanged="OnTextChanged" Name="PatientIDTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="11"/>
                 <ComboBox Name="AreaComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="12" VerticalContentAlignment="Center" Width="130.333"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="13"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="14"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="15"/>
-				<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="16"/>
+                <TextBox Name="MobileTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="13"/>
+                <!--<TextBox Name="" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="14"/>-->
+                <TextBox Name="WeixinhaoTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="14"/>
+                <TextBox Name="PaymentTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="15"/>
 
 			</Grid>
 			<!--<StackPanel Margin="192,842,436,-58" Grid.Row="1">
