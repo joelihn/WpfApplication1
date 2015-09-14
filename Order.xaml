@@ -5,48 +5,30 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="1024" d:DesignWidth="1090">
+             d:DesignHeight="1024" d:DesignWidth="1090" Loaded="Order_OnLoaded">
     <UserControl.Resources>
         <collections:ArrayList x:Key="informationlist">
         </collections:ArrayList>
-        <DataTemplate x:Key="PatientId">
-            <TextBlock x:Name="textlockID" Text="{Binding PatientId}" />
+        <DataTemplate x:Key="Activated">
+            <TextBlock x:Name="textlockID" Text="{Binding Activated}" />
         </DataTemplate>
-        <DataTemplate x:Key="PatientPatientId">
-            <TextBlock x:Name="textlockPatientID" Text="{Binding PatientPatientId}" />
+        <DataTemplate x:Key="Seq">
+            <TextBlock x:Name="textlockPatientID" Text="{Binding Seq}" />
         </DataTemplate>
-        <DataTemplate x:Key="PatientName">
-            <TextBlock x:Name="textlockname" Text="{Binding PatientName}" />
+        <DataTemplate x:Key="Plan">
+            <TextBlock x:Name="textlockname" Text="{Binding Plan}" />
         </DataTemplate>
-        <DataTemplate x:Key="PatientDob">
-            <TextBlock x:Name="textlockage" Text="{Binding PatientDob}" />
+        <DataTemplate x:Key="TreatMethod">
+            <TextBlock x:Name="textlockage" Text="{Binding TreatMethod}" />
         </DataTemplate>
-        <DataTemplate x:Key="PatientGender">
-            <TextBlock x:Name="textlocksex" Text="{Binding PatientGender}" />
+        <DataTemplate x:Key="Type">
+            <TextBlock x:Name="textlocksex" Text="{Binding Type}" />
         </DataTemplate>
-        <DataTemplate x:Key="PatientMobile">
-            <TextBlock x:Name="textlockMobile" Text="{Binding PatientMobile}" />
+        <DataTemplate x:Key="TreatTimes">
+            <TextBlock x:Name="textlockMobile" Text="{Binding TreatTimes}" />
         </DataTemplate>
-        <DataTemplate x:Key="PatientRegesiterDate">
-            <TextBlock x:Name="textlockdate" Text="{Binding PatientRegesiterDate}" />
-        </DataTemplate>
-        <DataTemplate x:Key="PatientInfectType">
-            <TextBlock x:Name="textboxInfectType" Text="{Binding PatientInfectType}" />
-        </DataTemplate>
-        <DataTemplate x:Key="PatientIsFixedBed">
-            <CheckBox IsEnabled="False" x:Name="textboxIsFixedBed" IsChecked="{Binding PatientIsFixedBed}" />
-        </DataTemplate>
-        <DataTemplate x:Key="PatientTreatStatus">
-            <TextBlock x:Name="textboxTreatStatusId" Text="{Binding PatientTreatStatus}" />
-        </DataTemplate>
-        <DataTemplate x:Key="PatientBedId">
-            <TextBlock x:Name="textboxBedId" Text="{Binding PatientBedId}" />
-        </DataTemplate>
-        <DataTemplate x:Key="PatientIsAssigned">
-            <CheckBox IsEnabled="False" x:Name="textboxIsAssigned" IsChecked="{Binding PatientIsAssigned}" />
-        </DataTemplate>
-        <DataTemplate x:Key="PatientDescription">
-            <TextBlock x:Name="textlockdescription" Text="{Binding PatientDescription}" />
+        <DataTemplate x:Key="Description">
+            <TextBlock x:Name="textlockdate" Text="{Binding Description}" />
         </DataTemplate>
         <Style x:Key="PatientOrderListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
         	<Setter Property="Background" Value="Transparent"/>
@@ -67,12 +49,12 @@
         							<ColumnDefinition/>
         							<ColumnDefinition/>
         						</Grid.ColumnDefinitions>
-        						<CheckBox Content="" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
-        						<Label Content="{Binding Number}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        						<Label Content="{Binding Scheme}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        						<Label Content="{Binding TreatMent}" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        						<ComboBox Grid.ColumnSpan="1" Grid.Column="4" VerticalAlignment="Stretch" Width="Auto" Height="Auto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        						<Label Content="{Binding Times}" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <CheckBox Content="{Binding Activated}" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+        						<Label Content="{Binding Seq}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        						<Label Content="{Binding Plan}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        						<Label Content="{Binding MethodId}" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="{Binding Interval}" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="{Binding Times}" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         						<Label Content="{Binding Discription}" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         					</Grid>
         				</Border>
@@ -195,14 +177,13 @@
                 <!--<TextBox Grid.Column="1" Height="29" TextWrapping="Wrap" Text="TextBox" VerticalContentAlignment="Center" Grid.Row="16"/>-->
 
 			</Grid>
-			<Grid>
+			<Grid Grid.Row="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="35"/>
                     <RowDefinition/>
-                    <RowDefinition/>
                 </Grid.RowDefinitions>
-                <ListBox Grid.Row="1" ItemContainerStyle="{DynamicResource PatientOrderListBoxItemStyle}"/>
-				<Grid Background="#FFC1BABA">
+                <ListBox Name="MedicalOrderListBox" Grid.Row="1" ItemContainerStyle="{DynamicResource PatientOrderListBoxItemStyle}"/>
+				<Grid Grid.Row="0" Background="#FFC1BABA">
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition/>
 						<ColumnDefinition/>
@@ -215,9 +196,9 @@
 					<Label Content="启用" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 					<Label Content="序号" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
 					<Label Content="方案" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2"/>
-					<Label Content="治疗方案" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
+					<Label Content="治疗方法" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
 					<Label Content="循环周期" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="4"/>
-					<Label Content="资料次数" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="5"/>
+					<Label Content="治疗次数" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="5"/>
 					<Label Content="描述" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="6"/>
 				</Grid>
 			</Grid>

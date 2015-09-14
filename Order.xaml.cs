@@ -38,7 +38,7 @@ namespace WpfApplication1
             InitializeComponent();
             Basewindow = window;
             //this.PatientlistView.ItemsSource = PatientList;
-            //this.MedicalOrderlistView.ItemsSource = TreatOrderList;
+            this.MedicalOrderListBox.ItemsSource = TreatOrderList;
         
             
          
@@ -560,92 +560,72 @@ namespace WpfApplication1
             //}
         }
 
-        //private void Order_OnLoaded(object sender, RoutedEventArgs e)
-        //{
-        //    LoadTratementConifg();
-        //    LoadOrderParaConfig();
+        private void Order_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+            try
+            {
+                TreatOrderList.Clear();
+                using (MedicalOrderDao medicalOrderDao = new MedicalOrderDao())
+                {
 
-        //    //throw new NotImplementedException();
-        //    try
-        //    {
-        //        using (InfectTypeDao infectTypeDao = new InfectTypeDao())
-        //        {
-        //            Dictionary<string, object> condition = new Dictionary<string, object>();
-        //            var list = infectTypeDao.SelectInfectType(condition);
-        //            InfectTypeComboBox.Items.Clear();
-        //            InfectTypeComboBox.Items.Add("所有");
-        //            //InfectTypeComboBox.Items.Add("");
-        //            foreach (InfectType type in list)
-        //            {
-        //                InfectTypeComboBox.Items.Add(type.Name);
-        //            }
-        //            InfectTypeComboBox.SelectedIndex = 0;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MainWindow.Log.WriteInfoConsole("In Order.xaml.cs:Order_OnLoaded InfectType ComboxItem exception messsage: " + ex.Message);
-        //    }
-        //    //throw new NotImplementedException();
-        //    try
-        //    {
-        //        PatientList.Clear();
-        //        using (ComplexDao patientDao = new ComplexDao())
-        //        {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    condition["PATIENTID"] =
+                        Basewindow.patientGroupPanel.Datalist[Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex]
+                            .Id;
+                    var list = medicalOrderDao.SelectMedicalOrder(condition);
+                    
+                    foreach (MedicalOrder medicalOrder in list)
+                    {
+                        TreatOrder treatOrder = new TreatOrder();
+                        treatOrder.Activated = medicalOrder.Activated;
+                        treatOrder.Seq = medicalOrder.Seq;
+                        treatOrder.Plan = medicalOrder.Plan;
+                        
+                        
+                        treatOrder.TreatTimes = (int)medicalOrder.Times;
+                        treatOrder.Description = medicalOrder.Description;
 
-        //            Dictionary<string, object> condition = new Dictionary<string, object>();
-        //            condition["TREATSTATUSID"] = 1;
-        //            //var list = patientDao.SelectPatient(condition);
-        //            var end = DateTime.Now;
-        //            var begin = end.AddMonths(-1);
-        //            List<Patient> list = patientDao.SelectPatient(condition, begin, end);
-        //            foreach (Patient type in list)
-        //            {
-        //                PatientInfo patientInfo = new PatientInfo();
-        //                patientInfo.PatientId = type.Id;
-        //                patientInfo.PatientName = type.Name;
-        //                patientInfo.PatientDob = type.Dob;
-        //                patientInfo.PatientPatientId = type.PatientId;
-        //                patientInfo.PatientGender = type.Gender;
-        //                patientInfo.PatientMobile = type.Mobile;
-        //                patientInfo.PatientRegesiterDate = type.RegisitDate;
-        //                {
-        //                    using (var infectTypeDao = new InfectTypeDao())
-        //                    {
-        //                        condition.Clear();
-        //                        condition["ID"] = type.InfectTypeId;
-        //                        var arealist = infectTypeDao.SelectInfectType(condition);
-        //                        if (arealist.Count == 1)
-        //                        {
-        //                            patientInfo.PatientInfectType = arealist[0].Name;
-        //                        }
-        //                    }
-        //                }
-        //                {
-        //                    using (var treatStatusDao = new TreatStatusDao())
-        //                    {
-        //                        condition.Clear();
-        //                        condition["ID"] = type.TreatStatusId;
-        //                        var arealist = treatStatusDao.SelectTreatStatus(condition);
-        //                        if (arealist.Count == 1)
-        //                        {
-        //                            patientInfo.PatientTreatStatus = arealist[0].Name;
-        //                        }
-        //                    }
-        //                }
-        //                patientInfo.PatientIsFixedBed = type.IsFixedBed;
-        //                patientInfo.PatientIsAssigned = type.IsAssigned;
-        //                patientInfo.PatientDescription = type.Description;
-        //                PatientList.Add(patientInfo);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
-        //    }
+                        if (medicalOrder.MethodId!=-1)
+                        {
+                            using (var treatMethodDao = new TreatMethodDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = (int)medicalOrder.MethodId;
+                                var arealist = treatMethodDao.SelectTreatMethod(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatOrder.TreatMethod = arealist[0].Name;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            treatOrder.TreatMethod = "NULL";
+                        }
+                        {
+                            using (var medicalOrderParaDao = new MedicalOrderParaDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = medicalOrder.Interval;
+                                var arealist = medicalOrderParaDao.SelectInterval(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatOrder.Type = arealist[0].Name;
+                                }
+                            }
+                        }
 
-        //}
+                        TreatOrderList.Add(treatOrder);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
+            }
+
+        }
 
 
         private void CbTreatMathod_Initialized(object sender, EventArgs e)
@@ -695,9 +675,14 @@ namespace WpfApplication1
     public class TreatOrder : INotifyPropertyChanged
     {
         private Int64 _id;
-        private string _treatMethod;
-        private string _type;
-        private int _treatTimes;
+        private int _patientId;
+        private bool _activated;
+        private string _seq;
+        private string _plan;
+        private string _method;
+        private string _interval;
+        private int _times;
+        private string _description;
 
         public TreatOrder()
         {
@@ -713,35 +698,85 @@ namespace WpfApplication1
             }
         }
 
-        public string TreatMethod
+        public int PatientId
         {
-            get { return _treatMethod; }
+            get { return _patientId; }
             set
             {
-                _treatMethod = value;
+                _patientId = value;
+                OnPropertyChanged("PatientId");
+            }
+        }
+
+        public string Seq
+        {
+            get { return _seq; }
+            set
+            {
+                _seq = value;
+                OnPropertyChanged("Seq");
+            }
+        }
+        public string Plan
+        {
+            get { return _plan; }
+            set
+            {
+                _plan = value;
+                OnPropertyChanged("Plan");
+            }
+        }
+
+        public string TreatMethod
+        {
+            get { return _method; }
+            set
+            {
+                _method = value;
                 OnPropertyChanged("TreatMethod");
             }
         }
 
         public string Type
         {
-            get { return _type; }
+            get { return _interval; }
             set
             {
-                _type = value;
+                _interval = value;
                 OnPropertyChanged("Type");
             }
         }
 
         public int TreatTimes
         {
-            get { return _treatTimes; }
+            get { return _times; }
             set
             {
-                _treatTimes = value;
+                _times = value;
                 OnPropertyChanged("TreatTimes");
             }
         }
+
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                _description = value;
+                OnPropertyChanged("Description");
+            }
+        }
+
+        public bool Activated
+        {
+            get { return _activated; }
+            set
+            {
+                _activated = value;
+                OnPropertyChanged("Activated");
+            }
+        }
+
 
         #region INotifyPropertyChanged Members
 

@@ -51,16 +51,16 @@ namespace WpfApplication1.DAOModule
         /// <param name="medicalOrder">Class instance of Medical Order infomation</param>
         /// <param name="scId">Id of the last insert row id</param>
         /// <returns></returns>
-        public bool InsertInfectType(MedicalOrder medicalOrder, ref int scId)
+        public bool InsertMedicalOrder(MedicalOrder medicalOrder, ref int scId)
         {
             try
             {
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO MEDICALORDER (PATIENTID,ACTIVATED,SEQ,PALN,METHODID,INTERVAL,TIMES,
+                        @"INSERT INTO MEDICALORDER (PATIENTID,ACTIVATED,SEQ,PLAN,METHODID,INTERVAL,TIMES,
                            DESCRIPTION,RESERVED1,RESERVED2) VALUES 
-                        (@PATIENTID,@ACTIVATED,@SEQ,@PALN,@INTERVAL,@TIMES,
+                        (@PATIENTID,@ACTIVATED,@SEQ,@PLAN,@METHODID,@INTERVAL,@TIMES,
                             @DESCRIPTION ,@RESERVED1,@RESERVED2)";
                     sqlcomm.Parameters.Add("@PATIENTID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTID"].Value = medicalOrder.PatientId;
@@ -70,8 +70,8 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters.Add("@SEQ", DbType.String);
                     sqlcomm.Parameters["@SEQ"].Value = medicalOrder.Seq;
 
-                    sqlcomm.Parameters.Add("@PALN", DbType.String);
-                    sqlcomm.Parameters["@PALN"].Value = medicalOrder.Plan;
+                    sqlcomm.Parameters.Add("@PLAN", DbType.String);
+                    sqlcomm.Parameters["@PLAN"].Value = medicalOrder.Plan;
                     sqlcomm.Parameters.Add("@METHODID", DbType.Int32);
                     sqlcomm.Parameters["@METHODID"].Value = medicalOrder.MethodId;
 

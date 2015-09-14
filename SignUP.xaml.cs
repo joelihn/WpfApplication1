@@ -134,6 +134,8 @@ namespace WpfApplication1
                 int lastInsertId = -1;
                 patientDao.InsertPatient(patient, ref lastInsertId);
 
+                InitMedicalOrderData(lastInsertId);
+
                 Basewindow.initContent.IDTextBox.Text = lastInsertId.ToString();
                 Basewindow.initContent.NameTextBox.Text = patient.Name;
                 if (patient.Gender.Equals("男"))
@@ -187,6 +189,23 @@ namespace WpfApplication1
             Basewindow.initContent.ButtonCancel.IsEnabled = false;
 
             this.Close();
+        }
+
+        private void InitMedicalOrderData(int patientId)
+        {
+            using (MedicalOrderDao medicalOrderDao = new MedicalOrderDao())
+            {
+                int lastInsertId = -1;
+                MedicalOrder medicalOrder = new MedicalOrder();
+                medicalOrder.PatientId = patientId;
+                medicalOrder.Plan = "频次";
+                medicalOrder.Seq = "1";
+                medicalOrder.MethodId = -1;
+                medicalOrder.Interval = 1;
+                medicalOrder.Times = 5;
+                medicalOrder.Description = "test";
+                medicalOrderDao.InsertMedicalOrder(medicalOrder, ref lastInsertId);
+            }
         }
 
         private void Window_Closed(object sender, EventArgs e)
