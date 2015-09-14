@@ -39,13 +39,15 @@ namespace WpfApplication1
         public Dictionary<string, Color> CureTypeDictionary = new Dictionary<string, Color>();
         public Dictionary<string, Color> InvalidCureTypeDictionary = new Dictionary<string, Color>();
         public Dictionary<string, Color> AvilidCureTypeDictionary = new Dictionary<string, Color>();
-        
+
         public List<ListboxItemStatus> ListboxItemStatusesList = new List<ListboxItemStatus>();
         public ObservableCollection<MedicalOrderParaData> OrderParaList = new ObservableCollection<MedicalOrderParaData>();
         //public ObservableCollection<MedicalOrderParaData> OrderParaList = new ObservableCollection<MedicalOrderParaData>();
         public ObservableCollection<TreatOrder> TreatOrderList = new ObservableCollection<TreatOrder>();
         public List<DateTime> dtlist = new List<DateTime>();
         public int selectoperation;
+        private bool IsEditable = false;
+        private List<int> ModifiedList;
         public Shedule(MainWindow mainWindow)
         {
             InitializeComponent();
@@ -66,6 +68,7 @@ namespace WpfApplication1
             this.SexComboBox.Items.Add("男");
             this.SexComboBox.Items.Add("女");
             SexComboBox.SelectedIndex = 0;
+            ModifiedList = new List<int>();
         }
 
         private void InquireButton_Click(object sender, RoutedEventArgs e)
@@ -514,12 +517,17 @@ namespace WpfApplication1
         
         private void ButtonBase_OnClick(object sender, MouseButtonEventArgs e)
         {
+            if (IsEditable == false) return;
             DateTime dtTime1 = DateTime.Now;
             Button btn = (Button) sender;
             string tag = (string) btn.Tag;
             int index = ListBox1.SelectedIndex;
             if ( index == -1 ) 
                 return;
+            if (!ModifiedList.Contains(index))
+            {
+                ModifiedList.Add(index);
+            }
 
             bool ret = ChangeButtonStauts(index, tag, e.ChangedButton);
             DateTime dtTime2 = DateTime.Now;
@@ -527,9 +535,7 @@ namespace WpfApplication1
             MainWindow.Log.WriteInfoLog("tsSpan1 is: " + tsSpan1.Milliseconds);
             if (ret)
             {
-                
-
-                UpdatePatientSchedule( tag );
+                //UpdatePatientSchedule( tag );
                 DateTime dtTime3 = DateTime.Now;
                 TimeSpan tsSpan2 = dtTime3 - dtTime2;
                 MainWindow.Log.WriteInfoLog("tsSpan2 is: " + tsSpan2.Milliseconds);
@@ -1311,160 +1317,165 @@ namespace WpfApplication1
             }
         }
 
-        private void UpdatePatientSchedule( string tag )
+        private void UpdatePatientSchedule( )
         {
             try
             {
                 /*Point column = GetWeekAndDay(tag);
                 int weeks = (int)column.X;
                 int days = (int)column.Y;*/
-
-                long selectPatientID = ListboxItemStatusesList[ListBox1.SelectedIndex].PatientID;
-                using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                foreach (var line in ModifiedList)
                 {
-                    foreach (var v in ListboxItemStatusesList)
+
+
+
+                    long selectPatientID = ListboxItemStatusesList[line].PatientID;
+                    using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
                     {
-                        long patientID = v.PatientID;
-                        if (selectPatientID == patientID)
+                        foreach (var v in ListboxItemStatusesList)
                         {
-                            bool fixbed = false;
-                            long bedid = -1;
-                            var condition = new Dictionary<string, object>();
-                            using (var patientDao = new PatientDao())
+                            long patientID = v.PatientID;
+                            if (selectPatientID == patientID)
                             {
+                                bool fixbed = false;
+                                long bedid = -1;
+                                var condition = new Dictionary<string, object>();
+                                using (var patientDao = new PatientDao())
+                                {
+                                    condition.Clear();
+                                    condition["ID"] = patientID;
+                                    List<Patient> patientlist = patientDao.SelectPatient(condition);
+                                    if (patientlist.Count == 1)
+                                    {
+                                        BedPatientData patientInfo = new BedPatientData();
+                                        fixbed = patientlist[0].IsFixedBed;
+                                        bedid = patientlist[0].BedId;
+
+                                    }
+                                }
+
+                                //var condition = new Dictionary<string, object>();
                                 condition.Clear();
-                                condition["ID"] = patientID;
-                                List<Patient> patientlist = patientDao.SelectPatient(condition);
-                                if (patientlist.Count == 1)
+                                condition["PatientID"] = patientID;
+
+                                foreach (var day in v.CurrentWeek.days)
+                                //if(weeks == 0)
                                 {
-                                    BedPatientData patientInfo = new BedPatientData();
-                                    fixbed = patientlist[0].IsFixedBed;
-                                    bedid = patientlist[0].BedId;
-
-                                }
-                            }
-
-                            //var condition = new Dictionary<string, object>();
-                            condition.Clear();
-                            condition["PatientID"] = patientID;
-
-                            foreach (var day in v.CurrentWeek.days)
-                            //if(weeks == 0)
-                            {
-                                //var day = v.CurrentWeek.days[days];
-                                if (day.Content != "" && day.Content != null)
-                                {
-                                    Dictionary<string, object> condition1 = new Dictionary<string, object>();
-                                    condition1["PatientId"] = patientID.ToString();
-                                    condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
-                                    var list = scheduleDao.SelectScheduleTemplate(condition1);
-
-                                    if (list != null && list.Count != 0)
+                                    //var day = v.CurrentWeek.days[days];
+                                    if (day.Content != "" && day.Content != null)
                                     {
+                                        Dictionary<string, object> condition1 = new Dictionary<string, object>();
+                                        condition1["PatientId"] = patientID.ToString();
+                                        condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                        var list = scheduleDao.SelectScheduleTemplate(condition1);
 
-                                        var fileds = new Dictionary<string, object>();
-                                        //fileds["DATE"] = day.dateTime.Date;
-                                        condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
-                                        fileds["AMPME"] = day.Content;
-                                        fileds["METHOD"] = StrColorConverter(day.BgColor);
-                                        if(fixbed == true)
-                                            fileds["BEDID"] = bedid;
-                                        else
-                                            fileds["BEDID"] = -1;
-                                        scheduleDao.UpdateScheduleTemplate(fileds, condition);
-                                    }
-                                    else
-                                    {
-                                        ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
-                                        scheduleTemplate.PatientId = patientID;
-                                        scheduleTemplate.Date = day.dateTime.ToString("yyyy-MM-dd");
-                                        scheduleTemplate.AmPmE = day.Content;
-                                        scheduleTemplate.Method = StrColorConverter(day.BgColor);
-                                        if(fixbed == true)
-                                        scheduleTemplate.BedId = bedid;
+                                        if (list != null && list.Count != 0)
+                                        {
+
+                                            var fileds = new Dictionary<string, object>();
+                                            //fileds["DATE"] = day.dateTime.Date;
+                                            condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                            fileds["AMPME"] = day.Content;
+                                            fileds["METHOD"] = StrColorConverter(day.BgColor);
+                                            if(fixbed == true)
+                                                fileds["BEDID"] = bedid;
+                                            else
+                                                fileds["BEDID"] = -1;
+                                            scheduleDao.UpdateScheduleTemplate(fileds, condition);
+                                        }
                                         else
                                         {
-                                            scheduleTemplate.BedId = -1;
-                                        }
-                                        int ret = -1;
-                                        scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
-                                    }
-                                }
-                                else if (day.Content == "")
-                                {
-                                    Dictionary<string, object> condition1 = new Dictionary<string, object>();
-                                    condition1["PatientId"] = patientID.ToString();
-                                    condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
-                                    var list = scheduleDao.SelectScheduleTemplate(condition1);
-                                    foreach (var l in list)
-                                    {
-                                        scheduleDao.DeleteScheduleTemplate((int)l.Id);
-                                    }
-                                }
-                            }
-
-                            foreach (var day in v.NextWeek.days)
-                            //if (weeks == 1)
-                            {
-                                //var day = v.CurrentWeek.days[days];
-                                if (day.Content != "" && day.Content != null)
-                                {
-                                    Dictionary<string, object> condition1 = new Dictionary<string, object>();
-                                    condition1["PatientId"] = patientID.ToString();
-                                    condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
-                                    var list = scheduleDao.SelectScheduleTemplate(condition1);
-
-                                    if (list != null && list.Count != 0)
-                                    {
-                                        var fileds = new Dictionary<string, object>();
-                                        //fileds["DATE"] = day.dateTime.Date;
-                                        condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
-                                        fileds["AMPME"] = day.Content;
-                                        fileds["METHOD"] = StrColorConverter(day.BgColor);
-                                        if (fixbed == true)
-                                            fileds["BEDID"] = bedid;
-                                        else
-                                        {
-                                            fileds["BEDID"] = -1;
-                                        }
-                                        scheduleDao.UpdateScheduleTemplate(fileds, condition);
-                                    }
-                                    else
-                                    {
-                                        ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
-                                        scheduleTemplate.PatientId = patientID;
-                                        scheduleTemplate.Date = day.dateTime.ToString("yyyy-MM-dd");
-                                        scheduleTemplate.AmPmE = day.Content;
-                                        scheduleTemplate.Method = StrColorConverter(day.BgColor);
-                                        if (fixbed == true)
+                                            ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
+                                            scheduleTemplate.PatientId = patientID;
+                                            scheduleTemplate.Date = day.dateTime.ToString("yyyy-MM-dd");
+                                            scheduleTemplate.AmPmE = day.Content;
+                                            scheduleTemplate.Method = StrColorConverter(day.BgColor);
+                                            if(fixbed == true)
                                             scheduleTemplate.BedId = bedid;
-                                        else
-                                            scheduleTemplate.BedId = -1;
-                                        int ret = -1;
-
-                                        scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
+                                            else
+                                            {
+                                                scheduleTemplate.BedId = -1;
+                                            }
+                                            int ret = -1;
+                                            scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
+                                        }
                                     }
-                                }
-                                else if (day.Content == "")
-                                {
-                                    Dictionary<string, object> condition1 = new Dictionary<string, object>();
-                                    condition1["PatientId"] = patientID.ToString();
-                                    condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
-                                    var list = scheduleDao.SelectScheduleTemplate(condition1);
-                                    foreach (var l in list)
+                                    else if (day.Content == "")
                                     {
-                                        scheduleDao.DeleteScheduleTemplate((int)l.Id);
+                                        Dictionary<string, object> condition1 = new Dictionary<string, object>();
+                                        condition1["PatientId"] = patientID.ToString();
+                                        condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                        var list = scheduleDao.SelectScheduleTemplate(condition1);
+                                        foreach (var l in list)
+                                        {
+                                            scheduleDao.DeleteScheduleTemplate((int)l.Id);
+                                        }
                                     }
                                 }
-                            }
 
-                            if (CheckBed(patientID))
-                                ListboxItemStatusesList[ListBox1.SelectedIndex].Bed = "正常";
-                            else
-                            {
-                                ListboxItemStatusesList[ListBox1.SelectedIndex].Bed = "异常";
+                                foreach (var day in v.NextWeek.days)
+                                //if (weeks == 1)
+                                {
+                                    //var day = v.CurrentWeek.days[days];
+                                    if (day.Content != "" && day.Content != null)
+                                    {
+                                        Dictionary<string, object> condition1 = new Dictionary<string, object>();
+                                        condition1["PatientId"] = patientID.ToString();
+                                        condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                        var list = scheduleDao.SelectScheduleTemplate(condition1);
+
+                                        if (list != null && list.Count != 0)
+                                        {
+                                            var fileds = new Dictionary<string, object>();
+                                            //fileds["DATE"] = day.dateTime.Date;
+                                            condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                            fileds["AMPME"] = day.Content;
+                                            fileds["METHOD"] = StrColorConverter(day.BgColor);
+                                            if (fixbed == true)
+                                                fileds["BEDID"] = bedid;
+                                            else
+                                            {
+                                                fileds["BEDID"] = -1;
+                                            }
+                                            scheduleDao.UpdateScheduleTemplate(fileds, condition);
+                                        }
+                                        else
+                                        {
+                                            ScheduleTemplate scheduleTemplate = new ScheduleTemplate();
+                                            scheduleTemplate.PatientId = patientID;
+                                            scheduleTemplate.Date = day.dateTime.ToString("yyyy-MM-dd");
+                                            scheduleTemplate.AmPmE = day.Content;
+                                            scheduleTemplate.Method = StrColorConverter(day.BgColor);
+                                            if (fixbed == true)
+                                                scheduleTemplate.BedId = bedid;
+                                            else
+                                                scheduleTemplate.BedId = -1;
+                                            int ret = -1;
+
+                                            scheduleDao.InsertScheduleTemplate(scheduleTemplate, ref ret);
+                                        }
+                                    }
+                                    else if (day.Content == "")
+                                    {
+                                        Dictionary<string, object> condition1 = new Dictionary<string, object>();
+                                        condition1["PatientId"] = patientID.ToString();
+                                        condition1["Date"] = day.dateTime.ToString("yyyy-MM-dd");
+                                        var list = scheduleDao.SelectScheduleTemplate(condition1);
+                                        foreach (var l in list)
+                                        {
+                                            scheduleDao.DeleteScheduleTemplate((int)l.Id);
+                                        }
+                                    }
+                                }
+
+                                if (CheckBed(patientID))
+                                    ListboxItemStatusesList[line].Bed = "正常";
+                                else
+                                {
+                                    ListboxItemStatusesList[line].Bed = "异常";
+                                }
+                                break;
                             }
-                            break;
                         }
                     }
                 }
@@ -2119,7 +2130,7 @@ namespace WpfApplication1
             } //Console.WriteLine("ruls is wrong");
 
         }
-
+        public int[] Paixiflag = new int[11] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         private static bool de = false;
         private void SortButton_Click(object sender, RoutedEventArgs e)
         {
@@ -2156,31 +2167,68 @@ namespace WpfApplication1
                     de = false;
                 }
             }
-            /*HideOutherImages(btn);
-            Image i = FindChild(btn);
-            if (i.Visibility == Visibility.Hidden)
-            {
-                i.Visibility = Visibility.Visible;
+            ListBox1.Items.Refresh();
 
-                
-            }
-            if( i.Visibility == Visibility.Visible)
+
+            ListSortDirection sortDirection = ListSortDirection.Ascending;
+            /*ListSortDirection sortDirection = ListSortDirection.Ascending;
+
+            Button btn = (Button)sender;
+
+            string tag = (string)btn.Tag;
+            //Get binding property of clicked column
+            //string bindingProperty = (clickedColumn.DisplayMemberBinding as Binding).Path.Path; //得到单击列所绑定的属性
+            string bindingProperty = "";
+            if (tag == "name")
             {
-                if (i.Source.ToString() == "pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png")
+                if (Paixiflag[1] == 0)
                 {
-                    i.Source = new BitmapImage(
-                                        new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowUp.png",
-                                                UriKind.RelativeOrAbsolute));
+                    Paixiflag[1] = 1;
+                    sortDirection = ListSortDirection.Ascending;
                 }
                 else
                 {
-                    i.Source = new BitmapImage(
-                                       new Uri("pack://application:,,,/WpfApplication1;component/Resources/ArrowDown.png",
-                                               UriKind.RelativeOrAbsolute));
+                    Paixiflag[1] = 0;
+                    sortDirection = ListSortDirection.Descending;
                 }
-            }*/
+                bindingProperty = "PatientName";
 
-            ListBox1.Items.Refresh();
+            }
+            else if (btn.Uid == "1")
+            {
+                if (Paixiflag[2] == 0)
+                {
+                    Paixiflag[2] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[2] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "InfectionType";
+
+            }
+
+            SortDescriptionCollection sdc = PatientListBox1.Items.SortDescriptions;
+            if (sdc.Count > 0)
+            {
+                SortDescription sd = sdc[0];
+                sortDirection = (ListSortDirection)((((int)sd.Direction) + 1) % 2);
+                //判断此列当前的排序方式:升序0,倒序1,并取反进行排序。
+                sdc.Clear();
+            }
+
+            sdc.Add(new SortDescription(bindingProperty, sortDirection));
+            var temp = new ObservableCollection<BedPatientData>();
+            for (int i = 0; i < PatientListBox1.Items.Count; i++)
+            {
+                temp.Add((BedPatientData)PatientListBox1.Items[i]);
+            }
+            BedPatientList.Clear();
+            BedPatientList = temp;
+            PatientListBox1.ItemsSource = BedPatientList;
+            sdc.Clear();*/
         }
 
         private void HideOutherImages(Button btn)
@@ -2231,16 +2279,47 @@ namespace WpfApplication1
 
         private void ButtonEdit_OnClick(object sender, RoutedEventArgs e)
         {
+            //ListboxItemStatusesList
 
+            foreach (var v in ListboxItemStatusesList)
+            {
+                v.NextWeekVisible = Visibility.Visible;
+                
+            }
+            IsEditable = true;
+            ListBox1.Items.Refresh();
+            ButtonCancel.IsEnabled = true;
+            ButtonApply.IsEnabled = true;
+            ButtonEdit.IsEnabled = false;
         }
 
         private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
         {
+            foreach (var v in ListboxItemStatusesList)
+            {
+                v.NextWeekVisible = Visibility.Hidden;
 
+            }
+            IsEditable = false;
+            ListBox1.Items.Refresh();
+            ButtonCancel.IsEnabled = false;
+            ButtonApply.IsEnabled = false;
+            ButtonEdit.IsEnabled = true;
         }
         private void ButtonApply_OnClick(object sender, RoutedEventArgs e)
         {
+            foreach (var v in ListboxItemStatusesList)
+            {
+                v.NextWeekVisible = Visibility.Hidden;
 
+            }
+            IsEditable = false;
+            UpdatePatientSchedule();
+            ListBox1.Items.Refresh();
+            ModifiedList.Clear();
+            ButtonCancel.IsEnabled = false;
+            ButtonApply.IsEnabled = false;
+            ButtonEdit.IsEnabled = true;
         }
     }
 
@@ -2262,35 +2341,104 @@ namespace WpfApplication1
         public string PatientName
         {
             get { return patientName; }
-            set { patientName = value; }
+            set
+            {
+                patientName = value;
+                OnPropertyChanged("PatientName");
+            }
         }
 
         public string Checks
         {
             get { return checks; }
-            set { checks = value; }
+            set
+            {
+                checks = value;
+                OnPropertyChanged("Checks");
+            }
         }
         public string Bed
         {
             get { return bed; }
-            set { bed = value; }
+            set
+            {
+                bed = value;
+                OnPropertyChanged("Bed");
+            }
         }
 
-        public string ToolTips { get; set; }
+        public string ToolTips
+        {
+            get { return _tooltops; }
+            set
+            {
+                _tooltops = value;
+                OnPropertyChanged("ToolTips");
+            }
+       }
 
-        public Week CurrentWeek { get; set; }
-        public Week NextWeek { get; set; }
-        
+        public Week CurrentWeek
+        {
+            get { return _currentWeek; }
+            set
+            {
+                _currentWeek = value;
+                OnPropertyChanged("CurrentWeek");
+            }
+        }
+
+        public Week NextWeek
+        {
+            get { return _nextWeek; }
+            set
+            {
+                _nextWeek = value;
+                OnPropertyChanged("NextWeek");
+
+            }
+        }
+
+        public Visibility NextWeekVisible
+        {
+            get { return _nextWeekVisible; }
+            set
+            {
+                _nextWeekVisible = value;
+                OnPropertyChanged("NextWeekVisible");
+
+            }
+       }
+
+        public Visibility CurrentWeekVisible
+        {
+            get { return _currentWeekVisible; }
+            set
+            {
+                _currentWeekVisible = value;
+                OnPropertyChanged("CurrentWeekVisible");
+            }
+        }
+
         private long patientID;
         private string patientName;
         private string checks;
         private string bed;
+        private Visibility _currentWeekVisible;
+        private Visibility _nextWeekVisible;
+        private Week _currentWeek;
+        private Week _nextWeek;
+        private string _tooltops;
+
+
+
 
         public ListboxItemStatus()
         {
             CurrentWeek = new Week();
             NextWeek = new Week();
             InitWeekWithDate();
+            CurrentWeekVisible = Visibility.Visible;
+            NextWeekVisible = Visibility.Hidden;
         }
 
         private void InitWeekWithDate()
