@@ -192,6 +192,85 @@ namespace WpfApplication1.CustomUI
                         Basewindow.initContent.ButtonApply.IsEnabled = false;
                         Basewindow.initContent.ButtonCancel.IsEnabled = false;
                         Basewindow.initContent.ButtonDelete.IsEnabled = true;
+
+                        #region orderContent
+                        Basewindow.orderContent.IDTextBox.Text = patient.Id.ToString();
+                        Basewindow.orderContent.NameTextBox.Text = patient.Name;
+                        if (patient.Gender.Equals("男"))
+                            Basewindow.orderContent.RadioButton1.IsChecked = true;
+                        else if (patient.Gender.Equals("女"))
+                            Basewindow.orderContent.RadioButton2.IsChecked = true;
+                        try
+                        {
+                            Basewindow.orderContent.DatePicker1.Text = DateTime.Parse(patient.Dob).ToString();
+                        }
+                        catch (Exception)
+                        {
+
+                            Basewindow.orderContent.DatePicker1.Text = "";
+                        }
+
+                        Basewindow.orderContent.NationalityTextBox.Text = patient.Nationality;
+
+                        if (patient.Gender.Equals("未婚"))
+                            Basewindow.orderContent.MarriageComboBox.SelectedIndex = 0;
+                        else if (patient.Gender.Equals("已婚"))
+                            Basewindow.orderContent.MarriageComboBox.SelectedIndex = 1;
+
+                        Basewindow.orderContent.HeightTextBox.Text = patient.Height;
+                        Basewindow.orderContent.BloodTypeTextBox.Text = patient.BloodType;
+
+                        if (patient.InfectTypeId == 0)
+                        {
+                            Basewindow.orderContent.RadioButton5.IsChecked = true;
+                        }
+                        else
+                        {
+                            Basewindow.orderContent.RadioButton6.IsChecked = true;
+                            using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                            {
+                                var condition1 = new Dictionary<string, object>();
+                                condition1["ID"] = patient.InfectTypeId;
+                                var list1 = infectTypeDao.SelectInfectType(condition1);
+                                if ((list1 != null) && (list1.Count > 0))
+                                {
+                                    Basewindow.orderContent.InfectTypeComboBox.Text = list1[0].Name;
+                                }
+                            }
+                        }
+
+                        using (TreatStatusDao treatStatusDao = new TreatStatusDao())
+                        {
+                            var condition1 = new Dictionary<string, object>();
+                            condition1["ID"] = patient.TreatStatusId;
+                            var list1 = treatStatusDao.SelectTreatStatus(condition1);
+                            if ((list1 != null) && (list1.Count > 0))
+                            {
+                                Basewindow.orderContent.StatusComboBox.Text = list1[0].Name;
+                            }
+                        }
+
+                        if (patient.IsFixedBed)
+                            Basewindow.orderContent.RadioButton3.IsChecked = true;
+                        else
+                            Basewindow.orderContent.RadioButton4.IsChecked = true;
+
+                        using (PatientAreaDao patientAreaDao = new PatientAreaDao())
+                        {
+                            var condition1 = new Dictionary<string, object>();
+                            condition1["ID"] = patient.AreaId;
+                            var list1 = patientAreaDao.SelectPatientArea(condition1);
+                            if ((list1 != null) && (list1.Count > 0))
+                            {
+                                Basewindow.orderContent.AreaComboBox.Text = list1[0].Name;
+                            }
+                        }
+
+                        Basewindow.orderContent.PatientIDTextBox.Text = patient.PatientId;
+                        Basewindow.orderContent.MobileTextBox.Text = patient.Mobile;
+                        Basewindow.orderContent.WeixinhaoTextBox.Text = patient.WeiXinHao;
+                        Basewindow.orderContent.PaymentTextBox.Text = patient.Payment;
+                        #endregion
                     }
                 }
             }
