@@ -34,6 +34,7 @@ namespace WpfApplication1
         public int selectoperation;
         //public ObservableCollection<BedData> Beddatalist = new ObservableCollection<BedData>();
         private DataFormat format = DataFormats.GetDataFormat("DragDropItemsControl");
+
         public ObservableCollection<BedPatientData> BedPatientList = new ObservableCollection<BedPatientData>();
         public ObservableCollection<BedPatientData> UnPatientList = new ObservableCollection<BedPatientData>();
         public ObservableCollection<BedInfo> BedInfoList = new ObservableCollection<BedInfo>();
@@ -179,24 +180,31 @@ namespace WpfApplication1
             switch (dayofweek)
             {
                 case 0:
+                    btn6.IsChecked = true;
                     BtnSun.IsChecked = true;
                     break;
                 case 1:
+                    btn0.IsChecked = true;
                     BtnMon.IsChecked = true;
                     break;
                 case 2:
+                    btn1.IsChecked = true;
                     BtnTue.IsChecked = true;
                     break;
                 case 3:
+                    btn2.IsChecked = true;
                     BtnWed.IsChecked = true;
                     break;
                 case 4:
+                    btn3.IsChecked = true;
                     BtnThe.IsChecked = true;
                     break;
                 case 5:
+                    btn4.IsChecked = true;
                     BtnFri.IsChecked = true;
                     break;
                 case 6:
+                    btn5.IsChecked = true;
                     BtnSta.IsChecked = true;
                     break;
             }
@@ -638,7 +646,7 @@ namespace WpfApplication1
             {
                 if ((i is ToggleButton) && (((ToggleButton)i).IsChecked == true))
                 {
-                    area = (string)((ToggleButton)i).Tag;
+                    area = (string)((ToggleButton)i).Content;
                     break;
                 }
             }
@@ -819,7 +827,7 @@ namespace WpfApplication1
                                             var condition1002 = new Dictionary<string, object>();
                                             condition1002["ID"] = list1001[0].TreatTypeId;
                                             var list1002 = treatTypeDao.SelectTreatType(condition1002);
-                                            patientInfo.Type = list1002[0].Name;
+                                            patientInfo.Type = list1002[0].Name;//超范围
                                         }
                                         
                                     }

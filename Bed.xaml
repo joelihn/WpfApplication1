@@ -526,7 +526,7 @@
     							<ColumnDefinition/>
     							<ColumnDefinition/>
     						</Grid.ColumnDefinitions>
-    						<ToggleButton Content="AM" Template="{DynamicResource ToggleButtonControlTemplate2}" Tag="AM" Click="BtnAmPmE_OnClick"/>
+    						<ToggleButton Content="AM" Template="{DynamicResource ToggleButtonControlTemplate2}" Tag="AM" Click="BtnAmPmE_OnClick" IsChecked="True"/>
     						<ToggleButton Content="PM" Template="{DynamicResource ToggleButtonControlTemplate2}" Tag="PM" Click="BtnAmPmE_OnClick" Grid.Column="1"/>
     						<ToggleButton Content="E" Template="{DynamicResource ToggleButtonControlTemplate2}" Tag="E" Click="BtnAmPmE_OnClick" Grid.Column="2"/>
     					</Grid>
