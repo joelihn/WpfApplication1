@@ -47,6 +47,7 @@ namespace WpfApplication1
             this.Close();
         }
 
+       
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             if (tbName.Text.Equals("") || tbUid.Text.Equals(""))
@@ -182,6 +183,10 @@ namespace WpfApplication1
                     if ((list != null) && (list.Count > 0)) Basewindow.initContent.AreaComboBox.Text = list[0].Name;
                 }
             }
+
+            //TODO:判断一下当前添加的患者是否满足当前患者组条件，如果满足需要刷新患者列表
+            Basewindow.patientGroupPanel.RefreshData();
+            
 
             Basewindow.initContent.ButtonNew.IsEnabled = true;
             Basewindow.initContent.ButtonDelete.IsEnabled = true;

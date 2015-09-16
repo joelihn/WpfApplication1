@@ -100,6 +100,43 @@ namespace WpfApplication1.CustomUI
 
         }
 
+        public void RefreshData()
+        {
+            MainWindow.ComboBoxPatientGroupIndex = this.ComboBoxPatientGroup.SelectedIndex;
+            Datalist.Clear();
+            using (var patientGroupDao = new PatientGroupDao())
+            {
+                var condition = new Dictionary<string, object>();
+                condition["NAME"] = this.ComboBoxPatientGroup.SelectedItem;
+                var list = patientGroupDao.SelectPatientGroup(condition);
+                if (list.Count > 0)
+                {
+                    using (var patientGroupParaDao = new PatientGroupParaDao())
+                    {
+                        var conditionpara = new Dictionary<string, object>();
+                        conditionpara["GROUPID"] = list[0].Id;
+                        var listpara = patientGroupParaDao.SelectPatientGroupPara(conditionpara);
+
+                        if (listpara.Count > 0)
+                        {
+                            using (var patientDao = new PatientDao())
+                            {
+                                var patientlist = patientDao.SelectPatientSpecial(listpara);
+                                foreach (var patient in patientlist)
+                                {
+                                    var patientData = new PatientData();
+                                    patientData.Id = patient.Id;
+                                    patientData.Name = patient.Name;
+                                    Datalist.Add(patientData);
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
         private void ListBoxPatient_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (this.ListBoxPatient.SelectedIndex != -1)
