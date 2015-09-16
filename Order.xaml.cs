@@ -32,15 +32,13 @@ namespace WpfApplication1
         public ObservableCollection<TreatOrder> TreatOrderList = new ObservableCollection<TreatOrder>();
 
         public ObservableCollection<TreatMethodData> TreatMentList = new ObservableCollection<TreatMethodData>();
-        public ObservableCollection<MedicalOrderParaData> OrderParaList = new ObservableCollection<MedicalOrderParaData>();
+        public ObservableCollection<string> OrderParaList = new ObservableCollection<string>();
         public Order(MainWindow window)
         {
             InitializeComponent();
             Basewindow = window;
             //this.PatientlistView.ItemsSource = PatientList;
             this.MedicalOrderListBox.ItemsSource = TreatOrderList;
-        
-            
          
         }
 
@@ -562,9 +560,24 @@ namespace WpfApplication1
 
         private void Order_OnLoaded(object sender, RoutedEventArgs e)
         {
+            OrderParaList.Clear();
+            using (MedicalOrderParaDao medicalOrderParaDao = new MedicalOrderParaDao())
+            {
+                Dictionary<string, object> condition = new Dictionary<string, object>();
+                var list = medicalOrderParaDao.SelectInterval(condition);
+
+                foreach (var medicalOrderPara in list)
+                {
+                   
+                    OrderParaList.Add(medicalOrderPara.Name);
+                }
+            }
+
             //throw new NotImplementedException();
             try
             {
+                if (Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex == -1)
+                    return;
                 TreatOrderList.Clear();
                 using (MedicalOrderDao medicalOrderDao = new MedicalOrderDao())
                 {
@@ -578,10 +591,10 @@ namespace WpfApplication1
                     foreach (MedicalOrder medicalOrder in list)
                     {
                         TreatOrder treatOrder = new TreatOrder();
+                        treatOrder.Id = medicalOrder.Id;
                         treatOrder.Activated = medicalOrder.Activated;
                         treatOrder.Seq = medicalOrder.Seq;
                         treatOrder.Plan = medicalOrder.Plan;
-                        
                         
                         treatOrder.TreatTimes = (int)medicalOrder.Times;
                         treatOrder.Description = medicalOrder.Description;
@@ -622,11 +635,78 @@ namespace WpfApplication1
             }
             catch (Exception ex)
             {
-                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
+                MainWindow.Log.WriteInfoConsole("In Order.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
             }
 
         }
 
+        public void RefreshData()
+        {
+            try
+            {
+                if (Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex == -1)
+                    return;
+                TreatOrderList.Clear();
+                using (MedicalOrderDao medicalOrderDao = new MedicalOrderDao())
+                {
+
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    condition["PATIENTID"] =
+                        Basewindow.patientGroupPanel.Datalist[Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex]
+                            .Id;
+                    var list = medicalOrderDao.SelectMedicalOrder(condition);
+
+                    foreach (MedicalOrder medicalOrder in list)
+                    {
+                        TreatOrder treatOrder = new TreatOrder();
+                        treatOrder.Id = medicalOrder.Id;
+                        treatOrder.Activated = medicalOrder.Activated;
+                        treatOrder.Seq = medicalOrder.Seq;
+                        treatOrder.Plan = medicalOrder.Plan;
+
+
+                        treatOrder.TreatTimes = (int)medicalOrder.Times;
+                        treatOrder.Description = medicalOrder.Description;
+
+                        if (medicalOrder.MethodId != -1)
+                        {
+                            using (var treatMethodDao = new TreatMethodDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = (int)medicalOrder.MethodId;
+                                var arealist = treatMethodDao.SelectTreatMethod(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatOrder.TreatMethod = arealist[0].Name;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            treatOrder.TreatMethod = "NULL";
+                        }
+                        {
+                            using (var medicalOrderParaDao = new MedicalOrderParaDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = medicalOrder.Interval;
+                                var arealist = medicalOrderParaDao.SelectInterval(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatOrder.Type = arealist[0].Name;
+                                }
+                            }
+                        }
+
+                        TreatOrderList.Add(treatOrder);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Order.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
+            }
+        }
 
         private void CbTreatMathod_Initialized(object sender, EventArgs e)
         {
@@ -641,10 +721,12 @@ namespace WpfApplication1
 
         private void CbOrderPara_Initialized(object sender, EventArgs e)
         {
+            
             ComboBox cb = (ComboBox)sender;
+            cb.Items.Clear();
             foreach (var v in OrderParaList)
             {
-                cb.Items.Add(v.Name);
+                cb.Items.Add(v);
             }
 
         }
@@ -670,6 +752,62 @@ namespace WpfApplication1
                 textBox.Text = "0";
         }
 
+        private void ToggleButton_OnChecked(object sender, RoutedEventArgs e)
+        {
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+
+        }
+
+        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+
+        }
+
+        private void TextBoxBase_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+
+        }
+
+        private void ButtonApply_OnClick(object sender, RoutedEventArgs e)
+        {
+            using (MedicalOrderDao medicalOrderDao = new MedicalOrderDao())
+            {
+                foreach (var order in TreatOrderList)
+                {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    condition["ID"] = order.Id;
+                    Dictionary<string, object> fileds = new Dictionary<string, object>();
+                    fileds["ACTIVATED"] = order.Activated;
+
+                    using (MedicalOrderParaDao medicalOrderParaDao = new MedicalOrderParaDao())
+                    {
+                        Dictionary<string, object> condition2 = new Dictionary<string, object>();
+                        condition2["NAME"] = order.Type;
+                        var list = medicalOrderParaDao.SelectInterval(condition2);
+                        if ((list != null) && (list.Count != 0)) fileds["INTERVAL"] = list[0].Id;
+
+                    }
+                    fileds["TIMES"] = order.TreatTimes;
+                    fileds["DESCRIPTION"] = order.Description;
+                    medicalOrderDao.UpdateMedicalOrder(fileds, condition);
+                }
+            }
+
+            this.ButtonApply.IsEnabled = false;
+            this.ButtonCancel.IsEnabled = false;
+
+        }
+
+        private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.RefreshData();
+
+        }
     }
 
     public class TreatOrder : INotifyPropertyChanged

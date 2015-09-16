@@ -7,8 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="1024" d:DesignWidth="1090" Loaded="Order_OnLoaded">
     <UserControl.Resources>
-        <collections:ArrayList x:Key="informationlist">
+        <collections:ArrayList x:Key="Informationlist">
         </collections:ArrayList>
+        <DataTemplate x:Key="Id">
+            <TextBlock x:Name="textlockID" Text="{Binding Id}" />
+        </DataTemplate>
         <DataTemplate x:Key="Activated">
             <TextBlock x:Name="textlockID" Text="{Binding Activated}" />
         </DataTemplate>
@@ -39,7 +42,7 @@
         		<Setter.Value>
         			<ControlTemplate TargetType="{x:Type ListBoxItem}">
         				<Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
-        					<Grid Height="28" Width="784">
+        					<Grid Height="28">
         						<Grid.ColumnDefinitions>
         							<ColumnDefinition/>
         							<ColumnDefinition/>
@@ -47,15 +50,19 @@
         							<ColumnDefinition/>
         							<ColumnDefinition/>
         							<ColumnDefinition/>
-        							<ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="0"/>
         						</Grid.ColumnDefinitions>
-                                <CheckBox Content="{Binding Activated}" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                                <CheckBox IsChecked="{Binding Activated}" Checked="ToggleButton_OnChecked" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
         						<Label Content="{Binding Seq}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         						<Label Content="{Binding Plan}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        						<Label Content="{Binding MethodId}" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <Label Content="{Binding Interval}" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <Label Content="{Binding Times}" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        						<Label Content="{Binding Discription}" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="{Binding TreatMethod}" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <ComboBox SelectionChanged="Selector_OnSelectionChanged" Initialized="CbOrderPara_Initialized" Name="CbTreatMathod" SelectedValue="{Binding Type}" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                    
+                                </ComboBox>
+                                <TextBox TextChanged="TextBoxBase_OnTextChanged" Text="{Binding TreatTimes}" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <TextBox TextChanged="TextBoxBase_OnTextChanged" Text="{Binding Description}" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Visibility="Hidden" Content="{Binding Id}" Grid.Column="7" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         					</Grid>
         				</Border>
         				<ControlTemplate.Triggers>
@@ -94,8 +101,8 @@
 				<ColumnDefinition Width="100"/>
 			</Grid.ColumnDefinitions>
 			<Label  Content="医嘱"  Style="{DynamicResource FunctionLabelStyle}" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
-			<Button Content="应用" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="1" Padding="1,1,3,1" />
-			<Button Content="取消" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="2" Padding="3,1,1,1" />
+			<Button IsEnabled="False" Name="ButtonApply" Click="ButtonApply_OnClick" Content="应用" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="1" Padding="1,1,3,1" />
+            <Button IsEnabled="False" Name="ButtonCancel" Click="ButtonCancel_OnClick" Content="取消" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="2" Padding="3,1,1,1" />
 		</Grid>
 		<Grid  Grid.Column="1" Grid.Row="1" Background="White">
 			<Grid.RowDefinitions>
@@ -192,6 +199,7 @@
 						<ColumnDefinition/>
 						<ColumnDefinition/>
 						<ColumnDefinition/>
+                        <ColumnDefinition Width="0"/>
 					</Grid.ColumnDefinitions>
 					<Label Content="启用" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
 					<Label Content="序号" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
@@ -200,6 +208,7 @@
 					<Label Content="循环周期" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="4"/>
 					<Label Content="治疗次数" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="5"/>
 					<Label Content="描述" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="6"/>
+                    <Label Visibility="Hidden" Content="ID" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="7"/>
 				</Grid>
 			</Grid>
 		</Grid>

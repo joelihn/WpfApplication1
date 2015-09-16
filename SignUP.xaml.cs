@@ -197,14 +197,57 @@ namespace WpfApplication1
             {
                 int lastInsertId = -1;
                 MedicalOrder medicalOrder = new MedicalOrder();
+                
                 medicalOrder.PatientId = patientId;
+                medicalOrder.Activated = true;
+                medicalOrder.Plan = "方法";
+                medicalOrder.Seq = "5";
+                medicalOrder.MethodId = 4;
+                medicalOrder.Interval = 1;
+                medicalOrder.Times = 0;
+                medicalOrder.Description = "";
+                medicalOrderDao.InsertMedicalOrder(medicalOrder, ref lastInsertId);
+
+                medicalOrder.PatientId = patientId;
+                medicalOrder.Activated = true;
+                medicalOrder.Plan = "方法";
+                medicalOrder.Seq = "4";
+                medicalOrder.MethodId = 3;
+                medicalOrder.Interval = 1;
+                medicalOrder.Times = 0;
+                medicalOrder.Description = "";
+                medicalOrderDao.InsertMedicalOrder(medicalOrder, ref lastInsertId);
+
+                medicalOrder.PatientId = patientId;
+                medicalOrder.Activated = true;
+                medicalOrder.Plan = "方法";
+                medicalOrder.Seq = "3";
+                medicalOrder.MethodId = 2;
+                medicalOrder.Interval = 1;
+                medicalOrder.Times = 0;
+                medicalOrder.Description = "";
+                medicalOrderDao.InsertMedicalOrder(medicalOrder, ref lastInsertId);
+
+                medicalOrder.PatientId = patientId;
+                medicalOrder.Activated = true;
+                medicalOrder.Plan = "方法";
+                medicalOrder.Seq = "2";
+                medicalOrder.MethodId = 1;
+                medicalOrder.Interval = 1;
+                medicalOrder.Times = 0;
+                medicalOrder.Description = "";
+                medicalOrderDao.InsertMedicalOrder(medicalOrder, ref lastInsertId);
+
+                medicalOrder.PatientId = patientId;
+                medicalOrder.Activated = true;
                 medicalOrder.Plan = "频次";
                 medicalOrder.Seq = "1";
                 medicalOrder.MethodId = -1;
                 medicalOrder.Interval = 1;
-                medicalOrder.Times = 5;
-                medicalOrder.Description = "test";
+                medicalOrder.Times = 0;
+                medicalOrder.Description = "";
                 medicalOrderDao.InsertMedicalOrder(medicalOrder, ref lastInsertId);
+
             }
         }
 

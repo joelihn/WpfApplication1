@@ -265,6 +265,7 @@ namespace WpfApplication1.CustomUI
                                 Basewindow.orderContent.AreaComboBox.Text = list1[0].Name;
                             }
                         }
+                        Basewindow.orderContent.RefreshData();
 
                         Basewindow.orderContent.PatientIDTextBox.Text = patient.PatientId;
                         Basewindow.orderContent.MobileTextBox.Text = patient.Mobile;
