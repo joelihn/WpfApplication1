@@ -816,7 +816,7 @@ namespace WpfApplication1
                                     patientInfo.BedId = patient.BedId;
                                     patientInfo.TreatMethod = patient.Method;
                                     //TODO:需要通过method查询type Name
-                                    using (TreatMethodDao treatMethodDao = new TreatMethodDao())
+                                    /*using (TreatMethodDao treatMethodDao = new TreatMethodDao())
                                     {
                                         var condition1001 = new Dictionary<string, object>();
                                         condition1001["NAME"] = patient.Method;
@@ -830,7 +830,7 @@ namespace WpfApplication1
                                             patientInfo.Type = list1002[0].Name;//超范围
                                         }
                                         
-                                    }
+                                    }*/
 
                                     
                                     string treatOrders = "";

@@ -22,7 +22,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" Margin="0,2">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="0"/>
@@ -61,7 +61,7 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <ComboBox Name="ComboBoxPatientGroup" SelectionChanged="ComboBoxPatientGroup_OnSelectionChanged" Initialized="ComboBoxPatientGroup_OnInitialized" Style="{DynamicResource ComboBoxStyle4}"/>
+            <ComboBox Name="ComboBoxPatientGroup" SelectionChanged="ComboBoxPatientGroup_OnSelectionChanged" Initialized="ComboBoxPatientGroup_OnInitialized" Style="{DynamicResource ComboBoxStyle4}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
             <ListBox SelectionChanged="ListBoxPatient_OnSelectionChanged" Name="ListBoxPatient" Grid.Row="1" BorderBrush="{x:Null}" ItemContainerStyle="{DynamicResource PatientGroupListboxItemStyle1}"/>
         </Grid>
         

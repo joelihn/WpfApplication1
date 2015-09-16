@@ -44,6 +44,9 @@ namespace WpfApplication1
         public ObservableCollection<MedicalOrderParaData> OrderParaList = new ObservableCollection<MedicalOrderParaData>();
         //public ObservableCollection<MedicalOrderParaData> OrderParaList = new ObservableCollection<MedicalOrderParaData>();
         public ObservableCollection<TreatOrder> TreatOrderList = new ObservableCollection<TreatOrder>();
+        public ObservableCollection<string> PatientGroupComboBoxItems = new ObservableCollection<string>();
+
+
         public List<DateTime> dtlist = new List<DateTime>();
         public int selectoperation;
         private bool IsEditable = false;
@@ -161,7 +164,7 @@ namespace WpfApplication1
                     }
 
                     ListboxItemStatus status = new ListboxItemStatus();
-                    status.PatientID = (fmriPatient.Id);
+                    status.PatientID = fmriPatient.Id;
                     status.PatientName = fmriPatient.Name;
                     PatientSchedule schedule = GetPatientSchedule((fmriPatient.Id));
 
@@ -790,6 +793,8 @@ namespace WpfApplication1
         public void SetBinding()
         {
             ListBox1.ItemsSource = ListboxItemStatusesList;
+            PatientGroupComboBox.ItemsSource = PatientGroupComboBoxItems;
+            //InitPatientGroupComboBox();
             CopySchedule();
             LoadTratementConifg();
             InitWeekWithDate();
@@ -1106,6 +1111,36 @@ namespace WpfApplication1
             }
         }
 
+        private void InitPatientGroupComboBox()
+        {
+            try
+            {
+                PatientGroupComboBoxItems.Clear();
+                using (var patientGroupDao = new PatientGroupDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    var list = patientGroupDao.SelectPatientGroup(condition);
+                    foreach (var type in list)
+                    {
+                        var patientGroupData = new PatientGroupData
+                        {
+                            Id = type.Id,
+                            Name = type.Name,
+                            Description = type.Description
+                        };
+                        PatientGroupComboBoxItems.Add(patientGroupData.Name);
+                    }
+                }
+
+                if (PatientGroupComboBoxItems.Count != 0)
+                    PatientGroupComboBox.SelectedIndex = 0;
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:ComboBoxPatientGroup_OnInitialized exception messsage: " + ex.Message);
+            }
+
+        }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -1114,9 +1149,11 @@ namespace WpfApplication1
             LoadTratementConifg();
 
             ListBox1.SelectedIndex = -1;
+            InitPatientGroupComboBox();
             //CopySchedule();
             //return;
-            try
+            /*
+             * try
             {
                 //PatientList.Clear();
                 ListboxItemStatusesList.Clear();
@@ -1252,7 +1289,7 @@ namespace WpfApplication1
             catch (Exception ex)
             {
                 MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
-            }
+            }*/
 
             try
             {
@@ -2320,6 +2357,185 @@ namespace WpfApplication1
             ButtonCancel.IsEnabled = false;
             ButtonApply.IsEnabled = false;
             ButtonEdit.IsEnabled = true;
+        }
+
+        private void PatientGroupComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            try
+            {
+                int index = PatientGroupComboBox.SelectedIndex;
+                if (index == -1) return;
+                ListboxItemStatusesList.Clear();
+                using (var patientGroupDao = new PatientGroupDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["NAME"] = PatientGroupComboBoxItems[index];
+                    var list = patientGroupDao.SelectPatientGroup(condition);
+                    if (list.Count > 0)
+                    {
+                        using (var patientGroupParaDao = new PatientGroupParaDao())
+                        {
+                            var conditionpara = new Dictionary<string, object>();
+                            conditionpara["GROUPID"] = list[0].Id;
+                            var listpara = patientGroupParaDao.SelectPatientGroupPara(conditionpara);
+
+                            if (listpara.Count > 0)
+                            {
+                                using (var patientDao = new PatientDao())
+                                {
+                                    var patientlist = patientDao.SelectPatientSpecial(listpara);
+                                    foreach (var patient in patientlist)
+                                    {
+                                    
+                                        PatientInfo patientInfo = new PatientInfo();
+                                        patientInfo.PatientId = patient.Id;
+                                        patientInfo.PatientName = patient.Name;
+                                        patientInfo.PatientDob = patient.Dob;
+                                        patientInfo.PatientPatientId = patient.PatientId;
+                                        patientInfo.PatientGender = patient.Gender;
+                                        patientInfo.PatientMobile = patient.Mobile;
+                                        {
+                                            using (var infectTypeDao = new InfectTypeDao())
+                                            {
+                                                condition.Clear();
+                                                condition["ID"] = patient.InfectTypeId;
+                                                var arealist = infectTypeDao.SelectInfectType(condition);
+                                                if (arealist.Count == 1)
+                                                {
+                                                    patientInfo.PatientInfectType = arealist[0].Name;
+                                                }
+                                            }
+                                        }
+                                        {
+                                            using (var treatStatusDao = new TreatStatusDao())
+                                            {
+                                                condition.Clear();
+                                                condition["ID"] = patient.TreatStatusId;
+                                                var arealist = treatStatusDao.SelectTreatStatus(condition);
+                                                if (arealist.Count == 1)
+                                                {
+                                                    patientInfo.PatientTreatStatus = arealist[0].Name;
+                                                }
+                                            }
+                                        }
+                                        patientInfo.PatientRegesiterDate = patient.RegisitDate;
+                                        patientInfo.PatientIsFixedBed = patient.IsFixedBed;
+                                        patientInfo.PatientIsAssigned = patient.IsAssigned;
+                                        patientInfo.PatientDescription = patient.Description;
+
+                                        ListboxItemStatus status = new ListboxItemStatus();
+                                        status.PatientID = patientInfo.PatientId;
+                                        status.PatientName = patientInfo.PatientName;
+                                        PatientSchedule schedule = GetPatientSchedule(patientInfo.PatientId);
+
+                                        //foreach (var day in status.CurrentWeek.days)
+                                        for (int n = 0; n < 7; n++)
+                                        {
+                                            foreach (var h in schedule.Hemodialysis)
+                                            {
+                                                if (h.dialysisTime.dateTime == status.CurrentWeek.days[n].dateTime.Date)
+                                                {
+                                                    status.CurrentWeek.days[n].Content = h.dialysisTime.AmPmE;
+                                                    status.CurrentWeek.days[n].BgColor = new SolidColorBrush(StrColorConverter(h.hemodialysisItem));
+                                                }
+                                                if (h.dialysisTime.dateTime == status.NextWeek.days[n].dateTime.Date)
+                                                {
+                                                    status.NextWeek.days[n].Content = h.dialysisTime.AmPmE;
+                                                    status.NextWeek.days[n].BgColor = new SolidColorBrush(StrColorConverter(h.hemodialysisItem));
+                                                }
+                                            }
+                                        }
+                                        if (CheckOrders(patientInfo.PatientId))
+                                            status.Checks = "正常";
+                                        else
+                                        {
+                                            status.Checks = "异常";
+                                        }
+
+                                        if (CheckBed(patientInfo.PatientId))
+                                            status.Bed = "正常";
+                                        else
+                                        {
+                                            status.Bed = "异常";
+                                        }
+
+
+
+                                        string treatOrders = "";
+                                        string orders = patient.Orders;
+                                        if (orders != "" && orders != null)
+                                        {
+                                            string[] order = orders.Split('#');
+                                            foreach (var s in order)
+                                            {
+                                                if (s != "")
+                                                {
+                                                    string[] details = s.Split('/');
+                                                    if (details.Count() == 3)
+                                                    {
+                                                        var treat = new TreatOrder();
+                                                        treat.TreatMethod = details[0];
+
+                                                        var medicalOrderParaDao = new MedicalOrderParaDao();
+                                                        var condition1 = new Dictionary<string, object>();
+                                                        condition1["ID"] = details[1];
+                                                        var list1 = medicalOrderParaDao.SelectInterval(condition1);
+                                                        string temporder;
+                                                        treat.Type = list1[0].Name;
+                                                        treat.TreatTimes = int.Parse(details[2]);
+                                                        temporder = treat.Type + "/" + treat.TreatTimes + "/" + treat.TreatMethod;
+                                                        treatOrders += temporder;
+                                                        treatOrders += "\n";
+                                                    }
+                                                }
+                                            }
+                                            treatOrders = treatOrders.Remove(treatOrders.LastIndexOf("\n"), 1);
+                                            status.ToolTips = treatOrders;
+                                        }
+                                        else
+                                        {
+                                            status.ToolTips = "";
+                                        }
+
+
+                                        ListboxItemStatusesList.Add(status);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                
+                }
+                
+                ListBox1.Items.Refresh();
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
+            }
+
+            try
+            {
+                using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    var list = infectTypeDao.SelectInfectType(condition);
+                    InfectTypeComboBox.Items.Clear();
+                    //InfectTypeComboBox.Items.Add("所有");
+                    //InfectTypeComboBox.Items.Add("");
+                    foreach (InfectType type in list)
+                    {
+                        InfectTypeComboBox.Items.Add(type.Name);
+                    }
+                    InfectTypeComboBox.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Shedule.xaml.cs:Init_OnLoaded InfectType ComboxItem exception messsage: " + ex.Message);
+            }
+
+            RefreshStatistics();
         }
     }
 

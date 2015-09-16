@@ -262,15 +262,15 @@
         	<Setter Property="Template">
         		<Setter.Value>
         			<ControlTemplate TargetType="{x:Type ListBoxItem}">
-        				<Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
-        					<Grid Height="92.337" VerticalAlignment="Stretch" Width="215.667" ToolTip="{Binding ToolTips}">
+        				<Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" Margin="0,3">
+        					<Grid Height="Auto" VerticalAlignment="Stretch" Width="Auto" ToolTip="{Binding ToolTips}">
         						<Grid.ColumnDefinitions>
         							<ColumnDefinition Width="2*"/>
         							<ColumnDefinition/>
         						</Grid.ColumnDefinitions>
         						<Grid HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Margin="2">
         							<Rectangle Fill="{Binding ItemBgBrush}" HorizontalAlignment="Stretch" Height="Auto" Stroke="{x:Null}" VerticalAlignment="Stretch" RadiusX="10" RadiusY="10"/>
-        							<Label Content="{Binding PatientName}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Foreground="White"/>
+        							<Label Content="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Foreground="White"/>
         						</Grid>
         						<Grid Grid.Column="1" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Margin="2">
         							<Rectangle Fill="{Binding ItemBgBrush}" Height="Auto" Stroke="{x:Null}" VerticalAlignment="Stretch" Width="Auto" RadiusX="10" RadiusY="10"/>
@@ -298,6 +298,8 @@
         			</ControlTemplate>
         		</Setter.Value>
         	</Setter>
+        	<Setter Property="MinHeight" Value="20"/>
+        	<Setter Property="Height" Value="Auto"/>
         </Style>
         <ControlTemplate x:Key="ButtonControlTemplate1" TargetType="{x:Type Button}">
         	<Grid>
@@ -336,7 +338,6 @@
     	<Viewbox Stretch="Fill" Margin="692.5,1037.5,250.5,-239.5">
     		<StackPanel Height="1024" Width="1230" >
     			<Grid Height="100" x:Name="TopGrid" Margin="0,0,0,0"  Style="{StaticResource GridBackGround1}">
-    				<StackPanel x:Name="TreatmentPanel" HorizontalAlignment="Left"  Height="100" Width="114" VerticalAlignment="Top" Margin="10,0,0,0"   />
 
 
 
@@ -606,6 +607,9 @@
     							</Grid.ColumnDefinitions>
     							<Button Content="本周" Template="{DynamicResource ButtonControlTemplate1}"/>
     							<Button x:Name="BtnNextWeek" Content="下周" Grid.Column="1" Template="{DynamicResource ButtonControlTemplate1}"/>
+    						</Grid>
+    						<Grid>
+    							<StackPanel x:Name="TreatmentPanel"   />
     						</Grid>
     					</Grid>
     				</Border>

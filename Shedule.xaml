@@ -424,7 +424,6 @@
 		<Viewbox Stretch="Fill" Margin="847.06,1029,-64.687,-352.568">
 			<Grid Height="1024" Width="1230">
 				<Grid x:Name="TopGrid" Margin="0,0,0,929" Style="{StaticResource GridBackGround1}" HorizontalAlignment="Right" Width="1230">
-					<StackPanel HorizontalAlignment="Left"  Height="95" Width="114" x:Name="sheet" VerticalAlignment="Top" Margin="10,0,0,0"   />
 					<TextBlock HorizontalAlignment="Left" Margin="212.537,20,0,0" x:Name="PatientIDtextBlock" Text="{DynamicResource PatientIDtext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
 					<TextBox HorizontalAlignment="Left" Margin="312.537,20,0,0" x:Name="PatientIDTextBox" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10001" IsTabStop="True" DataContext="{Binding}" Height="27" VerticalAlignment="Top" />
 					<TextBlock HorizontalAlignment="Left" Margin="212.537,60,0,0" x:Name="textBlock8" Text="{DynamicResource Nametext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
@@ -799,8 +798,10 @@
 					<RowDefinition/>
 					<RowDefinition Height="50"/>
 				</Grid.RowDefinitions>
-				<ComboBox Grid.Row="1" Style="{DynamicResource ComboBoxStyle4}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-				<ToggleButton Content="ToggleButton" HorizontalAlignment="Left" Height="30" Margin="10,54,0,0" VerticalAlignment="Top" Width="120" Template="{DynamicResource ToggleButtonControlTemplate1}"/>
+				<ComboBox x:Name="PatientGroupComboBox" Grid.Row="1" Style="{DynamicResource ComboBoxStyle4}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="PatientGroupComboBox_SelectionChanged"/>
+				<Grid>
+					<StackPanel x:Name="sheet"   />
+				</Grid>
 			</Grid>
 		</Grid>
 	</Grid>
