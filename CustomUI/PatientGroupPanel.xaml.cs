@@ -38,6 +38,7 @@ namespace WpfApplication1.CustomUI
         {
             try
             {
+                ComboBoxPatientGroup.Items.Clear();
                 using (var patientGroupDao = new PatientGroupDao())
                 {
                     var condition = new Dictionary<string, object>();
@@ -333,6 +334,35 @@ namespace WpfApplication1.CustomUI
             catch (Exception ex)
             {
                 MainWindow.Log.WriteInfoConsole("In CPatientArea.xaml.cs:AddButton_OnClick exception messsage: " + ex.Message);
+            }
+        }
+
+        public void reLoaded()
+        {
+
+            try
+            {
+                ComboBoxPatientGroup.Items.Clear();
+                using (var patientGroupDao = new PatientGroupDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    var list = patientGroupDao.SelectPatientGroup(condition);
+                    foreach (var type in list)
+                    {
+                        var patientGroupData = new PatientGroupData
+                        {
+                            Id = type.Id,
+                            Name = type.Name,
+                            Description = type.Description
+                        };
+                        ComboBoxPatientGroup.Items.Add(patientGroupData.Name);
+                    }
+                    ComboBoxPatientGroup.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:PatientGroupPanel_OnLoaded exception messsage: " + ex.Message);
             }
         }
     }

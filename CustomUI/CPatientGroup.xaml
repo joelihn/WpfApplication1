@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-              d:DesignHeight="1024" d:DesignWidth="1000">
+              d:DesignHeight="1024" d:DesignWidth="1000" Loaded="CPatientGroup_OnLoaded">
     <UserControl.Resources>
         <DataTemplate x:Key="Id">
             <TextBox Text="{Binding Id}" />
@@ -157,7 +157,7 @@
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
             <Button Name="ButtonNew" Content="新建" Style="{DynamicResource FunctionButtonStyle}" Margin="0,0,3,0" Click="ButtonNew_OnClick"/>
-            <Button IsEnabled="False" Name="ButtonDelete" Content="删除" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="1" Click="ButtonDelete_OnClick"  />
+            <Button  Name="ButtonDelete" Content="删除" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="1" Click="ButtonDelete_OnClick"  />
             <Button IsEnabled="False" Name="ButtonApply" Content="应用" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="3" Margin="0,0,3,0" Click="ButtonApply_OnClick" />
             <Button IsEnabled="False" Name="ButtonCancel" Content="取消" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="4" Click="ButtonCancel_OnClick" />
             <Label  Content="患者组设置"  Style="{DynamicResource FunctionLabelStyle}" Grid.Column="2" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
@@ -263,7 +263,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <!--<TextBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="160" Text="{Binding Key}" Height="50" TextChanged="TextBoxBase_OnTextChanged_Para"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>-->
-                                <ComboBox  GotFocus="UIElement_OnGotFocus_Para"  Name="ComboBoxKey" SelectionChanged="ComboBoxKey_OnSelectionChanged"  Initialized="ComboBoxKey_OnInitialized"  SelectedValue="{Binding Key}" Width="210" Height="50" />
+                                <ComboBox  GotFocus="UIElement_OnGotFocus_Para"  Name="ComboBoxKey" SelectionChanged="ComboBoxKey_OnSelectionChanged"  Initialized="ComboBoxKey_OnInitialized"  SelectedValue="{Binding Key}" Width="210" Height="50" AllowDrop="True" IsEditable="False" IsDropDownOpen="False" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -313,7 +313,7 @@
                         </Grid>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="180" Text="{Binding Logic}" Height="50" TextChanged="TextBoxBase_OnTextChanged_Para"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>
+                                <ComboBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" Initialized="FrameworkElement_OnInitialized"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="180" SelectedValue="{Binding Logic}" Height="50" SelectionChanged="Selector_OnSelectionChanged"  HorizontalAlignment="Center" VerticalAlignment="Center"></ComboBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

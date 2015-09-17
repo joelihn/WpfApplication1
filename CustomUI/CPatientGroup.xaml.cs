@@ -32,9 +32,12 @@ namespace WpfApplication1.CustomUI
 
         private bool isNewPara = false;
         private int currnetIndexPara = -1;
-        public CPatientGroup()
+
+        public MainWindow Basewindow;
+        public CPatientGroup(MainWindow mainWindow)
         {
             InitializeComponent();
+            Basewindow = mainWindow;
             this.ListViewPatientGroup.ItemsSource = Datalist;
             this.ListViewPatientGroupPara.ItemsSource = DatalistPara;
         }
@@ -150,6 +153,12 @@ namespace WpfApplication1.CustomUI
                         //patientGroupData.Description = patientGroup.Description;
 
                         //Datalist.Add(patientGroupData);
+                        var patientData = new PatientData();
+                        patientData.Id = lastInsertId;
+                        patientData.Name = patientGroup.Name;
+                        Basewindow.patientGroupPanel.Datalist.Add(patientData);
+                        Basewindow.sheduleContent.PatientGroupComboBoxItems.Add(patientGroup.Name);
+
                         Datalist[index].Id = lastInsertId;
                     }
                 }
@@ -200,7 +209,7 @@ namespace WpfApplication1.CustomUI
 
 
 
-        private void RefreshDataPara()
+        private void RefreshDataPara(int index)
         {
             try
             {
@@ -209,6 +218,7 @@ namespace WpfApplication1.CustomUI
                     DatalistPara.Clear();
 
                     var condition = new Dictionary<string, object>();
+                    condition["GROUPID"] = index;
                     var list = patientGroupParaDao.SelectPatientGroupPara(condition);
                     foreach (var pa in list)
                     {
@@ -286,7 +296,7 @@ namespace WpfApplication1.CustomUI
             using (var patientGroupParaDao = new PatientGroupParaDao())
             {
                 patientGroupParaDao.DeletePatientGroupPara(Datalist[ListViewPatientGroupPara.SelectedIndex].Id);
-                RefreshDataPara();
+                RefreshDataPara((int)Datalist[ListViewPatientGroup.SelectedIndex].Id);
             }
 
             this.ButtonParaNew.IsEnabled = true;
@@ -377,7 +387,7 @@ namespace WpfApplication1.CustomUI
                     fileds["DESCRIPTION"] = Datalist[index].Description;
                     patientGroupParaDao.UpdatePatientGroupPara(fileds, condition);
                     int temp = this.ListViewPatientGroupPara.SelectedIndex;
-                    RefreshDataPara();
+                    RefreshDataPara((int)Datalist[ListViewPatientGroup.SelectedIndex].Id);
                     this.ListViewPatientGroupPara.SelectedIndex = temp;
                 }
 
@@ -391,7 +401,7 @@ namespace WpfApplication1.CustomUI
         {
             if (isNewPara)
             {
-                RefreshDataPara();
+                RefreshDataPara((int)Datalist[ListViewPatientGroup.SelectedIndex].Id);
 
                 this.ButtonParaNew.IsEnabled = true;
                 this.ButtonParaDelete.IsEnabled = false;
@@ -655,6 +665,27 @@ namespace WpfApplication1.CustomUI
             this.ButtonParaCancel.IsEnabled = true;
 
         }
+
+        private void FrameworkElement_OnInitialized(object sender, EventArgs e)
+        {
+
+            ComboBox cb = (ComboBox)sender;
+            cb.Items.Add("and");
+            cb.Items.Add("or");
+        }
+
+        private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.ButtonParaApply.IsEnabled = true;
+            this.ButtonParaCancel.IsEnabled = true;
+
+        }
+
+        private void CPatientGroup_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            
+
+        }
     }
 
     public class PatientGroupParaData : INotifyPropertyChanged
@@ -787,7 +818,7 @@ namespace WpfApplication1.CustomUI
         }
 
 
-        public Int64 Id
+        public long Id
         {
             get { return _id; }
             set

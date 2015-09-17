@@ -84,8 +84,8 @@ namespace WpfApplication1
             Symbol["大于"] = ">";
             Symbol["小于"] = "<";
             Symbol["等于"] = "=";
-            Symbol["包含"] = "=";
-            Symbol["不包含"] = "=";
+            Symbol["包含"] = "like";
+            Symbol["不包含"] = "not like";
 
           
             Dispatcher.UnhandledException +=Dispatcher_UnhandledException;
@@ -227,11 +227,14 @@ namespace WpfApplication1
                 case 0:
                     this.RightContentA.Visibility = Visibility.Hidden;
                     this.RightContentR.Content = initContent;
+                    patientGroupPanel.reLoaded();
                     this.RightContentL.Content = patientGroupPanel;
+
                     break;
                 case 1:
                     this.RightContentA.Visibility = Visibility.Hidden;
                     this.RightContentR.Content = orderContent;
+                    patientGroupPanel.reLoaded();
                     this.RightContentL.Content = patientGroupPanel;
                     break;
                 case 2:

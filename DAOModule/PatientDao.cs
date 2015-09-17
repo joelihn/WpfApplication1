@@ -229,9 +229,16 @@ namespace WpfApplication1.DAOModule
                     string condition = string.Empty;
                     foreach (var patientGroupPara in listinParas)
                     {
-                        condition += patientGroupPara.Left + MainWindow.Key[patientGroupPara.Key] +
-                            MainWindow.Symbol[patientGroupPara.Symbol] + "\"" + patientGroupPara.Value + "\"" +
-                            patientGroupPara.Right + patientGroupPara.Logic;
+                        if (patientGroupPara.Value.Contains("%"))
+                            condition += patientGroupPara.Left.Trim() + " " + MainWindow.Key[patientGroupPara.Key].Trim() + " " +
+                            MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " " + patientGroupPara.Value.Trim() + " " +
+                            patientGroupPara.Right.Trim()+ " " + patientGroupPara.Logic.Trim();
+                        else
+                        {
+                            condition += patientGroupPara.Left.Trim() + " " + MainWindow.Key[patientGroupPara.Key].Trim() + " " +
+                           MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \"" + patientGroupPara.Value.Trim() + "\" " +
+                           patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim(); 
+                        }
                     }
                     string sqlcommand = "select * from PATIENT where ";
                     sqlcommand += condition;
