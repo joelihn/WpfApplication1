@@ -70,137 +70,139 @@
             <TextBlock x:Name="textlockdescription" HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding PatientDescription}" />
         </DataTemplate>
         <Style x:Key="BedListboxItemStyle" TargetType="{x:Type ListBoxItem}">
-        	<Setter Property="Background" Value="Transparent"/>
-        	<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-        	<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-        	<Setter Property="Padding" Value="2,0,0,0"/>
-        	<Setter Property="Template">
-        		<Setter.Value>
-        			<ControlTemplate TargetType="{x:Type ListBoxItem}">
-        				<Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
-        					<Grid>
-        						<Grid.ColumnDefinitions>
-        							<ColumnDefinition  Width="150"/>
-        							<ColumnDefinition Width="150"/>
-        							<ColumnDefinition Width="150"/>
-        							<ColumnDefinition Width="150"/>
-        							<ColumnDefinition Width="150"/>
-        							<ColumnDefinition Width="250"/>
-        						</Grid.ColumnDefinitions>
-        						<Label Content="{Binding PatientArea}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        						<Label Content="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
-        						<Label Content="{Binding MachineType}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2"/>
-        						<Label Content="{Binding IsAvailable}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
-        						<Label Content="{Binding IsTemp}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="4"/>
-        						<Label Content="{Binding Description}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="5"/>
-        					</Grid>
-        				</Border>
-        				<ControlTemplate.Triggers>
-        					<Trigger Property="IsSelected" Value="true">
-        						<Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-        						<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
-        					</Trigger>
-        					<MultiTrigger>
-        						<MultiTrigger.Conditions>
-        							<Condition Property="IsSelected" Value="true"/>
-        							<Condition Property="Selector.IsSelectionActive" Value="false"/>
-        						</MultiTrigger.Conditions>
-        						<Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
-        						<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-        					</MultiTrigger>
-        					<Trigger Property="IsEnabled" Value="false">
-        						<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-        					</Trigger>
-        				</ControlTemplate.Triggers>
-        			</ControlTemplate>
-        		</Setter.Value>
-        	</Setter>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Padding" Value="2,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition  Width="150"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="150"/>
+                                    <ColumnDefinition Width="250"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="{Binding PatientArea}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
+                                <Label Content="{Binding MachineType}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2"/>
+                                <Label Content="{Binding IsAvailable}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
+                                <Label Content="{Binding IsTemp}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="4"/>
+                                <Label Content="{Binding Description}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="5"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="true"/>
+                                    <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
 
     </UserControl.Resources>
     <Grid  Style="{StaticResource GridBackGround1}">
-		<Grid Style="{StaticResource GridBackGround1}" Grid.Column="1">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="50"/>
-				<RowDefinition/>
-			</Grid.RowDefinitions>
-			<TextBlock Margin="212,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Red" Style="{StaticResource RightTextBlock1}" Text="{DynamicResource SettingnosaveText}" Visibility="Hidden" />
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="100"/>
-					<ColumnDefinition Width="100"/>
-					<ColumnDefinition/>
-					<ColumnDefinition Width="100"/>
-					<ColumnDefinition Width="100"/>
-				</Grid.ColumnDefinitions>
-				<Button x:Name="ButtonNew" Content="新建" Style="{DynamicResource FunctionButtonStyle}" Margin="0,0,3,0" Click="ButtonNew_OnClick"/>
-				<Button IsEnabled="False" x:Name="ButtonDelete" Content="删除" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="1" Click="ButtonDelete_OnClick"  />
-				<Button IsEnabled="False" x:Name="ButtonApply" Content="应用" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="3" Margin="0,0,3,0" Click="ButtonApply_OnClick" />
-				<Button IsEnabled="False" x:Name="ButtonCancel" Content="取消" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="4" Click="ButtonCancel_OnClick" />
-				<Label  Content="患者信息"  Style="{DynamicResource FunctionLabelStyle}" Grid.Column="2" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
+        <Grid Style="{StaticResource GridBackGround1}" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Margin="212,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Red" Style="{StaticResource RightTextBlock1}" Text="{DynamicResource SettingnosaveText}" Visibility="Hidden" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="ButtonNew" Content="新建" Style="{DynamicResource FunctionButtonStyle}" Margin="0,0,3,0" Click="ButtonNew_OnClick"/>
+                <Button IsEnabled="False" x:Name="ButtonDelete" Content="删除" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="1" Click="ButtonDelete_OnClick"  />
+                <Button IsEnabled="False" x:Name="ButtonApply" Content="应用" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="3" Margin="0,0,3,0" Click="ButtonApply_OnClick" />
+                <Button IsEnabled="False" x:Name="ButtonCancel" Content="取消" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="4" Click="ButtonCancel_OnClick" />
+                <Label  Content="患者信息"  Style="{DynamicResource FunctionLabelStyle}" Grid.Column="2" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"/>
 
-			</Grid>
-			<Grid VerticalAlignment="Top" Grid.Row="1">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="100"/>
-					<ColumnDefinition/>
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
-					<RowDefinition Height="50"/>
-					<!--<RowDefinition Height="50"/>-->
-				</Grid.RowDefinitions>
-				<Label Content="编号" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="姓名*" Grid.Row="1" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="性别*" Grid.Row="2" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="出生日期*" Grid.Row="3" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="国际/户口地" Grid.Row="4" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="婚姻状况" Grid.Row="5" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="身高cm" Grid.Row="6" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="血型" Grid.Row="7" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="感染情况*" Grid.Row="8" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="治疗状态*" Grid.Row="9" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="固定床位*" Grid.Row="10" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="唯一识别码" Grid.Row="11" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="所属分区*" Grid.Row="12" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="联系电话*" Grid.Row="13" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<!--<Label Content="邮箱" Grid.Row="14" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>-->
-				<Label Content="微信号" Grid.Row="14" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="付款方式" Grid.Row="15" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+            </Grid>
+            <Grid VerticalAlignment="Top" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="50"/>
+                    <!--<RowDefinition Height="50"/>-->
+                </Grid.RowDefinitions>
+                <Label Content="编号" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <Label Content="姓名*" Grid.Row="1" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <Label Content="性别*" Grid.Row="2" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <Label Content="出生日期*" Grid.Row="3" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <Label Content="国际/户口地" Grid.Row="4" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <Label Content="婚姻状况" Grid.Row="5" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <Label Content="身高cm" Grid.Row="6" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <Label Content="血型" Grid.Row="7" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <Label Content="感染情况*" Grid.Row="8" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <Label Content="治疗状态*" Grid.Row="9" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <Label Content="固定床位*" Grid.Row="10" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <Label Content="唯一识别码" Grid.Row="11" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <Label Content="所属分区*" Grid.Row="12" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <Label Content="联系电话*" Grid.Row="13" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <!--<Label Content="邮箱" Grid.Row="14" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>-->
+                <Label Content="微信号" Grid.Row="14" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <Label Content="付款方式" Grid.Row="15" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
                 <TextBox IsEnabled="False" Name="IDTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center"/>
-                <TextBox TextChanged="OnTextChanged" Name="NameTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="1"/>
-				<!--<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="2" VerticalContentAlignment="Center" Width="130.333"/>-->
+                <TextBox MaxLength="5" TextChanged="OnTextChanged" Name="NameTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="1"/>
+                <!--<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="2" VerticalContentAlignment="Center" Width="130.333"/>-->
                 <Grid Grid.Column="1" Grid.Row="2">
                     <RadioButton Checked="RadioButton1_OnChecked" Name="RadioButton1" Content="男"  HorizontalAlignment="Left" Margin="49,18,0,0"  VerticalAlignment="Top"/>
                     <RadioButton Checked="RadioButton2_OnChecked" Name="RadioButton2" Content="女"  HorizontalAlignment="Left" Margin="171,18,0,0"  VerticalAlignment="Top"/>
                 </Grid>
                 <DatePicker DataContextChanged="DatePicker1_OnDataContextChanged" Name="DatePicker1" Grid.Column="1" Grid.Row="3" Height="32.406" Width="320.667" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-                <TextBox TextChanged="OnTextChanged" Name="NationalityTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="4"/>
-				<ComboBox Name="MarriageComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="5" VerticalContentAlignment="Center" Width="130.333"/>
-                <TextBox Name="HeightTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="6"/>
-                <TextBox Name="BloodTypeTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="7"/>
-				<!--<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="33.691,9.999,0,0" Grid.Row="8" VerticalAlignment="Top"/>
+                <TextBox MaxLength="10" TextChanged="OnTextChanged" Name="NationalityTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="4" Margin="0,10,622,10"/>
+                <TextBlock Visibility="Visible" FontSize="20" Text="/" Grid.Column="1" Grid.Row="4" Height="29" Width="20" TextAlignment="Center" Margin="373,11,597,10" RenderTransformOrigin="-1.862,0.796"/>
+                <TextBox MaxLength="10" TextChanged="OnTextChanged" Name="ProvinceTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="4" Margin="398,11,224,10"/>
+                <ComboBox Name="MarriageComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="5" VerticalContentAlignment="Center" Width="130.333"/>
+                <TextBox KeyDown="HeightTextBox_OnKeyDown" MaxLength="3" Name="HeightTextBox" TextChanged="HeightTextBox_OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="6"/>
+                <TextBox MaxLength="10" Name="BloodTypeTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="7"/>
+                <!--<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="33.691,9.999,0,0" Grid.Row="8" VerticalAlignment="Top"/>
 				<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="179.69,9.896,0,0" Grid.Row="8" VerticalAlignment="Top"/>-->
                 <Grid Grid.Column="1" Grid.Row="8">
                     <ComboBox Name="InfectTypeComboBox" FontSize="14"  HorizontalAlignment="Left" Margin="132,14,0,0"  VerticalAlignment="Top" Width="120"/>
                     <RadioButton Checked="RadioButton5_OnChecked" Name="RadioButton5" FontSize="14" Content="阴性" IsChecked="True"  HorizontalAlignment="Left" Margin="10,17,0,0" Grid.Row="1" VerticalAlignment="Top"/>
                     <RadioButton Checked="RadioButton6_OnChecked" Name="RadioButton6"   HorizontalAlignment="Left" Margin="112,22,0,0"  VerticalAlignment="Top" RenderTransformOrigin="0.75,2.794"/>
-                    
+
                 </Grid>
 
                 <!--<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="10" VerticalContentAlignment="Center" Width="130.333"/>-->
@@ -218,8 +220,8 @@
                 <TextBox Name="WeixinhaoTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="14"/>
                 <TextBox Name="PaymentTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="15"/>
 
-			</Grid>
-			<!--<StackPanel Margin="192,842,436,-58" Grid.Row="1">
+            </Grid>
+            <!--<StackPanel Margin="192,842,436,-58" Grid.Row="1">
 				<Grid x:Name="TopGrid" Margin="0,0,0,0" Style="{StaticResource GridBackGround1}">
 					<TextBlock Visibility="Hidden"  HorizontalAlignment="Left" Margin="20,20,0,0" x:Name="textBlock9" Text="{DynamicResource IDtext}" VerticalAlignment="Top" Style="{StaticResource DialogTextBlock}" FontWeight="Bold" />
 					<TextBox Visibility="Hidden" HorizontalAlignment="Right" Margin="0,20,603,0" x:Name="IDTextBox" Width="89" Style="{StaticResource DialogTextBox}" TabIndex="10001" IsTabStop="True" DataContext="{Binding}" Height="27" VerticalAlignment="Top" />
@@ -327,7 +329,8 @@
 										</StackPanel>
 									</Grid>
 								</GridViewColumn>
-							--><!--<GridViewColumn Width="90" CellTemplate="{StaticResource PatientRegesiterDate}">
+							-->
+            <!--<GridViewColumn Width="90" CellTemplate="{StaticResource PatientRegesiterDate}">
                                         <Grid Tag="9">
                                             <StackPanel Orientation="Horizontal">
 
@@ -335,7 +338,8 @@
                                                 <Image Source="Resources/ArrowDown.png" Name="ArrowDe" Visibility="Hidden" />
                                             </StackPanel>
                                         </Grid>
-                                    </GridViewColumn>--><!--
+                                    </GridViewColumn>-->
+            <!--
 								<GridViewColumn Header="{DynamicResource descriptionText}" Width="175" CellTemplate="{StaticResource PatientDescription}"/>
 							</GridView>
 						</ListView.View>
@@ -391,7 +395,7 @@
 					</Grid>
 				</Grid>
 			</StackPanel>-->
-		</Grid>
-		
-	</Grid>
+        </Grid>
+
+    </Grid>
 </UserControl>

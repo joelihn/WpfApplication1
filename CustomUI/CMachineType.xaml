@@ -36,7 +36,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Label Content="{Binding Id}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                 <Label Content="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
-                                <Label Content="{Binding BgColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2"/>
+                                <Rectangle Fill="{Binding BgColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2"/>
                                 <Label Content="{Binding Description}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
 
                             </Grid>
@@ -99,7 +99,7 @@
             <Label Content="颜色" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
             <Label Content="描述" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
             <TextBox IsEnabled="False" Grid.Column="1"  Name="NameTextBox" FontSize="14"  Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" VerticalAlignment="Top" Margin="0,0"/>
-            <Rectangle DataContextChanged="Buttonrectangle_OnDataContextChanged" Grid.Column="1" Grid.Row="1" Name="Buttonrectangle" Width="49" Margin="10,17,0,10" HorizontalAlignment="Left" Fill="#FF8686C1" MouseLeftButtonDown="Button4rectangle_MouseLeftButtonDown" Stroke="Black" />
+            <Rectangle DataContextChanged="Buttonrectangle_OnDataContextChanged" Grid.Column="1" Grid.Row="1" Name="Buttonrectangle"  Width="850" Margin="0,0,0,0" HorizontalAlignment="Left" Fill="#FF8686C1" MouseLeftButtonDown="Button4rectangle_MouseLeftButtonDown" Stroke="Black" />
             <TextBox   Grid.Column="1" Grid.Row="2" TextChanged="DescriptionTextBox_OnTextChanged"  Name="DescriptionTextBox"   FontSize="14" VerticalContentAlignment="Center"  Height="50" TextWrapping="Wrap" Text="" Margin="0,0"/>
         </Grid>
         <Grid Grid.Row="2">

@@ -70,6 +70,8 @@ namespace WpfApplication1
         {
             InitializeComponent();
 
+            this.Title = config.AppSettings.Settings["Title"].Value.ToString();
+
             Key["姓名"]="NAME";
             Key["性别"] = "GENDER";
             Key["血型"] = "BLOODTYPE";

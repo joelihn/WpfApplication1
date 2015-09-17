@@ -35,7 +35,7 @@
                                     <ColumnDefinition Width="250"/>
                                 </Grid.ColumnDefinitions>
                                 <Label Content="{Binding Id}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <Label Content="{Binding Activated}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
+                                <CheckBox IsEnabled="False" IsChecked="{Binding Activated}" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
                                 <Label Content="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2"/>
                                 <Label Content="{Binding Description}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
 

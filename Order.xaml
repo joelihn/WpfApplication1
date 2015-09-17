@@ -60,7 +60,7 @@
                                 <ComboBox SelectionChanged="Selector_OnSelectionChanged" Initialized="CbOrderPara_Initialized" Name="CbTreatMathod" SelectedValue="{Binding Type}" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                                     
                                 </ComboBox>
-                                <TextBox TextChanged="TextBoxBase_OnTextChanged" Text="{Binding TreatTimes}" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <TextBox MaxLength="2" KeyDown="UIElement_OnKeyDown" TextChanged="TreatTimeTextBoxBase_OnTextChanged"  Text="{Binding TreatTimes}" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                 <TextBox TextChanged="TextBoxBase_OnTextChanged" Text="{Binding Description}" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                 <Label Visibility="Hidden" Content="{Binding Id}" Grid.Column="7" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         					</Grid>
