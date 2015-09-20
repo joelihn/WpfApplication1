@@ -215,16 +215,16 @@
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
                                         <Grid Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Visibility="{Binding CurrentWeekVisible}">
+                                        	<Rectangle Fill="{Binding CurrentWeek.days[6].BgColor, Mode=TwoWay}" HorizontalAlignment="Stretch" Height="Auto" RadiusY="5" RadiusX="5" Stroke="{x:Null}" VerticalAlignment="Stretch" Width="Auto" Margin="3"/>
                                         	<Button Grid.ColumnSpan="1" Grid.Column="0" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Style="{DynamicResource ImageButtonStyle}" Grid.Row="0" Tag="Sun0" PreviewMouseUp="ButtonBase_OnClick">
                                         		<Label x:Name="lbSun0" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Content="{Binding CurrentWeek.days[6].Content}"  RenderTransformOrigin="-7.159,0.564"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                         	</Button>
-                                        	<Rectangle Fill="{Binding CurrentWeek.days[6].BgColor, Mode=TwoWay}" HorizontalAlignment="Stretch" Height="Auto" RadiusY="5" RadiusX="5" Stroke="{x:Null}" VerticalAlignment="Stretch" Width="Auto" Margin="3"/>
                                         </Grid>
                                         <Grid Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Grid.Column="1" Visibility="{Binding NextWeekVisible}">
+                                        	<Rectangle Fill="{Binding NextWeek.days[6].BgColor, Mode=TwoWay}" Height="Auto" RadiusY="5" RadiusX="5" Stroke="{x:Null}" VerticalAlignment="Stretch" Width="Auto" Margin="3"/>
                                         	<Button Grid.ColumnSpan="1" Grid.Column="0" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Style="{DynamicResource ImageButtonStyle}" Grid.Row="0" Tag="Sun1" PreviewMouseUp="ButtonBase_OnClick">
                                         		<Label x:Name="lbSun1" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Content="{Binding NextWeek.days[6].Content}" RenderTransformOrigin="-7.159,0.564" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                         	</Button>
-                                        	<Rectangle Fill="{Binding NextWeek.days[6].BgColor, Mode=TwoWay}" Height="Auto" RadiusY="5" RadiusX="5" Stroke="{x:Null}" VerticalAlignment="Stretch" Width="Auto" Margin="3"/>
                                         </Grid>
                                     </Grid>
                                 </Border>
@@ -752,8 +752,8 @@
 
 					<Grid x:Name="StatisticsGrid" Grid.Row="1" Style="{StaticResource GridBackGround1}">
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition/>
-							<ColumnDefinition/>
+							<ColumnDefinition Width="70"/>
+                            <ColumnDefinition Width="70"/>
 							<ColumnDefinition/>
 							<ColumnDefinition/>
 							<ColumnDefinition/>

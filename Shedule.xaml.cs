@@ -861,7 +861,7 @@ namespace WpfApplication1
 
                         treatMethodData.Description = pa.Description;
 
-                        StackPanel panel1 = new StackPanel();
+                        /*StackPanel panel1 = new StackPanel();
                         panel1.Orientation = Orientation.Horizontal;
                             
                         Rectangle rect = new Rectangle();
@@ -874,13 +874,22 @@ namespace WpfApplication1
                         label.Content = treatMethodData.Name;
                         label.FontSize = 10;
                         panel1.Children.Add(rect);
-                        panel1.Children.Add(label);
+                        panel1.Children.Add(label);*/
+
+                        Button btn = new Button();
+                        btn.Style = this.FindResource("LabelStyleWithColor") as Style;
+                        btn.Content = treatMethodData.Name;
+                        btn.Background = bgBrush;
+                        btn.Width = 50;
+                        btn.Height = 20;
+                        btn.Margin = new Thickness(2, 2, 2, 2);
+                        btn.HorizontalAlignment = HorizontalAlignment.Left;
 
 
                         //sheet.Children.Add(panel1);
                         if (pa.IsAvailable == true)
                         {
-                            sheet.Children.Add(panel1);
+                            sheet.Children.Add(btn);
                             AvilidCureTypeDictionary.Add(pa.Name, ((SolidColorBrush)treatMethodData.BgColor).Color);
                         }
                             
@@ -1602,6 +1611,8 @@ namespace WpfApplication1
         {
             //int index = ListBox1.SelectedIndex;
             //if (index == -1) return;
+
+            //if (ListboxItemStatusesList[0].CurrentWeek.days[0].dateTime.AddDays(7))
             foreach (var v in ListboxItemStatusesList)
             {
                 v.NextWeek1();

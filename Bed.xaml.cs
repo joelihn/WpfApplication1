@@ -44,6 +44,7 @@ namespace WpfApplication1
         public Bed(MainWindow window)
         {
             InitializeComponent();
+
             Basewindow = window;
             this.PatientlistView.ItemsSource = BedPatientList;
             this.PatientListBox1.ItemsSource = BedPatientList;
@@ -51,6 +52,8 @@ namespace WpfApplication1
             this.BedListBox.ItemsSource = BedInfoList;
             EndatePicker.Text = DateTime.Now.ToString();
             BeginDatePicker.Text = (DateTime.Now - TimeSpan.FromDays(3)).ToString();
+
+            
 
             this.SexComboBox.Items.Clear();
             this.SexComboBox.Items.Add("所有");
@@ -62,6 +65,54 @@ namespace WpfApplication1
             //LoadPatientAreas();
         }
 
+        private void InitPump()
+        {
+            PumpListPanel.Children.Clear();
+            try
+            {
+                using (var machineTypeDao = new MachineTypeDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    var list = machineTypeDao.SelectMachineType(condition);
+                    foreach (var pa in list)
+                    {
+                        var machineTypeData = new MachineTypeData();
+                        machineTypeData.Id = pa.Id;
+                        machineTypeData.Name = pa.Name;
+                        machineTypeData.Description = pa.Description;
+
+                        string bgColor = pa.BgColor;
+
+                        if (bgColor != "" && bgColor != null)
+                        {
+                            Brush bgBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(bgColor));
+                            machineTypeData.BgColor = bgBrush;
+                        }
+
+                        else
+                            machineTypeData.BgColor = Brushes.Gray;
+
+                        
+                        Button btn = new Button();
+                        btn.Style = this.FindResource("LabelStyleWithColor") as Style;
+                        btn.Content = machineTypeData.Name;
+                        btn.Background = machineTypeData.BgColor;
+                        btn.Width = 50;
+                        btn.Height = 20;
+                        btn.Margin = new Thickness(2, 2, 2, 2);
+                        btn.HorizontalAlignment = HorizontalAlignment.Right;
+
+
+                        PumpListPanel.Children.Add(btn);
+                        //Datalist.Add(machineTypeData);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CMachineType.xaml.cs:RefreshData exception messsage: " + ex.Message);
+            }
+        }
         private void LoadTratementConifg()
         {
             try
@@ -100,7 +151,7 @@ namespace WpfApplication1
 
                         treatMethodData.Description = pa.Description;
 
-                        StackPanel panel1 = new StackPanel();
+                        /*StackPanel panel1 = new StackPanel();
                         panel1.Orientation = Orientation.Horizontal;
 
                         Rectangle rect = new Rectangle();
@@ -115,11 +166,19 @@ namespace WpfApplication1
                         label.FontSize = 10;
                         label.Margin = new Thickness(0, 0, 0, 0);
                         panel1.Children.Add(rect);
-                        panel1.Children.Add(label);
+                        panel1.Children.Add(label);*/
 
+                        Button btn = new Button();
+                        btn.Style = this.FindResource("LabelStyleWithColor") as Style;
+                        btn.Content = treatMethodData.Name;
+                        btn.Background = bgBrush;
+                        btn.Width = 50;
+                        btn.Height = 20;
+                        btn.Margin = new Thickness(2, 2, 2, 2);
+                        btn.HorizontalAlignment = HorizontalAlignment.Left;
                         
                         if( pa.IsAvailable == true )
-                        TreatmentPanel.Children.Add(panel1);
+                            TreatmentPanel.Children.Add(btn);
 
                     }
                 }
@@ -381,7 +440,7 @@ namespace WpfApplication1
             {
                 foreach (var bed in BedInfoList)
                 {
-                    if (bed.TreatType == patient.Type)
+                    if (bed.InfectionType == patient.InfectionType)
                     {
                         ////new added////
                         long patientInfectTypeId = -1;
@@ -438,6 +497,8 @@ namespace WpfApplication1
             {
                 BedPatientList.Remove(patient);
             }
+
+            PatientCountLabel.Content = "待排患者(" + BedPatientList.Count + ")";
             
         }
         private void BeginDatePicker_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -546,6 +607,7 @@ namespace WpfApplication1
 
         private void Bed_OnLoaded(object sender, RoutedEventArgs e)
         {
+            InitPump();
             InitDay();
             InitWeekWithDate();
             //throw new NotImplementedException();
@@ -600,25 +662,25 @@ namespace WpfApplication1
             switch (toggleButton.Name)
             {
 
-                case "BtnMon":
+                case "btn0":
                     n = 0;
                     break;
-                case "BtnTue":
+                case "btn1":
                     n = 1;
                     break;
-                case "BtnWed":
+                case "btn2":
                     n = 2;
                     break;
-                case "BtnThe":
+                case "btn3":
                     n = 3;
                     break;
-                case "BtnFri":
+                case "btn4":
                     n = 4;
                     break;
-                case "BtnSta":
+                case "btn5":
                     n = 5;
                     break;
-                case "BtnSun":
+                case "btn6":
                     n = 6;
                     break;
             }
@@ -702,6 +764,9 @@ namespace WpfApplication1
                         bedInfo.BedName = bed.Name;
                         bedInfo.IsAvailable = bed.IsAvailable;
                         bedInfo.IsOccupy = bed.IsOccupy;
+                        bedInfo.PatientAreaID = bed.PatientAreaId;
+                        bedInfo.MachineTypeID = bed.MachineTypeId;
+                        
                         DateTime then = GetDate();
                         if( then.Date >= DateTime.Now.Date )
                         if (bedInfo.IsAvailable == false )
@@ -716,6 +781,7 @@ namespace WpfApplication1
                                 bedInfo.TreatType = arealist[0].Name;
                             }
                         }
+                        
                         /*
                         using (var bedinfodao = new BedInfoDao())
                         {
@@ -735,9 +801,41 @@ namespace WpfApplication1
                             var arealist = patientAreaDao.SelectPatientArea(condition);
                             if (arealist.Count == 1)
                             {
-                                bedInfo.InfectionType = arealist[0].Type;
+
+                                using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                                {
+                                    condition.Clear();
+                                    condition["ID"] = arealist[0].InfectTypeId;
+                                    var list2 = infectTypeDao.SelectInfectType(condition);
+                                    if (list2.Count == 1)
+                                    {
+                                        bedInfo.InfectionType = list2[0].Name;
+                                    }
+                                    
+                                    
+                                }
+
+
+                               
                             }
                         }
+
+
+                        using (var machineTypeDao = new MachineTypeDao())
+                        {
+
+                            condition.Clear();
+                            condition["Id"] = bed.MachineTypeId;
+                            var list3 = machineTypeDao.SelectMachineType(condition);
+                            if (list3.Count == 1)
+                            {
+                                string co = list3[0].BgColor;
+                                Brush bgBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(co));
+                                bedInfo.BedBrush = bgBrush;
+                            }
+                            
+                        }
+
 
                         /*
                         if (bed.InfectTypeId == -1)
@@ -759,6 +857,7 @@ namespace WpfApplication1
                         }
                         */
 
+                        
 
                         foreach (var bedPatientData in UnPatientList)
                         {
@@ -881,7 +980,7 @@ namespace WpfApplication1
                                     }
 
                                     if (patient.BedId == -1)
-                                        BedPatientList.Add(patientInfo);
+                                        BedPatientList.Add(patientInfo);//
                                     else
                                     {
                                         UnPatientList.Add(patientInfo);
@@ -896,6 +995,7 @@ namespace WpfApplication1
                             
                         }
 
+                        PatientCountLabel.Content = "待排患者(" + BedPatientList.Count + ")";
                         /*var fileds = new Dictionary<string, object>();
                         condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
                         fileds["AMPME"] = day.Content;
@@ -922,9 +1022,10 @@ namespace WpfApplication1
             if (index == -1) return;
 
             object draggedItem = e.Data.GetData(this.format.Name);
+
             if (draggedItem != null)
             {
-                long treatid = -1;
+                /*long treatid = -1;
                 using (var typeDao = new TreatTypeDao())
                 {
                     var condition = new Dictionary<string, object>();
@@ -934,15 +1035,43 @@ namespace WpfApplication1
                     {
                         treatid = list[0].Id;
                     }
-                }
+                }*/
 
                 BedPatientData data = (BedPatientData)draggedItem;
-                //TODO:需要通过method查询type
 
-                if (BedInfoList[index].TreatType == data.Type || treatid == 1)
+                effects = System.Windows.DragDropEffects.None;
+                //此处还需要检查病人是否属于这个病区，也就是感染类型是否对应
+                if (BedInfoList[index].InfectionType == data.InfectionType )
                 {
-                    //此处还需要检查病人是否属于这个病区，也就是感染类型是否对应
-                    long patientInfectTypeId = -1;
+                    using (var methodDao = new TreatMethodDao())
+                    {
+                        int machineType = -1;
+                        var condition = new Dictionary<string, object>();
+                        condition["NAME"] = data.TreatMethod;
+                        var list = methodDao.SelectTreatMethod(condition);
+                        if (list.Count == 1)
+                        {
+                            if (list[0].DoublePump == true)
+                            {
+                                machineType = 1;
+                            }
+                            else if (list[0].SinglePump == true)
+                            {
+                                machineType = 0;
+                            }
+
+                        }
+
+                        if (BedInfoList[index].MachineTypeID == machineType)
+                        {
+                            effects = System.Windows.DragDropEffects.Move;
+                        }
+                    }
+
+
+                    
+
+                    /*long patientInfectTypeId = -1;
                     using (PatientDao patientDao = new PatientDao())
                     {
                         var condition = new Dictionary<string, object>();
@@ -981,7 +1110,7 @@ namespace WpfApplication1
                         //var a = new RemindMessageBox1();
                         //a.remindText.Text = "病区感染类型不匹配.";
                         //a.ShowDialog();
-                    }
+                    }*/
                 }
                 else
                 {
@@ -1081,6 +1210,8 @@ namespace WpfApplication1
                 }
 
             }
+
+            PatientCountLabel.Content = "待排患者(" + BedPatientList.Count + ")";
             e.Handled = true;
         }
         private void PreviewDragOver_Event(object sender, DragEventArgs e)
@@ -1113,6 +1244,7 @@ namespace WpfApplication1
 
             int index = BedListBox.SelectedIndex;
             if (index == -1) return;
+            if (BedInfoList[index].PatientData == null) return;
             BedPatientList.Add(BedInfoList[index].PatientData);
             BedInfoList[index].PatientName = "";
 
@@ -1136,6 +1268,8 @@ namespace WpfApplication1
                 UpdateBedId(BedInfoList[index].PatientData.Id, dt.Date, ampme, -1);
                 BedInfoList[index].PatientData = null;
             }
+
+            PatientCountLabel.Content = "待排患者(" + BedPatientList.Count + ")";
             e.Handled = true;
         }
 
@@ -1359,6 +1493,99 @@ namespace WpfApplication1
             
         }
 
+        private bool isCurrent = true;
+        private void BtnCurrentWeek_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+            isCurrent = true;
+            dtlist.Clear();
+            int weeknow = (int)DateTime.Now.DayOfWeek - 1;
+            if (weeknow < 0)
+            {
+                for (int n = 6; n >= 0; n--)
+                {
+                    dtlist.Add(DateTime.Now.AddDays(-n));
+                }
+            }
+            else
+            {
+                for (int n = 0; n < 7; n++)
+                {
+                    dtlist.Add(DateTime.Now.AddDays(-weeknow + n));
+                }
+            }
+
+            btn0.Content = dtlist[0].ToString("MM-dd");
+            btn1.Content = dtlist[1].ToString("MM-dd");
+            btn2.Content = dtlist[2].ToString("MM-dd");
+            btn3.Content = dtlist[3].ToString("MM-dd");
+            btn4.Content = dtlist[4].ToString("MM-dd");
+            btn5.Content = dtlist[5].ToString("MM-dd");
+            btn6.Content = dtlist[6].ToString("MM-dd");
+            RefreshData();
+        }
+
+        private void BtnNextWeek_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (isCurrent == false) return;
+            for (int n = 0; n < 7; n++)
+            {
+                dtlist[n] = dtlist[n].AddDays(7);
+            }
+
+            btn0.Content = dtlist[0].ToString("MM-dd");
+            btn1.Content = dtlist[1].ToString("MM-dd");
+            btn2.Content = dtlist[2].ToString("MM-dd");
+            btn3.Content = dtlist[3].ToString("MM-dd");
+            btn4.Content = dtlist[4].ToString("MM-dd");
+            btn5.Content = dtlist[5].ToString("MM-dd");
+            btn6.Content = dtlist[6].ToString("MM-dd");
+            RefreshData();
+            isCurrent = false;
+        }
+
+        private void ChangeToTempBed_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if(e.ClickCount == 2)
+                MessageBox.Show("hi");
+        }
+
+
+        private void Bed_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ClickCount == 2)
+            {
+                int index = BedListBox.SelectedIndex;
+                if (index == -1) return;
+                if (BedInfoList[index].PatientData == null) return;
+                BedPatientList.Add(BedInfoList[index].PatientData);
+                BedInfoList[index].PatientName = "";
+
+                string ampme = "";
+                foreach (var i in AmPmEGrid.Children)
+                {
+                    if (i is ToggleButton)
+                    {
+                        if (((ToggleButton)i).IsChecked == true)
+                        {
+                            ampme = (string)((ToggleButton)i).Tag;
+                            break;
+                        }
+                    }
+                }
+                //test
+                if (BedInfoList[index].PatientData != null)
+                {
+                    DateTime dt = GetDate();
+                    //UpdateBedId(BedInfoList[index].PatientData.Id, DateTime.Parse("2015-06-10"), ampme, -1);
+                    UpdateBedId(BedInfoList[index].PatientData.Id, dt.Date, ampme, -1);
+                    BedInfoList[index].PatientData = null;
+                }
+
+                PatientCountLabel.Content = "待排患者(" + BedPatientList.Count + ")";
+            }
+        }
+
     }
 
     public class Contact
@@ -1558,11 +1785,14 @@ namespace WpfApplication1
     public class BedInfo : INotifyPropertyChanged //这个是用户数据的数据源
     {
         private Int64 _id;
+        private Int64 _PatientAreaID;
+        private Int64 _MachineTypeID;
         private int _roomID;
         private string _bedName;
         private string _patientName;
         private int _infcetionType;
         private string _treatType;
+        private string _infectionType;
 
         private Brush _titleBrush;
         private Brush _bedBrush;
@@ -1586,6 +1816,26 @@ namespace WpfApplication1
             LoadTreatType();
 
         }
+        public Int64 PatientAreaID
+        {
+            get { return _PatientAreaID; }
+            set
+            {
+                _PatientAreaID = value;
+                //OnPropertyChanged("Id");
+            }
+        }
+
+        public Int64 MachineTypeID
+        {
+            get { return _MachineTypeID; }
+            set
+            {
+                _MachineTypeID = value;
+                //OnPropertyChanged("Id");
+            }
+        }
+
         public Int64 Id
         {
             get { return _id; }
@@ -1631,15 +1881,17 @@ namespace WpfApplication1
 
         public string InfectionType
         {
-            get { return _bedName; }
+            get { return _infectionType; }
             set
             {
+                
                 if((string)value == "阴性" )
                     _titleBrush = Brushes.GreenYellow;
                 else
                 {
                     _titleBrush = Brushes.Red;
                 }
+                _infectionType = value;
                 OnPropertyChanged("TitleBrush");
             }
         }
@@ -1660,9 +1912,9 @@ namespace WpfApplication1
             set
             {
                 _treatType = value;
-                _bedBrush = new SolidColorBrush(StrColorConverter(_treatType));
+                //_bedBrush = new SolidColorBrush(StrColorConverter(_treatType));
                 OnPropertyChanged("TreatType");
-                OnPropertyChanged("BedBrush");
+                //OnPropertyChanged("BedBrush");
             }
         }
 
@@ -1672,7 +1924,7 @@ namespace WpfApplication1
             set
             {
                 _bedBrush = value;
-                OnPropertyChanged("TitleBrush");
+                OnPropertyChanged("BedBrush");
             }
         }
         public Brush TitleBrush
