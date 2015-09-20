@@ -41,6 +41,7 @@ namespace WpfApplication1
         public Shedule sheduleContent;
         public Bed bedContent;
         public Config configContent;
+        public Report reeportContent;
         public ObservableCollection<string> TopMenuCollection = new ObservableCollection<string>();
         
         private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
@@ -157,6 +158,7 @@ namespace WpfApplication1
             sheduleContent = new Shedule(this);
             bedContent = new Bed(this);
             configContent = new Config(this);
+            reeportContent = new Report(this);
 
             initContent.ButtonNew.Click += delegate
             {
@@ -257,6 +259,10 @@ namespace WpfApplication1
                 case 4:
                     this.RightContentA.Visibility = Visibility.Visible;
                     this.RightContentA.Content = configContent;
+                    break;
+                case 5:
+                    this.RightContentA.Visibility = Visibility.Visible;
+                    this.RightContentA.Content = reeportContent;
                     break;
             }
         }

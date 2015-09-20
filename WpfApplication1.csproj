@@ -155,6 +155,9 @@
     <Compile Include="Order.xaml.cs">
       <DependentUpon>Order.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Report.xaml.cs">
+      <DependentUpon>Report.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SignUP.xaml.cs">
       <DependentUpon>SignUP.xaml</DependentUpon>
     </Compile>
@@ -271,6 +274,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Report.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Shedule.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -301,6 +308,23 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Properties\DataSources\CrashReporterDotNET.com.drdump.Application.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.com.drdump.ClientLib.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.com.drdump.DetailedExceptionDescription.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.com.drdump.ErrorResponse.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.com.drdump.ExceptionDescription.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.com.drdump.ExceptionInfo.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.com.drdump.HttpCrashReporterReportUploader.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.com.drdump.HttpsCrashReporterReportUploader.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.com.drdump.NeedReportResponse.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.com.drdump.Response.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.com.drdump.SendAdditionalDataCompletedEventArgs.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.com.drdump.SendAdditionalDataCompletedEventHandler.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.com.drdump.SendAnonymousReportCompletedEventArgs.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.com.drdump.SendAnonymousReportCompletedEventHandler.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.com.drdump.StopResponse.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.DoctorDumpSettings.datasource" />
+    <None Include="Properties\DataSources\CrashReporterDotNET.ReportCrash.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

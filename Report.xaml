@@ -1,0 +1,110 @@
+﻿<UserControl x:Class="WpfApplication1.Report"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="1024" d:DesignWidth="1140" Loaded="Report_OnLoaded">
+    <UserControl.Resources>
+        <collections:ArrayList x:Key="Informationlist">
+        </collections:ArrayList>
+        <DataTemplate x:Key="Id">
+            <TextBlock x:Name="textlockID" Text="{Binding Id}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Activated">
+            <TextBlock x:Name="textlockID" Text="{Binding PatientName}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Seq">
+            <TextBlock x:Name="textlockPatientID" Text="{Binding Time}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Plan">
+            <TextBlock x:Name="textlockname" Text="{Binding Method}" />
+        </DataTemplate>
+        <DataTemplate x:Key="TreatMethod">
+            <TextBlock x:Name="textlockage" Text="{Binding BedId}" />
+        </DataTemplate>
+        <DataTemplate x:Key="Description">
+            <TextBlock x:Name="textlockdate" Text="{Binding Description}" />
+        </DataTemplate>
+        <Style x:Key="ReportListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Padding" Value="2,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <Grid Height="28">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="0"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="{Binding PatientName}" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                                <Label Content="{Binding Time}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="{Binding Method}" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="{Binding BedId}" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label  Content="{Binding Description}" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+                                <Label Content="{Binding Id}" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="true"/>
+                                    <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="#FFC1BABA">
+            <Label Name="LabelDate" Content="当天日期" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <!--<Button Name="ButtonPrint" Click="ButtonPrint_OnClick" Width="100" Content="打印" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="990,1,0,0"/>-->
+            <Button x:Name="ButtonPrint" Width="100" Content="打印" Style="{DynamicResource FunctionButtonStyle}" Margin="0,0,1040,0" Click="ButtonPrint_OnClick"/>
+        </Grid>
+        <ListBox  ItemsSource="{Binding}" Name="ReportListBox" Grid.Row="2" ItemContainerStyle="{DynamicResource ReportListBoxItemStyle}"/>
+        <Grid Grid.Row="1" Background="#FFC1BABA">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="0"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="患者姓名" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Content="时间" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
+            <Label Content="方法" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2"/>
+            <Label Content="床号" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
+            <Label Content="描述" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="4"/>
+            <Label Visibility="Hidden" Content="ID" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="5"/>
+        </Grid>
+    </Grid>
+</UserControl>
