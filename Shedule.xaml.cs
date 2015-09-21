@@ -51,6 +51,8 @@ namespace WpfApplication1
         public int selectoperation;
         private bool IsEditable = false;
         private List<int> ModifiedList;
+
+        private int weekCount = 0;
         public Shedule(MainWindow mainWindow)
         {
             InitializeComponent();
@@ -200,9 +202,104 @@ namespace WpfApplication1
                         status.Bed = "异常";
                     }
 
+                    List<TreatOrder> TreatOrderList = new List<TreatOrder>();
+                    try
+                    {
+
+                        using (MedicalOrderDao medicalOrderDao = new MedicalOrderDao())
+                        {
+
+                            condition.Clear();
+                            condition["PATIENTID"] = informatian.PatientPatientId;
+                            condition["ACTIVATED"] = true;
+                            var list3 = medicalOrderDao.SelectMedicalOrder(condition);
+
+                            foreach (MedicalOrder medicalOrder in list3)
+                            {
+                                TreatOrder treatOrder = new TreatOrder();
+                                treatOrder.Id = medicalOrder.Id;
+                                treatOrder.Activated = medicalOrder.Activated;
+                                treatOrder.Seq = medicalOrder.Seq;
+                                treatOrder.Plan = medicalOrder.Plan;
+
+                                treatOrder.TreatTimes = (int)medicalOrder.Times;
+                                treatOrder.Description = medicalOrder.Description;
+
+                                if (medicalOrder.MethodId != -1)
+                                {
+                                    using (var treatMethodDao = new TreatMethodDao())
+                                    {
+                                        condition.Clear();
+                                        condition["ID"] = (int)medicalOrder.MethodId;
+                                        var arealist = treatMethodDao.SelectTreatMethod(condition);
+                                        if (arealist.Count == 1)
+                                        {
+                                            treatOrder.TreatMethod = arealist[0].Name;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    treatOrder.TreatMethod = "NULL";
+                                }
+                                {
+                                    using (var medicalOrderParaDao = new MedicalOrderParaDao())
+                                    {
+                                        condition.Clear();
+                                        condition["ID"] = medicalOrder.Interval;
+                                        var arealist = medicalOrderParaDao.SelectInterval(condition);
+                                        if (arealist.Count == 1)
+                                        {
+                                            treatOrder.Type = arealist[0].Name;
+                                        }
+                                    }
+                                }
+
+                                TreatOrderList.Add(treatOrder);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MainWindow.Log.WriteInfoConsole("In Order.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
+                    }
+
+                    /*if (TreatOrderList.Count != 0)
+                    {
+                        foreach (var s in TreatOrderList)
+                        {
+                            s.
+                            if (s != "")
+                            {
+                                string[] details = s.Split('/');
+                                if (details.Count() == 3)
+                                {
+                                    var treat = new TreatOrder();
+                                    treat.TreatMethod = details[0];
+
+                                    var medicalOrderParaDao = new MedicalOrderParaDao();
+                                    var condition1 = new Dictionary<string, object>();
+                                    condition1["ID"] = details[1];
+                                    var list1 = medicalOrderParaDao.SelectInterval(condition1);
+                                    string temporder;
+                                    treat.Type = list1[0].Name;
+                                    treat.TreatTimes = int.Parse(details[2]);
+                                    temporder = treat.Type + "/" + treat.TreatTimes + "/" + treat.TreatMethod;
+                                    treatOrders += temporder;
+                                    treatOrders += "\n";
+                                }
+                            }
+                        }
+                        treatOrders = treatOrders.Remove(treatOrders.LastIndexOf("\n"), 1);
+                        status.ToolTips = treatOrders;
+                    }
+                    else
+                    {
+                        status.ToolTips = "";
+                    }*/
 
 
-                    string treatOrders = "";
+                    /*string treatOrders = "";
                     string orders = fmriPatient.Orders;
                     if (orders != "" && orders != null)
                     {
@@ -236,7 +333,7 @@ namespace WpfApplication1
                     else
                     {
                         status.ToolTips = "";
-                    }
+                    }*/
 
 
 
@@ -1559,13 +1656,39 @@ namespace WpfApplication1
         }
         private void Button_Click1(object sender, RoutedEventArgs e)
         {
+            weekCount--;
             PreWeek();
+
+            if (weekCount < 0)
+            {
+                ButtonEdit.IsEnabled = false;
+            }
+            else
+            {
+                ButtonEdit.IsEnabled = true;
+            }
+
         }
 
 
         private void Button_Click2(object sender, RoutedEventArgs e)
         {
+            weekCount++;
+            if (weekCount < 0)
+            {
+                ButtonEdit.IsEnabled = false;
+            }
+            else if( weekCount < 2)
+            {
+                ButtonEdit.IsEnabled = true;
+            }
+            else
+            {
+                weekCount = 1;
+                return;
+            }
             NextWeek();
+            
         }
 
         private void PreWeek()
@@ -2471,8 +2594,103 @@ namespace WpfApplication1
                                         }
 
 
+                                        List<TreatOrder> TreatOrderList = new List<TreatOrder>();
+                                        try
+                                        {
+                                            using (MedicalOrderDao medicalOrderDao = new MedicalOrderDao())
+                                            {
+
+                                                condition.Clear();
+
+                                                condition["PATIENTID"] = patient.Id;
+                                                condition["ACTIVATED"] = true;
+                                                var list3 = medicalOrderDao.SelectMedicalOrder(condition);
+
+                                                foreach (MedicalOrder medicalOrder in list3)
+                                                {
+                                                    TreatOrder treatOrder = new TreatOrder();
+                                                    treatOrder.Id = medicalOrder.Id;
+                                                    treatOrder.Activated = medicalOrder.Activated;
+                                                    treatOrder.Seq = medicalOrder.Seq;
+                                                    treatOrder.Plan = medicalOrder.Plan;
+
+                                                    treatOrder.TreatTimes = (int)medicalOrder.Times;
+                                                    treatOrder.Description = medicalOrder.Description;
+
+                                                    if (medicalOrder.MethodId != -1)
+                                                    {
+                                                        using (var treatMethodDao = new TreatMethodDao())
+                                                        {
+                                                            condition.Clear();
+                                                            condition["ID"] = (int)medicalOrder.MethodId;
+                                                            var arealist = treatMethodDao.SelectTreatMethod(condition);
+                                                            if (arealist.Count == 1)
+                                                            {
+                                                                treatOrder.TreatMethod = arealist[0].Name;
+                                                            }
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        treatOrder.TreatMethod = "NULL";
+                                                    }
+                                                    {
+                                                        using (var medicalOrderParaDao = new MedicalOrderParaDao())
+                                                        {
+                                                            condition.Clear();
+                                                            condition["ID"] = medicalOrder.Interval;
+                                                            var arealist = medicalOrderParaDao.SelectInterval(condition);
+                                                            if (arealist.Count == 1)
+                                                            {
+                                                                treatOrder.Type = arealist[0].Name;
+                                                            }
+                                                        }
+                                                    }
+
+                                                    TreatOrderList.Add(treatOrder);
+                                                }
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            MainWindow.Log.WriteInfoConsole("In Order.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
+                                        }
 
                                         string treatOrders = "";
+
+                                        if (TreatOrderList.Count!= 0)
+                                        {
+                                            foreach (var treatOrder in TreatOrderList)
+                                            {
+                                                string str = "";
+                                                if (treatOrder.Plan == "频次")
+                                                {
+                                                    str = "频次";
+                                                }
+                                                else
+                                                {
+                                                    str = treatOrder.TreatMethod;
+                                                }
+                                                str += "/";
+                                                str += treatOrder.Type;
+                                                str += "/";
+                                                str += treatOrder.Seq;
+                                                str += "/";
+                                                str += treatOrder.Description;
+                                                str += "\n";
+
+                                                treatOrders += str;
+                                            }
+                                            treatOrders = treatOrders.Remove(treatOrders.LastIndexOf("\n"), 1);
+                                            status.ToolTips = treatOrders;
+                                        }
+                                        else
+                                        {
+                                            status.ToolTips = null;
+                                        }
+                                        
+                                        
+                                        /*string treatOrders = "";
                                         string orders = patient.Orders;
                                         if (orders != "" && orders != null)
                                         {
@@ -2506,7 +2724,7 @@ namespace WpfApplication1
                                         else
                                         {
                                             status.ToolTips = "";
-                                        }
+                                        }*/
 
 
                                         ListboxItemStatusesList.Add(status);
