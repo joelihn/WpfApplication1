@@ -411,6 +411,89 @@ namespace WpfApplication1
             selectoperation = 1;
         }
 
+        private void AutoDistributeFixedBed()
+        {
+            string ampme = "";
+            foreach (var i in AmPmEGrid.Children)
+            {
+                if (i is ToggleButton)
+                {
+                    if (((ToggleButton)i).IsChecked == true)
+                    {
+                        ampme = (string)((ToggleButton)i).Tag;
+                        break;
+                    }
+                }
+            }
+            DateTime dt1 = GetDate();
+
+            List<BedPatientData> delPatients = new List<BedPatientData>();
+            foreach (var patient in BedPatientList)
+            {
+                bool isFixedBed = false;
+                using (var patientDao = new PatientDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["ID"] = patient.Id;
+                    var list = patientDao.SelectPatient(condition);
+                    isFixedBed = list[0].IsFixedBed;
+                }
+                foreach (var bed in BedInfoList)
+                {
+                    if (bed.InfectionType == patient.InfectionType)
+                    {
+                        using (var methodDao = new TreatMethodDao())
+                        {
+                            int DoublePump = -1;
+                            int SinglePump = -1;
+                            var condition = new Dictionary<string, object>();
+                            condition["NAME"] = patient.TreatMethod;
+                            var list = methodDao.SelectTreatMethod(condition);
+                            if (list.Count == 1)
+                            {
+                                if (list[0].DoublePump == true)
+                                {
+                                    DoublePump = 1;
+                                }
+                                if (list[0].SinglePump == true)
+                                {
+                                    SinglePump = 0;
+                                }
+
+                            }
+
+                            if (bed.MachineTypeID != DoublePump && bed.MachineTypeID != SinglePump)
+                            {
+                                break;
+                            }
+                        }
+
+                        if (bed.IsAvailable == true && bed.IsOccupy != true)
+                        {
+                            if (bed.PatientData == null)
+                            {
+                                delPatients.Add(patient);
+                                UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id);
+                                bed.PatientName = patient.Name + "\n" + patient.TreatMethod;
+                                bed.PatientData = patient;
+                                break;
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            foreach (var patient in delPatients)
+            {
+                BedPatientList.Remove(patient);
+            }
+
+            PatientCountLabel.Content = "待排患者(" + BedPatientList.Count + ")";
+            
+            
+        }
+
         private void AutoClick(object sender, RoutedEventArgs e)
         {
             AutoDistributeBeds();
@@ -441,7 +524,7 @@ namespace WpfApplication1
                     if (bed.InfectionType == patient.InfectionType)
                     {
                         ////new added////
-                        long patientInfectTypeId = -1;
+                        /*long patientInfectTypeId = -1;
                         using (PatientDao patientDao = new PatientDao())
                         {
                             var condition = new Dictionary<string, object>();
@@ -471,9 +554,34 @@ namespace WpfApplication1
                         if (patientInfectTypeId != patientAreaInfectTypeId)
                         {
                             break;
-                        }
+                        }*/
 
                         /////////////////
+                        using (var methodDao = new TreatMethodDao())
+                        {
+                            int DoublePump = -1;
+                            int SinglePump = -1;
+                            var condition = new Dictionary<string, object>();
+                            condition["NAME"] = patient.TreatMethod;
+                            var list = methodDao.SelectTreatMethod(condition);
+                            if (list.Count == 1)
+                            {
+                                if (list[0].DoublePump == true)
+                                {
+                                    DoublePump = 1;
+                                }
+                                if (list[0].SinglePump == true)
+                                {
+                                    SinglePump = 0;
+                                }
+
+                            }
+
+                            if (bed.MachineTypeID != DoublePump && bed.MachineTypeID != SinglePump)
+                            {
+                                break;
+                            }
+                        }
 
                         if (bed.IsAvailable == true && bed.IsOccupy != true)
                         {
@@ -769,7 +877,7 @@ namespace WpfApplication1
                         if( then.Date >= DateTime.Now.Date )
                         if (bedInfo.IsAvailable == false )
                             continue;
-                        using (var treatTypeDao = new TreatTypeDao())
+                        /*using (var treatTypeDao = new TreatTypeDao())
                         {
                             condition.Clear();
                             condition["ID"] = bed.TreatTypeId;
@@ -778,7 +886,7 @@ namespace WpfApplication1
                             {
                                 bedInfo.TreatType = arealist[0].Name;
                             }
-                        }
+                        }*/
                         
                         /*
                         using (var bedinfodao = new BedInfoDao())
@@ -799,18 +907,24 @@ namespace WpfApplication1
                             var arealist = patientAreaDao.SelectPatientArea(condition);
                             if (arealist.Count == 1)
                             {
-
-                                using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                                if (arealist[0].Type == "0")
                                 {
-                                    condition.Clear();
-                                    condition["ID"] = arealist[0].InfectTypeId;
-                                    var list2 = infectTypeDao.SelectInfectType(condition);
-                                    if (list2.Count == 1)
+                                    bedInfo.InfectionType = "阴性";
+                                }
+                                else
+                                {
+                                    using (InfectTypeDao infectTypeDao = new InfectTypeDao())
                                     {
-                                        bedInfo.InfectionType = list2[0].Name;
+                                        condition.Clear();
+                                        condition["ID"] = arealist[0].InfectTypeId;
+                                        var list2 = infectTypeDao.SelectInfectType(condition);
+                                        if (list2.Count == 1)
+                                        {
+                                            bedInfo.InfectionType = list2[0].Name;
+                                        }
+
+
                                     }
-                                    
-                                    
                                 }
 
 
@@ -1138,7 +1252,8 @@ namespace WpfApplication1
                 {
                     using (var methodDao = new TreatMethodDao())
                     {
-                        int machineType = -1;
+                        int DoublePump = -1;
+                        int SinglePump = -1;
                         var condition = new Dictionary<string, object>();
                         condition["NAME"] = data.TreatMethod;
                         var list = methodDao.SelectTreatMethod(condition);
@@ -1146,16 +1261,16 @@ namespace WpfApplication1
                         {
                             if (list[0].DoublePump == true)
                             {
-                                machineType = 1;
+                                DoublePump = 1;
                             }
-                            else if (list[0].SinglePump == true)
+                            if (list[0].SinglePump == true)
                             {
-                                machineType = 0;
+                                SinglePump = 0;
                             }
 
                         }
 
-                        if (BedInfoList[index].MachineTypeID == machineType)
+                        if (BedInfoList[index].MachineTypeID == DoublePump || BedInfoList[index].MachineTypeID == SinglePump)
                         {
                             effects = System.Windows.DragDropEffects.Move;
                         }
@@ -1233,14 +1348,28 @@ namespace WpfApplication1
                     
                 }
 
-                using (var patientDao = new PatientDao())
-                {
-                    var fields = new Dictionary<string, object>();
-                    fields["BEDID"] = bedid;
-                    var condition = new Dictionary<string, object>();
-                    condition["ID"] = patientID;
-                    patientDao.UpdatePatient(fields, condition);
 
+                bool isTemp = false;
+                using (var bedDao = new BedDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["ID"] = bedid;
+                    var list = bedDao.SelectBed(condition);
+                    isTemp = list[0].IsTemp;
+
+                }
+
+                if (isTemp == false )
+                {
+                    using (var patientDao = new PatientDao())
+                    {
+                        var fields = new Dictionary<string, object>();
+                        fields["BEDID"] = bedid;
+                        var condition = new Dictionary<string, object>();
+                        condition["ID"] = patientID;
+                        patientDao.UpdatePatient(fields, condition);
+
+                    }
                 }
 
             }

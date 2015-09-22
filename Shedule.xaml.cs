@@ -1657,17 +1657,16 @@ namespace WpfApplication1
         private void Button_Click1(object sender, RoutedEventArgs e)
         {
             weekCount--;
-            PreWeek();
-
             if (weekCount < 0)
             {
                 ButtonEdit.IsEnabled = false;
             }
-            else
+            else if( weekCount == 0)
             {
                 ButtonEdit.IsEnabled = true;
+                btnNextWeek.IsEnabled = true;
             }
-
+            PreWeek();
         }
 
 
@@ -1678,15 +1677,22 @@ namespace WpfApplication1
             {
                 ButtonEdit.IsEnabled = false;
             }
-            else if( weekCount < 2)
+            else if (weekCount == 0)
             {
-                ButtonEdit.IsEnabled = true;
+                btnNextWeek.IsEnabled = true;
+            }
+            else if( weekCount == 1)
+            {
+                ButtonEdit.IsEnabled = false;
+                btnNextWeek.IsEnabled = false;
             }
             else
             {
+                btnNextWeek.IsEnabled = false;
                 weekCount = 1;
                 return;
             }
+
             NextWeek();
             
         }

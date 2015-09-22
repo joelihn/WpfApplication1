@@ -185,7 +185,7 @@ namespace WpfApplication1
             }
 
             //TODO:判断一下当前添加的患者是否满足当前患者组条件，如果满足需要刷新患者列表
-            Basewindow.patientGroupPanel.RefreshData();
+            //Basewindow.patientGroupPanel.RefreshData();
             
 
             Basewindow.initContent.ButtonNew.IsEnabled = true;

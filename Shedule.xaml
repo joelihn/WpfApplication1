@@ -371,7 +371,21 @@
         </ControlTemplate>
         <ControlTemplate x:Key="ButtonControlTemplate3" TargetType="{x:Type Button}">
         	<Grid Margin="2">
-        		<Rectangle Fill="#FF3DC16D" HorizontalAlignment="Stretch" Height="Auto" Stroke="Black" VerticalAlignment="Stretch" Width="Auto" RadiusX="5" RadiusY="5" StrokeThickness="0"/>
+        		<VisualStateManager.VisualStateGroups>
+        			<VisualStateGroup x:Name="CommonStates">
+        				<VisualState x:Name="Normal"/>
+        				<VisualState x:Name="MouseOver"/>
+        				<VisualState x:Name="Pressed"/>
+        				<VisualState x:Name="Disabled">
+        					<Storyboard>
+        						<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+        							<EasingColorKeyFrame KeyTime="0" Value="#FFA0A0A0"/>
+        						</ColorAnimationUsingKeyFrames>
+        					</Storyboard>
+        				</VisualState>
+        			</VisualStateGroup>
+        		</VisualStateManager.VisualStateGroups>
+        		<Rectangle x:Name="rectangle" Fill="#FF3DC16D" HorizontalAlignment="Stretch" Height="Auto" Stroke="Black" VerticalAlignment="Stretch" Width="Auto" RadiusX="5" RadiusY="5" StrokeThickness="0"/>
         		<Grid HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch">
         			<Label Content="{TemplateBinding Content}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White" FontSize="14.667"/>
         		</Grid>
@@ -726,8 +740,8 @@
 								<ColumnDefinition/>
 								<ColumnDefinition/>
 							</Grid.ColumnDefinitions>
-							<Button Content="上周" Template="{DynamicResource ButtonControlTemplate3}" Click="Button_Click1"/>
-							<Button Content="下周" Template="{DynamicResource ButtonControlTemplate3}" Grid.Column="1" Click="Button_Click2"/>
+                            <Button x:Name="btnPreWeek" Content="上周" Template="{DynamicResource ButtonControlTemplate3}" Click="Button_Click1"/>
+							<Button x:Name="btnNextWeek" Content="下周" Template="{DynamicResource ButtonControlTemplate3}" Grid.Column="1" Click="Button_Click2"/>
 						</Grid>
 						<Grid Grid.Column="7" Grid.Row="1">
 							<Grid.ColumnDefinitions>
