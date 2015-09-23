@@ -431,55 +431,70 @@ namespace WpfApplication1
             foreach (var patient in BedPatientList)
             {
                 bool isFixedBed = false;
+                long fixBedId = -1;
                 using (var patientDao = new PatientDao())
                 {
                     var condition = new Dictionary<string, object>();
                     condition["ID"] = patient.Id;
                     var list = patientDao.SelectPatient(condition);
                     isFixedBed = list[0].IsFixedBed;
+                    fixBedId = list[0].BedId;
                 }
+                if (isFixedBed == false)
+                    break;
+
+                /*using (var bedDao = new BedDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["ID"] = fixBedId;
+                    var list = bedDao.SelectBed(condition);
+                }*/
+
                 foreach (var bed in BedInfoList)
                 {
-                    if (bed.InfectionType == patient.InfectionType)
+                    if (bed.Id == fixBedId)
                     {
-                        using (var methodDao = new TreatMethodDao())
+                        if (bed.InfectionType == patient.InfectionType)
                         {
-                            int DoublePump = -1;
-                            int SinglePump = -1;
-                            var condition = new Dictionary<string, object>();
-                            condition["NAME"] = patient.TreatMethod;
-                            var list = methodDao.SelectTreatMethod(condition);
-                            if (list.Count == 1)
+                            using (var methodDao = new TreatMethodDao())
                             {
-                                if (list[0].DoublePump == true)
+                                int DoublePump = -1;
+                                int SinglePump = -1;
+                                var condition = new Dictionary<string, object>();
+                                condition["NAME"] = patient.TreatMethod;
+                                var list = methodDao.SelectTreatMethod(condition);
+                                if (list.Count == 1)
                                 {
-                                    DoublePump = 1;
+                                    if (list[0].DoublePump == true)
+                                    {
+                                        DoublePump = 1;
+                                    }
+                                    if (list[0].SinglePump == true)
+                                    {
+                                        SinglePump = 0;
+                                    }
+
                                 }
-                                if (list[0].SinglePump == true)
+
+                                if (bed.MachineTypeID != DoublePump && bed.MachineTypeID != SinglePump)
                                 {
-                                    SinglePump = 0;
+                                    break;
                                 }
-
                             }
 
-                            if (bed.MachineTypeID != DoublePump && bed.MachineTypeID != SinglePump)
+                            if (bed.IsAvailable == true && bed.IsOccupy != true)
                             {
-                                break;
+                                if (bed.PatientData == null)
+                                {
+                                    delPatients.Add(patient);
+                                    UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id);
+                                    bed.PatientName = patient.Name + "\n" + patient.TreatMethod;
+                                    bed.PatientData = patient;
+                                    break;
+                                }
                             }
-                        }
 
-                        if (bed.IsAvailable == true && bed.IsOccupy != true)
-                        {
-                            if (bed.PatientData == null)
-                            {
-                                delPatients.Add(patient);
-                                UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id);
-                                bed.PatientName = patient.Name + "\n" + patient.TreatMethod;
-                                bed.PatientData = patient;
-                                break;
-                            }
                         }
-
                     }
                 }
             }
@@ -750,6 +765,7 @@ namespace WpfApplication1
             long infecttype = GetInfectType();
             RefreshPatientList(dt.Date, ampme);
             RefreshBedList(infecttype);
+            AutoDistributeFixedBed();
         }
 
         private DateTime GetDate()

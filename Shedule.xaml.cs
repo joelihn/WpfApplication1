@@ -46,6 +46,7 @@ namespace WpfApplication1
         public ObservableCollection<TreatOrder> TreatOrderList = new ObservableCollection<TreatOrder>();
         public ObservableCollection<string> PatientGroupComboBoxItems = new ObservableCollection<string>();
 
+        public ObservableCollection<MedicalOrder> MedicalOrders = new ObservableCollection<MedicalOrder>(); 
 
         public List<DateTime> dtlist = new List<DateTime>();
         public int selectoperation;
@@ -462,10 +463,64 @@ namespace WpfApplication1
         private void InitTreatOrderList( long _patientID )
         {
             TreatOrderList.Clear();
+
             try
             {
 
-                using (var patientDao = new PatientDao())
+                using (MedicalOrderDao medicalOrderDao = new MedicalOrderDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["PATIENTID"] = _patientID;
+                    condition["ACTIVATED"] = true;
+                    var list3 = medicalOrderDao.SelectMedicalOrder(condition);
+
+                    foreach (MedicalOrder medicalOrder in list3)
+                    {
+                        TreatOrder treatOrder = new TreatOrder();
+                        treatOrder.Id = medicalOrder.Id;
+                        treatOrder.Activated = medicalOrder.Activated;
+                        treatOrder.Seq = medicalOrder.Seq;
+                        treatOrder.Plan = medicalOrder.Plan;
+
+                        treatOrder.TreatTimes = (int)medicalOrder.Times;
+                        treatOrder.Description = medicalOrder.Description;
+
+                        if (medicalOrder.MethodId != -1)
+                        {
+                            using (var treatMethodDao = new TreatMethodDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = (int)medicalOrder.MethodId;
+                                var arealist = treatMethodDao.SelectTreatMethod(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatOrder.TreatMethod = arealist[0].Name;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            treatOrder.TreatMethod = "NULL";
+                        }
+                        {
+                            using (var medicalOrderParaDao = new MedicalOrderParaDao())
+                            {
+                                condition.Clear();
+                                condition["ID"] = medicalOrder.Interval;
+                                var arealist = medicalOrderParaDao.SelectInterval(condition);
+                                if (arealist.Count == 1)
+                                {
+                                    treatOrder.Type = arealist[0].Name;
+                                }
+                            }
+                        }
+
+                        TreatOrderList.Add(treatOrder);
+                    }
+                }
+
+
+                /*using (var patientDao = new PatientDao())
                 {
                     var condition = new Dictionary<string, object>();
                     condition["ID"] = _patientID;
@@ -501,7 +556,7 @@ namespace WpfApplication1
                             }
                         }
                     }
-                }
+                }*/
 
 
             }
@@ -1077,8 +1132,8 @@ namespace WpfApplication1
             return ret;
 
         }
-
-        private bool CheckOrders(long _PatientID )
+        //
+        private bool CheckOrdersNew(long _PatientID)
         {
             PatientSchedule schedule = GetPatientSchedule(_PatientID);
             bool ret = true;
@@ -1091,40 +1146,12 @@ namespace WpfApplication1
             }
             foreach (var treatOrder in TreatOrderList)
             {
-                //string treat = treatOrder.TreatMethod;
-                //int times = treatOrder.TreatTimes;
-                //int count = 0;
-                //for (int n = 0; n < 7; n++)
-                //{
-                //    if (treat == StrColorConverter(patient.CurrentWeek.days[n].BgColor) )
-                //        count++;
-                //    if (treat == StrColorConverter(patient.NextWeek.days[n].BgColor))
-                //        count++;
-
-                //}
-                //if (count != times)
-                //{
-                //    ret = false;
-                //}
-
                 string treat = treatOrder.TreatMethod;
                 string type = treatOrder.Type;
                 int times = treatOrder.TreatTimes;
                 int count = 0;
-                if (type == "周")
+                if (type == "单周")
                 {
-                    /*for (int n = 0; n < 7; n++)
-                    {
-                        if (treat == StrColorConverter(patient.CurrentWeek.days[n].BgColor))
-                            count++;
-                        if (treat == StrColorConverter(patient.NextWeek.days[n].BgColor))
-                            count++;
-
-                    }*/
-                    /*int month = DateTime.Now.Month;
-                    int year = DateTime.Now.Year;
-                    int day = DateTime.Now.Day;
-                    int dure = DateTime.DaysInMonth(year, month);*/
                     int dayofweek = (int)DateTime.Now.DayOfWeek - 1;
                     if (dayofweek == -1) dayofweek = 6;
                     DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
@@ -1143,7 +1170,7 @@ namespace WpfApplication1
                         }
                     }
                 }
-                else if (type == "月")
+                else if (type == "单月")
                 {
                     int month = DateTime.Now.Month;
                     int year = DateTime.Now.Year;
@@ -1167,12 +1194,148 @@ namespace WpfApplication1
                         }
                     }
                 }
+                else//双周
+                {
+
+                }
                 if (count != times)
                 {
                     ret = false;
                 }
             }
             return ret;
+
+        }
+
+
+        private bool CheckOrders(long _PatientID )
+        {
+            PatientSchedule schedule = GetPatientSchedule(_PatientID);
+            bool ret = true;
+            InitTreatOrderList(_PatientID);
+            if (TreatOrderList.Count == 0) return false;
+/*
+            List<string> treats = new List<string>();
+            foreach (var treatOrder in TreatOrderList)
+            {
+                treats.Add(treatOrder.TreatMethod);
+            }*/
+            foreach (var treatOrder in TreatOrderList)
+            {
+                //string treat = treatOrder.TreatMethod;
+                //int times = treatOrder.TreatTimes;
+                //int count = 0;
+                //for (int n = 0; n < 7; n++)
+                //{
+                //    if (treat == StrColorConverter(patient.CurrentWeek.days[n].BgColor) )
+                //        count++;
+                //    if (treat == StrColorConverter(patient.NextWeek.days[n].BgColor))
+                //        count++;
+
+                //}
+                //if (count != times)
+                //{
+                //    ret = false;
+                //}
+
+                string treat = treatOrder.TreatMethod;
+                string type = treatOrder.Type;
+                int seq = int.Parse(treatOrder.Seq);
+                //int times = treatOrder.TreatTimes;
+                int count = 0;
+                if (type == "单周")
+                {
+                    /*for (int n = 0; n < 7; n++)
+                    {
+                        if (treat == StrColorConverter(patient.CurrentWeek.days[n].BgColor))
+                            count++;
+                        if (treat == StrColorConverter(patient.NextWeek.days[n].BgColor))
+                            count++;
+
+                    }*/
+                    /*int month = DateTime.Now.Month;
+                    int year = DateTime.Now.Year;
+                    int day = DateTime.Now.Day;
+                    int dure = DateTime.DaysInMonth(year, month);*/
+                    int dayofweek = (int)DateTime.Now.DayOfWeek - 1;
+                    if (dayofweek == -1) dayofweek = 6;
+                    DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
+                    DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 13);
+                    int currentSeq = 0;
+                    int nextSeq = 0;
+                    foreach (var v in schedule.Hemodialysis)
+                    {
+                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 &&
+                            DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date.AddDays(6)) <= 0)
+                        {
+                            if (treat == v.hemodialysisItem)
+                                currentSeq++;
+
+                        }
+
+                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date.AddDays(7)) >= 0 &&
+                            DateTime.Compare(v.dialysisTime.dateTime, dtTo.Date) <= 0)
+                        {
+                            if (treat == v.hemodialysisItem)
+                                nextSeq++;
+                        }
+                    }
+                    if (currentSeq != seq || nextSeq != seq)
+                    {
+                        //return treat;
+                        return false;
+                    }
+
+                }
+                else if (type == "单月")
+                {
+                    int month = DateTime.Now.Month;
+                    int year = DateTime.Now.Year;
+                    int day = DateTime.Now.Day;
+                    int dure = DateTime.DaysInMonth(year, month);
+                    DateTime dtFrom = DateTime.Now.Date.AddDays(-day + 1);
+                    DateTime dtTo = DateTime.Now.Date.AddDays(-day + dure);
+
+
+                    foreach (var v in schedule.Hemodialysis)
+                    {
+                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 &&
+                            DateTime.Compare(v.dialysisTime.dateTime, dtTo.Date) <= 0)
+                        {
+                            if (treat == v.hemodialysisItem)
+                                count++;
+                        }
+                    }
+                    if (count != seq)
+                    {
+                        //return treat;
+                        return false;
+                    }
+                }
+                else//双周
+                {
+                    int dayofweek = (int)DateTime.Now.DayOfWeek - 1;
+                    if (dayofweek == -1) dayofweek = 6;
+                    DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
+                    DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 13);
+                    foreach (var v in schedule.Hemodialysis)
+                    {
+                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 &&
+                            DateTime.Compare(v.dialysisTime.dateTime, dtTo.Date) <= 0)
+                        {
+                            if (treat == v.hemodialysisItem)
+                                count++;
+                        }
+                    }
+
+                    if (count != seq)
+                    {
+                        //return treat;
+                        return false;
+                    }
+                }
+            }
+            return true;
 
         }
 
