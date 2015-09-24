@@ -236,12 +236,12 @@
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
                                         <Grid HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto">
-                                        	<Label Content="{Binding Checks}" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                         	<Rectangle Fill="#FFC8C8CB" Height="Auto" RadiusY="5" RadiusX="5" Stroke="{x:Null}" VerticalAlignment="Stretch" Width="Auto" Margin="3"/>
+                                        	<Label Content="{Binding Checks}" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                         </Grid>
                                         <Grid HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Grid.Column="1">
-                                        	<Label Content="{Binding Bed}" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.ColumnSpan="1" Grid.Column="0"/>
                                         	<Rectangle Fill="#FFC8C8CB" Height="Auto" RadiusY="5" RadiusX="5" Stroke="{x:Null}" VerticalAlignment="Stretch" Width="Auto" Margin="3"/>
+                                        	<Label Content="{Binding Bed}" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.ColumnSpan="1" Grid.Column="0"/>
                                         </Grid>
                                     </Grid>
                                 </Border>

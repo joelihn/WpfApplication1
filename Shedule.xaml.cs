@@ -189,19 +189,21 @@ namespace WpfApplication1
                         }
                     }
 
-                    if (CheckOrders(fmriPatient.Id))
+                    //////////////////////////////
+                    //status.Checks = CheckOrders(fmriPatient.Id);
+                    /*if (CheckOrders(fmriPatient.Id))
                         status.Checks = "正常";
                     else
                     {
                         status.Checks = "异常";
-                    }
+                    }*/
 
-                    if (CheckBed(fmriPatient.Id))
+                    /*if (CheckBed(fmriPatient.Id))
                         status.Bed = "正常";
                     else
                     {
                         status.Bed = "异常";
-                    }
+                    }*/
 
                     List<TreatOrder> TreatOrderList = new List<TreatOrder>();
                     try
@@ -694,12 +696,16 @@ namespace WpfApplication1
                 DateTime dtTime3 = DateTime.Now;
                 TimeSpan tsSpan2 = dtTime3 - dtTime2;
                 MainWindow.Log.WriteInfoLog("tsSpan2 is: " + tsSpan2.Milliseconds);
-                if (CheckOrders())
+                /////////
+                //ListboxItemStatusesList[index].Checks = CheckOrders();
+
+                //ListboxItemStatusesList[index].Bed = CheckBed();
+                /*if (CheckOrders())
                     ListboxItemStatusesList[index].Checks = "正常";
                 else
                 {
                     ListboxItemStatusesList[index].Checks = "异常";
-                }
+                }*/
                 DateTime dtTime4 = DateTime.Now;
                 TimeSpan tsSpan3 = dtTime4 - dtTime3;
                 MainWindow.Log.WriteInfoLog("tsSpan3 is: " + tsSpan3.Milliseconds);
@@ -1056,30 +1062,90 @@ namespace WpfApplication1
             }
         }
 
-        private bool CheckOrders()
+        private string CheckOrders()
         {
             int index = ListBox1.SelectedIndex;
-            if (index == -1) return false;
+            if (index == -1) return "";
             
-            if (ListboxItemStatusesList.Count == 0) return false;
+            if (ListboxItemStatusesList.Count == 0) return "";
             ListboxItemStatus patient = ListboxItemStatusesList[index];
             PatientSchedule schedule = GetPatientSchedule(patient.PatientID);
+            InitTreatOrderList(patient.PatientID);
             bool ret = true;
-            if (TreatOrderList.Count == 0) return false;
+            if (TreatOrderList.Count == 0) return "";
+            /*
             List<string> treats = new List<string>();
             foreach (var treatOrder in TreatOrderList)
             {
                 treats.Add(treatOrder.TreatMethod);
-            }
+            }*/
             foreach (var treatOrder in TreatOrderList)
             {
                 string treat = treatOrder.TreatMethod;
                 string type = treatOrder.Type;
-                int times = treatOrder.TreatTimes;
+                int seq = int.Parse(treatOrder.Seq);
+                //int times = treatOrder.TreatTimes;
                 int count = 0;
-                if( type == "周" )
+                if (type == "单周")
                 {
-                    int dayofweek = (int) DateTime.Now.DayOfWeek - 1;
+                    int dayofweek = (int)DateTime.Now.DayOfWeek - 1;
+                    if (dayofweek == -1) dayofweek = 6;
+                    DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
+                    DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 13);
+                    int currentSeq = 0;
+                    int nextSeq = 0;
+                    foreach (var v in schedule.Hemodialysis)
+                    {
+                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 &&
+                            DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date.AddDays(6)) <= 0)
+                        {
+                            if (treat == v.hemodialysisItem)
+                                currentSeq++;
+
+                        }
+
+                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date.AddDays(7)) >= 0 &&
+                            DateTime.Compare(v.dialysisTime.dateTime, dtTo.Date) <= 0)
+                        {
+                            if (treat == v.hemodialysisItem)
+                                nextSeq++;
+                        }
+                    }
+                    if (currentSeq != seq || nextSeq != seq)
+                    {
+                        return treat;
+                        //return false;
+                    }
+
+                }
+                else if (type == "单月")
+                {
+                    int month = DateTime.Now.Month;
+                    int year = DateTime.Now.Year;
+                    int day = DateTime.Now.Day;
+                    int dure = DateTime.DaysInMonth(year, month);
+                    DateTime dtFrom = DateTime.Now.Date.AddDays(-day + 1);
+                    DateTime dtTo = DateTime.Now.Date.AddDays(-day + dure);
+
+
+                    foreach (var v in schedule.Hemodialysis)
+                    {
+                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 &&
+                            DateTime.Compare(v.dialysisTime.dateTime, dtTo.Date) <= 0)
+                        {
+                            if (treat == v.hemodialysisItem)
+                                count++;
+                        }
+                    }
+                    if (count != seq)
+                    {
+                        return treat;
+                        //return false;
+                    }
+                }
+                else//双周
+                {
+                    int dayofweek = (int)DateTime.Now.DayOfWeek - 1;
                     if (dayofweek == -1) dayofweek = 6;
                     DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
                     DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 13);
@@ -1088,48 +1154,19 @@ namespace WpfApplication1
                         if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 &&
                             DateTime.Compare(v.dialysisTime.dateTime, dtTo.Date) <= 0)
                         {
-                            if (treat == v.hemodialysisItem && treats.Contains(v.hemodialysisItem))
+                            if (treat == v.hemodialysisItem)
                                 count++;
-                            else if (!treats.Contains(v.hemodialysisItem))
-                            {
-                                return false;
-                            }
-
                         }
                     }
-                }
-                else if (type == "月")
-                {
-                    int month = DateTime.Now.Month;
-                    int year = DateTime.Now.Year;
-                    int day = DateTime.Now.Day;
-                    int dure = DateTime.DaysInMonth(year, month);
-                    DateTime dtFrom = DateTime.Now.Date.AddDays(-day+1);
-                    DateTime dtTo = DateTime.Now.Date.AddDays(-day + dure);
 
-                    
-                    foreach (var v in schedule.Hemodialysis)
+                    if (count != seq)
                     {
-                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 &&
-                            DateTime.Compare(v.dialysisTime.dateTime, dtTo.Date) <= 0)
-                        {
-                            if (treat == v.hemodialysisItem && treats.Contains(v.hemodialysisItem))
-                                count++;
-                            else if (!treats.Contains(v.hemodialysisItem))
-                            {
-                                return false;
-                            }
-                        }
-
+                        return treat;
+                        //return false;
                     }
-                }
-                if (count != times)
-                {
-                    //ret = false;
-                    return false;
                 }
             }
-            return ret;
+            return "";
 
         }
         //
@@ -1208,12 +1245,12 @@ namespace WpfApplication1
         }
 
 
-        private bool CheckOrders(long _PatientID )
+        private string CheckOrders(long _PatientID )
         {
             PatientSchedule schedule = GetPatientSchedule(_PatientID);
-            bool ret = true;
+            
             InitTreatOrderList(_PatientID);
-            if (TreatOrderList.Count == 0) return false;
+            if (TreatOrderList.Count == 0) return "";
 /*
             List<string> treats = new List<string>();
             foreach (var treatOrder in TreatOrderList)
@@ -1282,8 +1319,8 @@ namespace WpfApplication1
                     }
                     if (currentSeq != seq || nextSeq != seq)
                     {
-                        //return treat;
-                        return false;
+                        return treat;
+                        //return false;
                     }
 
                 }
@@ -1308,8 +1345,8 @@ namespace WpfApplication1
                     }
                     if (count != seq)
                     {
-                        //return treat;
-                        return false;
+                        return treat;
+                        //return false;
                     }
                 }
                 else//双周
@@ -1330,16 +1367,17 @@ namespace WpfApplication1
 
                     if (count != seq)
                     {
-                        //return treat;
-                        return false;
+                        return treat;
+                        //return false;
                     }
                 }
             }
-            return true;
+            return "";
 
         }
 
-        private bool CheckBed(long _patientID)
+
+        private string CheckBed(long _patientID)
         {
             try
             {
@@ -1347,7 +1385,7 @@ namespace WpfApplication1
                 int dayofweek = (int)DateTime.Now.DayOfWeek - 1;
                 if (dayofweek == -1) dayofweek = 6;
                 DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
-                DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 6);
+                DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 13);
 
                 using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
                 {
@@ -1363,20 +1401,21 @@ namespace WpfApplication1
                             //if(type.PatientId == 16)
                             if (type.BedId == -1)
                             {
-                                ret = false;
-                                break;
+                                //ret = false;
+                                //break;
+                                return dt.ToString("MM-dd");
                             }
                                 
                         }
 
                     }
                 }
-                return ret;
+                return null;
             }
             catch (Exception ex)
             {
                 MainWindow.Log.WriteInfoConsole("In PatientSchedule.xaml.cs:GetPatientSchedule select patient exception messsage: " + ex.Message);
-                return false;
+                return null;
             }
         }
 
@@ -1632,9 +1671,6 @@ namespace WpfApplication1
                 int days = (int)column.Y;*/
                 foreach (var line in ModifiedList)
                 {
-
-
-
                     long selectPatientID = ListboxItemStatusesList[line].PatientID;
                     using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
                     {
@@ -1683,9 +1719,9 @@ namespace WpfApplication1
                                             condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
                                             fileds["AMPME"] = day.Content;
                                             fileds["METHOD"] = StrColorConverter(day.BgColor);
-                                            if(fixbed == true)
+                                            /*if(fixbed == true)
                                                 fileds["BEDID"] = bedid;
-                                            else
+                                            else*/
                                                 fileds["BEDID"] = -1;
                                             scheduleDao.UpdateScheduleTemplate(fileds, condition);
                                         }
@@ -1737,9 +1773,9 @@ namespace WpfApplication1
                                             condition["Date"] = day.dateTime.ToString("yyyy-MM-dd");
                                             fileds["AMPME"] = day.Content;
                                             fileds["METHOD"] = StrColorConverter(day.BgColor);
-                                            if (fixbed == true)
+                                            /*if (fixbed == true)
                                                 fileds["BEDID"] = bedid;
-                                            else
+                                            else*/
                                             {
                                                 fileds["BEDID"] = -1;
                                             }
@@ -1773,13 +1809,22 @@ namespace WpfApplication1
                                         }
                                     }
                                 }
+                                string dt = CheckBed(patientID);
+                                if (dt == null)
+                                {
+                                    ListboxItemStatusesList[line].Bed = "";
+                                }
+                                else
+                                {
+                                    ListboxItemStatusesList[line].Bed = dt;
+                                }
 
-                                if (CheckBed(patientID))
+                                /*if (CheckBed(patientID))
                                     ListboxItemStatusesList[line].Bed = "正常";
                                 else
                                 {
                                     ListboxItemStatusesList[line].Bed = "异常";
-                                }
+                                }*/
                                 break;
                             }
                         }
@@ -2748,19 +2793,41 @@ namespace WpfApplication1
                                                 }
                                             }
                                         }
-                                        if (CheckOrders(patientInfo.PatientId))
+
+                                        /*string order = CheckOrders(patientInfo.PatientId);
+                                        if (order == null)
+                                        {
+                                            status.Checks = "";
+                                        }
+                                        else
+                                        {
+                                            status.Checks = order;
+                                        }*/
+                                        status.Checks = CheckOrders(patientInfo.PatientId);
+                                        /*if (CheckOrders(patientInfo.PatientId))
                                             status.Checks = "正常";
                                         else
                                         {
                                             status.Checks = "异常";
-                                        }
+                                        }*/
 
-                                        if (CheckBed(patientInfo.PatientId))
+                                        //status.Checks = "world";
+                                        string dt = CheckBed(patientInfo.PatientId);
+                                        if (dt == null)
+                                        {
+                                            status.Bed = "";
+                                        }
+                                        else
+                                        {
+                                            status.Bed = dt;
+                                        }
+                                        //status.Bed = "hello";
+                                        /*if (CheckBed(patientInfo.PatientId))
                                             status.Bed = "正常";
                                         else
                                         {
                                             status.Bed = "异常";
-                                        }
+                                        }*/
 
 
                                         List<TreatOrder> TreatOrderList = new List<TreatOrder>();
