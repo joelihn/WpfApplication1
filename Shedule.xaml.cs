@@ -1940,6 +1940,7 @@ namespace WpfApplication1
             }
             else if (weekCount == 0)
             {
+                ButtonEdit.IsEnabled = true;
                 btnNextWeek.IsEnabled = true;
             }
             else if( weekCount == 1)
