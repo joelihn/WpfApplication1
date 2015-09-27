@@ -62,6 +62,7 @@ namespace WpfApplication1.CustomUI
 
         }
 
+
         private void ComboBoxPatientGroup_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -133,6 +134,10 @@ namespace WpfApplication1.CustomUI
                             }
                         }
                     }
+                }
+                if (Datalist.Count > 0)
+                {
+                    this.ListBoxPatient.SelectedIndex = 0;
                 }
 
             }

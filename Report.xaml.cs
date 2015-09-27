@@ -482,7 +482,7 @@ namespace WpfApplication1
                 {
                     Datalist.Clear();
                     var condition = new Dictionary<string, object>();
-                    //condition["DATE"] = DateTime.Now.ToString("yyyy-MM-dd");
+                    condition["DATE"] = DateTime.Now.ToString("yyyy-MM-dd");
                     var list = scheduleTemplateDao.SelectScheduleTemplate(condition);
                     foreach (var type in list)
                     {
