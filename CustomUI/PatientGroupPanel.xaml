@@ -23,33 +23,36 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
                         <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" Margin="0,2">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Rectangle Grid.Column="0" Grid.ColumnSpan="2" Fill="#FF71C7B3" HorizontalAlignment="Stretch" Height="Auto" RadiusY="5" RadiusX="5" Stroke="{x:Null}" VerticalAlignment="Stretch"/>
-                                <Label Grid.Column="0" Visibility="Hidden" Content="{Binding Id}" HorizontalAlignment="Stretch" Width="0" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <Label Content="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsSelected" Value="true">
-                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
-                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
-                            </Trigger>
-                            <MultiTrigger>
-                                <MultiTrigger.Conditions>
-                                    <Condition Property="IsSelected" Value="true"/>
-                                    <Condition Property="Selector.IsSelectionActive" Value="false"/>
-                                </MultiTrigger.Conditions>
-                                <Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightBrushKey}}"/>
-                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}"/>
-                            </MultiTrigger>
-                            <Trigger Property="IsEnabled" Value="false">
-                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
+                    		<VisualStateManager.VisualStateGroups>
+                    			<VisualStateGroup x:Name="SelectionStates">
+                    				<VisualState x:Name="Unselected"/>
+                    				<VisualState x:Name="Selected">
+                    					<Storyboard>
+                    						<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                    							<EasingColorKeyFrame KeyTime="0" Value="#FF5DA1B6"/>
+                    						</ColorAnimationUsingKeyFrames>
+                    					</Storyboard>
+                    				</VisualState>
+                    				<VisualState x:Name="SelectedUnfocused">
+                    					<Storyboard>
+                    						<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+                    							<EasingColorKeyFrame KeyTime="0" Value="#FF5DA1B6"/>
+                    						</ColorAnimationUsingKeyFrames>
+                    					</Storyboard>
+                    				</VisualState>
+                    			</VisualStateGroup>
+                    		</VisualStateManager.VisualStateGroups>
+                    		<Grid x:Name="grid">
+                    			<Grid.ColumnDefinitions>
+                    				<ColumnDefinition Width="0"/>
+                    				<ColumnDefinition/>
+                    			</Grid.ColumnDefinitions>
+                    			<Rectangle x:Name="rectangle" Grid.Column="0" Grid.ColumnSpan="2" Fill="#FF71C7B3" HorizontalAlignment="Stretch" Height="Auto" RadiusY="5" RadiusX="5" Stroke="{x:Null}" VerticalAlignment="Stretch"/>
+                    			<Label Grid.Column="0" Visibility="Hidden" Content="{Binding Id}" HorizontalAlignment="Stretch" Width="0" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    			<Label Content="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
+                    		</Grid>
+                    	</Border>
+                        
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

@@ -1251,12 +1251,19 @@ namespace WpfApplication1
             
             InitTreatOrderList(_PatientID);
             if (TreatOrderList.Count == 0) return "";
+
 /*
             List<string> treats = new List<string>();
             foreach (var treatOrder in TreatOrderList)
             {
                 treats.Add(treatOrder.TreatMethod);
             }*/
+
+            int frequency = 0;
+            int singleWeekFrequency = 0;
+            int doubleWeekFrequency = 0;
+            int singleMonthFrequency = 0;
+
             foreach (var treatOrder in TreatOrderList)
             {
                 //string treat = treatOrder.TreatMethod;
@@ -1274,10 +1281,15 @@ namespace WpfApplication1
                 //{
                 //    ret = false;
                 //}
+                if (treatOrder.Plan == "频次")
+                {
+                    frequency = treatOrder.TreatTimes;
+                    continue;
+                }
 
                 string treat = treatOrder.TreatMethod;
                 string type = treatOrder.Type;
-                int seq = int.Parse(treatOrder.Seq);
+                int seq = treatOrder.TreatTimes;
                 //int times = treatOrder.TreatTimes;
                 int count = 0;
                 if (type == "单周")
@@ -1294,6 +1306,7 @@ namespace WpfApplication1
                     int year = DateTime.Now.Year;
                     int day = DateTime.Now.Day;
                     int dure = DateTime.DaysInMonth(year, month);*/
+                    
                     int dayofweek = (int)DateTime.Now.DayOfWeek - 1;
                     if (dayofweek == -1) dayofweek = 6;
                     DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
@@ -1322,6 +1335,10 @@ namespace WpfApplication1
                         return treat;
                         //return false;
                     }
+                    else
+                    {
+                        singleWeekFrequency = currentSeq + nextSeq;
+                    }
 
                 }
                 else if (type == "单月")
@@ -1348,6 +1365,10 @@ namespace WpfApplication1
                         return treat;
                         //return false;
                     }
+                    else
+                    {
+                        singleMonthFrequency = seq;
+                    }
                 }
                 else//双周
                 {
@@ -1370,9 +1391,22 @@ namespace WpfApplication1
                         return treat;
                         //return false;
                     }
+                    else
+                    {
+                        singleMonthFrequency = seq;
+                    }
                 }
             }
-            return "";
+
+            if (frequency != (singleMonthFrequency + doubleWeekFrequency + singleWeekFrequency))
+            {
+                return "HD";
+            }
+            else
+            {
+                return "";
+            }
+            
 
         }
 
@@ -1818,6 +1852,8 @@ namespace WpfApplication1
                                 {
                                     ListboxItemStatusesList[line].Bed = dt;
                                 }
+
+                                ListboxItemStatusesList[line].Checks = CheckOrders(patientID);
 
                                 /*if (CheckBed(patientID))
                                     ListboxItemStatusesList[line].Bed = "正常";
@@ -2315,16 +2351,20 @@ namespace WpfApplication1
                     ampme = "E";
                 for (int m = 0; m < 2; m++)
                 {
+                    if (m == 1 && IsEditable == false) continue;
                     for (int n = 0; n < 7; n++)
                     {
                         Dictionary<string, int> dictionary = Statistics(ampme, n, m);
                         if (dictionary == null)
                             continue;
                         StackPanel panel = new StackPanel();
+                        int DoublePump = 0;
+                        int SinglePump = 0;
+                        StackPanel panel1 = new StackPanel();
+                        panel1.Orientation = Orientation.Vertical;
                         foreach (var v in dictionary)
                         {
-                            StackPanel panel1 = new StackPanel();
-                            panel1.Orientation = Orientation.Horizontal;
+                            
                             
                             /*Rectangle rect = new Rectangle();
                             rect.Width = rect.Height = 15;
@@ -2340,7 +2380,30 @@ namespace WpfApplication1
 
                             Brush brush = (SolidColorBrush)new BrushConverter().ConvertFromString(v.Key);
                             string mathod = StrColorConverter(brush);
-                            Label label = new Label();
+
+
+                            using (var methodDao = new TreatMethodDao())
+                            {
+                                
+                                var condition = new Dictionary<string, object>();
+                                condition["NAME"] = mathod;
+                                var list = methodDao.SelectTreatMethod(condition);
+                                if (list.Count == 1)
+                                {
+                                    if (list[0].DoublePump == true)
+                                    {
+                                        DoublePump++;
+                                    }
+                                    if (list[0].SinglePump == true)
+                                    {
+                                        SinglePump++;
+                                    }
+
+                                }
+                            }
+
+
+                            /*Label label = new Label();
                             label.HorizontalContentAlignment = HorizontalAlignment.Center;
                             label.VerticalContentAlignment = VerticalAlignment.Center;
                             label.Content = mathod + "/" + v.Value;
@@ -2348,9 +2411,24 @@ namespace WpfApplication1
                             //panel1.Children.Add(rect);
                             panel1.Children.Add(label);
 
-                            panel.Children.Add(panel1);
+                            panel.Children.Add(panel1);*/
 
                         }
+                        Label slabel = new Label();
+                        slabel.HorizontalContentAlignment = HorizontalAlignment.Center;
+                        slabel.VerticalContentAlignment = VerticalAlignment.Center;
+                        slabel.Content = "单泵" + SinglePump;
+                        panel1.Children.Add(slabel);
+
+                        Label dlabel = new Label();
+                        dlabel.HorizontalContentAlignment = HorizontalAlignment.Center;
+                        dlabel.VerticalContentAlignment = VerticalAlignment.Center;
+                        dlabel.Content = "双泵" + DoublePump;
+                        panel1.Children.Add(dlabel);
+
+
+                        panel.Children.Add(panel1);
+
 
                         StatisticsGrid.Children.Add(panel);
 
@@ -2673,6 +2751,7 @@ namespace WpfApplication1
             }
             IsEditable = true;
             ListBox1.Items.Refresh();
+            RefreshStatistics();
             ButtonCancel.IsEnabled = true;
             ButtonApply.IsEnabled = true;
             ButtonEdit.IsEnabled = false;
@@ -2687,6 +2766,7 @@ namespace WpfApplication1
             }
             IsEditable = false;
             ListBox1.Items.Refresh();
+            RefreshStatistics();
             ButtonCancel.IsEnabled = false;
             ButtonApply.IsEnabled = false;
             ButtonEdit.IsEnabled = true;
@@ -2701,6 +2781,7 @@ namespace WpfApplication1
             IsEditable = false;
             UpdatePatientSchedule();
             ListBox1.Items.Refresh();
+            RefreshStatistics();
             ModifiedList.Clear();
             ButtonCancel.IsEnabled = false;
             ButtonApply.IsEnabled = false;

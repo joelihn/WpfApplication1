@@ -1200,6 +1200,10 @@ namespace WpfApplication1
                                         {
                                             patientInfo.InfectionType = arealist[0].Name;
                                         }
+                                        else
+                                        {
+                                            patientInfo.InfectionType = "阴性";
+                                        }
                                     }
 
                                     if (patient.BedId == -1)
