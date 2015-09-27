@@ -674,6 +674,8 @@ namespace WpfApplication1
         
         private void ButtonBase_OnClick(object sender, MouseButtonEventArgs e)
         {
+
+
             if (IsEditable == false) return;
             DateTime dtTime1 = DateTime.Now;
             Button btn = (Button) sender;
@@ -1250,7 +1252,7 @@ namespace WpfApplication1
             PatientSchedule schedule = GetPatientSchedule(_PatientID);
             
             InitTreatOrderList(_PatientID);
-            if (TreatOrderList.Count == 0) return "";
+            if (TreatOrderList.Count == 0) return "正常";
 
 /*
             List<string> treats = new List<string>();
@@ -1404,7 +1406,7 @@ namespace WpfApplication1
             }
             else
             {
-                return "";
+                return "正常";
             }
             
 
@@ -1415,7 +1417,6 @@ namespace WpfApplication1
         {
             try
             {
-                bool ret = true;
                 int dayofweek = (int)DateTime.Now.DayOfWeek - 1;
                 if (dayofweek == -1) dayofweek = 6;
                 DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
@@ -1426,6 +1427,8 @@ namespace WpfApplication1
                     Dictionary<string, object> condition = new Dictionary<string, object>();
                     condition["PatientId"] = _patientID.ToString();
                     var list = scheduleDao.SelectScheduleTemplate(condition);
+                    DateTime ret = new DateTime();
+                    int n = 0;
                     foreach (ScheduleTemplate type in list)
                     {
                         DateTime dt = DateTime.Parse(type.Date);
@@ -1435,14 +1438,28 @@ namespace WpfApplication1
                             //if(type.PatientId == 16)
                             if (type.BedId == -1)
                             {
-                                //ret = false;
-                                //break;
-                                return dt.ToString("MM-dd");
+                                if (n == 0)
+                                    ret = dt;
+                                else
+                                {
+                                    if (DateTime.Compare(dt.Date, ret.Date) <= 0)
+                                    {
+                                        ret = dt;
+                                    }
+                                    
+                                }
+                                n++;
+                                //ret = dt;
+                                //return dt.ToString("MM-dd");
                             }
                                 
                         }
 
                     }
+                    if (n == 0)
+                        return "正常";
+                    else
+                        return ret.ToString("MM-dd");
                 }
                 return null;
             }
@@ -2759,6 +2776,14 @@ namespace WpfApplication1
 
         private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
         {
+
+            var messageBox2 = new RemindMessageBox2();
+            messageBox2.textBlock1.Text = "退出不会保存当前更改，是否退出！";
+            messageBox2.ShowDialog();
+            if (messageBox2.remindflag != 1)
+            {
+                return;
+            }
             foreach (var v in ListboxItemStatusesList)
             {
                 v.NextWeekVisible = Visibility.Hidden;
@@ -2991,7 +3016,7 @@ namespace WpfApplication1
                                                 str += "/";
                                                 str += treatOrder.Type;
                                                 str += "/";
-                                                str += treatOrder.Seq;
+                                                str += treatOrder.TreatTimes;
                                                 str += "/";
                                                 str += treatOrder.Description;
                                                 str += "\n";

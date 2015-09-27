@@ -229,14 +229,14 @@ namespace WpfApplication1
                 case 0:
                     this.RightContentA.Visibility = Visibility.Hidden;
                     this.RightContentR.Content = initContent;
-                    patientGroupPanel.reLoaded();
+                    //patientGroupPanel.reLoaded();
                     this.RightContentL.Content = patientGroupPanel;
 
                     break;
                 case 1:
                     this.RightContentA.Visibility = Visibility.Hidden;
                     this.RightContentR.Content = orderContent;
-                    patientGroupPanel.reLoaded();
+                    //patientGroupPanel.reLoaded();
                     this.RightContentL.Content = patientGroupPanel;
                     break;
                 case 2:
@@ -245,6 +245,8 @@ namespace WpfApplication1
 
                     this.RightContentA.Visibility = Visibility.Visible;
                     this.RightContentA.Content = sheduleContent;
+                    sheduleContent.PatientGroupComboBox.SelectedValue =
+                        patientGroupPanel.ComboBoxPatientGroup.SelectedValue;
                     /*this.RightContentL.Visibility = Visibility.Hidden;
                     this.RightContentR.Visibility = Visibility.Hidden;*/
 
