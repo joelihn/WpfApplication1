@@ -108,7 +108,7 @@
                 <RowDefinition/>
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
-            <Label Content="治疗方法" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Top" Height="50" Margin="0,0,0,0"/>
+            <Label Content="治疗班次" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Top" Height="50" Margin="0,0,0,0"/>
             <Label Content="是否启用" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Top" Height="50" Margin="0,0,0,0"/>
             <Label Content="开始时间" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Top" Height="50" Margin="0,0,0,0"/>
             <Label Content="结束时间" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Top" Height="50" Margin="0,0,0,0"/>

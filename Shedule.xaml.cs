@@ -75,6 +75,7 @@ namespace WpfApplication1
             this.SexComboBox.Items.Add("女");
             SexComboBox.SelectedIndex = 0;
             ModifiedList = new List<int>();
+            LoadTreatTimes();
         }
 
         private void InquireButton_Click(object sender, RoutedEventArgs e)
@@ -806,9 +807,52 @@ namespace WpfApplication1
 
         }
 
+        //private List<string> TreatTimeList = new List<string>();
+        private int[] treateTimeiInts = new int[4];
+        private void LoadTreatTimes()
+        {
+            try
+            {
+                treateTimeiInts[0] = 0;
+                treateTimeiInts[1] = 0;
+                treateTimeiInts[2] = 0;
+                treateTimeiInts[3] = 1;
+                using (var treatTimeDao = new TreatTimeDao())
+                {
+                    //TreatTimeList.Clear();
+                    var condition = new Dictionary<string, object>();
+                    condition["Activated"] = true;
+                    var list = treatTimeDao.SelectTreatTime(condition);
+                    foreach (var type in list)
+                    {
+                        var treatTimeData = new TreatTimeData();
+                        treatTimeData.Id = type.Id;
+                        treatTimeData.Name = type.Name;
+                        treatTimeData.Activated = type.Activated;
+                        treatTimeData.BeginTime = type.BeginTime;
+                        treatTimeData.EndTime = type.EndTime;
+                        treatTimeData.Description = type.Description;
+
+                        if (type.Name == "AM")
+                            treateTimeiInts[0] = 1;
+                        else if (type.Name == "PM")
+                            treateTimeiInts[1] = 1;
+                        else if (type.Name == "Evening")
+                            treateTimeiInts[2] = 1;
+
+                        //TreatTimeList.Add(type.Name);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In CTreatTime.xaml.cs:ListViewCTreatTime_OnLoaded exception messsage: " + ex.Message);
+            }
+        }
+
         private string GetNextTime(string time)
         {
-            string ret = "";
+            /*string ret = "";
             switch (time)
             {
                 case "AM":
@@ -829,7 +873,55 @@ namespace WpfApplication1
                     
             }
 
-            return ret;
+            return ret;*/
+            int flag = 0;
+            switch (time)
+            {
+                case "AM":
+                    flag = 0;
+                    break;
+                case "PM":
+                    flag = 1;
+                    break;
+                case "E":
+                    flag = 2;
+                    break;
+                case "":
+                    flag = 3;
+                    break;
+
+            }
+            flag += 1;
+            if (flag == 4) flag = 0;
+            int retInt = -1;
+            for (int n = flag; n < 4; n++)
+            {
+                if (treateTimeiInts[n] == 1)
+                {
+                    retInt = n;
+                    break;
+                }
+            }
+            if (retInt == -1)
+            {
+                for (int n = 0; n < flag; n++)
+                {
+                    if (treateTimeiInts[n] == 1)
+                    {
+                        retInt = n;
+                    }
+                }
+            }
+
+            if (retInt == 0)
+                return "AM";
+            else if (retInt == 1)
+                return "PM";
+            else if (retInt == 2)
+                return "E";
+            else
+                return "";
+
         }
         private bool ChangeButtonStauts(int index, string tag, MouseButton mouseButton )
         {
@@ -1509,6 +1601,7 @@ namespace WpfApplication1
 
             ListBox1.SelectedIndex = -1;
             InitPatientGroupComboBox();
+            LoadTreatTimes();
             //CopySchedule();
             //return;
             /*

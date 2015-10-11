@@ -43,6 +43,8 @@ namespace WpfApplication1
         {
             InitializeComponent();
             Basewindow = window;
+            /*RadioButton1.IsChecked = true;
+            RadioButton4.IsChecked = true;*/
         }
 
         private void Init_OnLoaded(object sender, RoutedEventArgs e)
@@ -74,8 +76,10 @@ namespace WpfApplication1
                 using (var treatStatusDao = new TreatStatusDao())
                 {
                     var condition = new Dictionary<string, object>();
+                    
                     var list = treatStatusDao.SelectTreatStatus(condition);
                     StatusComboBox.Items.Clear();
+                    StatusComboBox.Items.Add("在治");
                     foreach (var type in list)
                     {
                         StatusComboBox.Items.Add(type.Name);
@@ -113,82 +117,224 @@ namespace WpfApplication1
             MarriageComboBox.SelectedIndex = 0;
         }
 
+        private bool isNewAdded = false;
         private void ButtonNew_OnClick(object sender, RoutedEventArgs e)
         {
-            //SignUP signUpDlg = new SignUP();
-            //signUpDlg.ShowDialog();
-            //if (signUpDlg.result == DialogResult.OK)
-            //{
-            //    using (PatientDao patientDao = new PatientDao())
-            //    {
-            //        Patient patient = new Patient();
-            //        patient.Name = signUpDlg.name;
-            //        patient.Gender = signUpDlg.sex;
-            //        patient.Dob = signUpDlg.birthday;
-            //        patient.InfectTypeId = signUpDlg.infectionTypeId;
-            //        patient.TreatStatusId = signUpDlg.treatmentStatus;
-            //        patient.IsFixedBed = signUpDlg.isFixBed;
-            //        patient.PatientId = signUpDlg.uid;
-            //        patient.AreaId = signUpDlg.areaId;
+            SignUP signUpDlg = new SignUP();
+            signUpDlg.ShowDialog();
+            if (signUpDlg.result == DialogResult.OK)
+            {
+                isNewAdded = true;
+                NameTextBox.Text = signUpDlg.name;
+                if (signUpDlg.sex == "男")
+                {
+                    RadioButton1.IsChecked = true;
+                }
+                else
+                {
+                    RadioButton2.IsChecked = true;
+                }
+                DatePicker1.Text = signUpDlg.birthday;
+                if (signUpDlg.infectionTypeId == 0)
+                {
+                    RadioButton5.IsChecked = true;
+                }
+                else
+                {
+                    RadioButton6.IsChecked = true;
+                    InfectTypeComboBox.SelectedValue = signUpDlg.infectionName;
+                }
+                StatusComboBox.SelectedValue = signUpDlg.treatmentStausName;
+                if (signUpDlg.isFixBed == true)
+                {
+                    RadioButton3.IsChecked = true;
+                }
+                else
+                {
+                    RadioButton4.IsChecked = true;
+                }
+                PatientIDTextBox.Text = signUpDlg.uid;
+                AreaComboBox.SelectedValue = signUpDlg.areaName;
 
-            //        int lastInsertId = -1;
-            //        patientDao.InsertPatient(patient, ref lastInsertId);
+                /*using (PatientDao patientDao = new PatientDao())
+                {
+                    Patient patient = new Patient();
+                    patient.Name = signUpDlg.name;
+                    patient.Gender = signUpDlg.sex;
+                    patient.Dob = signUpDlg.birthday;
+                    patient.InfectTypeId = signUpDlg.infectionTypeId;
+                    patient.TreatStatusId = signUpDlg.treatmentStatus;
+                    patient.IsFixedBed = signUpDlg.isFixBed;
+                    patient.PatientId = signUpDlg.uid;
+                    patient.AreaId = signUpDlg.areaId;
 
-            //        this.IDTextBox.Text = lastInsertId.ToString();
-            //        this.NameTextBox.Text = patient.Name;
-            //        if (patient.Gender.Equals("男"))
-            //        {
-            //            this.RadioButton1.IsChecked = true;
-            //        }else if (patient.Gender.Equals("女"))
-            //        {
-            //            this.RadioButton2.IsChecked = true;
-            //        }
-            //        this.DatePicker1.Text = DateTime.Parse(patient.Dob).ToString();
+                    int lastInsertId = -1;
+                    patientDao.InsertPatient(patient, ref lastInsertId);
 
-            //        using (InfectTypeDao infectTypeDao = new InfectTypeDao())
-            //        {
-            //            var condition = new Dictionary<string, object>();
-            //            condition["ID"] = patient.InfectTypeId;
-            //            var list = infectTypeDao.SelectInfectType(condition);
-            //            if (list != null) this.InfectTypeComboBox.Text = list[0].Name;
-            //        }
+                    this.IDTextBox.Text = lastInsertId.ToString();
+                    this.NameTextBox.Text = patient.Name;
+                    if (patient.Gender.Equals("男"))
+                    {
+                        this.RadioButton1.IsChecked = true;
+                    }
+                    else if (patient.Gender.Equals("女"))
+                    {
+                        this.RadioButton2.IsChecked = true;
+                    }
+                    this.DatePicker1.Text = DateTime.Parse(patient.Dob).ToString();
 
-            //        using (TreatStatusDao treatStatusDao = new TreatStatusDao())
-            //        {
-            //            var condition = new Dictionary<string, object>();
-            //            condition["ID"] = patient.InfectTypeId;
-            //            var list = treatStatusDao.SelectTreatStatus(condition);
-            //            if (list != null) this.StatusComboBox.Text = list[0].Name;
-            //        }
+                    using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                    {
+                        var condition = new Dictionary<string, object>();
+                        condition["ID"] = patient.InfectTypeId;
+                        var list = infectTypeDao.SelectInfectType(condition);
+                        if (list != null) this.InfectTypeComboBox.Text = list[0].Name;
+                    }
 
-            //        PatientIDTextBox.Text = patient.PatientId;
-            //        if (patient.IsFixedBed)
-            //        {
-            //            this.RadioButton3.IsChecked = true;
-            //        }
-            //        else
-            //        {
-            //            this.RadioButton4.IsChecked = true;
-            //        }
+                    using (TreatStatusDao treatStatusDao = new TreatStatusDao())
+                    {
+                        var condition = new Dictionary<string, object>();
+                        condition["ID"] = patient.InfectTypeId;
+                        var list = treatStatusDao.SelectTreatStatus(condition);
+                        if (list != null) this.StatusComboBox.Text = list[0].Name;
+                    }
 
-            //        using (PatientAreaDao patientAreaDao = new PatientAreaDao())
-            //        {
-            //            var condition = new Dictionary<string, object>();
-            //            condition["ID"] = patient.InfectTypeId;
-            //            var list = patientAreaDao.SelectPatientArea(condition);
-            //            if (list != null) this.AreaComboBox.Text = list[0].Name;
-            //        }
-            //    }
-            //}
-            //this.ButtonNew.IsEnabled = true;
-            //this.ButtonDelete.IsEnabled = true;
-            //this.ButtonApply.IsEnabled = false;
-            //this.ButtonCancel.IsEnabled = false;
+                    PatientIDTextBox.Text = patient.PatientId;
+                    if (patient.IsFixedBed)
+                    {
+                        this.RadioButton3.IsChecked = true;
+                    }
+                    else
+                    {
+                        this.RadioButton4.IsChecked = true;
+                    }
+
+                    using (PatientAreaDao patientAreaDao = new PatientAreaDao())
+                    {
+                        var condition = new Dictionary<string, object>();
+                        condition["ID"] = patient.InfectTypeId;
+                        var list = patientAreaDao.SelectPatientArea(condition);
+                        if (list != null) this.AreaComboBox.Text = list[0].Name;
+                    }
+                }*/
+                this.ButtonDelete.IsEnabled = false;
+                this.ButtonApply.IsEnabled = true;
+                this.ButtonCancel.IsEnabled = true;
+            }
+            else
+            {
+                isNewAdded = false;
+                this.ButtonNew.IsEnabled = true;
+                this.ButtonDelete.IsEnabled = true;
+                this.ButtonApply.IsEnabled = false;
+                this.ButtonCancel.IsEnabled = false;
+                
+            }
+            
         }
+
+        private void AddNewPatient()
+        {
+            using (PatientDao patientDao = new PatientDao())
+            {
+                Patient patient = new Patient();
+
+                patient.Name = NameTextBox.Text;
+
+                if ((bool)RadioButton1.IsChecked)
+                    patient.Gender = "男";
+                else if ((bool)RadioButton2.IsChecked)
+                    patient.Gender = "女";
+
+                patient.Dob = DatePicker1.Text;
+                patient.Nationality= NationalityTextBox.Text;
+                patient.Marriage  = MarriageComboBox.Text;
+                patient.Height  = HeightTextBox.Text;
+                patient.BloodType  = BloodTypeTextBox.Text;
+
+
+                if ((bool)RadioButton5.IsChecked)
+                {
+                    patient.InfectTypeId = 0;
+                }
+                else if ((bool)RadioButton6.IsChecked)
+                {
+
+                    using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                    {
+                        var condition1 = new Dictionary<string, object>();
+                        condition1["NAME"] = InfectTypeComboBox.Text;
+                        var list1 = infectTypeDao.SelectInfectType(condition1);
+                        if ((list1 != null) && (list1.Count > 0))
+                        {
+                            patient.InfectTypeId = list1[0].Id;
+                        }
+                    }
+                }
+
+                using (TreatStatusDao treatStatusDao = new TreatStatusDao())
+                {
+                    var condition1 = new Dictionary<string, object>();
+                    condition1["NAME"] = StatusComboBox.Text;
+                    var list1 = treatStatusDao.SelectTreatStatus(condition1);
+                    if ((list1 != null) && (list1.Count > 0))
+                    {
+                        patient.TreatStatusId  = list1[0].Id;
+                    }
+                }
+
+                if ((bool)RadioButton3.IsChecked)
+                    patient.IsFixedBed = true;
+                else if ((bool)RadioButton4.IsChecked)
+                    patient.IsFixedBed = false;
+
+                using (PatientAreaDao patientAreaDao = new PatientAreaDao())
+                {
+                    var condition1 = new Dictionary<string, object>();
+                    condition1["NAME"] = AreaComboBox.Text;
+                    var list1 = patientAreaDao.SelectPatientArea(condition1);
+                    if ((list1 != null) && (list1.Count > 0))
+                    {
+                        patient.AreaId = list1[0].Id;
+                    }
+                }
+                patient.PatientId = PatientIDTextBox.Text;
+                patient.Mobile = MobileTextBox.Text;
+                patient.WeiXinHao = WeixinhaoTextBox.Text;
+                patient.Payment = PaymentTextBox.Text;
+                int lastInsertId = -1;
+                patientDao.InsertPatient(patient, ref lastInsertId);
+             
+            }
+        }
+
+        private bool CheckInfo()
+        {
+            if (
+                MobileTextBox.Text == ""
+                )
+                return false;
+            else return true;
+        }
+
 
         private void ButtonApply_OnClick(object sender, RoutedEventArgs e)
         {
+            if (CheckInfo() == false)
+            {
+                System.Windows.Forms.MessageBox.Show("请完善信息，*必填!");
+                return;
+            }
+
+            if (isNewAdded == true)
+            {
+                AddNewPatient();
+                isNewAdded = false;
+                return;
+            }
             if(Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex==-1) return;
+
+            
 
             this.ButtonNew.IsEnabled = true;
             this.ButtonDelete.IsEnabled = true;

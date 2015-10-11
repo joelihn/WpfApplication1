@@ -263,6 +263,16 @@ namespace WpfApplication1.CustomUI
         {
             this.ButtonApply.IsEnabled = true;
             this.ButtonCancel.IsEnabled = true;
+            if (RadioButton1.IsChecked == true)
+            {
+                NameTextBox.IsEnabled = true;
+                DescriptionTextBox.IsEnabled = true;
+            }
+            if (RadioButton2.IsChecked == true)
+            {
+                NameTextBox.IsEnabled = false;
+                DescriptionTextBox.IsEnabled = false;
+            }
 
         }
 

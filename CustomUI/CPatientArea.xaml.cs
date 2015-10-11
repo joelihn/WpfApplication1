@@ -34,6 +34,8 @@ namespace WpfApplication1.CustomUI
             InitializeComponent();
 
             this.ListViewPatientArea.ItemsSource = Datalist;
+            this.ButtonApply.IsEnabled = false;
+            this.ButtonCancel.IsEnabled = false;
            
         }
 
@@ -398,6 +400,7 @@ namespace WpfApplication1.CustomUI
                 isNew = false;
             }
             this.ButtonApply.IsEnabled = false;
+            this.ButtonCancel.IsEnabled = false;
 
         }
 
@@ -430,6 +433,8 @@ namespace WpfApplication1.CustomUI
         
         private void RadioButton2_OnChecked(object sender, RoutedEventArgs e)
         {
+            int n = this.ListViewPatientArea.SelectedIndex;
+            if (n == -1) return;
             if ((bool) RadioButton2.IsChecked)
             {
                 this.InfectionComboBox.IsEnabled = true;
@@ -441,12 +446,17 @@ namespace WpfApplication1.CustomUI
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
+            int n = this.ListViewPatientArea.SelectedIndex;
+            if (n == -1) return;
             this.ButtonApply.IsEnabled = true;
             this.ButtonCancel.IsEnabled = true;
         }
 
         private void RadioButton1_OnChecked(object sender, RoutedEventArgs e)
         {
+            if (ListViewPatientArea == null) return;
+            int n = this.ListViewPatientArea.SelectedIndex;
+            if (n == -1) return;
             this.ButtonApply.IsEnabled = true;
             this.ButtonCancel.IsEnabled = true;
 

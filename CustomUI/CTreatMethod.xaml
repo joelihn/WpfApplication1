@@ -115,13 +115,13 @@
                 <RowDefinition/>
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
-            <Label Content="方法名称" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Top" Height="50" Margin="0,0,0,0"/>
+            <Label Content="方法名称" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Top" Height="50" Margin="0,0,0,0" HorizontalAlignment="Left" Grid.RowSpan="2" Width="150"/>
             <Label Content="是否启用" Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
             <Label Content="颜    色" Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
             <Label Content="适用机型" Grid.Row="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
             <Label Content="方法描述" Grid.Row="4" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
             <TextBox IsEnabled="False" TextChanged="OnTextChanged" Name="NameTextBox" FontSize="14" Grid.Column="1" Height="50" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Margin="0,0"/>
-            <RadioButton Checked="RadioButton1_OnChecked"  Name="RadioButton1" FontSize="14" Content="启用" IsChecked="True" Grid.Column="1" HorizontalAlignment="Left" Margin="10,17,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+            <RadioButton Checked="RadioButton1_OnChecked"  Name="RadioButton1" FontSize="14" Content="启用"  Grid.Column="1" HorizontalAlignment="Left" Margin="10,17,0,0" Grid.Row="1" VerticalAlignment="Top"/>
             <RadioButton Checked="RadioButton1_OnChecked" Name="RadioButton2"  Grid.Column="1" Content="停用" HorizontalAlignment="Left" Margin="112,22,0,0" Grid.Row="1" VerticalAlignment="Top" RenderTransformOrigin="0.75,2.794"/>
             <Rectangle DataContextChanged="Buttonrectangle_OnDataContextChanged" Grid.Column="1" Grid.Row="2" Name="Buttonrectangle" Width="850" Margin="0,0,0,0" HorizontalAlignment="Left" Fill="#FF8686C1" MouseLeftButtonDown="Button4rectangle_MouseLeftButtonDown" Stroke="Black" />
             <TextBox  TextChanged="OnTextChanged"  Name="DescriptionTextBox"   FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="4" TextWrapping="Wrap" Text="" Margin="0,0"/>

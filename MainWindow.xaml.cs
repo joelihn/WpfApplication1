@@ -160,11 +160,11 @@ namespace WpfApplication1
             configContent = new Config(this);
             reeportContent = new Report(this);
 
-            initContent.ButtonNew.Click += delegate
+            /*initContent.ButtonNew.Click += delegate
             {
                 var a = new SignUP(this);
                 a.ShowDialog();
-            };
+            };*/
 
            /* if (ConstDefinition.Runlevel == 1)
                 this.ConfigButton.IsEnabled = true;

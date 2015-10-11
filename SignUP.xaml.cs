@@ -27,23 +27,27 @@ namespace WpfApplication1
         public string sex;
         public string birthday;
         public Int64 infectionTypeId;
+        public string infectionName;
         public Int64 treatmentStatus;
+        public string treatmentStausName;
         public bool isFixBed;
         public string uid;
         public Int64 areaId;
-        //public DialogResult result;
+        public string areaName;
+        public DialogResult result;
 
         public MainWindow Basewindow;
 
-        public SignUP(MainWindow mainWindow)
+        public SignUP()
         {
             InitializeComponent();
-            Basewindow = mainWindow;
+            //Basewindow = mainWindow;
+            tbUid.Text = System.Guid.NewGuid().ToString();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            //result = System.Windows.Forms.DialogResult.Cancel;
+            result = System.Windows.Forms.DialogResult.Cancel;
             this.Close();
         }
 
@@ -79,6 +83,7 @@ namespace WpfApplication1
                 {
                     var condition = new Dictionary<string, object>();
                     condition["Name"] = InfectTypeComboBox.Text;
+                    infectionName = InfectTypeComboBox.Text;
                     var list = infectTypeDao.SelectInfectType(condition);
                     if (list != null) infectionTypeId = list[0].Id;
                 }
@@ -87,6 +92,7 @@ namespace WpfApplication1
             if ((bool)this.rbTreatStatus1.IsChecked)
             {
                 treatmentStatus = 0;
+                treatmentStausName = "在治";
             }
             else if ((bool)this.rbTreatStatus2.IsChecked)
             {
@@ -94,6 +100,7 @@ namespace WpfApplication1
                 {
                     var condition = new Dictionary<string, object>();
                     condition["Name"] = StatusComboBox.Text;
+                    treatmentStausName = StatusComboBox.Text;
                     var list = treatStatusDao.SelectTreatStatus(condition);
                     if (list != null) treatmentStatus = list[0].Id;
                 }
@@ -114,13 +121,14 @@ namespace WpfApplication1
             {
                 var condition = new Dictionary<string, object>();
                 condition["Name"] = AreaComboBox.Text;
+                areaName = AreaComboBox.Text;
                 var list = patientAreaDao.SelectPatientArea(condition);
                 if (list != null) areaId = list[0].Id;
             }
 
-            //result = System.Windows.Forms.DialogResult.OK;
-
-            using (PatientDao patientDao = new PatientDao())
+            result = System.Windows.Forms.DialogResult.OK;
+            this.Close();
+            /*using (PatientDao patientDao = new PatientDao())
             {
                 Patient patient = new Patient();
                 patient.Name = name;
@@ -193,7 +201,7 @@ namespace WpfApplication1
             Basewindow.initContent.ButtonApply.IsEnabled = false;
             Basewindow.initContent.ButtonCancel.IsEnabled = false;
 
-            this.Close();
+            this.Close();*/
         }
 
         private void InitMedicalOrderData(int patientId)
@@ -323,7 +331,9 @@ namespace WpfApplication1
                 using (var treatStatusDao = new TreatStatusDao())
                 {
                     var condition = new Dictionary<string, object>();
+                    condition["Activated"] = true;
                     var list = treatStatusDao.SelectTreatStatus(condition);
+
                     StatusComboBox.Items.Clear();
                     foreach (var type in list)
                     {

@@ -53,15 +53,15 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition Width="0"/>
         						</Grid.ColumnDefinitions>
-                                <CheckBox IsChecked="{Binding Activated}" Checked="ToggleButton_OnChecked" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
-        						<Label Content="{Binding Seq}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <CheckBox x:Name="checkBox" IsChecked="{Binding Activated}" Checked="ToggleButton_OnChecked" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+        						<Label x:Name="label" Content="{Binding Seq}" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         						<Label Content="{Binding Plan}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                                 <Label Content="{Binding TreatMethod}" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <ComboBox SelectionChanged="Selector_OnSelectionChanged" Initialized="CbOrderPara_Initialized" Name="CbTreatMathod" SelectedValue="{Binding Type}" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                <ComboBox SelectionChanged="Selector_OnSelectionChanged" Initialized="CbOrderPara_Initialized" Name="CbTreatMathod" SelectedValue="{Binding Type}" Grid.Column="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEnabled="{Binding IsChecked, ElementName=checkBox}">
                                     
                                 </ComboBox>
-                                <TextBox MaxLength="2" KeyDown="UIElement_OnKeyDown" TextChanged="TreatTimeTextBoxBase_OnTextChanged"  Text="{Binding TreatTimes}" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <TextBox TextChanged="TextBoxBase_OnTextChanged" Text="{Binding Description}" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <TextBox MaxLength="2" KeyDown="UIElement_OnKeyDown" TextChanged="TreatTimeTextBoxBase_OnTextChanged"  Text="{Binding TreatTimes}" Grid.Column="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEnabled="{Binding IsChecked, ElementName=checkBox}"/>
+                                <TextBox TextChanged="TextBoxBase_OnTextChanged" Text="{Binding Description}" Grid.Column="6" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEnabled="{Binding IsChecked, ElementName=checkBox}"/>
                                 <Label Visibility="Hidden" Content="{Binding Id}" Grid.Column="7" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         					</Grid>
         				</Border>

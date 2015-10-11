@@ -9,12 +9,15 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApplication1.DAOModule;
+using Label = System.Windows.Controls.Label;
+using UserControl = System.Windows.Controls.UserControl;
 
 namespace WpfApplication1.CustomUI
 {
@@ -178,6 +181,18 @@ namespace WpfApplication1.CustomUI
 
             this.ButtonApply.IsEnabled = true;
             this.ButtonCancel.IsEnabled = true;
+            if (RadioButton1.IsChecked == true)
+            {
+                BeginTextBox.IsEnabled = true;
+                EndTextBox.IsEnabled = true;
+                DescriptionTextBox.IsEnabled = true;
+            }
+            if (RadioButton2.IsChecked == true)
+            {
+                BeginTextBox.IsEnabled = false;
+                EndTextBox.IsEnabled = false;
+                DescriptionTextBox.IsEnabled = false;
+            }
         }
 
           public int[] Paixiflag = new int[11] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };

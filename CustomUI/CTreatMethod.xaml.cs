@@ -34,6 +34,7 @@ namespace WpfApplication1.CustomUI
         {
             InitializeComponent();
             this.ListViewTreatMethod.ItemsSource = Datalist;
+            RadioButton1.IsChecked = true;
         }
 
         private void OnTextChanged(object sender, TextChangedEventArgs e)
@@ -53,6 +54,18 @@ namespace WpfApplication1.CustomUI
         {
             this.ButtonApply.IsEnabled = true;
             this.ButtonCancel.IsEnabled = true;
+            if (RadioButton2.IsChecked == true)
+            {
+                Buttonrectangle.IsEnabled = false;
+                CheckBox1.IsEnabled = false;
+                CheckBox2.IsEnabled = false;
+            }
+            if (RadioButton1.IsChecked == true)
+            {
+                Buttonrectangle.IsEnabled = true;
+                CheckBox1.IsEnabled = true;
+                CheckBox2.IsEnabled = true;
+            }
 
         }
 

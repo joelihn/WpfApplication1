@@ -133,6 +133,6 @@
             <Label Content="病区描述" Grid.Column="3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" MouseDown="Label_MouseDown" Tag="3"/>
 
         </Grid>
-        <ListBox SelectionChanged="ListViewCPatientArea_OnSelectionChanged" Loaded="ListViewCPatientArea_OnLoaded" FontSize="14" Name="ListViewPatientArea" HorizontalAlignment="Left" Grid.Row="3" Width="1000" ItemContainerStyle="{DynamicResource PaitientAreaListboxItemStyle}"/>
+        <ListBox SelectionChanged="ListViewCPatientArea_OnSelectionChanged" Loaded="ListViewCPatientArea_OnLoaded" FontSize="14" x:Name="ListViewPatientArea" HorizontalAlignment="Left" Grid.Row="3" Width="1000" ItemContainerStyle="{DynamicResource PaitientAreaListboxItemStyle}"/>
     </Grid>
 </UserControl>
