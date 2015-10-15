@@ -59,7 +59,7 @@ namespace WpfApplication1
         {
             var reportCrash = new ReportCrash
             {
-                ToEmail = "suport@test.com"
+                ToEmail = "lijun.zhou@outlook.com"
             };
 
             reportCrash.Send(exception);

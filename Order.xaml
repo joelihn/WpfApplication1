@@ -145,7 +145,7 @@
 				<Label Content="固定床位*" Grid.Row="10" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
 				<Label Content="唯一识别码" Grid.Row="11" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
 				<Label Content="所属分区*" Grid.Row="12" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-				<Label Content="联系电话*" Grid.Row="13" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+				<Label Content="联系电话" Grid.Row="13" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
                 <Label Content="微信号" Grid.Row="14" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
 				<Label Content="付款方式" Grid.Row="15" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
 				<!--<Label Content="备注" Grid.Row="16" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>-->

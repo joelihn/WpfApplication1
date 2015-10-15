@@ -38,10 +38,10 @@ namespace WpfApplication1
 
         public MainWindow Basewindow;
 
-        public SignUP()
+        public SignUP(MainWindow mainWindow)
         {
             InitializeComponent();
-            //Basewindow = mainWindow;
+            Basewindow = mainWindow;
             tbUid.Text = System.Guid.NewGuid().ToString();
         }
 
@@ -127,8 +127,8 @@ namespace WpfApplication1
             }
 
             result = System.Windows.Forms.DialogResult.OK;
-            this.Close();
-            /*using (PatientDao patientDao = new PatientDao())
+
+            using (PatientDao patientDao = new PatientDao())
             {
                 Patient patient = new Patient();
                 patient.Name = name;
@@ -201,7 +201,7 @@ namespace WpfApplication1
             Basewindow.initContent.ButtonApply.IsEnabled = false;
             Basewindow.initContent.ButtonCancel.IsEnabled = false;
 
-            this.Close();*/
+            this.Close();
         }
 
         private void InitMedicalOrderData(int patientId)

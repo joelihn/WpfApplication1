@@ -178,7 +178,7 @@
                 <Label Content="固定床位*" Grid.Row="10" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
                 <Label Content="唯一识别码" Grid.Row="11" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
                 <Label Content="所属分区*" Grid.Row="12" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-                <Label Content="联系电话*" Grid.Row="13" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
+                <Label Content="联系电话" Grid.Row="13" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
                 <!--<Label Content="邮箱" Grid.Row="14" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>-->
                 <Label Content="微信号" Grid.Row="14" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
                 <Label Content="付款方式" Grid.Row="15" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
@@ -199,9 +199,9 @@
                 <!--<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="33.691,9.999,0,0" Grid.Row="8" VerticalAlignment="Top"/>
 				<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="179.69,9.896,0,0" Grid.Row="8" VerticalAlignment="Top"/>-->
                 <Grid Grid.Column="1" Grid.Row="8">
-                    <ComboBox Name="InfectTypeComboBox" FontSize="14"  HorizontalAlignment="Left" Margin="132,14,0,0"  VerticalAlignment="Top" Width="120"/>
+                    <ComboBox Name="InfectTypeComboBox" FontSize="14"  HorizontalAlignment="Left" Margin="132,12,0,12"  VerticalAlignment="Top" Width="120"/>
                     <RadioButton Checked="RadioButton5_OnChecked" Name="RadioButton5" FontSize="14" Content="阴性" IsChecked="True"  HorizontalAlignment="Left" Margin="10,17,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-                    <RadioButton Checked="RadioButton6_OnChecked" Name="RadioButton6"   HorizontalAlignment="Left" Margin="112,22,0,0"  VerticalAlignment="Top" RenderTransformOrigin="0.75,2.794"/>
+                    <RadioButton Checked="RadioButton6_OnChecked" Name="RadioButton6"   HorizontalAlignment="Left" Margin="112,17,0,0"  VerticalAlignment="Top" RenderTransformOrigin="0.75,2.794"/>
 
                 </Grid>
 
@@ -212,9 +212,15 @@
                 </Grid>
                 <!--<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="33.691,10,0,0" Grid.Row="9" VerticalAlignment="Top"/>
 				<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="179.69,9.896,0,0" Grid.Row="9" VerticalAlignment="Top"/>-->
-                <ComboBox SelectionChanged="StatusComboBox_OnSelectionChanged" Name="StatusComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="9" VerticalContentAlignment="Center" Width="130.333"/>
-                <TextBox TextChanged="OnTextChanged" Name="PatientIDTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="11"/>
-                <ComboBox Name="AreaComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="12" VerticalContentAlignment="Center" Width="130.333"/>
+
+                <Grid Grid.Column="1" Grid.Row="9">
+                    <RadioButton Name="rbTreatStatus1"   Content="在治"  HorizontalAlignment="Left" Margin="10,17,0,0"  VerticalAlignment="Top" Checked="rbTreatStatus_Checked" Tag="0" IsChecked="True"/>
+                    <RadioButton Name="rbTreatStatus2"  Content=""  HorizontalAlignment="Left" Margin="112,17,0,0"  VerticalAlignment="Top" RenderTransformOrigin="5.39,0.659" Checked="rbTreatStatus_Checked" Tag="1" IsChecked="False"/>
+                    <ComboBox FontSize="14" SelectionChanged="StatusComboBox_OnSelectionChanged" Name="StatusComboBox"  HorizontalAlignment="Left" Margin="132,12,0,12"  VerticalContentAlignment="Top" Width="120" IsEnabled="False"/>
+
+                </Grid>
+               <TextBox TextChanged="OnTextChanged" Name="PatientIDTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="11"/>
+                <ComboBox Name="AreaComboBox" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="12" VerticalContentAlignment="Top" HorizontalContentAlignment="Left"  Margin="10,12,0,12"  Width="130.333"/>
                 <TextBox Name="MobileTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="13"/>
                 <!--<TextBox Name="" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="14"/>-->
                 <TextBox Name="WeixinhaoTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="14"/>
