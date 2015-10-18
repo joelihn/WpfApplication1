@@ -345,6 +345,27 @@
     			</Setter.Value>
     		</Setter>
     	</Style>
+    	<ControlTemplate x:Key="RadioButtonControlTemplate1" TargetType="{x:Type RadioButton}">
+    		<Grid>
+    			<VisualStateManager.VisualStateGroups>
+    				<VisualStateGroup x:Name="CheckStates">
+    					<VisualState x:Name="Checked">
+    						<Storyboard>
+    							<ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="rectangle">
+    								<EasingColorKeyFrame KeyTime="0" Value="#FFBBB927"/>
+    							</ColorAnimationUsingKeyFrames>
+    						</Storyboard>
+    					</VisualState>
+    					<VisualState x:Name="Unchecked"/>
+    					<VisualState x:Name="Indeterminate"/>
+    				</VisualStateGroup>
+    			</VisualStateManager.VisualStateGroups>
+    			<Grid HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Margin="2">
+    				<Rectangle x:Name="rectangle" Fill="#FF48CF6D" HorizontalAlignment="Stretch" Height="Auto" Stroke="{x:Null}" VerticalAlignment="Stretch" RadiusX="10" RadiusY="10"/>
+    				<Label Content="{TemplateBinding Content}" VerticalAlignment="Stretch" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16"/>
+    			</Grid>
+    		</Grid>
+    	</ControlTemplate>
     	
     </UserControl.Resources>
 	<Grid Style="{StaticResource GridBackGround1}">
@@ -631,8 +652,8 @@
 									<ColumnDefinition/>
 									<ColumnDefinition/>
 								</Grid.ColumnDefinitions>
-								<Button x:Name="BtnCurrentWeek" Content="本周" Template="{DynamicResource ButtonControlTemplate1}" Click="BtnCurrentWeek_Click" />
-								<Button x:Name="BtnNextWeek" Content="下周" Grid.Column="1" Template="{DynamicResource ButtonControlTemplate1}" Click="BtnNextWeek_Click"/>
+								<RadioButton x:Name="BtnCurrentWeek" Content="本周"  Click="BtnCurrentWeek_Click" Template="{DynamicResource RadioButtonControlTemplate1}" IsChecked="True" />
+								<RadioButton x:Name="BtnNextWeek" Content="下周" Grid.Column="1" Template="{DynamicResource RadioButtonControlTemplate1}" Click="BtnNextWeek_Click"/>
 							</Grid>
 							<Grid>
 								<StackPanel x:Name="TreatmentPanel"   />

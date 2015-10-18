@@ -285,10 +285,10 @@ namespace WpfApplication1.CustomUI
                 //throw new NotImplementedException();
                 try
                 {
-                    if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text))
+                    if (this.NameTextBox.Text.Equals("") || !CheckNameIsExist(this.NameTextBox.Text) || SeqTextBox.Text.Equals(""))
                     {
                         var a = new RemindMessageBox1();
-                        a.remindText.Text = (string)FindResource("Message1001"); ;
+                        a.remindText.Text = "请完善信息!" ;
                         a.ShowDialog();
                         return;
                     }

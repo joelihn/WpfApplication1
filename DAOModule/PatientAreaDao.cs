@@ -149,14 +149,14 @@ namespace WpfApplication1.DAOModule
                     if (condition == null || condition.Count == 0)
                     {
                         sqlcomm.CommandText =
-                            "select * from PATIENTAREA order by ID desc;";
+                            "select * from PATIENTAREA order by Seq asc;";
                         list = DatabaseOp.ExecuteQuery<PatientArea>(sqlcomm);
                         return list;
                     }
                     string sqlcommand = "select * from PATIENTAREA where ";
                     DatabaseOp.TransferParameteres(ref sqlcommand, "@", "and", condition, sqlcomm.Parameters);
                     sqlcommand = sqlcommand.Substring(0, sqlcommand.LastIndexOf("and"));
-                    sqlcommand += " order by ID desc";
+                    sqlcommand += " order by Seq asc";
                     sqlcomm.CommandText = sqlcommand;
 
                     list = DatabaseOp.ExecuteQuery<PatientArea>(sqlcomm);

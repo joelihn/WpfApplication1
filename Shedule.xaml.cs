@@ -1375,17 +1375,41 @@ namespace WpfApplication1
                 //{
                 //    ret = false;
                 //}
-                if (treatOrder.Plan == "频次")
-                {
-                    frequency = treatOrder.TreatTimes;
-                    continue;
-                }
+                
 
                 string treat = treatOrder.TreatMethod;
                 string type = treatOrder.Type;
                 int seq = treatOrder.TreatTimes;
                 //int times = treatOrder.TreatTimes;
                 int count = 0;
+
+                if (treatOrder.Plan == "频次")
+                {
+                    //frequency = treatOrder.TreatTimes;
+
+                    int dayofweek = (int)DateTime.Now.DayOfWeek - 1;
+                    if (dayofweek == -1) dayofweek = 6;
+                    DateTime dtFrom = DateTime.Now.Date.AddDays(-dayofweek);
+                    DateTime dtTo = DateTime.Now.Date.AddDays(-dayofweek + 13);
+                    foreach (var v in schedule.Hemodialysis)
+                    {
+                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 &&
+                            DateTime.Compare(v.dialysisTime.dateTime, dtTo.Date) <= 0)
+                        {
+                            //if (treat == v.hemodialysisItem)
+                                count++;
+                        }
+                    }
+
+                    if (count != treatOrder.TreatTimes)
+                    {
+                        return "HD";
+                        //return false;
+                    }
+                    continue;
+                }
+
+
                 if (type == "单周")
                 {
                     /*for (int n = 0; n < 7; n++)
@@ -1429,10 +1453,10 @@ namespace WpfApplication1
                         return treat;
                         //return false;
                     }
-                    else
+                    /*else
                     {
                         singleWeekFrequency = currentSeq + nextSeq;
-                    }
+                    }*/
 
                 }
                 else if (type == "单月")
@@ -1459,10 +1483,10 @@ namespace WpfApplication1
                         return treat;
                         //return false;
                     }
-                    else
+                    /*else
                     {
                         singleMonthFrequency = seq;
-                    }
+                    }*/
                 }
                 else//双周
                 {
@@ -1485,21 +1509,23 @@ namespace WpfApplication1
                         return treat;
                         //return false;
                     }
-                    else
+                    /*else
                     {
                         singleMonthFrequency = seq;
-                    }
+                    }*/
                 }
             }
 
-            if (frequency != (singleMonthFrequency + doubleWeekFrequency + singleWeekFrequency))
+            return "正常";
+
+            /*if (frequency != (singleMonthFrequency + doubleWeekFrequency + singleWeekFrequency))
             {
                 return "HD";
             }
             else
             {
                 return "正常";
-            }
+            }*/
             
 
         }
@@ -1764,7 +1790,21 @@ namespace WpfApplication1
                 MainWindow.Log.WriteInfoConsole("In Shedule.xaml.cs:Init_OnLoaded InfectType ComboxItem exception messsage: " + ex.Message);
             }
 
-            RefreshStatistics();
+            
+
+
+            foreach (var v in ListboxItemStatusesList)
+            {
+                v.NextWeekVisible = Visibility.Hidden;
+
+            }
+            IsEditable = false;
+            ListBox1.Items.Refresh();
+                RefreshStatistics();
+            ButtonCancel.IsEnabled = false;
+            ButtonApply.IsEnabled = false;
+            ButtonEdit.IsEnabled = true;
+
         }
 
 

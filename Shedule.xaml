@@ -680,24 +680,24 @@
 								<ColumnDefinition/>
 								<ColumnDefinition/>
 							</Grid.ColumnDefinitions>
-							<Button Content="上午" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="0_0"/>
-							<Button Content="下午" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="1_0" Grid.Column="1"/>
+							<Button Content="本周" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="0_0"/>
+							<Button Content="下周" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="1_0" Grid.Column="1"/>
 						</Grid>
 						<Grid Grid.Row="1" Grid.Column="1">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition/>
 								<ColumnDefinition/>
 							</Grid.ColumnDefinitions>
-							<Button Content="上午" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="0_1"/>
-							<Button Content="下午" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="1_1" Grid.Column="1"/>
+							<Button Content="本周" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="0_1"/>
+							<Button Content="下周" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="1_1" Grid.Column="1"/>
 						</Grid>
 						<Grid Grid.Row="1" Grid.Column="2">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition/>
 								<ColumnDefinition/>
 							</Grid.ColumnDefinitions>
-							<Button Content="上午" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="0_2"/>
-							<Button Content="下午" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="1_2" Grid.Column="1"/>
+							<Button Content="本周" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="0_2"/>
+							<Button Content="下周" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="1_2" Grid.Column="1"/>
 						</Grid>
 
 						<Grid Grid.Row="1" Grid.Column="3">
@@ -705,8 +705,8 @@
 								<ColumnDefinition/>
 								<ColumnDefinition/>
 							</Grid.ColumnDefinitions>
-							<Button Content="上午" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="0_3"/>
-							<Button Content="下午" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="1_3" Grid.Column="1"/>
+							<Button Content="本周" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="0_3"/>
+							<Button Content="下周" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="1_3" Grid.Column="1"/>
 						</Grid>
 
 						<Grid Grid.Row="1" Grid.Column="4">
@@ -714,8 +714,8 @@
 								<ColumnDefinition/>
 								<ColumnDefinition/>
 							</Grid.ColumnDefinitions>
-							<Button Content="上午" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="0_4"/>
-							<Button Content="下午" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="1_4" Grid.Column="1"/>
+							<Button Content="本周" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="0_4"/>
+							<Button Content="下周" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="1_4" Grid.Column="1"/>
 						</Grid>
 
 						<Grid Grid.Row="1" Grid.Column="5">
@@ -723,8 +723,8 @@
 								<ColumnDefinition/>
 								<ColumnDefinition/>
 							</Grid.ColumnDefinitions>
-							<Button Content="上午" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="0_5"/>
-							<Button Content="下午" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="1_5" Grid.Column="1"/>
+							<Button Content="本周" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="0_5"/>
+							<Button Content="下周" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="1_5" Grid.Column="1"/>
 						</Grid>
 
 						<Grid Grid.Row="1" Grid.Column="6">
@@ -732,8 +732,8 @@
 								<ColumnDefinition/>
 								<ColumnDefinition/>
 							</Grid.ColumnDefinitions>
-							<Button Content="上午" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="0_6"/>
-							<Button Content="下午" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="1_6" Grid.Column="1"/>
+							<Button Content="本周" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="0_6"/>
+							<Button Content="下周" Template="{DynamicResource ButtonControlTemplate2}" Click="SortButton_Click" Tag="1_6" Grid.Column="1"/>
 						</Grid>
 						<Grid Grid.Column="7">
 							<Grid.ColumnDefinitions>

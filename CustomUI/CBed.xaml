@@ -129,7 +129,7 @@
             <Label Content="描述" Grid.Row="5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource FunctionLabelStyle}"  BorderThickness="0,3" VerticalAlignment="Center" Height="50" Margin="0,0,0,0"/>
 
             <ComboBox SelectionChanged="OnSelectionChanged" Name="ComboBoxPatientArea" Height="40" FontSize="14" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5,0,0" Grid.Row="0" VerticalAlignment="Top" Width="291"/>
-            <TextBox MaxLength="5" KeyDown="NameTextBox_OnKeyDown" TextChanged="NameTextBox_OnTextChanged" Name="NameTextBox" FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="1" TextWrapping="Wrap" Text="" Margin="0,0"/>
+            <TextBox MaxLength="20" KeyDown="NameTextBox_OnKeyDown" TextChanged="NameTextBox_OnTextChanged" Name="NameTextBox" FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="1" TextWrapping="Wrap" Text="" Margin="0,0"/>
             <TextBox MaxLength="20" TextChanged="OnTextChanged"  Name="DescriptionTextBox"   FontSize="14" VerticalContentAlignment="Center" Grid.Column="1" Height="50" Grid.Row="5" TextWrapping="Wrap" Text="" Margin="0,0"/>
             <Grid Grid.Column="1" Grid.Row="2">
                 <RadioButton Name="RadioButton1" Content="单泵机"  HorizontalAlignment="Left" Margin="49,18,0,0"  VerticalAlignment="Top"/>

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -341,7 +342,7 @@ namespace WpfApplication1.CustomUI
             DescriptionTextBox.Text = "";
             this.RadioButton1.IsChecked = true;
             this.RadioButton3.IsChecked = true;
-            this.RadioButton5.IsChecked = true;
+            this.RadioButton6.IsChecked = true;
 
             this.ButtonNew.IsEnabled = false;
             this.ButtonDelete.IsEnabled = false;
@@ -703,6 +704,7 @@ namespace WpfApplication1.CustomUI
             this.ButtonCancel.IsEnabled = true;
 
             //屏蔽中文输入和非法字符粘贴输入
+/*
             TextBox textBox = sender as TextBox;
             TextChange[] change = new TextChange[e.Changes.Count];
             e.Changes.CopyTo(change, 0);
@@ -716,7 +718,7 @@ namespace WpfApplication1.CustomUI
                     textBox.Text = textBox.Text.Remove(offset, change[0].AddedLength);
                     textBox.Select(offset, 0);
                 }
-            }
+            }*/
         }
 
         private void NameTextBox_OnKeyDown(object sender, KeyEventArgs e)
@@ -724,7 +726,7 @@ namespace WpfApplication1.CustomUI
             TextBox txt = sender as TextBox;
 
             //屏蔽非法按键
-            if ((e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) || e.Key == Key.Decimal)
+            if ((e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) || e.Key == Key.Decimal || (e.Key >= Key.A && e.Key <= Key.Z))
             {
                 if (txt.Text.Contains(".") && e.Key == Key.Decimal)
                 {
@@ -746,6 +748,7 @@ namespace WpfApplication1.CustomUI
             {
                 e.Handled = true;
             }
+
 
         }
     }

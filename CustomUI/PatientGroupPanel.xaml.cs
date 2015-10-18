@@ -155,7 +155,7 @@ namespace WpfApplication1.CustomUI
                     if ((list != null) && (list.Count > 0))
                     {
                         Patient patient = list[0];
-                        Basewindow.initContent.IDTextBox.Text = patient.Id.ToString();
+                        Basewindow.initContent.IDTextBox.Text = patient.PatientId.ToString();
                         Basewindow.initContent.NameTextBox.Text = patient.Name;
                         if (patient.Gender.Equals("男"))
                             Basewindow.initContent.RadioButton1.IsChecked = true;
@@ -227,7 +227,7 @@ namespace WpfApplication1.CustomUI
                             }
                         }
 
-                        Basewindow.initContent.PatientIDTextBox.Text = patient.PatientId;
+                        Basewindow.initContent.PatientIDTextBox.Text = patient.Id.ToString();
                         Basewindow.initContent.MobileTextBox.Text = patient.Mobile;
                         Basewindow.initContent.WeixinhaoTextBox.Text = patient.WeiXinHao;
                         Basewindow.initContent.PaymentTextBox.Text = patient.Payment;
@@ -237,7 +237,7 @@ namespace WpfApplication1.CustomUI
                         Basewindow.initContent.ButtonDelete.IsEnabled = true;
 
                         #region orderContent
-                        Basewindow.orderContent.IDTextBox.Text = patient.Id.ToString();
+                        Basewindow.orderContent.IDTextBox.Text = patient.PatientId.ToString();
                         Basewindow.orderContent.NameTextBox.Text = patient.Name;
                         if (patient.Gender.Equals("男"))
                             Basewindow.orderContent.RadioButton1.IsChecked = true;

@@ -42,7 +42,13 @@ namespace WpfApplication1
         {
             InitializeComponent();
             Basewindow = mainWindow;
-            tbUid.Text = System.Guid.NewGuid().ToString();
+            using (PatientDao patientDao = new PatientDao())
+            {
+                var condition = new Dictionary<string, object>();
+                var list = patientDao.SelectPatient(condition);
+
+                tbUid.Text = (list.Count + 1).ToString();
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -173,7 +179,7 @@ namespace WpfApplication1
                     if ((list != null) && (list.Count > 0)) Basewindow.initContent.StatusComboBox.Text = list[0].Name;
                 }
 
-                Basewindow.initContent.PatientIDTextBox.Text = patient.PatientId;
+                Basewindow.initContent.IDTextBox.Text = patient.PatientId;
                 if (patient.IsFixedBed)
                 {
                     Basewindow.initContent.RadioButton3.IsChecked = true;

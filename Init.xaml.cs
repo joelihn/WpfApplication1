@@ -381,7 +381,7 @@ namespace WpfApplication1
                     }
                 }
 
-                fileds["PATIENTID"] = PatientIDTextBox.Text;
+                fileds["PATIENTID"] = IDTextBox.Text;
                 fileds["MOBILE"] = MobileTextBox.Text;
                 fileds["WEIXINHAO"] = WeixinhaoTextBox.Text;
                 fileds["PAYMENT"] = PaymentTextBox.Text;

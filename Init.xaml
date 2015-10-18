@@ -182,7 +182,7 @@
                 <!--<Label Content="邮箱" Grid.Row="14" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>-->
                 <Label Content="微信号" Grid.Row="14" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
                 <Label Content="付款方式" Grid.Row="15" VerticalContentAlignment="Center" FontWeight="Bold" Background="{DynamicResource ButtonBackgroundColor1}" BorderThickness="0,3" Padding="15,5,5,5"/>
-                <TextBox IsEnabled="False" Name="IDTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center"/>
+                <TextBox Name="IDTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center"/>
                 <TextBox MaxLength="5" TextChanged="OnTextChanged" Name="NameTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="1"/>
                 <!--<ComboBox Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="2" VerticalContentAlignment="Center" Width="130.333"/>-->
                 <Grid Grid.Column="1" Grid.Row="2">
@@ -219,7 +219,7 @@
                     <ComboBox FontSize="14" SelectionChanged="StatusComboBox_OnSelectionChanged" Name="StatusComboBox"  HorizontalAlignment="Left" Margin="132,12,0,12"  VerticalContentAlignment="Top" Width="120" IsEnabled="False"/>
 
                 </Grid>
-               <TextBox TextChanged="OnTextChanged" Name="PatientIDTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="11"/>
+               <TextBox IsEnabled="False" TextChanged="OnTextChanged" Name="PatientIDTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="11"/>
                 <ComboBox Name="AreaComboBox" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="12" VerticalContentAlignment="Top" HorizontalContentAlignment="Left"  Margin="10,12,0,12"  Width="130.333"/>
                 <TextBox Name="MobileTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="13"/>
                 <!--<TextBox Name="" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="14"/>-->
