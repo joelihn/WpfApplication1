@@ -1358,6 +1358,7 @@ namespace WpfApplication1
             int doubleWeekFrequency = 0;
             int singleMonthFrequency = 0;
 
+
             foreach (var treatOrder in TreatOrderList)
             {
                 //string treat = treatOrder.TreatMethod;
@@ -1403,7 +1404,7 @@ namespace WpfApplication1
 
                     if (count != treatOrder.TreatTimes)
                     {
-                        return "HD";
+                        return "频次";
                         //return false;
                     }
                     continue;
@@ -1619,6 +1620,45 @@ namespace WpfApplication1
 
         }
 
+        public void Reload()
+        {
+            InitDay();
+            LoadTratementConifg();
+            ListBox1.SelectedIndex = -1;
+            InitPatientGroupComboBox();
+            LoadTreatTimes();
+            try
+            {
+                using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    var list = infectTypeDao.SelectInfectType(condition);
+                    InfectTypeComboBox.Items.Clear();
+                    //InfectTypeComboBox.Items.Add("所有");
+                    //InfectTypeComboBox.Items.Add("");
+                    foreach (InfectType type in list)
+                    {
+                        InfectTypeComboBox.Items.Add(type.Name);
+                    }
+                    InfectTypeComboBox.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Shedule.xaml.cs:Init_OnLoaded InfectType ComboxItem exception messsage: " + ex.Message);
+            }
+            foreach (var v in ListboxItemStatusesList)
+            {
+                v.NextWeekVisible = Visibility.Hidden;
+
+            }
+            IsEditable = false;
+            ListBox1.Items.Refresh();
+            RefreshStatistics();
+            ButtonCancel.IsEnabled = false;
+            ButtonApply.IsEnabled = false;
+            ButtonEdit.IsEnabled = true;
+        }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             InitDay();

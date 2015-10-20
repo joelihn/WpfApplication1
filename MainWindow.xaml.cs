@@ -245,8 +245,10 @@ namespace WpfApplication1
 
                     this.RightContentA.Visibility = Visibility.Visible;
                     this.RightContentA.Content = sheduleContent;
+                    sheduleContent.Reload();
                     sheduleContent.PatientGroupComboBox.SelectedValue =
                         patientGroupPanel.ComboBoxPatientGroup.SelectedValue;
+                    
                     /*this.RightContentL.Visibility = Visibility.Hidden;
                     this.RightContentR.Visibility = Visibility.Hidden;*/
 
