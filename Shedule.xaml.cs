@@ -1357,6 +1357,11 @@ namespace WpfApplication1
             int singleWeekFrequency = 0;
             int doubleWeekFrequency = 0;
             int singleMonthFrequency = 0;
+            List<string> treatList = new List<string>();
+            foreach (var treatOrder in TreatOrderList)
+            {
+                treatList.Add(treatOrder.TreatMethod);
+            }
 
 
             foreach (var treatOrder in TreatOrderList)
@@ -1407,6 +1412,20 @@ namespace WpfApplication1
                         return "频次";
                         //return false;
                     }
+
+                    foreach (var v in schedule.Hemodialysis)
+                    {
+                        if (DateTime.Compare(v.dialysisTime.dateTime, dtFrom.Date) >= 0 &&
+                            DateTime.Compare(v.dialysisTime.dateTime, dtTo.Date) <= 0)
+                        {
+                            if (!treatList.Contains(v.hemodialysisItem))
+                            {
+                                return "异常";
+                            }
+                            
+                        }
+                    }
+
                     continue;
                 }
 
@@ -2545,7 +2564,7 @@ namespace WpfApplication1
                     if (m == 1 && IsEditable == false) continue;
                     for (int n = 0; n < 7; n++)
                     {
-                        Dictionary<string, int> dictionary = Statistics(ampme, n, m);
+                        Dictionary<string, int> dictionary = Statistics(ampme, n, m);//ampme=="AM"&&n==5&&m==0
                         if (dictionary == null)
                             continue;
                         StackPanel panel = new StackPanel();
@@ -2583,11 +2602,11 @@ namespace WpfApplication1
                                 {
                                     if (list[0].DoublePump == true)
                                     {
-                                        DoublePump++;
+                                        DoublePump+=v.Value;
                                     }
                                     if (list[0].SinglePump == true)
                                     {
-                                        SinglePump++;
+                                        SinglePump += v.Value;
                                     }
 
                                 }
@@ -2946,6 +2965,9 @@ namespace WpfApplication1
             ButtonCancel.IsEnabled = true;
             ButtonApply.IsEnabled = true;
             ButtonEdit.IsEnabled = false;
+
+            btnPreWeek.IsEnabled = false;
+            btnNextWeek.IsEnabled = false;
         }
 
         private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
@@ -2969,6 +2991,9 @@ namespace WpfApplication1
             ButtonCancel.IsEnabled = false;
             ButtonApply.IsEnabled = false;
             ButtonEdit.IsEnabled = true;
+
+            btnPreWeek.IsEnabled = true;
+            btnNextWeek.IsEnabled = true;
         }
         private void ButtonApply_OnClick(object sender, RoutedEventArgs e)
         {
@@ -2985,6 +3010,9 @@ namespace WpfApplication1
             ButtonCancel.IsEnabled = false;
             ButtonApply.IsEnabled = false;
             ButtonEdit.IsEnabled = true;
+
+            btnPreWeek.IsEnabled = true;
+            btnNextWeek.IsEnabled = true;
         }
 
         private void PatientGroupComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

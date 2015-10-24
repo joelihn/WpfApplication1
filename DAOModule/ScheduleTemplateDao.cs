@@ -58,8 +58,8 @@ namespace WpfApplication1.DAOModule
                 using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO SCHEDULETEMPLATE (PATIENTID,DATE,AMPME,METHOD,DESCRIPTION,RESERVED) VALUES 
-                        (@PATIENTID,@DATE,@AMPME,@METHOD,@DESCRIPTION,@RESERVED)";
+                        @"INSERT INTO SCHEDULETEMPLATE (PATIENTID,DATE,AMPME,METHOD,DESCRIPTION,RESERVED,ISTEMP) VALUES 
+                        (@PATIENTID,@DATE,@AMPME,@METHOD,@DESCRIPTION,@RESERVED,@ISTEMP)";
                     sqlcomm.Parameters.Add("@PATIENTID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTID"].Value = scheduleTemplate.PatientId;
                     sqlcomm.Parameters.Add("@DATE", DbType.String);
@@ -74,6 +74,8 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters["@RESERVED"].Value = scheduleTemplate.Reserved;
                     sqlcomm.Parameters.Add("@BEDID", DbType.Int32);
                     sqlcomm.Parameters["@BEDID"].Value = scheduleTemplate.BedId;
+                    sqlcomm.Parameters.Add("@ISTEMP", DbType.Boolean);
+                    sqlcomm.Parameters["@ISTEMP"].Value = scheduleTemplate.IsTemp;
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
                     //set last insert id of this table this connection
@@ -173,14 +175,14 @@ namespace WpfApplication1.DAOModule
                     if (condition == null || condition.Count == 0)
                     {
                         sqlcomm.CommandText =
-                            "select * from SCHEDULETEMPLATE order by ID desc;";
+                            "select * from SCHEDULETEMPLATE order by Date desc;";
                         list = DatabaseOp.ExecuteQuery<ScheduleTemplate>(sqlcomm);
                         return list;
                     }
                     string sqlcommand = "select * from SCHEDULETEMPLATE where ";
                     DatabaseOp.TransferParameteres(ref sqlcommand, "@", "and", condition, sqlcomm.Parameters);
                     sqlcommand = sqlcommand.Substring(0, sqlcommand.LastIndexOf("and"));
-                    sqlcommand += " order by ID desc";
+                    sqlcommand += " order by Date desc";
                     sqlcomm.CommandText = sqlcommand;
 
                     list = DatabaseOp.ExecuteQuery<ScheduleTemplate>(sqlcomm);

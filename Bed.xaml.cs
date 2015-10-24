@@ -441,8 +441,23 @@ namespace WpfApplication1
                     fixBedId = list[0].BedId;
                 }
                 if (isFixedBed == false)
-                    break;
+                    continue;
 
+                long fixbedid = -1;
+                using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    condition["PatientId"] = patient.Id.ToString();
+                    condition["IsTemp"] = false;
+                    var list = scheduleDao.SelectScheduleTemplate(condition);
+                    foreach (var scheduleTemplate in list)
+                    {
+                        if (scheduleTemplate.BedId != -1)
+                        {
+                            fixbedid = scheduleTemplate.BedId;
+                        }
+                    }
+                }
                 /*using (var bedDao = new BedDao())
                 {
                     var condition = new Dictionary<string, object>();
@@ -452,50 +467,55 @@ namespace WpfApplication1
 
                 foreach (var bed in BedInfoList)
                 {
-                    if (bed.Id == fixBedId)
+                    if (fixbedid != bed.Id)
                     {
-                        if (bed.InfectionType == patient.InfectionType)
-                        {
-                            using (var methodDao = new TreatMethodDao())
-                            {
-                                int DoublePump = -1;
-                                int SinglePump = -1;
-                                var condition = new Dictionary<string, object>();
-                                condition["NAME"] = patient.TreatMethod;
-                                var list = methodDao.SelectTreatMethod(condition);
-                                if (list.Count == 1)
-                                {
-                                    if (list[0].DoublePump == true)
-                                    {
-                                        DoublePump = 1;
-                                    }
-                                    if (list[0].SinglePump == true)
-                                    {
-                                        SinglePump = 0;
-                                    }
-
-                                }
-
-                                if (bed.MachineTypeID != DoublePump && bed.MachineTypeID != SinglePump)
-                                {
-                                    break;
-                                }
-                            }
-
-                            if (bed.IsAvailable == true && bed.IsOccupy != true)
-                            {
-                                if (bed.PatientData == null)
-                                {
-                                    delPatients.Add(patient);
-                                    UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id);
-                                    bed.PatientName = patient.Name + "\n" + patient.TreatMethod;
-                                    bed.PatientData = patient;
-                                    break;
-                                }
-                            }
-
-                        }
+                        continue;
                     }
+
+                    if (bed.InfectionType == patient.InfectionType)
+                    {
+                        using (var methodDao = new TreatMethodDao())
+                        {
+                            int DoublePump = -1;
+                            int SinglePump = -1;
+                            var condition = new Dictionary<string, object>();
+                            condition["NAME"] = patient.TreatMethod;
+                            var list = methodDao.SelectTreatMethod(condition);
+                            if (list.Count == 1)
+                            {
+                                if (list[0].DoublePump == true)
+                                {
+                                    DoublePump = 1;
+                                }
+                                if (list[0].SinglePump == true)
+                                {
+                                    SinglePump = 0;
+                                }
+
+                            }
+
+                            if (bed.MachineTypeID != DoublePump && bed.MachineTypeID != SinglePump)
+                            {
+                                break;
+                            }
+                        }
+
+
+                        if (bed.IsAvailable == true && bed.IsOccupy != true)
+                        {
+                            if (bed.PatientData == null)
+                            {
+                                delPatients.Add(patient);
+                                UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id);
+                                bed.PatientName = patient.Name + "\n" + patient.TreatMethod;
+                                bed.PatientData = patient;
+                                break;
+                            }
+                        }
+                        
+
+                    }
+                    
                 }
             }
 
@@ -594,7 +614,7 @@ namespace WpfApplication1
 
                             if (bed.MachineTypeID != DoublePump && bed.MachineTypeID != SinglePump)
                             {
-                                break;
+                                continue;
                             }
                         }
 
@@ -888,7 +908,10 @@ namespace WpfApplication1
                         bedInfo.IsOccupy = bed.IsOccupy;
                         bedInfo.PatientAreaID = bed.PatientAreaId;
                         bedInfo.MachineTypeID = bed.MachineTypeId;
-                        bedInfo.IsTemp = bed.IsTemp;
+
+                        //默认床不是零时床
+                        bedInfo.IsTemp = false;
+                        //bedInfo.IsTemp = bed.IsTemp;
                         DateTime then = GetDate();
                         if( then.Date >= DateTime.Now.Date )
                         if (bedInfo.IsAvailable == false )
@@ -986,6 +1009,7 @@ namespace WpfApplication1
                         */
 
                         
+                        //初始化病床列表时需要将以排床的病人放入相应床上 
 
                         foreach (var bedPatientData in UnPatientList)
                         {
@@ -993,10 +1017,39 @@ namespace WpfApplication1
                             {
                                 bedInfo.PatientName = bedPatientData.Name + "\n" + bedPatientData.TreatMethod;
                                 bedInfo.PatientData = bedPatientData;
+                                ///////////////////////////////////////////////////////////
+                                string ampme = GetTime();
+                                DateTime dt = GetDate();
+                                try
+                                {
+                                    using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                                    {
+                                        condition.Clear();
+                                        condition = new Dictionary<string, object>();
+                                        condition["PatientId"] = bedPatientData.Id;
+                                        condition["Date"] = dt.Date.ToString("yyyy-MM-dd");
+                                        condition["AmPmE"] = ampme;
+                                        condition["BedId"] = bedPatientData.BedId;
+                                        var list11 = scheduleDao.SelectScheduleTemplate(condition);
+                                        bedInfo.IsTemp = list11[0].IsTemp;
+
+                                    }
+
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    MainWindow.Log.WriteInfoConsole("In PatientSchedule.xaml.cs:GetPatientSchedule select patient exception messsage: " + ex.Message);
+                                }
+                                ///////////////////////////////////////////////////////////////////////////
+                            
                                 BedPatientList.Remove(bedPatientData);
                                 break;
                             }
                         }
+
+                        
+
 
                         bedInfo.IsAvailable = bed.IsAvailable;
                         BedInfoList.Add(bedInfo);
@@ -1207,10 +1260,10 @@ namespace WpfApplication1
                                     }
 
                                     if (patient.BedId == -1)
-                                        BedPatientList.Add(patientInfo);//
+                                        BedPatientList.Add(patientInfo);//未排床的病人列表
                                     else
                                     {
-                                        UnPatientList.Add(patientInfo);
+                                        UnPatientList.Add(patientInfo);//已排床的病人列表
                                     }
 
 
@@ -1343,9 +1396,9 @@ namespace WpfApplication1
                 else
                 {
                     effects = System.Windows.DragDropEffects.Scroll;
-                    //var a = new RemindMessageBox1();
-                    //a.remindText.Text = "治疗类型不匹配.";
-                    //a.ShowDialog();
+                    var a = new RemindMessageBox1();
+                    a.remindText.Text = "感染类型不匹配.";
+                    a.ShowDialog();
                 }
             }
             e.Handled = true;
@@ -1364,12 +1417,16 @@ namespace WpfApplication1
                     condition["AmPmE"] = ampme;
                     var fileds = new Dictionary<string, object>();
                     fileds["BEDID"] = bedid;
+                    if (bedid == -1)
+                    {
+                        fileds["ISTEMP"] = false;
+                    }
                     scheduleDao.UpdateScheduleTemplate(fileds, condition);
                     
                 }
 
 
-                bool isTemp = false;
+                /*bool isTemp = false;
                 using (var bedDao = new BedDao())
                 {
                     var condition = new Dictionary<string, object>();
@@ -1390,7 +1447,7 @@ namespace WpfApplication1
                         patientDao.UpdatePatient(fields, condition);
 
                     }
-                }
+                }*/
 
             }
             catch (Exception ex)
@@ -1447,7 +1504,7 @@ namespace WpfApplication1
                 if (effects == (System.Windows.DragDropEffects)DragDropEffects.None)
                 {
                     var a = new RemindMessageBox1();
-                    a.remindText.Text = "病区感染类型不匹配.";
+                    a.remindText.Text = "治疗方法与机型不匹配.";
                     a.ShowDialog();
                 }
 
@@ -1790,7 +1847,7 @@ namespace WpfApplication1
         {
             if (e.ClickCount == 2)
             {
-                int index = BedListBox.SelectedIndex;
+                /*int index = BedListBox.SelectedIndex;
                 if (index == -1) return;
                 BedInfoList[index].IsTemp = !BedInfoList[index].IsTemp;
 
@@ -1802,7 +1859,55 @@ namespace WpfApplication1
                     var fileds = new Dictionary<string, object>();
                     fileds["ISTEMP"] = BedInfoList[index].IsTemp;
                     bedDao.UpdateBed(fileds, condition);
+                }*/
+
+                int index = BedListBox.SelectedIndex;
+                if (index == -1) return;
+                if (BedInfoList[index].PatientData == null) return;//床上没有人
+                //修改床是否零时床的属性
+                BedInfoList[index].IsTemp = !BedInfoList[index].IsTemp;
+                string ampme = "";
+                foreach (var i in AmPmEGrid.Children)
+                {
+                    if (i is ToggleButton)
+                    {
+                        if (((ToggleButton)i).IsChecked == true)
+                        {
+                            ampme = (string)((ToggleButton)i).Tag;
+                            break;
+                        }
+                    }
                 }
+                DateTime dt = GetDate();
+                //UpdateBedId(BedInfoList[index].Id, DateTime.Parse("2015-06-10"), ampme, -1);
+                //UpdateBedId(BedInfoList[index].PatientData.Id, dt.Date, ampme, -2);
+
+
+                try
+                {
+                    using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                    {
+
+                        Dictionary<string, object> condition = new Dictionary<string, object>();
+                        condition["PatientId"] = BedInfoList[index].PatientData.Id;
+                        condition["Date"] = dt.Date.ToString("yyyy-MM-dd");
+                        condition["AmPmE"] = ampme;
+                        condition["BedId"] = BedInfoList[index].Id;
+                        var fileds = new Dictionary<string, object>();
+                        fileds["IsTemp"] = BedInfoList[index].IsTemp;
+                        scheduleDao.UpdateScheduleTemplate(fileds, condition);
+
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    MainWindow.Log.WriteInfoConsole("In PatientSchedule.xaml.cs:GetPatientSchedule select patient exception messsage: " + ex.Message);
+                }
+
+                
+
             }
 
         }
@@ -1837,6 +1942,7 @@ namespace WpfApplication1
                     //UpdateBedId(BedInfoList[index].PatientData.Id, DateTime.Parse("2015-06-10"), ampme, -1);
                     UpdateBedId(BedInfoList[index].PatientData.Id, dt.Date, ampme, -1);
                     BedInfoList[index].PatientData = null;
+                    BedInfoList[index].IsTemp = false;//双击后将床位变为不是零时床
                 }
 
                 PatientCountLabel.Content = "待排患者(" + BedPatientList.Count + ")";

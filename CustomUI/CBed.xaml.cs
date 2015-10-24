@@ -726,7 +726,7 @@ namespace WpfApplication1.CustomUI
             TextBox txt = sender as TextBox;
 
             //屏蔽非法按键
-            if ((e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) || e.Key == Key.Decimal || (e.Key >= Key.A && e.Key <= Key.Z))
+            /*if ((e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9) || e.Key == Key.Decimal || (e.Key >= Key.A && e.Key <= Key.Z) || e.Key == Key.)
             {
                 if (txt.Text.Contains(".") && e.Key == Key.Decimal)
                 {
@@ -747,7 +747,7 @@ namespace WpfApplication1.CustomUI
             else
             {
                 e.Handled = true;
-            }
+            }*/
 
 
         }
