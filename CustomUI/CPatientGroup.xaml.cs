@@ -157,6 +157,7 @@ namespace WpfApplication1.CustomUI
                         patientData.Id = lastInsertId;
                         patientData.Name = patientGroup.Name;
                         Basewindow.patientGroupPanel.Datalist.Add(patientData);
+                        Basewindow.patientGroupPanel.ComboBoxPatientGroup.Items.Add(patientGroup.Name);
                         Basewindow.sheduleContent.PatientGroupComboBoxItems.Add(patientGroup.Name);
 
                         Datalist[index].Id = lastInsertId;

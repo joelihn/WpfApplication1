@@ -80,7 +80,7 @@ namespace WpfApplication1
             Key["感染情况"] = "INFECTTYPEID";
             Key["治疗状态"] = "TREATSTATUSID";
             Key["固定床位"] = "ISFIXEDBED";
-            Key["所属分区"] = "AERAID";
+            Key["所属分区"] = "AREAID";
 
             Symbol["大于"] = ">";
             Symbol["小于"] = "<";

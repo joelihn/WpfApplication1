@@ -229,15 +229,136 @@ namespace WpfApplication1.DAOModule
                     string condition = string.Empty;
                     foreach (var patientGroupPara in listinParas)
                     {
+                        //Key["感染情况"] = "INFECTTYPEID";
+                        //Key["治疗状态"] = "TREATSTATUSID";
+                        //Key["固定床位"] = "ISFIXEDBED";
+                        //Key["所属分区"] = "AERAID";
+
+
                         if (patientGroupPara.Value.Contains("%"))
-                            condition += patientGroupPara.Left.Trim() + " " + MainWindow.Key[patientGroupPara.Key].Trim() + " " +
-                            MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " " + patientGroupPara.Value.Trim() + " " +
-                            patientGroupPara.Right.Trim()+ " " + patientGroupPara.Logic.Trim();
+                        {
+                            if (patientGroupPara.Key.Equals("所属分区"))
+                            {
+                                string value = string.Empty;
+                                using (PatientAreaDao patientAreaDao = new PatientAreaDao())
+                                {
+                                    Dictionary<string, object> con = new Dictionary<string, object>();
+                                    con["NAME"] = patientGroupPara.Value;
+                                    var li = patientAreaDao.SelectPatientArea(con);
+                                    value = li[0].Id.ToString();
+                                }
+
+                                condition += patientGroupPara.Left.Trim() + " " + MainWindow.Key[patientGroupPara.Key].Trim() + " " +
+                               MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " " + value.Trim() + " " +
+                               patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim();
+                            }
+                            else if (patientGroupPara.Key.Equals("治疗状态"))
+                            {
+                                string value = string.Empty;
+                                using (TreatStatusDao treatStatusDao = new TreatStatusDao())
+                                {
+                                    Dictionary<string, object> con = new Dictionary<string, object>();
+                                    con["NAME"] = patientGroupPara.Value;
+                                    var li = treatStatusDao.SelectTreatStatus(con);
+                                    value = li[0].Id.ToString();
+                                }
+                                condition += patientGroupPara.Left.Trim() + " " + MainWindow.Key[patientGroupPara.Key].Trim() + " " +
+                               MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " " + value.Trim() + " " +
+                               patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim();
+                            }
+                            else if (patientGroupPara.Key.Equals("感染情况"))
+                            {
+                                string value = string.Empty;
+                                using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                                {
+                                    Dictionary<string, object> con = new Dictionary<string, object>();
+                                    con["NAME"] = patientGroupPara.Value;
+                                    var li = infectTypeDao.SelectInfectType(con);
+                                    value = li[0].Id.ToString();
+                                }
+                                condition += patientGroupPara.Left.Trim() + " " + MainWindow.Key[patientGroupPara.Key].Trim() + " " +
+                               MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " " + value.Trim() + " " +
+                               patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim();
+                            }
+                            else if (patientGroupPara.Key.Equals("固定床位"))
+                            {
+                                condition += patientGroupPara.Left.Trim() + " " + MainWindow.Key[patientGroupPara.Key].Trim() + " " +
+                               MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " " + patientGroupPara.Value.Trim() + " " +
+                               patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim();
+                            }
+                            else
+                            {
+                                condition += patientGroupPara.Left.Trim() + " " + MainWindow.Key[patientGroupPara.Key].Trim() + " " +
+                               MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " " + patientGroupPara.Value.Trim() + " " +
+                               patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim();
+                            }
+                        }
                         else
                         {
-                            condition += patientGroupPara.Left.Trim() + " " + MainWindow.Key[patientGroupPara.Key].Trim() + " " +
-                           MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \"" + patientGroupPara.Value.Trim() + "\" " +
-                           patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim(); 
+                            if (patientGroupPara.Key.Equals("所属分区"))
+                            {
+                                string value = string.Empty;
+                                using (PatientAreaDao patientAreaDao = new PatientAreaDao())
+                                {
+                                    Dictionary<string, object> con = new Dictionary<string, object>();
+                                    con["NAME"] = patientGroupPara.Value;
+                                    var li = patientAreaDao.SelectPatientArea(con);
+                                    value = li[0].Id.ToString();
+                                }
+                                condition += patientGroupPara.Left.Trim() + " " +
+                                           MainWindow.Key[patientGroupPara.Key].Trim() + " " +
+                                           MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \"" +
+                                           value.Trim() + "\" " +
+                                           patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim();
+                            }
+                            else if (patientGroupPara.Key.Equals("治疗状态"))
+                            {
+                                string value = string.Empty;
+                                using (TreatStatusDao treatStatusDao = new TreatStatusDao())
+                                {
+                                    Dictionary<string, object> con = new Dictionary<string, object>();
+                                    con["NAME"] = patientGroupPara.Value;
+                                    var li = treatStatusDao.SelectTreatStatus(con);
+                                    value = li[0].Id.ToString();
+                                }
+                                condition += patientGroupPara.Left.Trim() + " " +
+                                           MainWindow.Key[patientGroupPara.Key].Trim() + " " +
+                                           MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \"" +
+                                           value.Trim() + "\" " +
+                                           patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim();
+                            }
+                            else if (patientGroupPara.Key.Equals("感染情况"))
+                            {
+                                string value = string.Empty;
+                                using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                                {
+                                    Dictionary<string, object> con = new Dictionary<string, object>();
+                                    con["NAME"] = patientGroupPara.Value;
+                                    var li = infectTypeDao.SelectInfectType(con);
+                                    value = li[0].Id.ToString();
+                                }
+                                condition += patientGroupPara.Left.Trim() + " " +
+                                           MainWindow.Key[patientGroupPara.Key].Trim() + " " +
+                                           MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \"" +
+                                           value.Trim() + "\" " +
+                                           patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim();
+                            }
+                            else if (patientGroupPara.Key.Equals("固定床位"))
+                            {
+                                condition += patientGroupPara.Left.Trim() + " " +
+                                           MainWindow.Key[patientGroupPara.Key].Trim() + " " +
+                                           MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \"" +
+                                           patientGroupPara.Value.Trim() + "\" " +
+                                           patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim();
+                            }
+                            else
+                            {
+                                condition += patientGroupPara.Left.Trim() + " " +
+                                             MainWindow.Key[patientGroupPara.Key].Trim() + " " +
+                                             MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \"" +
+                                             patientGroupPara.Value.Trim() + "\" " +
+                                             patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim();
+                            }
                         }
                     }
                     string sqlcommand = "select * from PATIENT where ";
