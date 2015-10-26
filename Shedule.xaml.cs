@@ -1360,7 +1360,12 @@ namespace WpfApplication1
             List<string> treatList = new List<string>();
             foreach (var treatOrder in TreatOrderList)
             {
-                treatList.Add(treatOrder.TreatMethod);
+                if (treatOrder.TreatMethod == "NULL")
+                    treatList.Add("HD");
+                else
+                {
+                    treatList.Add(treatOrder.TreatMethod);
+                }
             }
 
 
