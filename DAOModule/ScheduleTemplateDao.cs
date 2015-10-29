@@ -165,6 +165,27 @@ namespace WpfApplication1.DAOModule
             return true;
         }
 
+        public bool DeleteScheduleTemplate2(int scId)
+        {
+            try
+            {
+                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                {
+                    sqlcomm.CommandText =
+                        @"DELETE FROM SCHEDULETEMPLATE WHERE PatientId = @PatientId";
+                    sqlcomm.Parameters.Add("@PatientId", DbType.Int32);
+                    sqlcomm.Parameters["@PatientId"].Value = scId;
+                    DatabaseOp.ExecuteNoneQuery(sqlcomm);
+                }
+            }
+            catch (Exception e)
+            {
+                MainWindow.Log.WriteErrorLog("ScheduleTemplateDao.cs-DeleteScheduleTemplate2", e);
+                return false;
+            }
+            return true;
+        }
+
         public List<ScheduleTemplate> SelectScheduleTemplate(Dictionary<string, object> condition)
         {
             var list = new List<ScheduleTemplate>();

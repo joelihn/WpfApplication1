@@ -399,8 +399,32 @@ namespace WpfApplication1
             //throw new NotImplementedException();
             using (var patientDao = new PatientDao())
             {
+
                 patientDao.DeletePatient((int)(Basewindow.patientGroupPanel.Datalist[Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex].Id));
+                try
+                {
+                    using (MedicalOrderDao medicalOrderDao = new MedicalOrderDao())
+                    {
+
+                        medicalOrderDao.DeleteMedicalOrder2((int)(Basewindow.patientGroupPanel.Datalist[Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex].Id));
+                    }
+                    using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                    {
+                        scheduleDao.DeleteScheduleTemplate2(
+                            (int)
+                                (Basewindow.patientGroupPanel.Datalist[
+                                    Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex].Id));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MainWindow.Log.WriteErrorLog("Init.cs-ButtonDelete_OnClick", ex);
+             
+                }
+
                 Basewindow.patientGroupPanel.RemoveData(Basewindow.patientGroupPanel.Datalist[Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex].Id);
+                
+
             }
 
             this.ButtonDelete.IsEnabled = false;

@@ -152,6 +152,29 @@ namespace WpfApplication1.DAOModule
             return true;
         }
 
+
+        public bool DeleteMedicalOrder2(int patientId)
+        {
+            try
+            {
+                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                {
+                    sqlcomm.CommandText =
+                        @"DELETE FROM MEDICALORDER WHERE PatientId = @PatientId";
+                    sqlcomm.Parameters.Add("@PatientId", DbType.Int32);
+                    sqlcomm.Parameters["@PatientId"].Value = patientId;
+                    DatabaseOp.ExecuteNoneQuery(sqlcomm);
+                }
+            }
+            catch (Exception e)
+            {
+                MainWindow.Log.WriteErrorLog("MedicalOrderDao.cs-DeleteMedicalOrder", e);
+                return false;
+            }
+            return true;
+        }
+
+
         public List<MedicalOrder> SelectMedicalOrder(Dictionary<string, object> condition)
         {
             var list = new List<MedicalOrder>();

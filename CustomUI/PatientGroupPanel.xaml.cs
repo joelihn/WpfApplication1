@@ -100,6 +100,8 @@ namespace WpfApplication1.CustomUI
                 
             }
 
+            //ListBoxPatient.SelectedIndex = Datalist.Count > 0 ? 1 : -1;
+
         }
 
         public void RefreshData()
