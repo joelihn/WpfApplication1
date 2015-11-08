@@ -49,7 +49,7 @@ namespace WpfApplication1.DAOModule
         /// <param name="infectType">Class instance of infectType infomation</param>
         /// <param name="scinfectTypeId">Id of the last insert row id</param>
         /// <returns></returns>
-        public bool InsertInfectType(InfectType infectType, ref int scinfectTypeId)
+        public bool InsertInfectType(InfectType infectType, ref int scId)
         {
             try
             {
@@ -57,20 +57,19 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO INFECTTYPE (NAME,DESCRIPTION,RESERVED) VALUES 
-                        (@NAME,@DESCRIPTION,@RESERVED)";
+                        (@NAME,@DESCRIPTION,@RESERVED) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
-                    sqlcomm.Parameters["@NAME"].Value = infectType.Name;
+                    if (infectType.Name != null) sqlcomm.Parameters["@NAME"].Value = infectType.Name;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = infectType.Description;
+                    if (infectType.Description != null)
+                        sqlcomm.Parameters["@DESCRIPTION"].Value = infectType.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
-                    sqlcomm.Parameters["@RESERVED"].Value = infectType.Reserved;
+                    if (infectType.Reserved != null) sqlcomm.Parameters["@RESERVED"].Value = infectType.Reserved;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as INFECTTYPE;";
-                    scinfectTypeId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

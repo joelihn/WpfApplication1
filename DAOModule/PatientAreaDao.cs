@@ -56,28 +56,27 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO PATIENTAREA (NAME,TYPE,DESCRIPTION,INFECTTYPEID,SEQ,POSITION,RESERVED) VALUES 
-                        (@NAME,@TYPE,@DESCRIPTION,@INFECTTYPEID,@SEQ,@POSITION,@RESERVED)";
+                        (@NAME,@TYPE,@DESCRIPTION,@INFECTTYPEID,@SEQ,@POSITION,@RESERVED) SET @ID = SCOPE_IDENTITY() ;";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
-                    sqlcomm.Parameters["@NAME"].Value = patientArea.Name;
+                    if (patientArea.Name != null) sqlcomm.Parameters["@NAME"].Value = patientArea.Name;
                     sqlcomm.Parameters.Add("@TYPE", DbType.String);
-                    sqlcomm.Parameters["@TYPE"].Value = patientArea.Type;
+                    if (patientArea.Type != null) sqlcomm.Parameters["@TYPE"].Value = patientArea.Type;
                     sqlcomm.Parameters.Add("@INFECTTYPEID", DbType.Int32);
                     sqlcomm.Parameters["@INFECTTYPEID"].Value = patientArea.InfectTypeId;
                     sqlcomm.Parameters.Add("@SEQ", DbType.Int32);
                     sqlcomm.Parameters["@SEQ"].Value = patientArea.Seq;
                     sqlcomm.Parameters.Add("@POSITION", DbType.String);
-                    sqlcomm.Parameters["@POSITION"].Value = patientArea.Position;
+                    if (patientArea.Position != null) sqlcomm.Parameters["@POSITION"].Value = patientArea.Position;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = patientArea.Description;
+                    if (patientArea.Description != null)
+                        sqlcomm.Parameters["@DESCRIPTION"].Value = patientArea.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
-                    sqlcomm.Parameters["@RESERVED"].Value = patientArea.Reserved;
+                    if (patientArea.Reserved != null) sqlcomm.Parameters["@RESERVED"].Value = patientArea.Reserved;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as PATIENTAREA;";
-                    scId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

@@ -56,20 +56,20 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO PATIENTDEPARTMENT (NAME,DESCRIPTION,RESERVED) VALUES 
-                        (@NAME,@DESCRIPTION,@RESERVED)";
+                        (@NAME,@DESCRIPTION,@RESERVED) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
-                    sqlcomm.Parameters["@NAME"].Value = patientDepartment.Name;
+                    if (patientDepartment.Name != null) sqlcomm.Parameters["@NAME"].Value = patientDepartment.Name;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = patientDepartment.Description;
+                    if (patientDepartment.Description != null)
+                        sqlcomm.Parameters["@DESCRIPTION"].Value = patientDepartment.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
-                    sqlcomm.Parameters["@RESERVED"].Value = patientDepartment.Reserved;
+                    if (patientDepartment.Reserved != null)
+                        sqlcomm.Parameters["@RESERVED"].Value = patientDepartment.Reserved;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as PATIENTDEPARTMENT;";
-                    scId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

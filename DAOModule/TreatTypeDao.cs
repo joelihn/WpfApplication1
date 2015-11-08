@@ -56,22 +56,20 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO TREATTYPE (NAME,DESCRIPTION,RESERVED,BGCOLOR) VALUES 
-                        (@NAME,@DESCRIPTION,@RESERVED,@BGCOLOR)";
+                        (@NAME,@DESCRIPTION,@RESERVED,@BGCOLOR) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
-                    sqlcomm.Parameters["@NAME"].Value = treatType.Name;
+                    if (treatType.Name != null) sqlcomm.Parameters["@NAME"].Value = treatType.Name;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = treatType.Description;
+                    if (treatType.Description != null) sqlcomm.Parameters["@DESCRIPTION"].Value = treatType.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
-                    sqlcomm.Parameters["@RESERVED"].Value = treatType.Reserved;
+                    if (treatType.Reserved != null) sqlcomm.Parameters["@RESERVED"].Value = treatType.Reserved;
                     sqlcomm.Parameters.Add("@BGCOLOR", DbType.String);
-                    sqlcomm.Parameters["@BGCOLOR"].Value = treatType.BgColor;
+                    if (treatType.BgColor != null) sqlcomm.Parameters["@BGCOLOR"].Value = treatType.BgColor;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as TREATTYPE;";
-                    scId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

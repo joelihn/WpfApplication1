@@ -49,7 +49,7 @@ namespace WpfApplication1.DAOModule
         /// <param name="PatientGroup">Class instance of PatientGroup infomation</param>
         /// <param name="scPatientGroupId">Id of the last insert row id</param>
         /// <returns></returns>
-        public bool InsertPatientGroup(PatientGroup PatientGroup, ref int scPatientGroupId)
+        public bool InsertPatientGroup(PatientGroup PatientGroup, ref int scId)
         {
             try
             {
@@ -57,20 +57,19 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO PATIENTGROUP (NAME,DESCRIPTION,RESERVED) VALUES 
-                        (@NAME,@DESCRIPTION,@RESERVED)";
+                        (@NAME,@DESCRIPTION,@RESERVED) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
-                    sqlcomm.Parameters["@NAME"].Value = PatientGroup.Name;
+                    if (PatientGroup.Name != null) sqlcomm.Parameters["@NAME"].Value = PatientGroup.Name;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = PatientGroup.Description;
+                    if (PatientGroup.Description != null)
+                        sqlcomm.Parameters["@DESCRIPTION"].Value = PatientGroup.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
-                    sqlcomm.Parameters["@RESERVED"].Value = PatientGroup.Reserved;
+                    if (PatientGroup.Reserved != null) sqlcomm.Parameters["@RESERVED"].Value = PatientGroup.Reserved;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as PATIENTGROUP;";
-                    scPatientGroupId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

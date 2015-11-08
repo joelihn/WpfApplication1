@@ -56,32 +56,32 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO SCHEDULETEMPLATE (PATIENTID,DATE,AMPME,METHOD,DESCRIPTION,RESERVED,ISTEMP) VALUES 
-                        (@PATIENTID,@DATE,@AMPME,@METHOD,@DESCRIPTION,@RESERVED,@ISTEMP,@ISAUTO)";
+                        (@PATIENTID,@DATE,@AMPME,@METHOD,@DESCRIPTION,@RESERVED,@ISTEMP,@ISAUTO) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@PATIENTID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTID"].Value = scheduleTemplate.PatientId;
                     sqlcomm.Parameters.Add("@DATE", DbType.String);
-                    sqlcomm.Parameters["@DATE"].Value = scheduleTemplate.Date;
+                    if (scheduleTemplate.Date != null) sqlcomm.Parameters["@DATE"].Value = scheduleTemplate.Date;
                     sqlcomm.Parameters.Add("@AMPME", DbType.String);
-                    sqlcomm.Parameters["@AMPME"].Value = scheduleTemplate.AmPmE;
+                    if (scheduleTemplate.AmPmE != null) sqlcomm.Parameters["@AMPME"].Value = scheduleTemplate.AmPmE;
                     sqlcomm.Parameters.Add("@METHOD", DbType.String);
-                    sqlcomm.Parameters["@METHOD"].Value = scheduleTemplate.Method;
+                    if (scheduleTemplate.Method != null) sqlcomm.Parameters["@METHOD"].Value = scheduleTemplate.Method;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = scheduleTemplate.Description;
+                    if (scheduleTemplate.Description != null)
+                        sqlcomm.Parameters["@DESCRIPTION"].Value = scheduleTemplate.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
-                    sqlcomm.Parameters["@RESERVED"].Value = scheduleTemplate.Reserved;
+                    if (scheduleTemplate.Reserved != null)
+                        sqlcomm.Parameters["@RESERVED"].Value = scheduleTemplate.Reserved;
                     sqlcomm.Parameters.Add("@BEDID", DbType.Int32);
                     sqlcomm.Parameters["@BEDID"].Value = scheduleTemplate.BedId;
                     sqlcomm.Parameters.Add("@ISTEMP", DbType.Boolean);
                     sqlcomm.Parameters["@ISTEMP"].Value = scheduleTemplate.IsTemp;
                     sqlcomm.Parameters.Add("@ISAUTO", DbType.Boolean);
                     sqlcomm.Parameters["@ISAUTO"].Value = scheduleTemplate.IsAuto;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as SCHEDULETEMPLATE;";
-                    scId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

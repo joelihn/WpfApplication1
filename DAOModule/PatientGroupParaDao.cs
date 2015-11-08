@@ -49,7 +49,7 @@ namespace WpfApplication1.DAOModule
         /// <param name="PatientGroupPara">Class instance of PatientGroupPara infomation</param>
         /// <param name="scPatientGroupParaId">Id of the last insert row id</param>
         /// <returns></returns>
-        public bool InsertPatientGroupPara(PatientGroupPara PatientGroupPara, ref int scPatientGroupParaId)
+        public bool InsertPatientGroupPara(PatientGroupPara PatientGroupPara, ref int scId)
         {
             try
             {
@@ -57,32 +57,30 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO PATIENTGROUPPARA (GROUPID,LEFT,KEY,SYMBOL,VALUE,RIGHT,LOGIC,DESCRIPTION,RESERVED) VALUES 
-                        (@GROUPID,@LEFT,@KEY,@SYMBOL,@VALUE,@RIGHT,@LOGIC,@DESCRIPTION,@RESERVED)";
+                        (@GROUPID,@LEFT,@KEY,@SYMBOL,@VALUE,@RIGHT,@LOGIC,@DESCRIPTION,@RESERVED) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@GROUPID", DbType.Int64);
                     sqlcomm.Parameters["@GROUPID"].Value = PatientGroupPara.GroupId;
                     sqlcomm.Parameters.Add("@LEFT", DbType.String);
-                    sqlcomm.Parameters["@LEFT"].Value = PatientGroupPara.Left;
+                    if (PatientGroupPara.Left != null) sqlcomm.Parameters["@LEFT"].Value = PatientGroupPara.Left;
                     sqlcomm.Parameters.Add("@KEY", DbType.String);
-                    sqlcomm.Parameters["@KEY"].Value = PatientGroupPara.Key;
+                    if (PatientGroupPara.Key != null) sqlcomm.Parameters["@KEY"].Value = PatientGroupPara.Key;
                     sqlcomm.Parameters.Add("@SYMBOL", DbType.String);
-                    sqlcomm.Parameters["@SYMBOL"].Value = PatientGroupPara.Symbol;
+                    if (PatientGroupPara.Symbol != null) sqlcomm.Parameters["@SYMBOL"].Value = PatientGroupPara.Symbol;
                     sqlcomm.Parameters.Add("@VALUE", DbType.String);
-                    sqlcomm.Parameters["@VALUE"].Value = PatientGroupPara.Value;
+                    if (PatientGroupPara.Value != null) sqlcomm.Parameters["@VALUE"].Value = PatientGroupPara.Value;
                     sqlcomm.Parameters.Add("@RIGHT", DbType.String);
-                    sqlcomm.Parameters["@RIGHT"].Value = PatientGroupPara.Right;
+                    if (PatientGroupPara.Right != null) sqlcomm.Parameters["@RIGHT"].Value = PatientGroupPara.Right;
                     sqlcomm.Parameters.Add("@LOGIC", DbType.String);
-                    sqlcomm.Parameters["@LOGIC"].Value = PatientGroupPara.Logic;
+                    if (PatientGroupPara.Logic != null) sqlcomm.Parameters["@LOGIC"].Value = PatientGroupPara.Logic;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = PatientGroupPara.Description;
+                    if (PatientGroupPara.Description != null) sqlcomm.Parameters["@DESCRIPTION"].Value = PatientGroupPara.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
-                    sqlcomm.Parameters["@RESERVED"].Value = PatientGroupPara.Reserved;
+                    if (PatientGroupPara.Reserved != null) sqlcomm.Parameters["@RESERVED"].Value = PatientGroupPara.Reserved;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as PATIENTGROUPPARA;";
-                    scPatientGroupParaId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

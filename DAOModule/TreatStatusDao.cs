@@ -56,22 +56,21 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO TREATSTATUS (NAME,ACTIVATED,DESCRIPTION,RESERVED) VALUES 
-                        (@NAME,@ACTIVATED,@DESCRIPTION,@RESERVED)";
+                        (@NAME,@ACTIVATED,@DESCRIPTION,@RESERVED) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
-                    sqlcomm.Parameters["@NAME"].Value = treatStatus.Name;
+                    if (treatStatus.Name != null) sqlcomm.Parameters["@NAME"].Value = treatStatus.Name;
                     sqlcomm.Parameters.Add("@ACTIVATED", DbType.Boolean);
                     sqlcomm.Parameters["@ACTIVATED"].Value = treatStatus.Activated;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = treatStatus.Description;
+                    if (treatStatus.Description != null)
+                        sqlcomm.Parameters["@DESCRIPTION"].Value = treatStatus.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
-                    sqlcomm.Parameters["@RESERVED"].Value = treatStatus.Reserved;
+                    if (treatStatus.Reserved != null) sqlcomm.Parameters["@RESERVED"].Value = treatStatus.Reserved;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as TREATSTATUS;";
-                    scId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

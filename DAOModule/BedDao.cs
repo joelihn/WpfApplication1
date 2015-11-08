@@ -49,7 +49,7 @@ namespace WpfApplication1.DAOModule
         /// <param name="bed">Class instance of bed infomation</param>
         /// <param name="scBedId">Id of the last insert row id</param>
         /// <returns></returns>
-        public bool InsertBed(Bed bed, ref int scBedId)
+        public bool InsertBed(Bed bed, ref int scId)
         {
             try
             {
@@ -57,9 +57,9 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO BED (PATIENTAREAID,NAME,TREATTYPEID,ISAVAILABLE, ISOCCUPY,DESCRIPTION,RESERVED,ISTEMP, MACHINETYPEID) VALUES 
-                        (@PATIENTAREAID,@NAME,@TREATTYPEID,@ISAVAILABLE,@ISOCCUPY,@DESCRIPTION,@RESERVED,@ISTEMP,@MACHINETYPEID)";
+                        (@PATIENTAREAID,@NAME,@TREATTYPEID,@ISAVAILABLE,@ISOCCUPY,@DESCRIPTION,@RESERVED,@ISTEMP,@MACHINETYPEID) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
-                    sqlcomm.Parameters["@NAME"].Value = bed.Name;
+                    if (bed.Name != null) sqlcomm.Parameters["@NAME"].Value = bed.Name;
                     sqlcomm.Parameters.Add("@TREATTYPEID", DbType.Int32);
                     sqlcomm.Parameters["@TREATTYPEID"].Value = bed.TreatTypeId;
                     sqlcomm.Parameters.Add("@ISAVAILABLE", DbType.Boolean);
@@ -67,22 +67,20 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters.Add("@ISOCCUPY", DbType.Boolean);
                     sqlcomm.Parameters["@ISOCCUPY"].Value = bed.IsOccupy;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = bed.Description;
+                    if (bed.Description != null) sqlcomm.Parameters["@DESCRIPTION"].Value = bed.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
-                    sqlcomm.Parameters["@RESERVED"].Value = bed.Reserved;
+                    if (bed.Reserved != null) sqlcomm.Parameters["@RESERVED"].Value = bed.Reserved;
                     sqlcomm.Parameters.Add("@PATIENTAREAID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTAREAID"].Value = bed.PatientAreaId;
                     sqlcomm.Parameters.Add("@ISTEMP", DbType.Boolean);
                     sqlcomm.Parameters["@ISTEMP"].Value = bed.IsTemp;
                     sqlcomm.Parameters.Add("@MACHINETYPEID", DbType.Int32);
                     sqlcomm.Parameters["@MACHINETYPEID"].Value = bed.MachineTypeId;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as BED;";
-                    scBedId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

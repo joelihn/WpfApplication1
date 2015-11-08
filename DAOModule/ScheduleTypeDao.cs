@@ -56,28 +56,27 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO SCHEDULETYPE (NAME,PATIENTID,TIMERANGE,TYPE,COLOR,DESCRIPTION,RESERVED) VALUES 
-                        (@NAME,@PATIENTID, @TIMERANGE,@TYPE,@COLOR,@DESCRIPTION,@RESERVED)";
+                        (@NAME,@PATIENTID, @TIMERANGE,@TYPE,@COLOR,@DESCRIPTION,@RESERVED) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
-                    sqlcomm.Parameters["@NAME"].Value = scheduleType.Name;
+                    if (scheduleType.Name != null) sqlcomm.Parameters["@NAME"].Value = scheduleType.Name;
                     sqlcomm.Parameters.Add("@PATIENTID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTID"].Value = scheduleType.PatientId;
                     sqlcomm.Parameters.Add("@TIMERANGE", DbType.String);
-                    sqlcomm.Parameters["@TIMERANGE"].Value = scheduleType.TimeRange;
+                    if (scheduleType.TimeRange != null) sqlcomm.Parameters["@TIMERANGE"].Value = scheduleType.TimeRange;
                     sqlcomm.Parameters.Add("@TYPE", DbType.Int32);
                     sqlcomm.Parameters["@TYPE"].Value = scheduleType.Type;
                     sqlcomm.Parameters.Add("@COLOR", DbType.String);
-                    sqlcomm.Parameters["@COLOR"].Value = scheduleType.Color;
+                    if (scheduleType.Color != null) sqlcomm.Parameters["@COLOR"].Value = scheduleType.Color;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = scheduleType.Description;
+                    if (scheduleType.Description != null)
+                        sqlcomm.Parameters["@DESCRIPTION"].Value = scheduleType.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
-                    sqlcomm.Parameters["@RESERVED"].Value = scheduleType.Reserved;
+                    if (scheduleType.Reserved != null) sqlcomm.Parameters["@RESERVED"].Value = scheduleType.Reserved;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as SCHEDULETYPE;";
-                    scId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

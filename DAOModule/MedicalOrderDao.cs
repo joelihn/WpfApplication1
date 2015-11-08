@@ -58,17 +58,17 @@ namespace WpfApplication1.DAOModule
                         @"INSERT INTO MEDICALORDER (PATIENTID,ACTIVATED,SEQ,PLAN,METHODID,INTERVAL,TIMES,
                            DESCRIPTION,RESERVED1,RESERVED2) VALUES 
                         (@PATIENTID,@ACTIVATED,@SEQ,@PLAN,@METHODID,@INTERVAL,@TIMES,
-                            @DESCRIPTION ,@RESERVED1,@RESERVED2)";
+                            @DESCRIPTION ,@RESERVED1,@RESERVED2) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@PATIENTID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTID"].Value = medicalOrder.PatientId;
 
                     sqlcomm.Parameters.Add("@ACTIVATED", DbType.Boolean);
                     sqlcomm.Parameters["@ACTIVATED"].Value = medicalOrder.Activated;
                     sqlcomm.Parameters.Add("@SEQ", DbType.String);
-                    sqlcomm.Parameters["@SEQ"].Value = medicalOrder.Seq;
+                    if (medicalOrder.Seq != null) sqlcomm.Parameters["@SEQ"].Value = medicalOrder.Seq;
 
                     sqlcomm.Parameters.Add("@PLAN", DbType.String);
-                    sqlcomm.Parameters["@PLAN"].Value = medicalOrder.Plan;
+                    if (medicalOrder.Plan != null) sqlcomm.Parameters["@PLAN"].Value = medicalOrder.Plan;
                     sqlcomm.Parameters.Add("@METHODID", DbType.Int32);
                     sqlcomm.Parameters["@METHODID"].Value = medicalOrder.MethodId;
 
@@ -78,19 +78,18 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters["@TIMES"].Value = medicalOrder.Times;
 
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = medicalOrder.Description;
+                    if (medicalOrder.Description != null)
+                        sqlcomm.Parameters["@DESCRIPTION"].Value = medicalOrder.Description;
 
                     sqlcomm.Parameters.Add("@RESERVED1", DbType.String);
-                    sqlcomm.Parameters["@RESERVED1"].Value = medicalOrder.Reserved1;
+                    if (medicalOrder.Reserved1 != null) sqlcomm.Parameters["@RESERVED1"].Value = medicalOrder.Reserved1;
                     sqlcomm.Parameters.Add("@RESERVED2", DbType.String);
-                    sqlcomm.Parameters["@RESERVED2"].Value = medicalOrder.Reserved2;
+                    if (medicalOrder.Reserved2 != null) sqlcomm.Parameters["@RESERVED2"].Value = medicalOrder.Reserved2;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as MEDICALORDER;";
-                    scId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

@@ -56,27 +56,25 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO TREATTIME (ACTIVATED,NAME,BEGINTIME,ENDTIME,DESCRIPTION,RESERVED) VALUES 
-                        (@ACTIVATED,@NAME,@BEGINTIME,@ENDTIME,@DESCRIPTION,@RESERVED)";
+                        (@ACTIVATED,@NAME,@BEGINTIME,@ENDTIME,@DESCRIPTION,@RESERVED) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
-                    sqlcomm.Parameters["@NAME"].Value = treatTime.Name;
+                    if (treatTime.Name != null) sqlcomm.Parameters["@NAME"].Value = treatTime.Name;
                     sqlcomm.Parameters.Add("@ACTIVATED", DbType.Boolean);
                     sqlcomm.Parameters["@ACTIVATED"].Value = treatTime.Activated;
                     sqlcomm.Parameters.Add("@BEGINTIME", DbType.String);
-                    sqlcomm.Parameters["@BEGINTIME"].Value = treatTime.BeginTime;
+                    if (treatTime.BeginTime != null) sqlcomm.Parameters["@BEGINTIME"].Value = treatTime.BeginTime;
                     sqlcomm.Parameters.Add("@ENDTIME", DbType.String);
-                    sqlcomm.Parameters["@ENDTIME"].Value = treatTime.EndTime;
+                    if (treatTime.EndTime != null) sqlcomm.Parameters["@ENDTIME"].Value = treatTime.EndTime;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = treatTime.Description;
+                    if (treatTime.Description != null) sqlcomm.Parameters["@DESCRIPTION"].Value = treatTime.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
-                    sqlcomm.Parameters["@RESERVED"].Value = treatTime.Reserved;
-                   
+                    if (treatTime.Reserved != null) sqlcomm.Parameters["@RESERVED"].Value = treatTime.Reserved;
+
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as TREATTIME;";
-                    scId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

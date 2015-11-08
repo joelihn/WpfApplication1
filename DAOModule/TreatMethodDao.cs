@@ -56,28 +56,27 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO TREATMETHOD (NAME,SINGLEPUMP,DOUBLEPUMP,DESCRIPTION,RESERVED,BGCOLOR,ISAVAILABLE) VALUES 
-                        (@NAME,@SINGLEPUMP,@DOUBLEPUMP,@DESCRIPTION,@RESERVED,@BGCOLOR,@ISAVAILABLE)";
+                        (@NAME,@SINGLEPUMP,@DOUBLEPUMP,@DESCRIPTION,@RESERVED,@BGCOLOR,@ISAVAILABLE) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
-                    sqlcomm.Parameters["@NAME"].Value = treatMethod.Name;
+                    if (treatMethod.Name != null) sqlcomm.Parameters["@NAME"].Value = treatMethod.Name;
                     sqlcomm.Parameters.Add("@SINGLEPUMP", DbType.Boolean);
                     sqlcomm.Parameters["@SINGLEPUMP"].Value = treatMethod.SinglePump;
                     sqlcomm.Parameters.Add("@DOUBLEPUMP", DbType.Boolean);
                     sqlcomm.Parameters["@DOUBLEPUMP"].Value = treatMethod.DoublePump;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = treatMethod.Description;
+                    if (treatMethod.Description != null)
+                        sqlcomm.Parameters["@DESCRIPTION"].Value = treatMethod.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
-                    sqlcomm.Parameters["@RESERVED"].Value = treatMethod.Reserved;
+                    if (treatMethod.Reserved != null) sqlcomm.Parameters["@RESERVED"].Value = treatMethod.Reserved;
                     sqlcomm.Parameters.Add("@BGCOLOR", DbType.String);
                     sqlcomm.Parameters["@BGCOLOR"].Value = treatMethod.BgColor;
                     sqlcomm.Parameters.Add("@ISAVAILABLE", DbType.Boolean);
                     sqlcomm.Parameters["@ISAVAILABLE"].Value = treatMethod.IsAvailable;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as TREATMETHOD;";
-                    scId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

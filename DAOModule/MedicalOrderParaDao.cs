@@ -48,7 +48,7 @@ namespace WpfApplication1.DAOModule
         /// <param name="interval">Class instance of infectType infomation</param>
         /// <param name="scintervalId">Id of the last insert row id</param>
         /// <returns></returns>
-        public bool InsertInterval(MedicalOrderPara interval, ref int scintervalId)
+        public bool InsertInterval(MedicalOrderPara interval, ref int scId)
         {
             try
             {
@@ -56,24 +56,22 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO MEDICALORDERPARA (NAME,TYPE,COUNT,DESCRIPTION,RESERVED) VALUES 
-                        (@NAME,@TYPE,@COUNT,@DESCRIPTION,@RESERVED)";
+                        (@NAME,@TYPE,@COUNT,@DESCRIPTION,@RESERVED) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
-                    sqlcomm.Parameters["@NAME"].Value = interval.Name;
+                    if (interval.Name != null) sqlcomm.Parameters["@NAME"].Value = interval.Name;
                     sqlcomm.Parameters.Add("@TYPE", DbType.String);
-                    sqlcomm.Parameters["@TYPE"].Value = interval.Type;
+                    if (interval.Type != null) sqlcomm.Parameters["@TYPE"].Value = interval.Type;
                     sqlcomm.Parameters.Add("@COUNT", DbType.Int32);
                     sqlcomm.Parameters["@COUNT"].Value = interval.Count;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = interval.Description;
+                    if (interval.Description != null) sqlcomm.Parameters["@DESCRIPTION"].Value = interval.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
-                    sqlcomm.Parameters["@RESERVED"].Value = interval.Reserved;
+                    if (interval.Reserved != null) sqlcomm.Parameters["@RESERVED"].Value = interval.Reserved;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as MEDICALORDERPARA;";
-                    scintervalId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

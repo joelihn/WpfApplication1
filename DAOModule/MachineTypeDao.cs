@@ -49,7 +49,7 @@ namespace WpfApplication1.DAOModule
         /// <param name="MachineType">Class instance of MachineType infomation</param>
         /// <param name="scMachineTypeId">Id of the last insert row id</param>
         /// <returns></returns>
-        public bool InsertMachineType(MachineType MachineType, ref int scMachineTypeId)
+        public bool InsertMachineType(MachineType MachineType, ref int scId)
         {
             try
             {
@@ -57,22 +57,21 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO MACHINETYPE (NAME,BGCOLOR,DESCRIPTION,RESERVED) VALUES 
-                        (@NAME,@BGCOLOR,@DESCRIPTION,@RESERVED)";
+                        (@NAME,@BGCOLOR,@DESCRIPTION,@RESERVED) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
-                    sqlcomm.Parameters["@NAME"].Value = MachineType.Name;
+                    if (MachineType.Name != null) sqlcomm.Parameters["@NAME"].Value = MachineType.Name;
                     sqlcomm.Parameters.Add("@BGCOLOR", DbType.String);
-                    sqlcomm.Parameters["@BGCOLOR"].Value = MachineType.BgColor;
+                    if (MachineType.BgColor != null) sqlcomm.Parameters["@BGCOLOR"].Value = MachineType.BgColor;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = MachineType.Description;
+                    if (MachineType.Description != null)
+                        sqlcomm.Parameters["@DESCRIPTION"].Value = MachineType.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
-                    sqlcomm.Parameters["@RESERVED"].Value = MachineType.Reserved;
+                    if (MachineType.Reserved != null) sqlcomm.Parameters["@RESERVED"].Value = MachineType.Reserved;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as MACHINETYPE;";
-                    scMachineTypeId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

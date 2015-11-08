@@ -61,7 +61,7 @@ namespace WpfApplication1.DAOModule
         /// <param name="patient">Class instance of patient infomation</param>
         /// <param name="scPatientId">Id of the last insert row id</param>
         /// <returns></returns>
-        public bool InsertPatient(Patient patient, ref int scPatientId)
+        public bool InsertPatient(Patient patient, ref int scId)
         {
             try
             {
@@ -71,64 +71,62 @@ namespace WpfApplication1.DAOModule
                         @"INSERT INTO PATIENT (PATIENTID,NAME,DOB,GENDER,NATIONALITY,MARRIAGE,HEIGHT,BLOODTYPE,IDCODE, MOBILE, ORDERS, TREATSTATUSID,REGISITDATE,
                                                 AREAID,ZIPCODE,WEIXINHAO,PAYMENT,INFECTTYPEID,ISFIXEDBED,BEDID,ISASSIGNED,DESCRIPTION,RESERVED1,RESERVED2) VALUES 
                                             (@PATIENTID,@NAME,@DOB,@GENDER,@NATIONALITY,@MARRIAGE,@HEIGHT,@BLOODTYPE, @IDCODE, @MOBILE,@ORDERS,@TREATSTATUSID,@REGISITDATE,
-                                                @AREAID,@ZIPCODE,@WEIXINHAO,@PAYMENT,@INFECTTYPEID,@ISFIXEDBED,@BEDID,@ISASSIGNED,@DESCRIPTION,@RESERVED1,@RESERVED2)";
+                                                @AREAID,@ZIPCODE,@WEIXINHAO,@PAYMENT,@INFECTTYPEID,@ISFIXEDBED,@BEDID,@ISASSIGNED,@DESCRIPTION,@RESERVED1,@RESERVED2) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@PATIENTID", DbType.String);
                     sqlcomm.Parameters["@PATIENTID"].Value = patient.PatientId;
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
-                    sqlcomm.Parameters["@NAME"].Value = patient.Name;
+                    if (patient.Name != null) sqlcomm.Parameters["@NAME"].Value = patient.Name;
                     sqlcomm.Parameters.Add("@GENDER", DbType.String);
-                    sqlcomm.Parameters["@GENDER"].Value = patient.Gender;
+                    if (patient.Gender != null) sqlcomm.Parameters["@GENDER"].Value = patient.Gender;
                     sqlcomm.Parameters.Add("@DOB", DbType.String);
-                    sqlcomm.Parameters["@DOB"].Value = patient.Dob;
+                    if (patient.Dob != null) sqlcomm.Parameters["@DOB"].Value = patient.Dob;
                     sqlcomm.Parameters.Add("@NATIONALITY", DbType.String);
-                    sqlcomm.Parameters["@NATIONALITY"].Value = patient.Nationality;
+                    if (patient.Nationality != null) sqlcomm.Parameters["@NATIONALITY"].Value = patient.Nationality;
                     sqlcomm.Parameters.Add("@MARRIAGE", DbType.String);
-                    sqlcomm.Parameters["@MARRIAGE"].Value = patient.Marriage;
+                    if (patient.Marriage != null) sqlcomm.Parameters["@MARRIAGE"].Value = patient.Marriage;
                     sqlcomm.Parameters.Add("@HEIGHT", DbType.String);
-                    sqlcomm.Parameters["@HEIGHT"].Value = patient.Height;
+                    if (patient.Height != null) sqlcomm.Parameters["@HEIGHT"].Value = patient.Height;
                     sqlcomm.Parameters.Add("@BLOODTYPE", DbType.String);
-                    sqlcomm.Parameters["@BLOODTYPE"].Value = patient.BloodType;
+                    if (patient.BloodType != null) sqlcomm.Parameters["@BLOODTYPE"].Value = patient.BloodType;
                     sqlcomm.Parameters.Add("@IDCODE", DbType.String);
-                    sqlcomm.Parameters["@IDCODE"].Value = patient.IdCode;
+                    if (patient.IdCode != null) sqlcomm.Parameters["@IDCODE"].Value = patient.IdCode;
                     sqlcomm.Parameters.Add("@MOBILE", DbType.String);
-                    sqlcomm.Parameters["@MOBILE"].Value = patient.Mobile;
+                    if (patient.Mobile != null) sqlcomm.Parameters["@MOBILE"].Value = patient.Mobile;
                     sqlcomm.Parameters.Add("@ORDERS", DbType.String);
-                    sqlcomm.Parameters["@ORDERS"].Value = patient.Orders;
+                    if (patient.Orders != null) sqlcomm.Parameters["@ORDERS"].Value = patient.Orders;
                     sqlcomm.Parameters.Add("@TREATSTATUSID", DbType.Int32);
-                    sqlcomm.Parameters["@TREATSTATUSID"].Value = patient.TreatStatusId;
+                    if (patient.TreatStatusId != null) sqlcomm.Parameters["@TREATSTATUSID"].Value = patient.TreatStatusId;
                     sqlcomm.Parameters.Add("@REGISITDATE", DbType.String);
-                    sqlcomm.Parameters["@REGISITDATE"].Value = patient.RegisitDate;
+                    if (patient.RegisitDate != null) sqlcomm.Parameters["@REGISITDATE"].Value = patient.RegisitDate;
                     sqlcomm.Parameters.Add("@AREAID", DbType.Int32);
-                    sqlcomm.Parameters["@AREAID"].Value = patient.AreaId;
+                    if (patient.AreaId != null) sqlcomm.Parameters["@AREAID"].Value = patient.AreaId;
 
                     sqlcomm.Parameters.Add("@ZIPCODE", DbType.String);
-                    sqlcomm.Parameters["@ZIPCODE"].Value = patient.ZipCode;
+                    if (patient.ZipCode != null) sqlcomm.Parameters["@ZIPCODE"].Value = patient.ZipCode;
                     sqlcomm.Parameters.Add("@WEIXINHAO", DbType.String);
-                    sqlcomm.Parameters["@WEIXINHAO"].Value = patient.WeiXinHao;
+                    if (patient.WeiXinHao != null) sqlcomm.Parameters["@WEIXINHAO"].Value = patient.WeiXinHao;
                     sqlcomm.Parameters.Add("@PAYMENT", DbType.String);
-                    sqlcomm.Parameters["@PAYMENT"].Value = patient.Payment;
+                    if (patient.Payment != null) sqlcomm.Parameters["@PAYMENT"].Value = patient.Payment;
 
                     sqlcomm.Parameters.Add("@INFECTTYPEID", DbType.Int32);
-                    sqlcomm.Parameters["@INFECTTYPEID"].Value = patient.InfectTypeId;
+                    if (patient.InfectTypeId != null) sqlcomm.Parameters["@INFECTTYPEID"].Value = patient.InfectTypeId;
                     sqlcomm.Parameters.Add("@ISFIXEDBED", DbType.Boolean);
-                    sqlcomm.Parameters["@ISFIXEDBED"].Value = patient.IsFixedBed;
+                    if (patient.IsFixedBed != null) sqlcomm.Parameters["@ISFIXEDBED"].Value = patient.IsFixedBed;
                     sqlcomm.Parameters.Add("@BEDID", DbType.Int32);
-                    sqlcomm.Parameters["@BEDID"].Value = patient.BedId;
+                    if (patient.BedId != null) sqlcomm.Parameters["@BEDID"].Value = patient.BedId;
                     sqlcomm.Parameters.Add("@ISASSIGNED", DbType.Boolean);
-                    sqlcomm.Parameters["@ISASSIGNED"].Value = patient.IsAssigned;
+                    if (patient.IsAssigned != null) sqlcomm.Parameters["@ISASSIGNED"].Value = patient.IsAssigned;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = patient.Description;
+                    if (patient.Description != null) sqlcomm.Parameters["@DESCRIPTION"].Value = patient.Description;
                     sqlcomm.Parameters.Add("@RESERVED1", DbType.String);
-                    sqlcomm.Parameters["@RESERVED1"].Value = patient.Reserved1;
+                    if (patient.Reserved1 != null) sqlcomm.Parameters["@RESERVED1"].Value = patient.Reserved1;
                     sqlcomm.Parameters.Add("@RESERVED2", DbType.String);
-                    sqlcomm.Parameters["@RESERVED2"].Value = patient.Reserved2;
+                    if (patient.Reserved2 != null) sqlcomm.Parameters["@RESERVED2"].Value = patient.Reserved2;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as PATIENT;";
-                    scPatientId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)

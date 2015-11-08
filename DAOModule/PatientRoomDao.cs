@@ -56,24 +56,23 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO PATIENTROOM (PATIENTAREAID,NAME,INFECTTYPEID,DESCRIPTION,RESERVED) VALUES 
-                        (@PATIENTAREAID,@NAME,@INFECTTYPEID,@DESCRIPTION,@RESERVED)";
+                        (@PATIENTAREAID,@NAME,@INFECTTYPEID,@DESCRIPTION,@RESERVED) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@PATIENTAREAID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTAREAID"].Value = patientRoom.PatientAreaId;
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
-                    sqlcomm.Parameters["@NAME"].Value = patientRoom.Name;
+                    if (patientRoom.Name != null) sqlcomm.Parameters["@NAME"].Value = patientRoom.Name;
                     sqlcomm.Parameters.Add("@INFECTTYPEID", DbType.Int32);
                     sqlcomm.Parameters["@INFECTTYPEID"].Value = patientRoom.InfectTypeId;
                     sqlcomm.Parameters.Add("@DESCRIPTION", DbType.String);
-                    sqlcomm.Parameters["@DESCRIPTION"].Value = patientRoom.Description;
+                    if (patientRoom.Description != null)
+                        sqlcomm.Parameters["@DESCRIPTION"].Value = patientRoom.Description;
                     sqlcomm.Parameters.Add("@RESERVED", DbType.String);
-                    sqlcomm.Parameters["@RESERVED"].Value = patientRoom.Reserved;
+                    if (patientRoom.Reserved != null) sqlcomm.Parameters["@RESERVED"].Value = patientRoom.Reserved;
+                    sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
+
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
-                    //set last insert id of this table this connection
-                    SqlCommand comm = SqlConn.CreateCommand();
-                    comm.CommandText = "Select last_insert_rowid() as PATIENTROOM;";
-                    scId = Convert.ToInt32(comm.ExecuteScalar());
-                    comm.Dispose();
+                    scId = (int)sqlcomm.Parameters["@ID"].Value;
                 }
             }
             catch (Exception e)
