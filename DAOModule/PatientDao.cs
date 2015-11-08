@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SQLite;
+using System.Data.SqlClient;
 using WpfApplication1.Utils;
 
 #endregion
@@ -25,7 +25,7 @@ namespace WpfApplication1.DAOModule
         {
             try
             {
-                SqlConn = new SQLiteConnection(ConstDefinition.DbStr);
+                SqlConn = new SqlConnection(ConstDefinition.DbStr);
                 SqlConn.Open();
             }
             catch (Exception e)
@@ -34,7 +34,7 @@ namespace WpfApplication1.DAOModule
             }
         }
 
-        public SQLiteConnection SqlConn { get; set; }
+        public SqlConnection SqlConn { get; set; }
 
         #region IDisposable Members
 
@@ -65,7 +65,7 @@ namespace WpfApplication1.DAOModule
         {
             try
             {
-                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO PATIENT (PATIENTID,NAME,DOB,GENDER,NATIONALITY,MARRIAGE,HEIGHT,BLOODTYPE,IDCODE, MOBILE, ORDERS, TREATSTATUSID,REGISITDATE,
@@ -125,7 +125,7 @@ namespace WpfApplication1.DAOModule
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
                     //set last insert id of this table this connection
-                    SQLiteCommand comm = SqlConn.CreateCommand();
+                    SqlCommand comm = SqlConn.CreateCommand();
                     comm.CommandText = "Select last_insert_rowid() as PATIENT;";
                     scPatientId = Convert.ToInt32(comm.ExecuteScalar());
                     comm.Dispose();
@@ -144,7 +144,7 @@ namespace WpfApplication1.DAOModule
         {
             try
             {
-                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     string sqlcommand = "update PATIENT set ";
                     var parameters = new Dictionary<string, object>();
@@ -170,7 +170,7 @@ namespace WpfApplication1.DAOModule
         {
             try
             {
-                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
                         @"DELETE FROM PATIENT WHERE ID = @ID";
@@ -192,7 +192,7 @@ namespace WpfApplication1.DAOModule
             var list = new List<Patient>();
             try
             {
-                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     if (condition == null || condition.Count == 0)
                     {
@@ -224,7 +224,7 @@ namespace WpfApplication1.DAOModule
             try
             {
                 
-                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     string condition = string.Empty;
                     foreach (var patientGroupPara in listinParas)
@@ -307,8 +307,8 @@ namespace WpfApplication1.DAOModule
                                 }
                                 condition += patientGroupPara.Left.Trim() + " " +
                                            MainWindow.Key[patientGroupPara.Key].Trim() + " " +
-                                           MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \"" +
-                                           value.Trim() + "\" " +
+                                           MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \'" +
+                                           value.Trim() + "\' " +
                                            patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim();
                             }
                             else if (patientGroupPara.Key.Equals("治疗状态"))
@@ -323,8 +323,8 @@ namespace WpfApplication1.DAOModule
                                 }
                                 condition += patientGroupPara.Left.Trim() + " " +
                                            MainWindow.Key[patientGroupPara.Key].Trim() + " " +
-                                           MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \"" +
-                                           value.Trim() + "\" " +
+                                           MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \'" +
+                                           value.Trim() + "\' " +
                                            patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim();
                             }
                             else if (patientGroupPara.Key.Equals("感染情况"))
@@ -339,8 +339,8 @@ namespace WpfApplication1.DAOModule
                                 }
                                 condition += patientGroupPara.Left.Trim() + " " +
                                            MainWindow.Key[patientGroupPara.Key].Trim() + " " +
-                                           MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \"" +
-                                           value.Trim() + "\" " +
+                                           MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \'" +
+                                           value.Trim() + "\' " +
                                            patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim();
                             }
                             else if (patientGroupPara.Key.Equals("固定床位"))
@@ -355,8 +355,8 @@ namespace WpfApplication1.DAOModule
                             {
                                 condition += patientGroupPara.Left.Trim() + " " +
                                              MainWindow.Key[patientGroupPara.Key].Trim() + " " +
-                                             MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \"" +
-                                             patientGroupPara.Value.Trim() + "\" " +
+                                             MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \'" +
+                                             patientGroupPara.Value.Trim() + "\' " +
                                              patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim();
                             }
                         }

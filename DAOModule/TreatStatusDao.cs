@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 using WpfApplication1.Utils;
 
 namespace WpfApplication1.DAOModule
@@ -15,7 +12,7 @@ namespace WpfApplication1.DAOModule
         {
             try
             {
-                SqlConn = new SQLiteConnection(ConstDefinition.DbStr);
+                SqlConn = new SqlConnection(ConstDefinition.DbStr);
                 SqlConn.Open();
             }
             catch (Exception e)
@@ -24,7 +21,7 @@ namespace WpfApplication1.DAOModule
             }
         }
 
-        public SQLiteConnection SqlConn { get; set; }
+        public SqlConnection SqlConn { get; set; }
 
         #region IDisposable Members
 
@@ -55,7 +52,7 @@ namespace WpfApplication1.DAOModule
         {
             try
             {
-                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO TREATSTATUS (NAME,ACTIVATED,DESCRIPTION,RESERVED) VALUES 
@@ -71,7 +68,7 @@ namespace WpfApplication1.DAOModule
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
                     //set last insert id of this table this connection
-                    SQLiteCommand comm = SqlConn.CreateCommand();
+                    SqlCommand comm = SqlConn.CreateCommand();
                     comm.CommandText = "Select last_insert_rowid() as TREATSTATUS;";
                     scId = Convert.ToInt32(comm.ExecuteScalar());
                     comm.Dispose();
@@ -90,7 +87,7 @@ namespace WpfApplication1.DAOModule
         {
             try
             {
-                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     string sqlcommand = "update TREATSTATUS set ";
                     var parameters = new Dictionary<string, object>();
@@ -116,7 +113,7 @@ namespace WpfApplication1.DAOModule
         {
             try
             {
-                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
                         @"DELETE FROM TREATSTATUS WHERE ID = @ID";
@@ -138,7 +135,7 @@ namespace WpfApplication1.DAOModule
             var list = new List<TreatStatus>();
             try
             {
-                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     if (condition == null || condition.Count == 0)
                     {

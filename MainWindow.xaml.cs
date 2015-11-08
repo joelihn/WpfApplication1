@@ -2,25 +2,15 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Configuration;
-using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Threading;
 using CrashReporterDotNET;
 using WpfApplication1.CustomUI;
-using WpfApplication1.DAOModule;
 using WpfApplication1.LogModule;
 using WpfApplication1.Utils;
+using Application = System.Windows.Forms.Application;
 
 namespace WpfApplication1
 {
@@ -50,7 +40,7 @@ namespace WpfApplication1
             Environment.Exit(0);
         }
 
-        void Dispatcher_UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        void Dispatcher_UnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             ReportCrash(e.Exception);
         }
@@ -69,6 +59,32 @@ namespace WpfApplication1
 
         public MainWindow()
         {
+
+            ConstDefinition.DbStr = "server=" + config.AppSettings.Settings["IpAddress"].Value + ";database=" + config.AppSettings.Settings["Database"].Value
+                + ";uid=" + config.AppSettings.Settings["Username"].Value + ";pwd=" + config.AppSettings.Settings["Password"].Value + ";Timeout=10";
+            SqlConnection sqlConn = null;
+            try
+            {
+                sqlConn = new SqlConnection(ConstDefinition.DbStr);
+                sqlConn.Open();
+            }
+            catch (Exception e)
+            {
+                var messageBox1 = new RemindMessageBox1(true);
+                messageBox1.remindText.Text = (string)FindResource("Message40");
+                messageBox1.ShowDialog();
+                Log.WriteErrorLog("数据路连接失败，请确认数据库文件和密码设置是否正确.", e);
+                Close();
+                return;
+            }
+            finally
+            {
+                if (sqlConn != null)
+                {
+                    sqlConn.Close();
+                }
+            }
+
             InitializeComponent();
 
             this.Title = config.AppSettings.Settings["Title"].Value.ToString();
@@ -92,36 +108,13 @@ namespace WpfApplication1
             Dispatcher.UnhandledException +=Dispatcher_UnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
 
-            if (config.AppSettings.Settings["DataBasePath"].Value.Equals(""))
-            {
-                config.AppSettings.Settings["DataBasePath"].Value = System.Windows.Forms.Application.StartupPath;
-                config.Save(ConfigurationSaveMode.Modified);
-                ConfigurationManager.RefreshSection("appSettings");
-            }
+            //if (config.AppSettings.Settings["DataBasePath"].Value.Equals(""))
+            //{
+            //    config.AppSettings.Settings["DataBasePath"].Value = Application.StartupPath;
+            //    config.Save(ConfigurationSaveMode.Modified);
+            //    ConfigurationManager.RefreshSection("appSettings");
+            //}
 
-            ConstDefinition.DbStr = "Data Source=" + config.AppSettings.Settings["DataBasePath"].Value + "\\db.s3db;Version=3;";
-            SQLiteConnection sqlConn = null;
-            try
-            {
-                sqlConn = new SQLiteConnection(ConstDefinition.DbStr);
-                sqlConn.Open();
-            }
-            catch (Exception e)
-            {
-                var messageBox1 = new RemindMessageBox1(true);
-                messageBox1.remindText.Text = (string)FindResource("Message40");
-                messageBox1.ShowDialog();
-                Log.WriteErrorLog("数据路连接失败，请确认数据库文件和密码设置是否正确.", e);
-                Close();
-                return;
-            }
-            finally
-            {
-                if (sqlConn != null)
-                {
-                    sqlConn.Close();
-                }
-            }
 
             //TODO test all database table access operation
             #region

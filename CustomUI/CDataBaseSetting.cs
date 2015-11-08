@@ -48,6 +48,7 @@ namespace WpfApplication1.CustomUI
             ConfigurationManager.RefreshSection("appSettings");
 
             this.ButtonApply.IsEnabled = false;
+            this.ButtonCancel.IsEnabled = false;
         }
         private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
         {

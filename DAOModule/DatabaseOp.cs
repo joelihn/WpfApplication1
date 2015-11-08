@@ -7,7 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SQLite;
+using System.Data.SqlClient;
 using System.Reflection;
 
 #endregion
@@ -19,22 +19,22 @@ namespace WpfApplication1.DAOModule
         /// <summary>
         /// 执行不返回结果的命令(如:UPDATE,INSERT,DELETE)
         /// </summary>
-        /// <param name="sqLiteCommand"></param>
-        public static void ExecuteNoneQuery(SQLiteCommand sqLiteCommand)
+        /// <param name="SqlCommand"></param>
+        public static void ExecuteNoneQuery(SqlCommand SqlCommand)
         {
-            sqLiteCommand.ExecuteNonQuery();
+            SqlCommand.ExecuteNonQuery();
         }
 
 
         /// <summary>
         ///   执行带返回结果的命令(如:SELECT)
         /// </summary>
-        /// <param name="sqLiteCommand"></param>
+        /// <param name="SqlCommand"></param>
         /// <returns>查询结果:DataTable</returns>
-        public static List<T> ExecuteQuery<T>(SQLiteCommand sqLiteCommand)
+        public static List<T> ExecuteQuery<T>(SqlCommand SqlCommand)
         {
             var ds = new DataSet();
-            var db = new SQLiteDataAdapter {SelectCommand = sqLiteCommand};
+            var db = new SqlDataAdapter {SelectCommand = SqlCommand};
             db.Fill(ds);
             return DataSetToList<T>(ds, 0);
         }
@@ -90,7 +90,7 @@ namespace WpfApplication1.DAOModule
 
         public static void TransferParameteres(ref string sql, string mark1, string mark2,
                                                Dictionary<string, object> conditions,
-                                               SQLiteParameterCollection parameters)
+                                               SqlParameterCollection parameters)
         {
             foreach (var condition in conditions)
             {

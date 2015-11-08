@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SQLite;
+using System.Data.SqlClient;
 using WpfApplication1.Utils;
 
 #endregion
@@ -22,7 +22,7 @@ namespace WpfApplication1.DAOModule
         {
             try
             {
-                SqlConn = new SQLiteConnection(ConstDefinition.DbStr);
+                SqlConn = new SqlConnection(ConstDefinition.DbStr);
                 SqlConn.Open();
             }
             catch (Exception e)
@@ -31,7 +31,7 @@ namespace WpfApplication1.DAOModule
             }
         }
 
-        public SQLiteConnection SqlConn { get; set; }
+        public SqlConnection SqlConn { get; set; }
 
         #region IDisposable Members
 
@@ -57,12 +57,12 @@ namespace WpfApplication1.DAOModule
             int max = 0;
             try
             {
-                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     string sqlcommand = "SELECT IFNULL(max(_ROWID_) , 1) AS Id FROM  PATIENT;";
                     sqlcomm.CommandText = sqlcommand;
                     sqlcomm.CommandType = CommandType.Text;
-                    SQLiteDataReader sqReader = sqlcomm.ExecuteReader();
+                    SqlDataReader sqReader = sqlcomm.ExecuteReader();
                     while (sqReader.Read())
                     {
                         max = sqReader.GetInt32(0);
@@ -83,7 +83,7 @@ namespace WpfApplication1.DAOModule
             var list = new List<Patient>();
             try
             {
-                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     //DateTime end = endtemp.AddDays(1);
                     DateTime end = endtemp;
@@ -119,7 +119,7 @@ namespace WpfApplication1.DAOModule
 
         public static void TransferLikeParameteres(ref string sql, string mark1, string mark2,
                                                    Dictionary<string, object> conditions,
-                                                   SQLiteParameterCollection parameters)
+                                                   SqlParameterCollection parameters)
         {
             try
             {

@@ -8,8 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SQLite;
+using System.Data.SqlClient;
 using WpfApplication1.Utils;
 
 #endregion
@@ -22,7 +21,7 @@ namespace WpfApplication1.DAOModule
         {
             try
             {
-                SqlConn = new SQLiteConnection(ConstDefinition.DbStr);
+                SqlConn = new SqlConnection(ConstDefinition.DbStr);
                 SqlConn.Open();
             }
             catch (Exception e)
@@ -31,7 +30,7 @@ namespace WpfApplication1.DAOModule
             }
         }
 
-        public SQLiteConnection SqlConn { get; set; }
+        public SqlConnection SqlConn { get; set; }
 
         #region IDisposable Members
 
@@ -52,14 +51,12 @@ namespace WpfApplication1.DAOModule
 
         #endregion
 
-
-
         public List<BedDetails> SelectPatient(Dictionary<string, object> condition)
         {
             var list = new List<BedDetails>();
             try
             {
-                using (SQLiteCommand sqlcomm = SqlConn.CreateCommand())
+                using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     //DateTime end = endtemp.AddDays(1);
                     if (condition == null || condition.Count == 0)
