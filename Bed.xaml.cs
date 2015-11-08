@@ -450,11 +450,17 @@ namespace WpfApplication1
                     condition["PatientId"] = patient.Id.ToString();
                     condition["IsTemp"] = false;
                     var list = scheduleDao.SelectScheduleTemplate(condition);
+                    
                     foreach (var scheduleTemplate in list)
                     {
-                        if (scheduleTemplate.BedId != -1)
+                        DateTime now = DateTime.Parse(scheduleTemplate.Date);
+                        if (DateTime.Compare(now.Date, dt1.Date) < 0)
                         {
-                            fixbedid = scheduleTemplate.BedId;
+                            if (scheduleTemplate.BedId != -1)
+                            {
+                                fixbedid = scheduleTemplate.BedId;
+                                break;
+                            }
                         }
                     }
                 }
@@ -464,7 +470,24 @@ namespace WpfApplication1
                     condition["ID"] = fixBedId;
                     var list = bedDao.SelectBed(condition);
                 }*/
+                bool isAuto = true;
+                using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    condition["PatientId"] = patient.Id.ToString();
+                    condition["IsTemp"] = false;
+                    condition["Date"] = dt1.Date.ToString();
+                    var list = scheduleDao.SelectScheduleTemplate(condition);
+                    if (list.Count == 1)
+                    {
+                        isAuto = list[0].IsAuto;
+                    }
 
+                }
+                if (isAuto == false)
+                {
+                    return;
+                }
                 foreach (var bed in BedInfoList)
                 {
                     if (fixbedid != bed.Id)
@@ -1404,7 +1427,7 @@ namespace WpfApplication1
             e.Handled = true;
         }
         //SELECT * FROM (Bed INNER JOIN PatientRoom ON Bed.PatientRoomId=PatientRoom.Id) INNER JOIN InfectType ON PatientRoom.InfectTypeId=InfectType.Id
-        private void UpdateBedId(long patientID, DateTime dateTime, string ampme , long bedid)
+        private void UpdateBedId(long patientID, DateTime dateTime, string ampme , long bedid, bool isAuto = true )
         {
             try
             {
@@ -1421,6 +1444,7 @@ namespace WpfApplication1
                     {
                         fileds["ISTEMP"] = false;
                     }
+                    fileds["ISAUTO"] = isAuto;
                     scheduleDao.UpdateScheduleTemplate(fileds, condition);
                     
                 }
@@ -1488,7 +1512,7 @@ namespace WpfApplication1
                         {
                             DateTime dt = GetDate();
                             //UpdateBedId(BedInfoList[index].Id, DateTime.Parse("2015-06-10"), ampme, -1);
-                            UpdateBedId(BedInfoList[index].PatientData.Id, dt.Date, ampme, -1);
+                            UpdateBedId(BedInfoList[index].PatientData.Id, dt.Date, ampme, -1, false);
                             BedPatientList.Add(BedInfoList[index].PatientData);
                         }
                         BedPatientData data = (BedPatientData)draggedItem;
@@ -1498,7 +1522,7 @@ namespace WpfApplication1
 
                         DateTime dt1 = GetDate();
                         //UpdateBedId(data.Id, DateTime.Parse("2015-06-10"), ampme, BedInfoList[index].Id);
-                        UpdateBedId(data.Id, dt1.Date, ampme, BedInfoList[index].Id);
+                        UpdateBedId(data.Id, dt1.Date, ampme, BedInfoList[index].Id, false);
                     }
                 }
                 if (effects == (System.Windows.DragDropEffects)DragDropEffects.None)

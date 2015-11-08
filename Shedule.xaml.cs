@@ -1654,6 +1654,7 @@ namespace WpfApplication1
 
         public void Reload()
         {
+            InitWeekWithDate();
             InitDay();
             LoadTratementConifg();
             ListBox1.SelectedIndex = -1;
@@ -1693,6 +1694,7 @@ namespace WpfApplication1
         }
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            InitWeekWithDate();
             InitDay();
             //GetPatientSchedule(0);
             LoadTratementConifg();
@@ -2245,6 +2247,7 @@ namespace WpfApplication1
         }
         private void InitWeekWithDate()
         {
+            weekCount = 0;
             dtlist.Clear();
             int weeknow = (int)DateTime.Now.DayOfWeek-1;
             if (weeknow == -1)
@@ -2281,6 +2284,8 @@ namespace WpfApplication1
             btn5.Content = dtlist[5].ToString("MM-dd");
             btn6.Content = dtlist[6].ToString("MM-dd");
 
+            btnPreWeek.IsEnabled = true;
+            btnNextWeek.IsEnabled = true;
             //for (int n = 0; n < 7; n++)
             //{
             //    CurrentWeek.days[n].dateTime = DateTime.Now.AddDays(-weeknow + n);
@@ -2574,7 +2579,7 @@ namespace WpfApplication1
                                                             DateTime dt1 = dt.AddDays(28);
                                                             if (IsInCurrentMonth(dt1))
                                                             {
-                                                                if (IsInCurrentWeek(dt1))
+                                                                //if (IsInCurrentWeek(dt1))
                                                                 {
                                                                     bCopy = true;
                                                                     copyTime = dt1;
@@ -2583,7 +2588,7 @@ namespace WpfApplication1
                                                             else
                                                             {
                                                                 DateTime dt2 = dt1.AddDays(7);
-                                                                if (IsInCurrentWeek(dt2))
+                                                                //if (IsInCurrentWeek(dt2))
                                                                 {
                                                                     bCopy = true;
                                                                     copyTime = dt2;

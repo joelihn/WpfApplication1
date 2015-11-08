@@ -59,7 +59,7 @@ namespace WpfApplication1.DAOModule
                 {
                     sqlcomm.CommandText =
                         @"INSERT INTO SCHEDULETEMPLATE (PATIENTID,DATE,AMPME,METHOD,DESCRIPTION,RESERVED,ISTEMP) VALUES 
-                        (@PATIENTID,@DATE,@AMPME,@METHOD,@DESCRIPTION,@RESERVED,@ISTEMP)";
+                        (@PATIENTID,@DATE,@AMPME,@METHOD,@DESCRIPTION,@RESERVED,@ISTEMP,@ISAUTO)";
                     sqlcomm.Parameters.Add("@PATIENTID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTID"].Value = scheduleTemplate.PatientId;
                     sqlcomm.Parameters.Add("@DATE", DbType.String);
@@ -76,6 +76,8 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters["@BEDID"].Value = scheduleTemplate.BedId;
                     sqlcomm.Parameters.Add("@ISTEMP", DbType.Boolean);
                     sqlcomm.Parameters["@ISTEMP"].Value = scheduleTemplate.IsTemp;
+                    sqlcomm.Parameters.Add("@ISAUTO", DbType.Boolean);
+                    sqlcomm.Parameters["@ISAUTO"].Value = scheduleTemplate.IsAuto;
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);
 
                     //set last insert id of this table this connection

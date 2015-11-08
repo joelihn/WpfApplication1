@@ -160,6 +160,7 @@ namespace WpfApplication1.DAOModule
         public string Reserved { get; set; }
         public Int64 BedId { get; set; }
         public bool IsTemp { get; set; }
+        public bool IsAuto { get; set; }
     }
 
     public class ScheduleType

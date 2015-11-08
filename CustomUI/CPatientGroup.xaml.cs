@@ -242,6 +242,20 @@ namespace WpfApplication1.CustomUI
                 MainWindow.Log.WriteInfoConsole("In CPatientGroup.xaml.cs:RefreshDataPara exception messsage: " + ex.Message);
             }
         }
+        private UIElement GetListViewCellControl(int rowIndex, int cellIndex)
+        {
+            // rowIndex 和 cellIndex 基於 0.
+            // 首先应得到 ListViewItem, 毋庸置疑, 所有可视UI 元素都继承了UIElement:
+            UIElement u = ListViewPatientGroupPara.ItemContainerGenerator.ContainerFromIndex(rowIndex) as UIElement;
+            if (u == null) return null;
+
+            // 然后在 ListViewItem 元素树中搜寻 单元格:
+            while ((u = (VisualTreeHelper.GetChild(u, 0) as UIElement)) != null)
+                if (u is GridViewRowPresenter) 
+                    return VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(u, cellIndex), 0) as UIElement;
+
+            return u;
+        }
 
         private void ButtonCancel_OnClick(object sender, RoutedEventArgs e)
         {
@@ -633,9 +647,17 @@ namespace WpfApplication1.CustomUI
             {
                 //this.ListViewPatientGroupPara
             }
-              this.ButtonParaApply.IsEnabled = true;
+            FillComboboxItems("姓名");
+            this.ButtonParaApply.IsEnabled = true;
             this.ButtonParaCancel.IsEnabled = true;
         
+        }
+
+        private void FillComboboxItems( string skey )
+        {
+            /*int row = ListViewPatientGroupPara.SelectedIndex;
+            if (row == -1) return;*/
+
         }
 
         private void ComboBoxSymbol_OnInitialized(object sender, EventArgs e)
@@ -700,10 +722,13 @@ namespace WpfApplication1.CustomUI
         private string _right;
         private string _logic;
         private string _description;
+        private List<string> _details;
         
 
         public PatientGroupParaData()
         {
+            _details = new List<string>();
+
         }
 
 
@@ -743,7 +768,95 @@ namespace WpfApplication1.CustomUI
             set
             {
                 _key = value;
+                FillValues(_key);
+                OnPropertyChanged("Details");
                 OnPropertyChanged("Key");
+            }
+        }
+
+
+        private void FillValues( string key )
+        {
+            using (var patientDao = new PatientDao())
+            {
+                var condition = new Dictionary<string, object>();
+                List<Patient> patientslist = patientDao.SelectPatient(condition);
+                switch (key)
+                {
+                    case "姓名":
+                        _details.Clear();
+                        foreach (var patient in patientslist)
+                        {
+                            _details.Add(patient.Name);
+                        }
+                        break;
+                    case "性别":
+                        _details.Clear();
+                        _details.Add("男");
+                        _details.Add("女");
+                        break;
+                    case "血型":
+                        _details.Clear();
+                        _details.Add("O");
+                        _details.Add("A");
+                        _details.Add("B");
+                        _details.Add("AB");
+
+                        break;
+                    case "婚姻状况":
+                        _details.Clear();
+                        _details.Add("已婚");
+                        _details.Add("未婚");
+                        break;
+                    case "感染情况":
+                        _details.Clear();
+                        using (var infectTypeDao = new InfectTypeDao())
+                        {
+                            condition.Clear();
+                            var arealist = infectTypeDao.SelectInfectType(condition);
+                            foreach (var infectType in arealist)
+                            {
+                                _details.Add(infectType.Name);
+                            }
+                            _details.Add("阴性");
+                        }
+                        break;
+                    case "治疗状态":
+                        _details.Clear();
+                        using (TreatStatusDao treatStatusDao = new TreatStatusDao())
+                        {
+                            var condition1 = new Dictionary<string, object>();
+                            var list1 = treatStatusDao.SelectTreatStatus(condition1);
+                            foreach (var treatStatuse in list1)
+                            {
+                                _details.Add(treatStatuse.Name);
+                            }
+                            _details.Add("转归");
+                        }
+
+                        break;
+                    case "固定床位":
+                        _details.Clear();
+                        _details.Add("FALSE");
+                        _details.Add("TRUE");
+                        break;
+                    case "所属分区":
+                        _details.Clear();
+                        using (var patientAreaDao = new PatientAreaDao())
+                        {
+                            condition.Clear();
+                            var list = patientAreaDao.SelectPatientArea(condition);
+                            foreach (var type in list)
+                            {
+                                _details.Add(type.Name);
+                            }
+                        }
+
+                        break;
+
+                }
+
+                
             }
         }
 
@@ -765,6 +878,17 @@ namespace WpfApplication1.CustomUI
                 OnPropertyChanged("Value");
             }
         }
+
+        public List<string> Details
+        {
+            get { return _details; }
+            set
+            {
+                _details = value;
+                OnPropertyChanged("Details");
+            }
+        }
+
         public string Right
         {
             get { return _right; }
