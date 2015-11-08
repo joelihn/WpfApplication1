@@ -376,7 +376,12 @@ namespace WpfApplication1.CustomUI
             else
             {
                 int index = ListViewPatientGroupPara.SelectedIndex;
-                if (index == -1) return;
+                if (index == -1)
+                {
+                    this.ButtonParaApply.IsEnabled = false;
+                    ButtonParaCancel.IsEnabled = false;
+                    return;
+                }
 
                 //if (this.DatalisParat[index].Name.Equals(""))
                 //{
@@ -410,6 +415,7 @@ namespace WpfApplication1.CustomUI
 
             this.ButtonParaDelete.IsEnabled = true;
             this.ButtonParaApply.IsEnabled = false;
+            ButtonParaCancel.IsEnabled = false;
         }
 
         private void ButtonParaCancel_OnClick(object sender, RoutedEventArgs e)
@@ -431,6 +437,8 @@ namespace WpfApplication1.CustomUI
                 this.ListViewPatientGroupPara.SelectedIndex = -1;
                 this.ListViewPatientGroupPara.SelectedIndex = currnetIndexPara;
             }
+            ButtonParaApply.IsEnabled = false;
+            ButtonParaCancel.IsEnabled = false;
         }
 
 
@@ -502,6 +510,12 @@ namespace WpfApplication1.CustomUI
         private void ListViewPatientGroupPara_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             currnetIndexPara = this.ListViewPatientGroupPara.SelectedIndex;
+            if (currnetIndexPara!=-1)
+                ButtonParaDelete.IsEnabled = true;
+            else
+            {
+                ButtonParaDelete.IsEnabled = false;
+            }
             ////throw new NotImplementedException();
             //try
             //{
