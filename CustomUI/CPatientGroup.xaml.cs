@@ -40,6 +40,32 @@ namespace WpfApplication1.CustomUI
             Basewindow = mainWindow;
             this.ListViewPatientGroup.ItemsSource = Datalist;
             this.ListViewPatientGroupPara.ItemsSource = DatalistPara;
+            //Datalist.CollectionChanged += Datalist_CollectionChanged;
+            //DatalistPara.CollectionChanged += DatalistPara_CollectionChanged;
+        }
+
+        void Datalist_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (Datalist.Count == 0)
+            {
+                this.ButtonDelete.IsEnabled = false;
+            }
+            else
+            {
+                this.ButtonDelete.IsEnabled = true;
+            }
+        }
+
+        void DatalistPara_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (DatalistPara.Count == 0)
+            {
+                ButtonParaNew.IsEnabled = false;
+                ButtonDelete.IsEnabled = false;
+                ButtonApply.IsEnabled = false;
+                ButtonCancel.IsEnabled = false;
+            }
+            //throw new NotImplementedException();
         }
 
         private void ButtonNew_OnClick(object sender, RoutedEventArgs e)
@@ -56,6 +82,10 @@ namespace WpfApplication1.CustomUI
             this.ButtonApply.IsEnabled = true;
             this.ButtonCancel.IsEnabled = true;
 
+            ParSettingGrid.IsEnabled = false;
+            ListViewPatientGroupPara.IsEnabled = false;
+
+            ListViewPatientGroup.SelectedIndex = Datalist.Count - 1;
         }
 
         private void ButtonDelete_OnClick(object sender, RoutedEventArgs e)
@@ -65,9 +95,14 @@ namespace WpfApplication1.CustomUI
             //throw new NotImplementedException();
             using (var patientGroupDao = new PatientGroupDao())
             {
+                Basewindow.patientGroupPanel.ComboBoxPatientGroup.Items.Remove(Datalist[ListViewPatientGroup.SelectedIndex].Name);
+                Basewindow.sheduleContent.PatientGroupComboBoxItems.Remove(Datalist[ListViewPatientGroup.SelectedIndex].Name);
+
                 patientGroupDao.DeletePatientGroup(Datalist[ListViewPatientGroup.SelectedIndex].Id);
                 RefreshData();
             }
+            
+
 
             this.ButtonNew.IsEnabled = true;
             this.ButtonDelete.IsEnabled = false;
@@ -95,6 +130,9 @@ namespace WpfApplication1.CustomUI
                         Datalist.Add(patientGroupData);
                     }
                 }
+                Basewindow.patientGroupPanel.RefreshPatientGroupCombobox();
+                Basewindow.sheduleContent.InitPatientGroupComboBox();
+
             }
             catch (Exception ex)
             {
@@ -156,7 +194,8 @@ namespace WpfApplication1.CustomUI
                         var patientData = new PatientData();
                         patientData.Id = lastInsertId;
                         patientData.Name = patientGroup.Name;
-                        Basewindow.patientGroupPanel.Datalist.Add(patientData);
+                        //Basewindow.patientGroupPanel.Datalist.Add(patientData);
+                        
                         Basewindow.patientGroupPanel.ComboBoxPatientGroup.Items.Add(patientGroup.Name);
                         Basewindow.sheduleContent.PatientGroupComboBoxItems.Add(patientGroup.Name);
 
@@ -205,7 +244,12 @@ namespace WpfApplication1.CustomUI
             }
 
             this.ButtonDelete.IsEnabled = true;
+
             this.ButtonApply.IsEnabled = false;
+            this.ButtonCancel.IsEnabled = false;
+
+            ParSettingGrid.IsEnabled = true;
+            ListViewPatientGroupPara.IsEnabled = true;
         }
 
 
@@ -276,6 +320,9 @@ namespace WpfApplication1.CustomUI
                 this.ListViewPatientGroup.SelectedIndex = -1;
                 this.ListViewPatientGroup.SelectedIndex = currnetIndex;
             }
+
+            ParSettingGrid.IsEnabled = true;
+            ListViewPatientGroupPara.IsEnabled = true;
         }
 
 
@@ -301,6 +348,13 @@ namespace WpfApplication1.CustomUI
             this.ButtonParaDelete.IsEnabled = false;
             this.ButtonParaApply.IsEnabled = true;
             this.ButtonParaCancel.IsEnabled = true;
+
+            GroupSettingGrid.IsEnabled = false;
+            ListViewPatientGroup.IsEnabled = false;
+
+            ParSettingGrid.IsEnabled = true;
+            ListViewPatientGroupPara.IsEnabled = true;
+
         }
 
         private void ButtonParaDelete_OnClick(object sender, RoutedEventArgs e)
@@ -416,10 +470,25 @@ namespace WpfApplication1.CustomUI
             this.ButtonParaDelete.IsEnabled = true;
             this.ButtonParaApply.IsEnabled = false;
             ButtonParaCancel.IsEnabled = false;
+
+            GroupSettingGrid.IsEnabled = true;
+            ListViewPatientGroup.IsEnabled = true;
+
         }
 
         private void ButtonParaCancel_OnClick(object sender, RoutedEventArgs e)
         {
+            if (ListViewPatientGroup.SelectedIndex == -1)
+            {
+                ButtonParaApply.IsEnabled = false;
+                ButtonParaCancel.IsEnabled = false;
+
+                GroupSettingGrid.IsEnabled = true;
+                ListViewPatientGroup.IsEnabled = true;
+
+                //ButtonParaNew.IsEnabled = true;
+                return;
+            }
             if (isNewPara)
             {
                 RefreshDataPara((int)Datalist[ListViewPatientGroup.SelectedIndex].Id);
@@ -439,6 +508,9 @@ namespace WpfApplication1.CustomUI
             }
             ButtonParaApply.IsEnabled = false;
             ButtonParaCancel.IsEnabled = false;
+
+            GroupSettingGrid.IsEnabled = true;
+            ListViewPatientGroup.IsEnabled = true;
         }
 
 
@@ -447,6 +519,17 @@ namespace WpfApplication1.CustomUI
             try
             {
                 currnetIndex = this.ListViewPatientGroup.SelectedIndex;
+                if (currnetIndex == -1)
+                {
+                    this.ButtonDelete.IsEnabled = false;
+                    this.ButtonParaNew.IsEnabled = false;
+                }
+                else
+                {
+                    this.ButtonDelete.IsEnabled = true;
+                    this.ButtonParaNew.IsEnabled = true;
+                }
+
                 using (var patientGroupParaDao = new PatientGroupParaDao())
                 {
                     DatalistPara.Clear();
@@ -661,18 +744,16 @@ namespace WpfApplication1.CustomUI
             {
                 //this.ListViewPatientGroupPara
             }
-            FillComboboxItems("姓名");
+            else
+            {
+                
+            }
+
             this.ButtonParaApply.IsEnabled = true;
             this.ButtonParaCancel.IsEnabled = true;
         
         }
 
-        private void FillComboboxItems( string skey )
-        {
-            /*int row = ListViewPatientGroupPara.SelectedIndex;
-            if (row == -1) return;*/
-
-        }
 
         private void ComboBoxSymbol_OnInitialized(object sender, EventArgs e)
         {
@@ -737,6 +818,7 @@ namespace WpfApplication1.CustomUI
         private string _logic;
         private string _description;
         private List<string> _details;
+        private bool _isEditable;
         
 
         public PatientGroupParaData()
@@ -766,6 +848,16 @@ namespace WpfApplication1.CustomUI
             }
         }
 
+        public bool IsEditabel
+        {
+            get { return _isEditable; }
+            set
+            {
+                _isEditable = value;
+                OnPropertyChanged("IsEditabel");
+            }
+        }
+
         public string Left
         {
             get { return _left; }
@@ -791,6 +883,7 @@ namespace WpfApplication1.CustomUI
 
         private void FillValues( string key )
         {
+            IsEditabel = false;
             using (var patientDao = new PatientDao())
             {
                 var condition = new Dictionary<string, object>();
@@ -798,11 +891,12 @@ namespace WpfApplication1.CustomUI
                 switch (key)
                 {
                     case "姓名":
-                        _details.Clear();
+                        IsEditabel = true;
+                        /*_details.Clear();
                         foreach (var patient in patientslist)
                         {
                             _details.Add(patient.Name);
-                        }
+                        }*/
                         break;
                     case "性别":
                         _details.Clear();
@@ -845,7 +939,7 @@ namespace WpfApplication1.CustomUI
                             {
                                 _details.Add(treatStatuse.Name);
                             }
-                            _details.Add("转归");
+                            _details.Add("在治");
                         }
 
                         break;

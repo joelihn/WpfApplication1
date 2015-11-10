@@ -651,7 +651,7 @@
 						<Button x:Name="ButtonEdit" Content="编辑排班" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="3" Click="ButtonEdit_OnClick"  />
 						<Button IsEnabled="False" x:Name="ButtonApply" Content="应用" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="4" Margin="0,0,3,0" Click="ButtonApply_OnClick" />
 						<Button IsEnabled="False" x:Name="ButtonCancel" Content="取消" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="5" Click="ButtonCancel_OnClick" />
-                        <Button Visibility="Visible" Content="Button" Grid.Column="2" HorizontalAlignment="Left" Margin="125,26,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+                        <Button Visibility="Hidden" Content="Button" Grid.Column="2" HorizontalAlignment="Left" Margin="125,26,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
 
                     </Grid>
 					<Grid x:Name ="GridDay" Grid.Row="1" Grid.Column="2">

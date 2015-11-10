@@ -1621,7 +1621,7 @@ namespace WpfApplication1
             }
         }
 
-        private void InitPatientGroupComboBox()
+        public void InitPatientGroupComboBox()
         {
             try
             {
@@ -1642,8 +1642,8 @@ namespace WpfApplication1
                     }
                 }
 
-                if (PatientGroupComboBoxItems.Count != 0)
-                    PatientGroupComboBox.SelectedIndex = 0;
+                /*if (PatientGroupComboBoxItems.Count != 0)
+                    PatientGroupComboBox.SelectedIndex = 0;*/
             }
             catch (Exception ex)
             {

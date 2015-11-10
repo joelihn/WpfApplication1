@@ -94,7 +94,7 @@ namespace WpfApplication1.DAOModule
         {
             foreach (var condition in conditions)
             {
-                sql += condition.Key + "=" + mark1 + condition.Key + " " + mark2 + " ";
+                sql += "[" + condition.Key+ "]" + "=" + mark1 + condition.Key + " " + mark2 + " ";
                 parameters.AddWithValue(condition.Key, condition.Value);
             }
         }

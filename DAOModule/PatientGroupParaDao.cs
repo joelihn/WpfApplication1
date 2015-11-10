@@ -56,7 +56,7 @@ namespace WpfApplication1.DAOModule
                 using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO PATIENTGROUPPARA (GROUPID,LEFT,KEY,SYMBOL,VALUE,RIGHT,LOGIC,DESCRIPTION,RESERVED) VALUES 
+                        @"INSERT INTO PATIENTGROUPPARA (GROUPID,[LEFT],[KEY],SYMBOL,[VALUE],[RIGHT],LOGIC,DESCRIPTION,RESERVED) VALUES 
                         (@GROUPID,@LEFT,@KEY,@SYMBOL,@VALUE,@RIGHT,@LOGIC,@DESCRIPTION,@RESERVED) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@GROUPID", DbType.Int64);
                     sqlcomm.Parameters["@GROUPID"].Value = PatientGroupPara.GroupId;
@@ -125,7 +125,7 @@ namespace WpfApplication1.DAOModule
                 using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"DELETE FROM PATIENTGROUPPARA WHERE ID = @ID";
+                        @"DELETE FROM PATIENTGROUPPARA WHERE GroupId = @ID";
                     sqlcomm.Parameters.Add("@ID", DbType.Int32);
                     sqlcomm.Parameters["@ID"].Value = scPatientGroupParaId;
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);

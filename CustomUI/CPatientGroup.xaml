@@ -195,7 +195,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock Margin="212,0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Foreground="Red" Style="{StaticResource RightTextBlock1}" Text="{DynamicResource SettingnosaveText}" Visibility="Hidden" />
-        <Grid Grid.Row="0">
+        <Grid x:Name="GroupSettingGrid" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
@@ -253,7 +253,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Grid Grid.Row="3">
+        <Grid x:Name="ParSettingGrid" Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
@@ -261,7 +261,7 @@
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
-            <Button Name="ButtonParaNew" Content="新建" Style="{DynamicResource FunctionButtonStyle}" Margin="0,0,3,0" Click="ButtonParaNew_OnClick"/>
+            <Button IsEnabled="False" Name="ButtonParaNew" Content="新建" Style="{DynamicResource FunctionButtonStyle}" Margin="0,0,3,0" Click="ButtonParaNew_OnClick"/>
             <Button IsEnabled="False" Name="ButtonParaDelete" Content="删除" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="1" Click="ButtonParaDelete_OnClick"  />
             <Button IsEnabled="False" Name="ButtonParaApply" Content="应用" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="3" Margin="0,0,3,0" Click="ButtonParaApply_OnClick" />
             <Button IsEnabled="False" Name="ButtonParaCancel" Content="取消" Style="{DynamicResource FunctionButtonStyle}" Grid.Column="4" Click="ButtonParaCancel_OnClick" />
@@ -333,7 +333,17 @@
                 	<GridViewColumn Width="160">
                 		<GridViewColumn.CellTemplate>
                 			<DataTemplate>
-                                    <ComboBox Visibility="Visible" ItemsSource="{Binding Details, IsAsync=True}"  SelectedValue="{Binding Value}" Width="210" Height="50" IsEditable="False" />
+                                <!--<ComboBox Width="210" Height="50" ItemsSource="{Binding Details, IsAsync=True}" SelectedValue="{Binding Value}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+
+                                            <TextBlock Width="210" Height="50" Text="{Binding Path=Value}" VerticalAlignment="Center"/>
+                                            
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>-->
+
+                                <ComboBox Visibility="Visible" Text="{Binding Value}" ItemsSource="{Binding Details, IsAsync=True}"  SelectedValue="{Binding Value}" Width="210" Height="50" IsEditable="{Binding IsEditabel}" />
                 				<!--<TextBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="160" Text="{Binding Value}" Height="50" TextChanged="TextBoxBase_OnTextChanged_Para"  HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
                 			</DataTemplate>
                 		</GridViewColumn.CellTemplate>

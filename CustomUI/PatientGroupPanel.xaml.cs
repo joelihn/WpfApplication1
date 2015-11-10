@@ -34,6 +34,33 @@ namespace WpfApplication1.CustomUI
             this.ComboBoxPatientGroup.SelectedIndex = MainWindow.ComboBoxPatientGroupIndex;
         }
 
+        public void RefreshPatientGroupCombobox()
+        {
+            try
+            {
+                ComboBoxPatientGroup.Items.Clear();
+                using (var patientGroupDao = new PatientGroupDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    var list = patientGroupDao.SelectPatientGroup(condition);
+                    foreach (var type in list)
+                    {
+                        var patientGroupData = new PatientGroupData
+                        {
+                            Id = type.Id,
+                            Name = type.Name,
+                            Description = type.Description
+                        };
+                        ComboBoxPatientGroup.Items.Add(patientGroupData.Name);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:RefreshPatientGroupCombobox exception messsage: " + ex.Message);
+            }
+        }
+
         private void ComboBoxPatientGroup_OnInitialized(object sender, EventArgs e)
         {
             try
