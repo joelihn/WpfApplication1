@@ -55,8 +55,8 @@ namespace WpfApplication1.DAOModule
                 using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO SCHEDULETEMPLATE (PATIENTID,DATE,AMPME,METHOD,DESCRIPTION,RESERVED,ISTEMP) VALUES 
-                        (@PATIENTID,@DATE,@AMPME,@METHOD,@DESCRIPTION,@RESERVED,@ISTEMP,@ISAUTO) SET @ID = SCOPE_IDENTITY() ";
+                        @"INSERT INTO SCHEDULETEMPLATE ([PATIENTID],[DATE],[AMPME],[METHOD],[DESCRIPTION],[RESERVED],[BEDID],[ISTEMP],[ISAUTO]) VALUES 
+                        (@PATIENTID,@DATE,@AMPME,@METHOD,@DESCRIPTION,@RESERVED,@BEDID,@ISTEMP,@ISAUTO) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@PATIENTID", DbType.Int32);
                     sqlcomm.Parameters["@PATIENTID"].Value = scheduleTemplate.PatientId;
                     sqlcomm.Parameters.Add("@DATE", DbType.String);

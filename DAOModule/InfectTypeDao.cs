@@ -56,7 +56,7 @@ namespace WpfApplication1.DAOModule
                 using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO INFECTTYPE (NAME,DESCRIPTION,RESERVED) VALUES 
+                        @"INSERT INTO INFECTTYPE ([NAME],[DESCRIPTION],[RESERVED]) VALUES 
                         (@NAME,@DESCRIPTION,@RESERVED) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@NAME", DbType.String);
                     if (infectType.Name != null) sqlcomm.Parameters["@NAME"].Value = infectType.Name;

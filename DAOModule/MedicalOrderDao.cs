@@ -55,8 +55,8 @@ namespace WpfApplication1.DAOModule
                 using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"INSERT INTO MEDICALORDER (PATIENTID,ACTIVATED,SEQ,PLAN,METHODID,INTERVAL,TIMES,
-                           DESCRIPTION,RESERVED1,RESERVED2) VALUES 
+                        @"INSERT INTO MEDICALORDER ([PATIENTID],[ACTIVATED],[SEQ],[PLAN],[METHODID],[INTERVAL],[TIMES],
+                           [DESCRIPTION],[RESERVED1],[RESERVED2]) VALUES 
                         (@PATIENTID,@ACTIVATED,@SEQ,@PLAN,@METHODID,@INTERVAL,@TIMES,
                             @DESCRIPTION ,@RESERVED1,@RESERVED2) SET @ID = SCOPE_IDENTITY() ";
                     sqlcomm.Parameters.Add("@PATIENTID", DbType.Int32);
