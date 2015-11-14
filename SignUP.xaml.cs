@@ -145,7 +145,7 @@ namespace WpfApplication1
                 patient.IsFixedBed = isFixBed;
                 patient.PatientId = uid;
                 patient.AreaId = areaId;
-
+                patient.BedId = -1;
                 int lastInsertId = -1;
                 patientDao.InsertPatient(patient, ref lastInsertId);
 

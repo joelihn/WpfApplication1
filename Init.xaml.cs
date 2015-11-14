@@ -48,6 +48,75 @@ namespace WpfApplication1
             RadioButton4.IsChecked = true;*/
         }
 
+        public void ReLoad()
+        {
+            try
+            {
+                using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    var list = infectTypeDao.SelectInfectType(condition);
+                    InfectTypeComboBox.Items.Clear();
+                    //InfectTypeComboBox.Items.Add("所有");
+                    //InfectTypeComboBox.Items.Add("");
+                    foreach (InfectType type in list)
+                    {
+                        InfectTypeComboBox.Items.Add(type.Name);
+                    }
+                    InfectTypeComboBox.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded InfectType ComboxItem exception messsage: " + ex.Message);
+            }
+
+
+            try
+            {
+                using (var treatStatusDao = new TreatStatusDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["Activated"] = true;
+                    var list = treatStatusDao.SelectTreatStatus(condition);
+                    StatusComboBox.Items.Clear();
+                    //StatusComboBox.Items.Add("在治");
+                    foreach (var type in list)
+                    {
+                        StatusComboBox.Items.Add(type.Name);
+                    }
+                    StatusComboBox.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded TreatStatus ComboxItem exception messsage: " + ex.Message);
+            }
+
+            try
+            {
+                using (var patientAreaDao = new PatientAreaDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    var list = patientAreaDao.SelectPatientArea(condition);
+                    AreaComboBox.Items.Clear();
+                    foreach (var type in list)
+                    {
+                        AreaComboBox.Items.Add(type.Name);
+                    }
+                    AreaComboBox.SelectedIndex = 0;
+                }
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded TreatStatus ComboxItem exception messsage: " + ex.Message);
+            }
+
+            this.MarriageComboBox.Items.Clear();
+            this.MarriageComboBox.Items.Add("未婚");
+            this.MarriageComboBox.Items.Add("已婚");
+            MarriageComboBox.SelectedIndex = 0;
+        }
         private void Init_OnLoaded(object sender, RoutedEventArgs e)
         {
             try
@@ -557,6 +626,18 @@ namespace WpfApplication1
                 }
             }
 
+        }
+
+        private void MarriageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
+        }
+
+        private void AreaComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
         }
     }
 

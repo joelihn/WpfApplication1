@@ -2574,7 +2574,7 @@ namespace WpfApplication1
                                                     foreach (var aa in list33)
                                                     {
                                                         DateTime dt = DateTime.Parse(aa.Date);
-                                                        if (IsInPreMonth(dt))
+                                                        //if (IsInPreMonth(dt))
                                                         {
                                                             DateTime dt1 = dt.AddDays(28);
                                                             if (IsInCurrentMonth(dt1))

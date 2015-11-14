@@ -193,7 +193,7 @@
                 <TextBox MaxLength="10" TextChanged="OnTextChanged" Name="NationalityTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="4" Margin="0,10,622,10"/>
                 <TextBlock Visibility="Visible" FontSize="20" Text="/" Grid.Column="1" Grid.Row="4" Height="29" Width="20" TextAlignment="Center" Margin="373,11,597,10" RenderTransformOrigin="-1.862,0.796"/>
                 <TextBox MaxLength="10" TextChanged="OnTextChanged" Name="ProvinceTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="4" Margin="398,11,224,10"/>
-                <ComboBox Name="MarriageComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="5" VerticalContentAlignment="Center" Width="130.333"/>
+                <ComboBox Name="MarriageComboBox" Grid.Column="1" HorizontalAlignment="Left" Margin="0,5" Grid.Row="5" VerticalContentAlignment="Center" Width="130.333" SelectionChanged="MarriageComboBox_SelectionChanged"/>
                 <TextBox KeyDown="HeightTextBox_OnKeyDown" MaxLength="3" Name="HeightTextBox" TextChanged="HeightTextBox_OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="6"/>
                 <TextBox MaxLength="10" Name="BloodTypeTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="7"/>
                 <!--<RadioButton Content="RadioButton" Grid.Column="1" HorizontalAlignment="Left" Margin="33.691,9.999,0,0" Grid.Row="8" VerticalAlignment="Top"/>
@@ -220,7 +220,7 @@
 
                 </Grid>
                <TextBox IsEnabled="False" TextChanged="OnTextChanged" Name="PatientIDTextBox" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="11"/>
-                <ComboBox Name="AreaComboBox" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="12" VerticalContentAlignment="Top" HorizontalContentAlignment="Left"  Margin="10,12,0,12"  Width="130.333"/>
+                <ComboBox Name="AreaComboBox" Grid.Column="1" HorizontalAlignment="Left" Grid.Row="12" VerticalContentAlignment="Top" HorizontalContentAlignment="Left"  Margin="10,12,0,12"  Width="130.333" SelectionChanged="AreaComboBox_SelectionChanged"/>
                 <TextBox Name="MobileTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="13"/>
                 <!--<TextBox Name="" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="14"/>-->
                 <TextBox Name="WeixinhaoTextBox" TextChanged="OnTextChanged" Grid.Column="1" Height="29" TextWrapping="Wrap" Text="" VerticalContentAlignment="Center" Grid.Row="14"/>

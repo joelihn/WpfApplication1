@@ -76,7 +76,7 @@ namespace WpfApplication1.DAOModule
                     sqlcomm.Parameters.Add("@ISTEMP", DbType.Boolean);
                     sqlcomm.Parameters["@ISTEMP"].Value = scheduleTemplate.IsTemp;
                     sqlcomm.Parameters.Add("@ISAUTO", DbType.Boolean);
-                    sqlcomm.Parameters["@ISAUTO"].Value = scheduleTemplate.IsAuto;
+                    sqlcomm.Parameters["@ISAUTO"].Value = true;
                     sqlcomm.Parameters.Add("@ID", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);

@@ -385,7 +385,7 @@ namespace WpfApplication1.DAOModule
                     }
                     string sqlcommand = "select * from PATIENT where ";
                     sqlcommand += condition;
-                    sqlcommand += " order by ID desc";
+                    sqlcommand += " order by Name asc";
                     sqlcomm.CommandText = sqlcommand;
 
                     list = DatabaseOp.ExecuteQuery<Patient>(sqlcomm);

@@ -222,8 +222,10 @@ namespace WpfApplication1
                 case 0:
                     this.RightContentA.Visibility = Visibility.Hidden;
                     this.RightContentR.Content = initContent;
+                    initContent.ReLoad();
                     //patientGroupPanel.reLoaded();
                     this.RightContentL.Content = patientGroupPanel;
+                    
 
                     break;
                 case 1:

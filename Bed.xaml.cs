@@ -431,39 +431,18 @@ namespace WpfApplication1
             foreach (var patient in BedPatientList)
             {
                 bool isFixedBed = false;
-                long fixBedId = -1;
                 using (var patientDao = new PatientDao())
                 {
                     var condition = new Dictionary<string, object>();
                     condition["ID"] = patient.Id;
                     var list = patientDao.SelectPatient(condition);
                     isFixedBed = list[0].IsFixedBed;
-                    fixBedId = list[0].BedId;
                 }
                 if (isFixedBed == false)
                     continue;
 
                 long fixbedid = -1;
-                using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
-                {
-                    Dictionary<string, object> condition = new Dictionary<string, object>();
-                    condition["PatientId"] = patient.Id.ToString();
-                    condition["IsTemp"] = false;
-                    var list = scheduleDao.SelectScheduleTemplate(condition);
-                    
-                    foreach (var scheduleTemplate in list)
-                    {
-                        DateTime now = DateTime.Parse(scheduleTemplate.Date);
-                        if (DateTime.Compare(now.Date, dt1.Date) < 0)
-                        {
-                            if (scheduleTemplate.BedId != -1)
-                            {
-                                fixbedid = scheduleTemplate.BedId;
-                                break;
-                            }
-                        }
-                    }
-                }
+                
                 /*using (var bedDao = new BedDao())
                 {
                     var condition = new Dictionary<string, object>();
@@ -476,18 +455,40 @@ namespace WpfApplication1
                     Dictionary<string, object> condition = new Dictionary<string, object>();
                     condition["PatientId"] = patient.Id.ToString();
                     condition["IsTemp"] = false;
-                    condition["Date"] = dt1.Date.ToString();
+                    condition["Date"] = dt1.Date.ToString("yyyy-MM-dd");
                     var list = scheduleDao.SelectScheduleTemplate(condition);
                     if (list.Count == 1)
                     {
                         isAuto = list[0].IsAuto;
+                        fixbedid = list[0].BedId;
                     }
 
                 }
-                if (isAuto == false)
+                if (isAuto)
                 {
-                    return;
+                    using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                    {
+                        Dictionary<string, object> condition = new Dictionary<string, object>();
+                        condition["PatientId"] = patient.Id.ToString();
+                        condition["IsTemp"] = false;
+                        condition["AmPmE"] = ampme;
+                        var list = scheduleDao.SelectScheduleTemplate(condition);
+
+                        foreach (var scheduleTemplate in list)
+                        {
+                            DateTime now = DateTime.Parse(scheduleTemplate.Date);
+                            if (DateTime.Compare(now.Date, dt1.Date) < 0)
+                            {
+                                if (scheduleTemplate.BedId != -1)
+                                {
+                                    fixbedid = scheduleTemplate.BedId;
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 }
+
                 foreach (var bed in BedInfoList)
                 {
                     if (fixbedid != bed.Id)
@@ -1282,7 +1283,7 @@ namespace WpfApplication1
                                         }
                                     }
 
-                                    if (patient.BedId == -1)
+                                    if (patient.BedId == -1 || patientlist[0].IsFixedBed)
                                         BedPatientList.Add(patientInfo);//未排床的病人列表
                                     else
                                     {
