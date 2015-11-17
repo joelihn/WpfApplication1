@@ -228,15 +228,22 @@ namespace WpfApplication1.CustomUI
                                 }
                             }
                         }
-
-                        using (TreatStatusDao treatStatusDao = new TreatStatusDao())
+                        if (patient.TreatStatusId == 0)
                         {
-                            var condition1 = new Dictionary<string, object>();
-                            condition1["ID"] = patient.TreatStatusId;
-                            var list1 = treatStatusDao.SelectTreatStatus(condition1);
-                            if ((list1 != null) && (list1.Count > 0))
+                            Basewindow.initContent.rbTreatStatus1.IsChecked = true;
+                        }
+                        else
+                        {
+                            Basewindow.initContent.rbTreatStatus2.IsChecked = true;
+                            using (TreatStatusDao treatStatusDao = new TreatStatusDao())
                             {
-                                Basewindow.initContent.StatusComboBox.Text = list1[0].Name;
+                                var condition1 = new Dictionary<string, object>();
+                                condition1["ID"] = patient.TreatStatusId;
+                                var list1 = treatStatusDao.SelectTreatStatus(condition1);
+                                if ((list1 != null) && (list1.Count > 0))
+                                {
+                                    Basewindow.initContent.StatusComboBox.Text = list1[0].Name;
+                                }
                             }
                         }
 

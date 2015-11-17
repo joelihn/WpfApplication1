@@ -199,6 +199,9 @@ namespace WpfApplication1
             {
                 StatusComboBox.IsEnabled = true;
             }
+
+            this.ButtonApply.IsEnabled = true;
+            this.ButtonCancel.IsEnabled = true;
         }
 
         private bool isNewAdded = false;
@@ -423,16 +426,24 @@ namespace WpfApplication1
                     }
                 }
 
-                using (TreatStatusDao treatStatusDao = new TreatStatusDao())
-                {
-                    var condition1 = new Dictionary<string, object>();
-                    condition1["NAME"] = StatusComboBox.Text;
-                    var list1 = treatStatusDao.SelectTreatStatus(condition1);
-                    if ((list1 != null) && (list1.Count > 0))
-                    {
-                        fileds["TREATSTATUSID"]  = list1[0].Id;
-                    }
-                }
+                 if ((bool)rbTreatStatus1.IsChecked)
+                 {
+                     fileds["TREATSTATUSID"] = 0;
+                 }
+                 else if ((bool)rbTreatStatus2.IsChecked)
+                 {
+                     using (TreatStatusDao treatStatusDao = new TreatStatusDao())
+                     {
+                         var condition1 = new Dictionary<string, object>();
+                         condition1["NAME"] = StatusComboBox.Text;
+                         var list1 = treatStatusDao.SelectTreatStatus(condition1);
+                         if ((list1 != null) && (list1.Count > 0))
+                         {
+                             fileds["TREATSTATUSID"] = list1[0].Id;
+                         }
+                     }
+                 }
+                
 
                 if ((bool) RadioButton3.IsChecked)
                     fileds["ISFIXEDBED"] = true;
