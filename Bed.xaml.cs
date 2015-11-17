@@ -530,7 +530,7 @@ namespace WpfApplication1
                             if (bed.PatientData == null)
                             {
                                 delPatients.Add(patient);
-                                UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id);
+                                UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id, isAuto);
                                 bed.PatientName = patient.Name + "\n" + patient.TreatMethod;
                                 bed.PatientData = patient;
                                 break;
@@ -1725,15 +1725,16 @@ namespace WpfApplication1
                         ToggleButton btn = new ToggleButton();
                         btn.VerticalAlignment = VerticalAlignment.Top;
                         btn.Height = 50;
+                        btn.Width = 122;
                         btn.Content = infectType.Name;
                         btn.Click += BtnInfect_OnClick;
                         btn.Template = this.FindResource("ToggleButtonControlTemplate3") as ControlTemplate;
                         //btn.Style = this.FindResource("ToggleButtonStyle") as Style;
-                        Grid.SetColumn(btn, n);
-                        Grid.SetRow(btn, 0);
+                        /*Grid.SetColumn(btn, n);
+                        Grid.SetRow(btn, 0);*/
 
                         InfectGrid.Children.Add(btn);
-                        if (n == 1)
+                        if (n == 0)
                             btn.IsChecked = true;
                         n++;
                     }

@@ -573,7 +573,7 @@
 						<RowDefinition/>
 					</Grid.RowDefinitions>
 					<Border BorderBrush="#FFA09E9E" BorderThickness="3,0,0,0" Height="100">
-						<Grid x:Name="InfectGrid">
+						<Grid x:Name="InfectGrid1">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition/>
 								<ColumnDefinition/>
@@ -583,7 +583,8 @@
 								<ColumnDefinition/>
 								<ColumnDefinition/>
 							</Grid.ColumnDefinitions>
-							<ToggleButton Content="ToggleButton" VerticalAlignment="Top" Height="38" Template="{DynamicResource ToggleButtonControlTemplate3}"/>
+                            <WrapPanel x:Name="InfectGrid" Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="6"></WrapPanel>
+							<!--<ToggleButton Content="ToggleButton" VerticalAlignment="Top" Height="38" Template="{DynamicResource ToggleButtonControlTemplate3}"/>-->
 							<StackPanel x:Name="PumpListPanel" Grid.Column="6">
 								<Button x:Name="SinglePump" Content="单泵" Style="{DynamicResource LabelStyleWithColor}" Width="40" Height="20" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Background="#FFFB3C3C"/>
 								<Button x:Name="DoublePump" Content="双泵" Style="{DynamicResource LabelStyleWithColor}" Width="40" Height="20" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Background="#FF79FB3C" Margin="1,2"/>
