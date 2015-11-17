@@ -474,6 +474,8 @@ namespace WpfApplication1.CustomUI
             GroupSettingGrid.IsEnabled = true;
             ListViewPatientGroup.IsEnabled = true;
 
+            Basewindow.patientGroupPanel.RefreshData();
+
         }
 
         private void ButtonParaCancel_OnClick(object sender, RoutedEventArgs e)

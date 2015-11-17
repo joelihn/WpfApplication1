@@ -139,8 +139,6 @@
         </Style>
         <Style x:Key="ListBoxItemStyle1" TargetType="{x:Type ListBoxItem}">
         	<Setter Property="Background" Value="Transparent"/>
-        	<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-        	<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         	<Setter Property="Padding" Value="2,0,0,0"/>
         	<Setter Property="Template">
         		<Setter.Value>
@@ -183,6 +181,7 @@
         			</ControlTemplate>
         		</Setter.Value>
         	</Setter>
+        	<Setter Property="HorizontalContentAlignment" Value="Center"/>
         </Style>
     </UserControl.Resources>
     <Grid  Style="{StaticResource GridBackGround1}">
@@ -289,7 +288,7 @@
         <ListBox Grid.Row="5" Width="500" Height="200" Margin="66.4,28.2,433.6,183.8">
         	<ListBoxItem Content="ListBoxItem" Style="{DynamicResource ListBoxItemStyle1}"/>
         </ListBox>
-        <ListView x:Name="ListViewPatientGroupPara"  Style="{StaticResource ListViewStyle}" SelectionChanged="ListViewPatientGroupPara_OnSelectionChanged"  Loaded="ListViewPatientGroupPara_OnLoaded"  Grid.Row="4"  ItemsSource="{Binding}" Grid.RowSpan="2" >
+        <ListView x:Name="ListViewPatientGroupPara"  Style="{StaticResource ListViewStyle}" SelectionChanged="ListViewPatientGroupPara_OnSelectionChanged"  Loaded="ListViewPatientGroupPara_OnLoaded"  Grid.Row="4"  ItemsSource="{Binding}" Grid.RowSpan="2" HorizontalContentAlignment="Center" HorizontalAlignment="Center" >
             <ListView.View>
                 <GridView ColumnHeaderContainerStyle="{StaticResource ListViewHeadStyleColumn}">
                 	<GridViewColumn Width="160">
@@ -308,7 +307,7 @@
                 		<GridViewColumn.CellTemplate>
                 			<DataTemplate>
                                 <!--<TextBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="160" Text="{Binding Key}" Height="50" TextChanged="TextBoxBase_OnTextChanged_Para"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>-->
-                				<ComboBox  GotFocus="UIElement_OnGotFocus_Para"  x:Name="ComboBoxKey" SelectionChanged="ComboBoxKey_OnSelectionChanged"  Initialized="ComboBoxKey_OnInitialized"  SelectedValue="{Binding Key}" Width="210" Height="50" AllowDrop="True" IsEditable="False" IsDropDownOpen="False" />
+                				<ComboBox  GotFocus="UIElement_OnGotFocus_Para"  x:Name="ComboBoxKey" SelectionChanged="ComboBoxKey_OnSelectionChanged"  Initialized="ComboBoxKey_OnInitialized"  SelectedValue="{Binding Key}" Width="148" Height="50" AllowDrop="True" IsEditable="False" IsDropDownOpen="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                 			</DataTemplate>
                 		</GridViewColumn.CellTemplate>
                 		<Grid Tag="1">
@@ -321,7 +320,7 @@
                 		<GridViewColumn.CellTemplate>
                 			<DataTemplate>
                                 <!--<TextBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="160" Text="{Binding Symbol}" Height="50" TextChanged="TextBoxBase_OnTextChanged_Para"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBox>-->
-                				<ComboBox  GotFocus="UIElement_OnGotFocus_Para" x:Name="ComboBoxSymbol" SelectionChanged="ComboBoxSymbol_OnSelectionChanged"  Initialized="ComboBoxSymbol_OnInitialized"  SelectedValue="{Binding Symbol}" Width="210" Height="50" />
+                				<ComboBox  GotFocus="UIElement_OnGotFocus_Para" x:Name="ComboBoxSymbol" SelectionChanged="ComboBoxSymbol_OnSelectionChanged"  Initialized="ComboBoxSymbol_OnInitialized"  SelectedValue="{Binding Symbol}" Width="148" Height="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                 			</DataTemplate>
                 		</GridViewColumn.CellTemplate>
                 		<Grid Tag="2">
@@ -343,7 +342,7 @@
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>-->
 
-                                <ComboBox Visibility="Visible" Text="{Binding Value}" ItemsSource="{Binding Details, IsAsync=True}"  SelectedValue="{Binding Value}" Width="210" Height="50" IsEditable="{Binding IsEditabel}" />
+                                <ComboBox SelectionChanged="Selector_OnSelectionChanged" Visibility="Visible" Text="{Binding Value}" ItemsSource="{Binding Details, IsAsync=True}"  SelectedValue="{Binding Value}" Width="148" Height="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="{Binding IsEditabel}" />
                 				<!--<TextBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="160" Text="{Binding Value}" Height="50" TextChanged="TextBoxBase_OnTextChanged_Para"  HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
                 			</DataTemplate>
                 		</GridViewColumn.CellTemplate>
@@ -368,7 +367,7 @@
                 	<GridViewColumn Width="180">
                 		<GridViewColumn.CellTemplate>
                 			<DataTemplate>
-                				<ComboBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" Initialized="FrameworkElement_OnInitialized"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="180" SelectedValue="{Binding Logic}" Height="50" SelectionChanged="Selector_OnSelectionChanged"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                				<ComboBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" Initialized="FrameworkElement_OnInitialized"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="148" SelectedValue="{Binding Logic}" Height="50" SelectionChanged="Selector_OnSelectionChanged"  HorizontalContentAlignment="Center"/>
                 			</DataTemplate>
                 		</GridViewColumn.CellTemplate>
                 		<Grid Tag="5">
