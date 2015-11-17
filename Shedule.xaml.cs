@@ -1644,6 +1644,8 @@ namespace WpfApplication1
 
                 /*if (PatientGroupComboBoxItems.Count != 0)
                     PatientGroupComboBox.SelectedIndex = 0;*/
+                if (PatientGroupComboBoxItems.Count != 0)
+                this.PatientGroupComboBox.SelectedValue = Basewindow.patientGroupPanel.ComboBoxPatientGroup.SelectedValue;
             }
             catch (Exception ex)
             {
