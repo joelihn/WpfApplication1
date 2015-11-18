@@ -125,7 +125,7 @@ namespace WpfApplication1.DAOModule
                 using (SqlCommand sqlcomm = SqlConn.CreateCommand())
                 {
                     sqlcomm.CommandText =
-                        @"DELETE FROM PATIENTGROUPPARA WHERE GroupId = @ID";
+                        @"DELETE FROM PATIENTGROUPPARA WHERE ID = @ID";
                     sqlcomm.Parameters.Add("@ID", DbType.Int32);
                     sqlcomm.Parameters["@ID"].Value = scPatientGroupParaId;
                     DatabaseOp.ExecuteNoneQuery(sqlcomm);

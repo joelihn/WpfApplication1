@@ -334,6 +334,7 @@ namespace WpfApplication1.CustomUI
             isNewPara = true;
 
             PatientGroupParaData patientGroupParaData = new PatientGroupParaData();
+            patientGroupParaData.Id = -1;
             patientGroupParaData.GroupId = Datalist[this.ListViewPatientGroup.SelectedIndex].Id;
             patientGroupParaData.Left = "";
             patientGroupParaData.Key = "";
@@ -364,7 +365,7 @@ namespace WpfApplication1.CustomUI
             //throw new NotImplementedException();
             using (var patientGroupParaDao = new PatientGroupParaDao())
             {
-                patientGroupParaDao.DeletePatientGroupPara(Datalist[ListViewPatientGroupPara.SelectedIndex].Id);
+                patientGroupParaDao.DeletePatientGroupPara(DatalistPara[ListViewPatientGroupPara.SelectedIndex].Id);
                 RefreshDataPara((int)Datalist[ListViewPatientGroup.SelectedIndex].Id);
             }
 
@@ -377,15 +378,71 @@ namespace WpfApplication1.CustomUI
 
         private void ButtonParaApply_OnClick(object sender, RoutedEventArgs e)
         {
-            if (isNewPara)
+            for (int index = 0; index < DatalistPara.Count; index++)
             {
-                //throw new NotImplementedException();
-                try
+                PatientGroupParaData patientGroupParaData = DatalistPara[index];
+                if (patientGroupParaData.Id == -1)
                 {
-                    int index = ListViewPatientGroupPara.SelectedIndex;
-                    if (index == -1) return;
+                    //throw new NotImplementedException();
+                    try
+                    {
+                        //int index = ListViewPatientGroupPara.SelectedIndex;
+                        //if (index == -1) return;
 
-                    //if (DatalistPara[index].Name.Equals("") || !CheckNameIsExist(DatalistPara[index].Name))
+                        //if (DatalistPara[index].Name.Equals("") || !CheckNameIsExist(DatalistPara[index].Name))
+                        //{
+                        //    var a = new RemindMessageBox1();
+                        //    a.remindText.Text = (string)FindResource("Message1001"); ;
+                        //    a.ShowDialog();
+                        //    return;
+                        //}
+
+                        using (PatientGroupParaDao patientGroupParaDao = new PatientGroupParaDao())
+                        {
+                            PatientGroupPara patientGroupPara = new PatientGroupPara();
+                            patientGroupPara.GroupId = Datalist[ListViewPatientGroup.SelectedIndex].Id;
+                            patientGroupPara.Left = patientGroupParaData.Left;
+                            patientGroupPara.Key = patientGroupParaData.Key;
+                            patientGroupPara.Symbol = patientGroupParaData.Symbol;
+                            patientGroupPara.Value = patientGroupParaData.Value;
+                            patientGroupPara.Right = patientGroupParaData.Right;
+                            patientGroupPara.Logic = patientGroupParaData.Logic;
+                            patientGroupPara.Description = patientGroupParaData.Description;
+                            int lastInsertId = -1;
+                            patientGroupParaDao.InsertPatientGroupPara(patientGroupPara, ref lastInsertId);
+                            //UI
+                            //PatientGroupData patientGroupData = new PatientGroupData();
+                            //patientGroupData.Id = lastInsertId;
+                            //patientGroupData.Name = patientGroup.Name;
+                            //patientGroupData.Description = patientGroup.Description;
+
+                            //Datalist.Add(patientGroupData);
+                            patientGroupParaData.Id = lastInsertId;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MainWindow.Log.WriteInfoConsole(
+                            "In CPatientGroup.xaml.cs:ButtonParaApply_OnClick exception messsage: " + ex.Message);
+                        return;
+                    }
+                    this.ButtonParaNew.IsEnabled = true;
+                    this.ButtonParaDelete.IsEnabled = true;
+                    this.ButtonParaApply.IsEnabled = true;
+                    this.ButtonParaCancel.IsEnabled = true;
+                    isNewPara = false;
+                }
+                else
+                {
+                    //int index = ListViewPatientGroupPara.SelectedIndex;
+                    //if (index == -1)
+                    //{
+                    //    this.ButtonParaApply.IsEnabled = false;
+                    //    ButtonParaCancel.IsEnabled = false;
+                    //    return;
+                    //}
+
+                    //if (this.DatalisParat[index].Name.Equals(""))
                     //{
                     //    var a = new RemindMessageBox1();
                     //    a.remindText.Text = (string)FindResource("Message1001"); ;
@@ -393,79 +450,28 @@ namespace WpfApplication1.CustomUI
                     //    return;
                     //}
 
-                    using (PatientGroupParaDao patientGroupParaDao = new PatientGroupParaDao())
+                    //throw new NotImplementedException();
+                    using (var patientGroupParaDao = new PatientGroupParaDao())
                     {
-                        PatientGroupPara patientGroupPara = new PatientGroupPara();
-                        patientGroupPara.GroupId = Datalist[ListViewPatientGroup.SelectedIndex].Id;
-                        patientGroupPara.Left = DatalistPara[index].Left;
-                        patientGroupPara.Key = DatalistPara[index].Key;
-                        patientGroupPara.Symbol = DatalistPara[index].Symbol;
-                        patientGroupPara.Value = DatalistPara[index].Value;
-                        patientGroupPara.Right = DatalistPara[index].Right;
-                        patientGroupPara.Logic = DatalistPara[index].Logic;
-                        patientGroupPara.Description = DatalistPara[index].Description;
-                        int lastInsertId = -1;
-                        patientGroupParaDao.InsertPatientGroupPara(patientGroupPara, ref lastInsertId);
-                        //UI
-                        //PatientGroupData patientGroupData = new PatientGroupData();
-                        //patientGroupData.Id = lastInsertId;
-                        //patientGroupData.Name = patientGroup.Name;
-                        //patientGroupData.Description = patientGroup.Description;
+                        var condition = new Dictionary<string, object>();
+                        condition["ID"] = patientGroupParaData.Id;
 
-                        //Datalist.Add(patientGroupData);
-                        DatalistPara[index].Id = lastInsertId;
+                        var fileds = new Dictionary<string, object>();
+                        fileds["LEFT"] = patientGroupParaData.Left;
+                        fileds["KEY"] = patientGroupParaData.Key;
+                        fileds["SYMBOL"] = patientGroupParaData.Symbol;
+                        fileds["VALUE"] = patientGroupParaData.Value;
+                        fileds["RIGHT"] = patientGroupParaData.Right;
+                        fileds["LOGIC"] = patientGroupParaData.Logic;
+                        fileds["DESCRIPTION"] = patientGroupParaData.Description;
+                        patientGroupParaDao.UpdatePatientGroupPara(fileds, condition);
+                        //int temp = this.ListViewPatientGroupPara.SelectedIndex;
+                        //RefreshDataPara((int) Datalist[ListViewPatientGroup.SelectedIndex].Id);
+                        //this.ListViewPatientGroupPara.SelectedIndex = temp;
                     }
                 }
-                catch (Exception ex)
-                {
-                    MainWindow.Log.WriteInfoConsole("In CPatientGroup.xaml.cs:ButtonParaApply_OnClick exception messsage: " + ex.Message);
-                    return;
-                }
-                this.ButtonParaNew.IsEnabled = true;
-                this.ButtonParaDelete.IsEnabled = true;
-                this.ButtonParaApply.IsEnabled = true;
-                this.ButtonParaCancel.IsEnabled = true;
-                isNewPara = false;
             }
-            else
-            {
-                int index = ListViewPatientGroupPara.SelectedIndex;
-                if (index == -1)
-                {
-                    this.ButtonParaApply.IsEnabled = false;
-                    ButtonParaCancel.IsEnabled = false;
-                    return;
-                }
 
-                //if (this.DatalisParat[index].Name.Equals(""))
-                //{
-                //    var a = new RemindMessageBox1();
-                //    a.remindText.Text = (string)FindResource("Message1001"); ;
-                //    a.ShowDialog();
-                //    return;
-                //}
-
-                //throw new NotImplementedException();
-                using (var patientGroupParaDao = new PatientGroupParaDao())
-                {
-                    var condition = new Dictionary<string, object>();
-                    condition["ID"] = DatalistPara[index].Id;
-
-                    var fileds = new Dictionary<string, object>();
-                    fileds["LEFT"] = DatalistPara[index].Left;
-                    fileds["KEY"] = DatalistPara[index].Key;
-                    fileds["SYMBOL"] = DatalistPara[index].Symbol;
-                    fileds["VALUE"] = DatalistPara[index].Value;
-                    fileds["RIGHT"] = DatalistPara[index].Right;
-                    fileds["LOGIC"] = DatalistPara[index].Logic;
-                    fileds["DESCRIPTION"] = Datalist[index].Description;
-                    patientGroupParaDao.UpdatePatientGroupPara(fileds, condition);
-                    int temp = this.ListViewPatientGroupPara.SelectedIndex;
-                    RefreshDataPara((int)Datalist[ListViewPatientGroup.SelectedIndex].Id);
-                    this.ListViewPatientGroupPara.SelectedIndex = temp;
-                }
-
-            }
 
             this.ButtonParaDelete.IsEnabled = true;
             this.ButtonParaApply.IsEnabled = false;
