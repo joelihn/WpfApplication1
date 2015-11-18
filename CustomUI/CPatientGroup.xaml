@@ -342,7 +342,7 @@
                                     </ComboBox.ItemTemplate>
                                 </ComboBox>-->
 
-                                <ComboBox SelectionChanged="Selector_OnSelectionChanged" Visibility="Visible" Text="{Binding Value}" ItemsSource="{Binding Details, IsAsync=True}"  SelectedValue="{Binding Value}" Width="148" Height="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="{Binding IsEditabel}" />
+                                <ComboBox GotFocus="UIElement_OnGotFocus_Para" SelectionChanged="Selector_OnSelectionChanged" Visibility="Visible" Text="{Binding Value}" ItemsSource="{Binding Details, IsAsync=True}"  SelectedValue="{Binding Value}" Width="148" Height="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsEditable="{Binding IsEditabel}" />
                 				<!--<TextBox GotFocus="UIElement_OnGotFocus_Para" FontSize="14" TextWrapping="Wrap"  VerticalContentAlignment="Center"  Margin="0,0,0,0" Width="160" Text="{Binding Value}" Height="50" TextChanged="TextBoxBase_OnTextChanged_Para"  HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
                 			</DataTemplate>
                 		</GridViewColumn.CellTemplate>

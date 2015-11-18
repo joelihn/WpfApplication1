@@ -769,7 +769,7 @@ namespace WpfApplication1.CustomUI
 
         private void ComboBoxSymbol_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            //ListViewPatientGroupPara.SelectedIndex = 
             this.ButtonParaApply.IsEnabled = true;
             this.ButtonParaCancel.IsEnabled = true;
         }
@@ -796,6 +796,7 @@ namespace WpfApplication1.CustomUI
 
         private void Selector_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            
             this.ButtonParaApply.IsEnabled = true;
             this.ButtonParaCancel.IsEnabled = true;
 
