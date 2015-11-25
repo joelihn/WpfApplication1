@@ -41,6 +41,9 @@ namespace WpfApplication1
         
         
         public ObservableCollection<BedInfo> BedInfoList = new ObservableCollection<BedInfo>();
+
+        //public ObservableCollection<BedPatientData> AllBedPatientList = new ObservableCollection<BedPatientData>();
+        public ObservableCollection<BedInfo> AllBedInfoList = new ObservableCollection<BedInfo>();
         private ListBoxItem targetItemsControl;
         public List<DateTime> dtlist = new List<DateTime>();
 
@@ -412,6 +415,258 @@ namespace WpfApplication1
                 }
             }
             selectoperation = 1;
+        }
+
+        private void AutoDistributeFixedBed1()
+        {
+            string ampme = "";
+            foreach (var i in AmPmEGrid.Children)
+            {
+                if (i is ToggleButton)
+                {
+                    if (((ToggleButton)i).IsChecked == true)
+                    {
+                        ampme = (string)((ToggleButton)i).Tag;
+                        break;
+                    }
+                }
+            }
+            DateTime dt1 = GetDate();
+
+            List<BedPatientData> delPatients = new List<BedPatientData>();
+            foreach (var patient in BedPatientList)
+            //foreach (var patient in FixBedPatientList)
+            {
+                bool isFixedBed = false;
+                using (var patientDao = new PatientDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["ID"] = patient.Id;
+                    var list = patientDao.SelectPatient(condition);
+                    isFixedBed = list[0].IsFixedBed;
+                }
+                if (isFixedBed == false)
+                    continue;
+
+                long fixbedid = -1;
+
+                /*using (var bedDao = new BedDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["ID"] = fixBedId;
+                    var list = bedDao.SelectBed(condition);
+                }*/
+                bool isAuto = true;
+                bool isTemp = false;
+                using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    condition["PatientId"] = patient.Id.ToString();
+                    //condition["IsTemp"] = false;
+                    condition["Date"] = dt1.Date.ToString("yyyy-MM-dd");
+                    var list = scheduleDao.SelectScheduleTemplate(condition);
+                    if (list.Count == 1)
+                    {
+                        isAuto = list[0].IsAuto;
+                        fixbedid = list[0].BedId;
+                        isTemp = list[0].IsTemp;
+                    }
+
+                }
+                if (isAuto)
+                {
+                    using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                    {
+                        Dictionary<string, object> condition = new Dictionary<string, object>();
+                        condition["PatientId"] = patient.Id.ToString();
+                        //condition["IsTemp"] = false;
+                        condition["AmPmE"] = ampme;
+                        var list = scheduleDao.SelectScheduleTemplate(condition);
+
+                        foreach (var scheduleTemplate in list)
+                        {
+                            DateTime now = DateTime.Parse(scheduleTemplate.Date);
+                            if (DateTime.Compare(now.Date, dt1.Date) < 0)
+                            {
+                                if (scheduleTemplate.BedId != -1)
+                                {
+                                    fixbedid = scheduleTemplate.BedId;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                foreach (var bed in AllBedInfoList)
+                {
+                    if (fixbedid != bed.Id)
+                    {
+                        continue;
+                    }
+
+                    if (bed.InfectionType == patient.InfectionType)
+                    {
+                        using (var methodDao = new TreatMethodDao())
+                        {
+                            int DoublePump = -1;
+                            int SinglePump = -1;
+                            var condition = new Dictionary<string, object>();
+                            condition["NAME"] = patient.TreatMethod;
+                            var list = methodDao.SelectTreatMethod(condition);
+                            if (list.Count == 1)
+                            {
+                                if (list[0].DoublePump == true)
+                                {
+                                    DoublePump = 1;
+                                }
+                                if (list[0].SinglePump == true)
+                                {
+                                    SinglePump = 0;
+                                }
+
+                            }
+
+                            if (bed.MachineTypeID != DoublePump && bed.MachineTypeID != SinglePump)
+                            {
+                                break;
+                            }
+                        }
+
+
+                        if (bed.IsAvailable == true && bed.IsOccupy != true)
+                        {
+                            if (bed.PatientData == null)
+                            {
+                                delPatients.Add(patient);
+                                UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id, isAuto);
+                                bed.PatientName = patient.Name + "\n" + patient.TreatMethod;
+                                bed.PatientData = patient;
+                                bed.IsTemp = isTemp;
+                                break;
+                            }
+                        }
+
+
+                    }
+
+                }
+            }
+
+            foreach (var patient in delPatients)
+            {
+                BedPatientList.Remove(patient);
+            }
+
+
+
+            ///////////////////////////////////////
+            /// 上边先给没有分过床的固定床位患者分床
+            /// 下面给分过床的固定床位患者分床
+            /// ///////////////////////////////////
+            foreach (var patient in FixBedPatientList)
+            {
+                long fixbedid = -1;
+                bool isAuto = true;
+                bool isTemp = false;
+                using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    condition["PatientId"] = patient.Id.ToString();
+                    //condition["IsTemp"] = false;
+                    condition["Date"] = dt1.Date.ToString("yyyy-MM-dd");
+                    var list = scheduleDao.SelectScheduleTemplate(condition);
+                    if (list.Count == 1)
+                    {
+                        isAuto = list[0].IsAuto;
+                        fixbedid = list[0].BedId;
+                        isTemp = list[0].IsTemp;
+                    }
+
+                }
+                if (isAuto)
+                {
+                    using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                    {
+                        Dictionary<string, object> condition = new Dictionary<string, object>();
+                        condition["PatientId"] = patient.Id.ToString();
+                        //condition["IsTemp"] = false;
+                        condition["AmPmE"] = ampme;
+                        var list = scheduleDao.SelectScheduleTemplate(condition);
+
+                        foreach (var scheduleTemplate in list)
+                        {
+                            DateTime now = DateTime.Parse(scheduleTemplate.Date);
+                            if (DateTime.Compare(now.Date, dt1.Date) < 0)
+                            {
+                                if (scheduleTemplate.BedId != -1)
+                                {
+                                    fixbedid = scheduleTemplate.BedId;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                foreach (var bed in BedInfoList)
+                {
+                    if (fixbedid != bed.Id)
+                    {
+                        continue;
+                    }
+
+                    if (bed.InfectionType == patient.InfectionType)
+                    {
+                        using (var methodDao = new TreatMethodDao())
+                        {
+                            int DoublePump = -1;
+                            int SinglePump = -1;
+                            var condition = new Dictionary<string, object>();
+                            condition["NAME"] = patient.TreatMethod;
+                            var list = methodDao.SelectTreatMethod(condition);
+                            if (list.Count == 1)
+                            {
+                                if (list[0].DoublePump == true)
+                                {
+                                    DoublePump = 1;
+                                }
+                                if (list[0].SinglePump == true)
+                                {
+                                    SinglePump = 0;
+                                }
+
+                            }
+
+                            if (bed.MachineTypeID != DoublePump && bed.MachineTypeID != SinglePump)
+                            {
+                                break;
+                            }
+                        }
+
+
+                        if (bed.IsAvailable == true && bed.IsOccupy != true)
+                        {
+                            if (bed.PatientData == null)
+                            {
+                                delPatients.Add(patient);
+                                UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id, isAuto);
+                                bed.PatientName = patient.Name + "\n" + patient.TreatMethod;
+                                bed.PatientData = patient;
+                                bed.IsTemp = isTemp;
+                                break;
+                            }
+                        }
+
+
+                    }
+
+                }
+            }
+
+            PatientCountLabel.Content = "待排患者(" + BedPatientList.Count + ")";
+
+
         }
 
         private void AutoDistributeFixedBed()
@@ -912,6 +1167,8 @@ namespace WpfApplication1
             
             LoadTratementConifg();
             LoadPatientAreas();
+
+            RefreshAllData();
             RefreshData();
         }
 
@@ -924,6 +1181,150 @@ namespace WpfApplication1
             RefreshBedList(infecttype);
             AutoDistributeFixedBed();
         }
+
+
+        private void RefreshAllData()
+        {
+            string ampme = GetTime();
+            DateTime dt = GetDate();
+            RefreshPatientList(dt.Date, ampme);
+
+            RefreshAllBedsList();
+            AutoDistributeFixedBed1();
+        }
+
+        private void RefreshAllBedsList()
+        {
+            try
+            {
+                AllBedInfoList.Clear();
+                using (BedDao bedDao = new BedDao())
+                {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    var list = bedDao.SelectBed(condition);
+                    foreach (DAOModule.Bed bed in list)
+                    {
+                        BedInfo bedInfo = new BedInfo();
+                        bedInfo.Id = bed.Id;
+                        bedInfo.BedName = bed.Name;
+                        bedInfo.IsAvailable = bed.IsAvailable;
+                        bedInfo.IsOccupy = bed.IsOccupy;
+                        bedInfo.PatientAreaID = bed.PatientAreaId;
+                        bedInfo.MachineTypeID = bed.MachineTypeId;
+
+                        //默认床不是零时床
+                        bedInfo.IsTemp = false;
+                        //bedInfo.IsTemp = bed.IsTemp;
+                        DateTime then = GetDate();
+                        if( then.Date >= DateTime.Now.Date )
+                        if (bedInfo.IsAvailable == false )
+                            continue;
+
+
+                        using (var patientAreaDao = new PatientAreaDao())
+                        {
+                            condition.Clear();
+                            condition["Id"] = bed.PatientAreaId;
+                            var arealist = patientAreaDao.SelectPatientArea(condition);
+                            if (arealist.Count == 1)
+                            {
+                                if (arealist[0].Type == "0")
+                                {
+                                    bedInfo.InfectionType = "阴性";
+                                }
+                                else
+                                {
+                                    using (InfectTypeDao infectTypeDao = new InfectTypeDao())
+                                    {
+                                        condition.Clear();
+                                        condition["ID"] = arealist[0].InfectTypeId;
+                                        var list2 = infectTypeDao.SelectInfectType(condition);
+                                        if (list2.Count == 1)
+                                        {
+                                            bedInfo.InfectionType = list2[0].Name;
+                                        }
+
+
+                                    }
+                                }
+
+
+                               
+                            }
+                        }
+
+
+                        using (var machineTypeDao = new MachineTypeDao())
+                        {
+
+                            condition.Clear();
+                            condition["Id"] = bed.MachineTypeId;
+                            var list3 = machineTypeDao.SelectMachineType(condition);
+                            if (list3.Count == 1)
+                            {
+                                string co = list3[0].BgColor;
+                                Brush bgBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(co));
+                                bedInfo.BedBrush = bgBrush;
+                            }
+                            
+                        }
+
+                        
+                        //初始化病床列表时需要将以排床的病人放入相应床上 
+
+                        foreach (var bedPatientData in UnPatientList)
+                        {
+                            if (bedPatientData.BedId == bedInfo.Id)
+                            {
+                                bedInfo.PatientName = bedPatientData.Name + "\n" + bedPatientData.TreatMethod;
+                                bedInfo.PatientData = bedPatientData;
+                                ///////////////////////////////////////////////////////////
+                                string ampme = GetTime();
+                                DateTime dt = GetDate();
+                                try
+                                {
+                                    using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                                    {
+                                        condition.Clear();
+                                        condition = new Dictionary<string, object>();
+                                        condition["PatientId"] = bedPatientData.Id;
+                                        condition["Date"] = dt.Date.ToString("yyyy-MM-dd");
+                                        condition["AmPmE"] = ampme;
+                                        condition["BedId"] = bedPatientData.BedId;
+                                        var list11 = scheduleDao.SelectScheduleTemplate(condition);
+                                        bedInfo.IsTemp = list11[0].IsTemp;
+
+                                    }
+
+
+                                }
+                                catch (Exception ex)
+                                {
+                                    MainWindow.Log.WriteInfoConsole("In PatientSchedule.xaml.cs:GetPatientSchedule select patient exception messsage: " + ex.Message);
+                                }
+                                ///////////////////////////////////////////////////////////////////////////
+                            
+                                BedPatientList.Remove(bedPatientData);
+                                break;
+                            }
+                        }
+
+                        
+
+
+                        bedInfo.IsAvailable = bed.IsAvailable;
+                        AllBedInfoList.Add(bedInfo);
+                    }
+                }
+
+                
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Shedule.xaml.cs:Init_OnLoaded InfectType ComboxItem exception messsage: " + ex.Message);
+            }
+        }
+
 
         private DateTime GetDate()
         {
@@ -1734,6 +2135,7 @@ namespace WpfApplication1
                 btn.IsChecked = true;
                 UncheckOtherToggleButton(btn);
             }
+            RefreshAllData();
             RefreshData();
         }
 
@@ -1750,6 +2152,7 @@ namespace WpfApplication1
                 UncheckOtherToggleButton1(btn);
             }
             //RefreshPatientList(DateTime.Now.Date, (string)btn.Tag);
+            RefreshAllData();
             RefreshData();
 
         }
