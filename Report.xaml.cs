@@ -165,13 +165,19 @@ namespace WpfApplication1
     {
         private MainWindow BaseWindow;
         public ObservableCollection<ReportData> Datalist = new ObservableCollection<ReportData>();
+        public ObservableCollection<string> PatientGroupComboBoxItems = new ObservableCollection<string>();
 
         public Report(MainWindow mainWindow)
         {
             InitializeComponent();
             BaseWindow = mainWindow;
             this.ReportListBox.ItemsSource = Datalist;
+            PatientGroupComboBox.ItemsSource = PatientGroupComboBoxItems;
+            InitPatientGroupComboBox();
+
+            DatePicker1.Text = DateTime.Now.ToString("yyyy-MM-dd");
         }
+
 
         public void print(FrameworkElement ViewContainer)
         {
@@ -468,8 +474,124 @@ namespace WpfApplication1
             //e.Graphics.DrawString("Hello, world!", new System.Drawing.Font("Arial", 16, System.Drawing.FontStyle.Regular), System.Drawing.Brushes.Black, 100, 100);
 
         }
-    
 
+        public void InitPatientGroupComboBox()
+        {
+            try
+            {
+                PatientGroupComboBoxItems.Clear();
+                using (var patientGroupDao = new PatientGroupDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    var list = patientGroupDao.SelectPatientGroup(condition);
+                    foreach (var type in list)
+                    {
+                        var patientGroupData = new PatientGroupData
+                        {
+                            Id = type.Id,
+                            Name = type.Name,
+                            Description = type.Description
+                        };
+                        PatientGroupComboBoxItems.Add(patientGroupData.Name);
+                    }
+                }
+
+                if (PatientGroupComboBoxItems.Count != 0)
+                    PatientGroupComboBox.SelectedIndex = 0;
+                /*if (PatientGroupComboBoxItems.Count != 0)
+                    this.PatientGroupComboBox.SelectedValue = Basewindow.patientGroupPanel.ComboBoxPatientGroup.SelectedValue;*/
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:ComboBoxPatientGroup_OnInitialized exception messsage: " + ex.Message);
+            }
+
+        }
+
+        private void PatientGroupComboBox_SelectionChanged(object sender,
+            System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            QueryPatients();
+
+        }
+
+
+        private void QueryPatients()
+        {
+            try
+            {
+                int index = PatientGroupComboBox.SelectedIndex;
+                if (index == -1) return;
+                using (var patientGroupDao = new PatientGroupDao())
+                {
+                    var condition = new Dictionary<string, object>();
+                    condition["NAME"] = PatientGroupComboBoxItems[index];
+                    var list = patientGroupDao.SelectPatientGroup(condition);
+                    if (list.Count > 0)
+                    {
+                        using (var patientGroupParaDao = new PatientGroupParaDao())
+                        {
+                            var conditionpara = new Dictionary<string, object>();
+                            conditionpara["GROUPID"] = list[0].Id;
+                            var listpara = patientGroupParaDao.SelectPatientGroupPara(conditionpara);
+
+                            if (listpara.Count > 0)
+                            {
+                                using (var patientDao = new PatientDao())
+                                {
+                                    var patientlist = patientDao.SelectPatientSpecial(listpara);
+                                    Datalist.Clear();
+                                    foreach (var patient in patientlist)
+                                    {
+                                        using (var scheduleTemplateDao = new ScheduleTemplateDao())
+                                        {
+
+                                            condition.Clear();
+                                            condition = new Dictionary<string, object>();
+                                            condition["DATE"] = patient.Id;
+                                            condition["DATE"] = DatePicker1.DisplayDate.Date.ToString("yyyy-MM-dd");// DateTime.Now.ToString("yyyy-MM-dd");
+                                            var list22 = scheduleTemplateDao.SelectScheduleTemplate(condition);
+                                            foreach (var type in list22)
+                                            {
+                                                var rReportData = new ReportData();
+
+                                                rReportData.Id = type.Id;
+                                                using (PatientDao patientDao1 = new PatientDao())
+                                                {
+                                                    var condition2 = new Dictionary<string, object>();
+                                                    condition2["ID"] = type.PatientId;
+                                                    var list2 = patientDao1.SelectPatient(condition2);
+                                                    if ((list2 != null) && (list.Count > 0))
+                                                        rReportData.PatientName = list2[0].Name;
+                                                }
+
+                                                rReportData.Time = type.AmPmE;
+                                                rReportData.Method = type.Method;
+                                                if (type.BedId == -1)
+                                                    rReportData.BedId = "";
+                                                else
+                                                {
+                                                    rReportData.BedId = type.BedId.ToString();
+                                                }
+                                                rReportData.Description = type.Description;
+                                                Datalist.Add(rReportData);
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
+            }
+        }
 
         private void Report_OnLoaded(object sender, RoutedEventArgs e)
         {
@@ -516,6 +638,13 @@ namespace WpfApplication1
             {
                 MainWindow.Log.WriteInfoConsole("In CInfectType.xaml.cs:ListViewCInfectType_OnLoaded exception messsage: " + ex.Message);
             }
+        }
+
+        private void DatePicker1_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            QueryPatients();
+            this.LabelDate.Content = DatePicker1.DisplayDate.Date.ToString("yyyy-MM-dd");
+
         }
     }
 

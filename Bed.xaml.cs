@@ -37,6 +37,9 @@ namespace WpfApplication1
 
         public ObservableCollection<BedPatientData> BedPatientList = new ObservableCollection<BedPatientData>();
         public ObservableCollection<BedPatientData> UnPatientList = new ObservableCollection<BedPatientData>();
+        public ObservableCollection<BedPatientData> FixBedPatientList = new ObservableCollection<BedPatientData>();
+        
+        
         public ObservableCollection<BedInfo> BedInfoList = new ObservableCollection<BedInfo>();
         private ListBoxItem targetItemsControl;
         public List<DateTime> dtlist = new List<DateTime>();
@@ -428,9 +431,10 @@ namespace WpfApplication1
             DateTime dt1 = GetDate();
 
             List<BedPatientData> delPatients = new List<BedPatientData>();
-            foreach (var patient in BedPatientList)
+            //foreach (var patient in BedPatientList)
+            foreach (var patient in FixBedPatientList)
             {
-                bool isFixedBed = false;
+                /*bool isFixedBed = false;
                 using (var patientDao = new PatientDao())
                 {
                     var condition = new Dictionary<string, object>();
@@ -439,7 +443,7 @@ namespace WpfApplication1
                     isFixedBed = list[0].IsFixedBed;
                 }
                 if (isFixedBed == false)
-                    continue;
+                    continue;*/
 
                 long fixbedid = -1;
                 
@@ -450,17 +454,19 @@ namespace WpfApplication1
                     var list = bedDao.SelectBed(condition);
                 }*/
                 bool isAuto = true;
+                bool isTemp = false;
                 using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
                 {
                     Dictionary<string, object> condition = new Dictionary<string, object>();
                     condition["PatientId"] = patient.Id.ToString();
-                    condition["IsTemp"] = false;
+                    //condition["IsTemp"] = false;
                     condition["Date"] = dt1.Date.ToString("yyyy-MM-dd");
                     var list = scheduleDao.SelectScheduleTemplate(condition);
                     if (list.Count == 1)
                     {
                         isAuto = list[0].IsAuto;
                         fixbedid = list[0].BedId;
+                        isTemp = list[0].IsTemp;
                     }
 
                 }
@@ -470,7 +476,7 @@ namespace WpfApplication1
                     {
                         Dictionary<string, object> condition = new Dictionary<string, object>();
                         condition["PatientId"] = patient.Id.ToString();
-                        condition["IsTemp"] = false;
+                        //condition["IsTemp"] = false;
                         condition["AmPmE"] = ampme;
                         var list = scheduleDao.SelectScheduleTemplate(condition);
 
@@ -533,6 +539,7 @@ namespace WpfApplication1
                                 UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id, isAuto);
                                 bed.PatientName = patient.Name + "\n" + patient.TreatMethod;
                                 bed.PatientData = patient;
+                                bed.IsTemp = isTemp;
                                 break;
                             }
                         }
@@ -543,10 +550,10 @@ namespace WpfApplication1
                 }
             }
 
-            foreach (var patient in delPatients)
+            /*foreach (var patient in delPatients)
             {
                 BedPatientList.Remove(patient);
-            }
+            }*/
 
             PatientCountLabel.Content = "待排患者(" + BedPatientList.Count + ")";
             
@@ -1283,11 +1290,22 @@ namespace WpfApplication1
                                         }
                                     }
 
-                                    if (patient.BedId == -1 || patientlist[0].IsFixedBed)
+                                    //if (patient.BedId == -1 || patientlist[0].IsFixedBed)
+                                    if (patient.BedId == -1)
+                                    {
+
                                         BedPatientList.Add(patientInfo);//未排床的病人列表
+
+                                    }
+                                        
                                     else
                                     {
-                                        UnPatientList.Add(patientInfo);//已排床的病人列表
+                                        if (patientlist[0].IsFixedBed)
+                                        {
+                                            FixBedPatientList.Add(patientInfo);//固定床位病人列表因为要继承上一次的床，而上一次的床可能已经修改，所以需要重新排
+                                        }
+                                        else
+                                            UnPatientList.Add(patientInfo);//已排床的病人列表
                                     }
 
 
@@ -1966,7 +1984,7 @@ namespace WpfApplication1
                 {
                     DateTime dt = GetDate();
                     //UpdateBedId(BedInfoList[index].PatientData.Id, DateTime.Parse("2015-06-10"), ampme, -1);
-                    UpdateBedId(BedInfoList[index].PatientData.Id, dt.Date, ampme, -1);
+                    UpdateBedId(BedInfoList[index].PatientData.Id, dt.Date, ampme, -1, false);
                     BedInfoList[index].PatientData = null;
                     BedInfoList[index].IsTemp = false;//双击后将床位变为不是零时床
                 }

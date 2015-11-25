@@ -34,6 +34,10 @@ namespace WpfApplication1.CustomUI
             this.ComboBoxPatientGroup.SelectedIndex = MainWindow.ComboBoxPatientGroupIndex;
         }
 
+        private void UpdateGroupCount()
+        {
+            LabelCount.Content = "总共" + Datalist.Count + "人";
+        }
         public void RefreshPatientGroupCombobox()
         {
             try
@@ -126,7 +130,7 @@ namespace WpfApplication1.CustomUI
                 }
                 
             }
-
+            UpdateGroupCount();
             //ListBoxPatient.SelectedIndex = Datalist.Count > 0 ? 1 : -1;
 
         }

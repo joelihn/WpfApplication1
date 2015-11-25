@@ -3783,6 +3783,8 @@ namespace WpfApplication1
                 }
                 
                 ListBox1.Items.Refresh();
+
+                LabelCount.Content = "共" + ListboxItemStatusesList.Count + "人";
             }
             catch (Exception ex)
             {

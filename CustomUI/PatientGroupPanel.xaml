@@ -61,11 +61,15 @@
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="50"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <ComboBox Name="ComboBoxPatientGroup" SelectionChanged="ComboBoxPatientGroup_OnSelectionChanged" Initialized="ComboBoxPatientGroup_OnInitialized" Style="{DynamicResource ComboBoxStyle4}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <ListBox SelectionChanged="ListBoxPatient_OnSelectionChanged" Name="ListBoxPatient" Grid.Row="1" BorderBrush="{x:Null}" ItemContainerStyle="{DynamicResource PatientGroupListboxItemStyle1}"/>
+            <ComboBox Name="ComboBoxPatientGroup" SelectionChanged="ComboBoxPatientGroup_OnSelectionChanged" Initialized="ComboBoxPatientGroup_OnInitialized" Style="{DynamicResource ComboBoxStyle4}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Row="1"/>
+            <ListBox SelectionChanged="ListBoxPatient_OnSelectionChanged" Name="ListBoxPatient" Grid.Row="2" BorderBrush="{x:Null}" ItemContainerStyle="{DynamicResource PatientGroupListboxItemStyle1}"/>
+            <Grid Background="White">
+            	<Label x:Name="LabelCount" Content="共2人" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="0"/>
+            </Grid>
         </Grid>
         
     </Grid>
