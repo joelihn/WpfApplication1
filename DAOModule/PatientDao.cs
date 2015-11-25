@@ -369,8 +369,8 @@ namespace WpfApplication1.DAOModule
                             {
                                 condition += patientGroupPara.Left.Trim() + " " +
                                            MainWindow.Key[patientGroupPara.Key].Trim() + " " +
-                                           MainWindow.Symbol[patientGroupPara.Symbol].Trim()  +
-                                           patientGroupPara.Value.Trim()  +
+                                           MainWindow.Symbol[patientGroupPara.Symbol].Trim() + " \'" +
+                                           patientGroupPara.Value.Trim() + "\' " +
                                            patientGroupPara.Right.Trim() + " " + patientGroupPara.Logic.Trim();
                             }
                             else

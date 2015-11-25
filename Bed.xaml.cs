@@ -431,10 +431,10 @@ namespace WpfApplication1
             DateTime dt1 = GetDate();
 
             List<BedPatientData> delPatients = new List<BedPatientData>();
-            //foreach (var patient in BedPatientList)
-            foreach (var patient in FixBedPatientList)
+            foreach (var patient in BedPatientList)
+            //foreach (var patient in FixBedPatientList)
             {
-                /*bool isFixedBed = false;
+                bool isFixedBed = false;
                 using (var patientDao = new PatientDao())
                 {
                     var condition = new Dictionary<string, object>();
@@ -443,7 +443,7 @@ namespace WpfApplication1
                     isFixedBed = list[0].IsFixedBed;
                 }
                 if (isFixedBed == false)
-                    continue;*/
+                    continue;
 
                 long fixbedid = -1;
                 
@@ -550,10 +550,116 @@ namespace WpfApplication1
                 }
             }
 
-            /*foreach (var patient in delPatients)
+            foreach (var patient in delPatients)
             {
                 BedPatientList.Remove(patient);
-            }*/
+            }
+
+
+
+            ///////////////////////////////////////
+            /// 上边先给没有分过床的固定床位患者分床
+            /// 下面给分过床的固定床位患者分床
+            /// ///////////////////////////////////
+            foreach (var patient in FixBedPatientList)
+            {
+                long fixbedid = -1;
+                bool isAuto = true;
+                bool isTemp = false;
+                using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                {
+                    Dictionary<string, object> condition = new Dictionary<string, object>();
+                    condition["PatientId"] = patient.Id.ToString();
+                    //condition["IsTemp"] = false;
+                    condition["Date"] = dt1.Date.ToString("yyyy-MM-dd");
+                    var list = scheduleDao.SelectScheduleTemplate(condition);
+                    if (list.Count == 1)
+                    {
+                        isAuto = list[0].IsAuto;
+                        fixbedid = list[0].BedId;
+                        isTemp = list[0].IsTemp;
+                    }
+
+                }
+                if (isAuto)
+                {
+                    using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                    {
+                        Dictionary<string, object> condition = new Dictionary<string, object>();
+                        condition["PatientId"] = patient.Id.ToString();
+                        //condition["IsTemp"] = false;
+                        condition["AmPmE"] = ampme;
+                        var list = scheduleDao.SelectScheduleTemplate(condition);
+
+                        foreach (var scheduleTemplate in list)
+                        {
+                            DateTime now = DateTime.Parse(scheduleTemplate.Date);
+                            if (DateTime.Compare(now.Date, dt1.Date) < 0)
+                            {
+                                if (scheduleTemplate.BedId != -1)
+                                {
+                                    fixbedid = scheduleTemplate.BedId;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                foreach (var bed in BedInfoList)
+                {
+                    if (fixbedid != bed.Id)
+                    {
+                        continue;
+                    }
+
+                    if (bed.InfectionType == patient.InfectionType)
+                    {
+                        using (var methodDao = new TreatMethodDao())
+                        {
+                            int DoublePump = -1;
+                            int SinglePump = -1;
+                            var condition = new Dictionary<string, object>();
+                            condition["NAME"] = patient.TreatMethod;
+                            var list = methodDao.SelectTreatMethod(condition);
+                            if (list.Count == 1)
+                            {
+                                if (list[0].DoublePump == true)
+                                {
+                                    DoublePump = 1;
+                                }
+                                if (list[0].SinglePump == true)
+                                {
+                                    SinglePump = 0;
+                                }
+
+                            }
+
+                            if (bed.MachineTypeID != DoublePump && bed.MachineTypeID != SinglePump)
+                            {
+                                break;
+                            }
+                        }
+
+
+                        if (bed.IsAvailable == true && bed.IsOccupy != true)
+                        {
+                            if (bed.PatientData == null)
+                            {
+                                delPatients.Add(patient);
+                                UpdateBedId(patient.Id, dt1.Date, ampme, bed.Id, isAuto);
+                                bed.PatientName = patient.Name + "\n" + patient.TreatMethod;
+                                bed.PatientData = patient;
+                                bed.IsTemp = isTemp;
+                                break;
+                            }
+                        }
+
+
+                    }
+
+                }
+            }
 
             PatientCountLabel.Content = "待排患者(" + BedPatientList.Count + ")";
             
@@ -1100,6 +1206,7 @@ namespace WpfApplication1
             {
                 BedPatientList.Clear();
                 UnPatientList.Clear();
+                FixBedPatientList.Clear();
                 using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
                 {
                     Dictionary<string, object> condition = new Dictionary<string, object>();
