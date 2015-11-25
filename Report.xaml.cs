@@ -548,7 +548,7 @@ namespace WpfApplication1
 
                                             condition.Clear();
                                             condition = new Dictionary<string, object>();
-                                            condition["DATE"] = patient.Id;
+                                            condition["PatientId"] = patient.Id;
                                             condition["DATE"] = DatePicker1.SelectedDate.Value.ToString("yyyy-MM-dd");// DateTime.Now.ToString("yyyy-MM-dd");
                                             var list22 = scheduleTemplateDao.SelectScheduleTemplate(condition);
                                             foreach (var type in list22)
