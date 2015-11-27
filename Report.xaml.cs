@@ -193,6 +193,7 @@ namespace WpfApplication1
                 FixedDocument document = new FixedDocument();
                 try
                 {
+                    
                     objectToPrint.Width = capabilities.PageImageableArea.ExtentWidth;
                     objectToPrint.UpdateLayout();
                     objectToPrint.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
@@ -256,6 +257,7 @@ namespace WpfApplication1
                     Mouse.OverrideCursor = null;
                 }
                 printDialog.PrintDocument(document.DocumentPaginator, "Print Document Name");
+                objectToPrint.Width = BaseWindow.RightContentA.Width;
             }
         }
         private PageContent generatePageContent(System.Drawing.Bitmap bmp, int top, int bottom, double pageWidth, double PageHeight, System.Printing.PrintCapabilities capabilities)
@@ -585,6 +587,7 @@ namespace WpfApplication1
                     }
 
                 }
+                UpdateGroupCount();
 
             }
             catch (Exception ex)
@@ -592,7 +595,10 @@ namespace WpfApplication1
                 MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
             }
         }
-
+        private void UpdateGroupCount()
+        {
+            LabelCount.Content = "总共" + Datalist.Count + "人";
+        }
         private void Report_OnLoaded(object sender, RoutedEventArgs e)
         {
 

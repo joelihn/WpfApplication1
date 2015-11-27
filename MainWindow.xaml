@@ -1,26 +1,27 @@
-﻿<Window x:Class="WpfApplication1.MainWindow"
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="WpfApplication1.MainWindow"
         Title="MainWindow" Height="600" Width="800" BorderBrush="{x:Null}" WindowStartupLocation="CenterScreen" WindowState="Maximized" Icon="calendar-selection-week.ico">
-    <Grid>
+	<Grid>
         
-        <Viewbox Stretch="Fill" Name="OverAllViewBox" >
-            <Grid Height="1024" Width="1280">
-            <Grid.RowDefinitions>
-                    <RowDefinition Height="1.5*" />
-                    <RowDefinition Height="1.5*" />
-                    <RowDefinition Height="1.5*" />
-                    <RowDefinition Height="1.5*" />
-                    <RowDefinition Height="1.5*" />
-                    <RowDefinition Height="1.5*" />
-                    <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="140" />
-                    <ColumnDefinition Width="140" />
-                    <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-                <!--<Border Grid.Row="5" Grid.Column="1" BorderThickness="0" >
+		<Viewbox Stretch="Fill" x:Name="OverAllViewBox" >
+			<Grid Height="1024" Width="1280">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="1.5*" />
+					<RowDefinition Height="1.5*" />
+					<RowDefinition Height="1.5*" />
+					<RowDefinition Height="1.5*" />
+					<RowDefinition Height="1.5*" />
+					<RowDefinition Height="1.5*" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="140" />
+					<ColumnDefinition Width="140" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<!--<Border Grid.Row="5" Grid.Column="1" BorderThickness="0" >
                     --><!--<Image Source="/fMRISystem;component/Resources/AD.png" Margin="50,20,0,0" />--><!--
 
                     <Grid>
@@ -33,11 +34,11 @@
                     </Grid>
 
                 </Border>-->
-                <ContentControl Name="RightContentR" Grid.Column="2"  Grid.RowSpan="7" Foreground="GreenYellow"></ContentControl>
-                <ContentControl Name="RightContentL" Grid.Column="1"  Grid.RowSpan="7" Foreground="GreenYellow"></ContentControl>
-                <ContentControl Name="RightContentA" Grid.Column="1" Grid.ColumnSpan="2"  Grid.RowSpan="7" Foreground="GreenYellow"></ContentControl>
-                <ListBox SelectionChanged="listbox1_SelectionChanged" Name="TopMenuListBox" Grid.RowSpan="6" ItemContainerStyle="{DynamicResource MenuStyle}" BorderBrush="{x:Null}" />
-            </Grid>
-    </Viewbox>
-    </Grid>
+				<ContentControl x:Name="RightContentR" Grid.Column="2"  Grid.RowSpan="7" Foreground="GreenYellow"/>
+				<ContentControl x:Name="RightContentL" Grid.Column="1"  Grid.RowSpan="7" Foreground="GreenYellow"/>
+				<ContentControl x:Name="RightContentA" Grid.Column="1" Grid.ColumnSpan="2"  Grid.RowSpan="7" Foreground="GreenYellow"/>
+				<ListBox SelectionChanged="listbox1_SelectionChanged" x:Name="TopMenuListBox" Grid.RowSpan="6" ItemContainerStyle="{DynamicResource MenuStyle}" BorderBrush="{x:Null}" />
+			</Grid>
+		</Viewbox>
+	</Grid>
 </Window>

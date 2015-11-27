@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="1024" d:DesignWidth="1140" Loaded="Report_OnLoaded">
+             d:DesignHeight="1024" d:DesignWidth="1230" Loaded="Report_OnLoaded">
     <UserControl.Resources>
         <collections:ArrayList x:Key="Informationlist">
         </collections:ArrayList>
@@ -88,13 +88,15 @@
         	<Grid.ColumnDefinitions>
         		<ColumnDefinition Width="140"/>
         		<ColumnDefinition Width="140"/>
+        		<ColumnDefinition Width="140"/>
         		<ColumnDefinition/>
         		<ColumnDefinition Width="100"/>
         	</Grid.ColumnDefinitions>
-            <Label Name="LabelDate" Content="当天日期" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2"/>
+            <Label Name="LabelDate" Content="当天日期" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
             <ComboBox x:Name="PatientGroupComboBox" Style="{DynamicResource ComboBoxStyle4}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="PatientGroupComboBox_SelectionChanged"/>
-            <Button x:Name="ButtonPrint" Width="100" Content="打印" Style="{DynamicResource FunctionButtonStyle}" Click="ButtonPrint_OnClick" Grid.Column="3"/>
-            <DatePicker x:Name="DatePicker1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Column="1" BorderThickness="0" SelectedDateChanged="DatePicker1_SelectedDateChanged"/>
+            <Button x:Name="ButtonPrint" Width="100" Content="打印" Style="{DynamicResource FunctionButtonStyle}" Click="ButtonPrint_OnClick" Grid.Column="4"/>
+            <DatePicker x:Name="DatePicker1" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Grid.Column="2" BorderThickness="0" SelectedDateChanged="DatePicker1_SelectedDateChanged"/>
+            <Label x:Name="LabelCount" Content="共0人" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
             <!--<Button Name="ButtonPrint" Click="ButtonPrint_OnClick" Width="100" Content="打印" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="990,1,0,0"/>-->
         </Grid>
         <ListBox  ItemsSource="{Binding}" Name="ReportListBox" Grid.Row="2" ItemContainerStyle="{DynamicResource ReportListBoxItemStyle}"/>

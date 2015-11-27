@@ -174,6 +174,7 @@ namespace WpfApplication1.CustomUI
                 }
 
             }
+            UpdateGroupCount();
         }
 
         private void ListBoxPatient_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
