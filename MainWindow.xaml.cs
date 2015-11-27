@@ -221,8 +221,9 @@ namespace WpfApplication1
             {
                 case 0:
                     this.RightContentA.Visibility = Visibility.Hidden;
+                    this.RightContentA.Content = "";
                     this.RightContentR.Content = initContent;
-                    initContent.ReLoad();
+                    //initContent.ReLoad();
                     //patientGroupPanel.reLoaded();
                     this.RightContentL.Content = patientGroupPanel;
                     
@@ -230,6 +231,7 @@ namespace WpfApplication1
                     break;
                 case 1:
                     this.RightContentA.Visibility = Visibility.Hidden;
+                    this.RightContentA.Content = "";
                     this.RightContentR.Content = orderContent;
                     //patientGroupPanel.reLoaded();
                     this.RightContentL.Content = patientGroupPanel;
@@ -237,10 +239,11 @@ namespace WpfApplication1
                 case 2:
                     /*this.RightContentA.Visibility = Visibility.Hidden;
                     this.RightContentR.Content = sheduleContent;*/
-
-                    this.RightContentA.Visibility = Visibility.Visible;
                     this.RightContentA.Content = sheduleContent;
-                    sheduleContent.Reload();
+                    this.RightContentA.Visibility = Visibility.Visible;
+                    this.RightContentL.Content = "";
+                    this.RightContentR.Content = "";
+                    //sheduleContent.Reload();
                     /*sheduleContent.PatientGroupComboBox.SelectedValue =
                         patientGroupPanel.ComboBoxPatientGroup.SelectedValue;*/
 
@@ -255,16 +258,25 @@ namespace WpfApplication1
                     //this.RightContentL.Content = patientGroupPanel;
                     break;
                 case 3:
-                    this.RightContentA.Visibility = Visibility.Visible;
                     this.RightContentA.Content = bedContent;
+                    this.RightContentA.Visibility = Visibility.Visible;
+                    this.RightContentL.Content = "";
+                    this.RightContentR.Content = "";
                     break;
                 case 4:
-                    this.RightContentA.Visibility = Visibility.Visible;
+
                     this.RightContentA.Content = configContent;
+                    this.RightContentA.Visibility = Visibility.Visible;
+                    
+                    this.RightContentL.Content = "";
+                    this.RightContentR.Content = "";
                     break;
                 case 5:
-                    this.RightContentA.Visibility = Visibility.Visible;
                     this.RightContentA.Content = reeportContent;
+                    this.RightContentA.Visibility = Visibility.Visible;
+                   
+                    this.RightContentL.Content = "";
+                    this.RightContentR.Content = "";
                     break;
             }
         }
