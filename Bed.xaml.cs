@@ -564,7 +564,7 @@ namespace WpfApplication1
             /// 上边先给没有分过床的固定床位患者分床
             /// 下面给分过床的固定床位患者分床
             /// ///////////////////////////////////
-            foreach (var patient in FixBedPatientList)
+            /*foreach (var patient in FixBedPatientList)
             {
                 long fixbedid = -1;
                 bool isAuto = true;
@@ -662,7 +662,7 @@ namespace WpfApplication1
                     }
 
                 }
-            }
+            }*/
 
             PatientCountLabel.Content = "待排患者(" + BedPatientList.Count + ")";
 
@@ -1179,7 +1179,7 @@ namespace WpfApplication1
             long infecttype = GetInfectType();
             RefreshPatientList(dt.Date, ampme);
             RefreshBedList(infecttype);
-            AutoDistributeFixedBed();
+            //AutoDistributeFixedBed();
         }
 
 
@@ -1190,7 +1190,7 @@ namespace WpfApplication1
             RefreshPatientList(dt.Date, ampme);
 
             RefreshAllBedsList();
-            AutoDistributeFixedBed1();
+            //AutoDistributeFixedBed1();
         }
 
         private void RefreshAllBedsList()
@@ -1808,11 +1808,11 @@ namespace WpfApplication1
                                         
                                     else
                                     {
-                                        if (patientlist[0].IsFixedBed)
+                                        /*if (patientlist[0].IsFixedBed)
                                         {
                                             FixBedPatientList.Add(patientInfo);//固定床位病人列表因为要继承上一次的床，而上一次的床可能已经修改，所以需要重新排
                                         }
-                                        else
+                                        else*/
                                             UnPatientList.Add(patientInfo);//已排床的病人列表
                                     }
 
@@ -1954,7 +1954,7 @@ namespace WpfApplication1
             e.Handled = true;
         }
         //SELECT * FROM (Bed INNER JOIN PatientRoom ON Bed.PatientRoomId=PatientRoom.Id) INNER JOIN InfectType ON PatientRoom.InfectTypeId=InfectType.Id
-        private void UpdateBedId(long patientID, DateTime dateTime, string ampme , long bedid, bool isAuto = true )
+        private void UpdateBedId(long patientID, DateTime dateTime, string ampme , long bedid, bool isAuto = true, bool isTemp = false )
         {
             try
             {
@@ -1971,6 +1971,8 @@ namespace WpfApplication1
                     {
                         fileds["ISTEMP"] = false;
                     }
+                    if (isTemp)
+                        fileds["ISTEMP"] = true;
                     fileds["ISAUTO"] = isAuto;
                     scheduleDao.UpdateScheduleTemplate(fileds, condition);
                     
@@ -2009,6 +2011,8 @@ namespace WpfApplication1
 
         private void PreviewDrop_Event(object sender, DragEventArgs e)
         {
+            bool bContrlKey = false;
+            if (e.KeyStates == DragDropKeyStates.ControlKey) bContrlKey = true;
             targetItemsControl = (ListBoxItem)sender;
             targetItemsControl.IsSelected = true;
 
@@ -2045,11 +2049,42 @@ namespace WpfApplication1
                         BedPatientData data = (BedPatientData)draggedItem;
                         BedInfoList[index].PatientName = data.Name + "\n" + data.TreatMethod;
                         BedInfoList[index].PatientData = data;
+                        if (bContrlKey)
+                            BedInfoList[index].IsTemp = true;
                         BedPatientList.Remove((BedPatientData)draggedItem);
 
                         DateTime dt1 = GetDate();
                         //UpdateBedId(data.Id, DateTime.Parse("2015-06-10"), ampme, BedInfoList[index].Id);
-                        UpdateBedId(data.Id, dt1.Date, ampme, BedInfoList[index].Id, false);
+                        UpdateBedId(data.Id, dt1.Date, ampme, BedInfoList[index].Id, false, bContrlKey);
+                        
+                        if (!bContrlKey)
+                        {
+                            using (ScheduleTemplateDao scheduleDao = new ScheduleTemplateDao())
+                            {
+                                Dictionary<string, object> condition = new Dictionary<string, object>();
+                                condition["PatientId"] = data.Id.ToString();
+                                condition["AmPmE"] = ampme;
+                                var list = scheduleDao.SelectScheduleTemplate(condition);
+
+                                foreach (var scheduleTemplate in list)
+                                {
+                                    DateTime now = DateTime.Parse(scheduleTemplate.Date);
+                                    if (DateTime.Compare(now.Date, dt1.Date) > 0)
+                                    {
+                                        condition["PatientId"] = scheduleTemplate.PatientId;
+                                        condition["Date"] = scheduleTemplate.Date;
+                                        condition["AmPmE"] = ampme;
+                                        var fileds = new Dictionary<string, object>();
+                                        fileds["BEDID"] = BedInfoList[index].Id;
+                                        scheduleDao.UpdateScheduleTemplate(fileds, condition);
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            
+                        }
                     }
                 }
                 if (effects == (System.Windows.DragDropEffects)DragDropEffects.None)
