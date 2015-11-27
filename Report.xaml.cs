@@ -257,8 +257,9 @@ namespace WpfApplication1
                     Mouse.OverrideCursor = null;
                 }
                 printDialog.PrintDocument(document.DocumentPaginator, "Print Document Name");
-                objectToPrint.Width = BaseWindow.RightContentA.Width;
+                objectToPrint.Width = BaseWindow.RightContentA.ActualWidth;
             }
+            
         }
         private PageContent generatePageContent(System.Drawing.Bitmap bmp, int top, int bottom, double pageWidth, double PageHeight, System.Printing.PrintCapabilities capabilities)
         {
