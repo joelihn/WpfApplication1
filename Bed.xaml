@@ -265,19 +265,24 @@
         	<Setter Property="Template">
         		<Setter.Value>
         			<ControlTemplate TargetType="{x:Type ListBoxItem}">
-        				<Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true" Margin="0,3">
+        				<Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" Margin="0,3">
         					<Grid Height="Auto" VerticalAlignment="Stretch" Width="Auto" ToolTip="{Binding ToolTips}">
         						<Grid.ColumnDefinitions>
+        							<ColumnDefinition/>
         							<ColumnDefinition Width="2*"/>
         							<ColumnDefinition/>
         						</Grid.ColumnDefinitions>
-        						<Grid HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Margin="2">
+        						<Grid Grid.Column="2" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Margin="2,2,0,2">
         							<Rectangle Fill="{Binding ItemBgBrush}" HorizontalAlignment="Stretch" Height="Auto" Stroke="{x:Null}" VerticalAlignment="Stretch" RadiusX="10" RadiusY="10"/>
         							<Label Content="{Binding Name}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Foreground="White"/>
         						</Grid>
         						<Grid Grid.Column="1" Height="Auto" VerticalAlignment="Stretch" Width="Auto" Margin="2">
         							<Rectangle Fill="{Binding ItemBgBrush}" Height="Auto" Stroke="{x:Null}" VerticalAlignment="Stretch" Width="Auto" RadiusX="10" RadiusY="10"/>
         							<Label Content="{Binding InfectionType}" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Foreground="White"/>
+        						</Grid>
+        						<Grid HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Margin="4,2,2,2">
+        							<Rectangle Fill="{Binding ItemBgBrush}" HorizontalAlignment="Stretch" Height="Auto" Stroke="{x:Null}" VerticalAlignment="Stretch" RadiusX="10" RadiusY="10"/>
+        							<Label Content="{Binding Area}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Foreground="White"/>
         						</Grid>
         					</Grid>
         				</Border>
@@ -624,11 +629,13 @@
 							</Grid>
 							<Grid Grid.Row="2">
 								<Grid.ColumnDefinitions>
+									<ColumnDefinition/>
 									<ColumnDefinition Width="2*"/>
 									<ColumnDefinition/>
 								</Grid.ColumnDefinitions>
-								<Button x:Name="BtnSortByName" Content="姓名" Template="{DynamicResource ButtonControlTemplate2}" Click="BtnSortByName_Click" Uid="0"/>
+								<Button x:Name="BtnSortByName" Content="姓名" Template="{DynamicResource ButtonControlTemplate2}" Click="BtnSortByName_Click" Uid="0" Grid.Column="2"/>
 								<Button x:Name="BtnSortByInfection" Content="感染" Grid.Column="1" Template="{DynamicResource ButtonControlTemplate2}" Uid="1"/>
+								<Button x:Name="BtnSortByArea" Content="病区" Template="{DynamicResource ButtonControlTemplate2}" Click="BtnSortByName_Click" Uid="2" Grid.Column="0"/>
 							</Grid>
 							<Grid>
 								<Grid.ColumnDefinitions>

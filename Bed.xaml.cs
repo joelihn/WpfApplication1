@@ -1634,6 +1634,17 @@ namespace WpfApplication1
                                     patientInfo.PatientId = patientlist[0].PatientId; //可能为空
                                     patientInfo.BedId = patient.BedId;
                                     patientInfo.TreatMethod = patient.Method;
+                                    
+                                    using (var patientAreaDao = new PatientAreaDao())
+                                    {
+                                        condition.Clear();
+                                        condition["Id"] = patientlist[0].AreaId;
+                                        var arealist = patientAreaDao.SelectPatientArea(condition);
+                                        if (arealist.Count == 1)
+                                        {
+                                            patientInfo.Area = arealist[0].Name;
+                                        }
+                                    }
                                     //TODO:需要通过method查询type Name
                                     /*using (TreatMethodDao treatMethodDao = new TreatMethodDao())
                                     {
@@ -1798,6 +1809,7 @@ namespace WpfApplication1
                                         }
                                     }
 
+                                    
                                     //if (patient.BedId == -1 || patientlist[0].IsFixedBed)
                                     if (patient.BedId == -1)
                                     {
@@ -2071,12 +2083,15 @@ namespace WpfApplication1
                                     DateTime now = DateTime.Parse(scheduleTemplate.Date);
                                     if (DateTime.Compare(now.Date, dt1.Date) > 0)
                                     {
-                                        condition["PatientId"] = scheduleTemplate.PatientId;
-                                        condition["Date"] = scheduleTemplate.Date;
-                                        condition["AmPmE"] = ampme;
-                                        var fileds = new Dictionary<string, object>();
-                                        fileds["BEDID"] = BedInfoList[index].Id;
-                                        scheduleDao.UpdateScheduleTemplate(fileds, condition);
+                                        if (scheduleTemplate.Method == data.TreatMethod)
+                                        {
+                                            condition["PatientId"] = scheduleTemplate.PatientId;
+                                            condition["Date"] = scheduleTemplate.Date;
+                                            condition["AmPmE"] = ampme;
+                                            var fileds = new Dictionary<string, object>();
+                                            fileds["BEDID"] = BedInfoList[index].Id;
+                                            scheduleDao.UpdateScheduleTemplate(fileds, condition);
+                                        }
                                     }
                                 }
                             }
@@ -2357,6 +2372,21 @@ namespace WpfApplication1
                 bindingProperty = "InfectionType";
 
             }
+            else if (btn.Uid == "2")
+            {
+                if (Paixiflag[3] == 0)
+                {
+                    Paixiflag[3] = 1;
+                    sortDirection = ListSortDirection.Ascending;
+                }
+                else
+                {
+                    Paixiflag[3] = 0;
+                    sortDirection = ListSortDirection.Descending;
+                }
+                bindingProperty = "Area";
+
+            }
 
             SortDescriptionCollection sdc = PatientListBox1.Items.SortDescriptions;
             if (sdc.Count > 0)
@@ -2563,12 +2593,14 @@ namespace WpfApplication1
         private string _treatType;
         private Brush _itemBgBrush;
         private string _method;
+        private string _area;
 
         private static Dictionary<string, Color> TreatMethodDictionary = new Dictionary<string, Color>();
         public BedPatientData()
         {
             Name = "";
             ToolTips = "";
+            _area = "";
             LoadTreatMethod();
             
 
@@ -2586,7 +2618,7 @@ namespace WpfApplication1
         public Int64 BedId { get; set; }
         public string Name { get; set; }
         public string PatientId { get; set; }
-
+        public string Area { get; set; }
         public string TreatMethod
         {
             get { return _method; }
@@ -2745,6 +2777,7 @@ namespace WpfApplication1
         private int _infcetionType;
         private string _treatType;
         private string _infectionType;
+        private string _area;
 
         private Brush _titleBrush;
         private Brush _bedBrush;
@@ -2766,6 +2799,7 @@ namespace WpfApplication1
             _isAvliable = false;
             _isOccupy = true;
             PatientData = null;
+            _area = "";
             LoadTreatType();
 
         }
@@ -2847,6 +2881,16 @@ namespace WpfApplication1
             {
                 _bedName = value;
                 OnPropertyChanged("BedName");
+            }
+        }
+
+        public string Area
+        {
+            get { return _area; }
+            set
+            {
+                _area = value;
+                OnPropertyChanged("Area");
             }
         }
 

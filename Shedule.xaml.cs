@@ -2578,7 +2578,7 @@ namespace WpfApplication1
                                                     foreach (var aa in list33)
                                                     {
                                                         DateTime dt = DateTime.Parse(aa.Date);
-                                                        //if (IsInPreMonth(dt))
+                                                        if (IsInPreMonth(dt))//在上个月
                                                         {
                                                             DateTime dt1 = dt.AddDays(28);
                                                             if (IsInCurrentMonth(dt1))
@@ -2599,6 +2599,19 @@ namespace WpfApplication1
                                                                 }
                                                             }
 
+                                                        }
+                                                        else //在当月
+                                                        {
+                                                            DateTime dt1 = dt.AddDays(28);
+                                                            if (IsInCurrentMonth(dt1))
+                                                            {
+                                                                DateTime dt2 = dt1.AddDays(7);
+                                                                //if (IsInCurrentWeek(dt2))
+                                                                {
+                                                                    bCopy = true;
+                                                                    copyTime = dt2;
+                                                                }
+                                                            }
                                                         }
                                                     }
                                                     
