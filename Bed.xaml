@@ -269,7 +269,7 @@
         					<Grid Height="Auto" VerticalAlignment="Stretch" Width="Auto" ToolTip="{Binding ToolTips}">
         						<Grid.ColumnDefinitions>
         							<ColumnDefinition/>
-        							<ColumnDefinition Width="2*"/>
+        							<ColumnDefinition Width="*"/>
         							<ColumnDefinition/>
         						</Grid.ColumnDefinitions>
         						<Grid Grid.Column="2" HorizontalAlignment="Stretch" Height="Auto" VerticalAlignment="Stretch" Margin="2,2,0,2">
@@ -630,7 +630,7 @@
 							<Grid Grid.Row="2">
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition/>
-									<ColumnDefinition Width="2*"/>
+									<ColumnDefinition/>
 									<ColumnDefinition/>
 								</Grid.ColumnDefinitions>
 								<Button x:Name="BtnSortByName" Content="姓名" Template="{DynamicResource ButtonControlTemplate2}" Click="BtnSortByName_Click" Uid="0" Grid.Column="2"/>
