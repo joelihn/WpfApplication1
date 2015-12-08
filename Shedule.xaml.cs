@@ -1055,7 +1055,12 @@ namespace WpfApplication1
             ListBox1.ItemsSource = ListboxItemStatusesList;
             PatientGroupComboBox.ItemsSource = PatientGroupComboBoxItems;
             //InitPatientGroupComboBox();
+#if COPYINSERVER
+            
+#else
             CopySchedule();
+#endif
+
             LoadTratementConifg();
             InitWeekWithDate();
             //ListboxItemStatus status = new ListboxItemStatus();
@@ -2124,7 +2129,7 @@ namespace WpfApplication1
         {
             //UpdatePatientSchedule();
             //RefreshStatistics();
-            CopySchedule();
+            //CopySchedule();
         }
         private void Button_Click1(object sender, RoutedEventArgs e)
         {
