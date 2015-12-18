@@ -180,164 +180,164 @@ namespace WpfApplication1
                 });
             }
 
-            //config_xmlDoc = new XmlDocument();
-            //string configFilename = System.Windows.Forms.Application.UserAppDataPath + "\\WpfApplication1\\lic.xml";
+            config_xmlDoc = new XmlDocument();
+            string configFilename = System.Windows.Forms.Application.UserAppDataPath + "\\WpfApplication1\\lic.xml";
 
-            //if (File.Exists(configFilename))
-            //{
-            //    try
-            //    {
-            //        config_xmlDoc.Load(configFilename);
-            //    }
-            //    catch (Exception ee)
-            //    {
-            //        MessageBox.Show("Error occured:\n\n" + configFilename + " " + ee.Message);
-            //        System.Windows.Application.Current.Shutdown();
-            //        return;
-            //    }
+            if (File.Exists(configFilename))
+            {
+                try
+                {
+                    config_xmlDoc.Load(configFilename);
+                }
+                catch (Exception ee)
+                {
+                    MessageBox.Show("Error occured:\n\n" + configFilename + " " + ee.Message);
+                    System.Windows.Application.Current.Shutdown();
+                    return;
+                }
 
-            //}
-            //else
-            //{
-            //    if (!Directory.Exists(System.Windows.Forms.Application.UserAppDataPath + "\\WpfApplication1"))
-            //        Directory.CreateDirectory(System.Windows.Forms.Application.UserAppDataPath + "\\WpfApplication1");
-            //    FileStream config = File.Create(configFilename);
-            //    byte[] rootNode = Encoding.UTF8.GetBytes("<System>\n</System>");
-            //    config.Write(rootNode, 0, rootNode.Length);
-            //    config.Close();
+            }
+            else
+            {
+                if (!Directory.Exists(System.Windows.Forms.Application.UserAppDataPath + "\\WpfApplication1"))
+                    Directory.CreateDirectory(System.Windows.Forms.Application.UserAppDataPath + "\\WpfApplication1");
+                FileStream config = File.Create(configFilename);
+                byte[] rootNode = Encoding.UTF8.GetBytes("<System>\n</System>");
+                config.Write(rootNode, 0, rootNode.Length);
+                config.Close();
 
-            //    config_xmlDoc.Load(configFilename);
+                config_xmlDoc.Load(configFilename);
 
 
-            //    XmlNode SystemCfg = config_xmlDoc.SelectSingleNode("System");
+                XmlNode SystemCfg = config_xmlDoc.SelectSingleNode("System");
 
-            //    XmlNode setting = config_xmlDoc.SelectSingleNode("System/Setting");
+                XmlNode setting = config_xmlDoc.SelectSingleNode("System/Setting");
 
-            //    XmlElement xmlform = null;
-            //    if (setting == null)
-            //    {
-            //        xmlform = config_xmlDoc.CreateElement("Setting");
-            //    }
-            //    else
-            //    {
-            //        xmlform = (XmlElement)setting;
-            //    }
+                XmlElement xmlform = null;
+                if (setting == null)
+                {
+                    xmlform = config_xmlDoc.CreateElement("Setting");
+                }
+                else
+                {
+                    xmlform = (XmlElement)setting;
+                }
 
-            //    XmlElement xmlele = config_xmlDoc.CreateElement("Item");
-            //    xmlele.SetAttribute("name", "UT");
-            //    int times = EncryptInt(0);
-            //    xmlele.SetAttribute("value", times.ToString());
-            //    xmlform.AppendChild(xmlele);
+                XmlElement xmlele = config_xmlDoc.CreateElement("Item");
+                xmlele.SetAttribute("name", "UT");
+                int times = EncryptInt(0);
+                xmlele.SetAttribute("value", times.ToString());
+                xmlform.AppendChild(xmlele);
 
-            //    SystemCfg.AppendChild(xmlform);
+                SystemCfg.AppendChild(xmlform);
 
-            //    config_xmlDoc.Save(configFilename);
-            //}
+                config_xmlDoc.Save(configFilename);
+            }
 
-            //List<string> macAddress = Utils.Utils.GetMacAddress();
-            //bool fileNotExist = !File.Exists(ConstDefinition.RunningPath + "\\license.dat");
+            List<string> macAddress = Utils.Utils.GetMacAddress();
+            bool fileNotExist = !File.Exists(ConstDefinition.RunningPath + "\\license.dat");
 
-            //bool succ = false;
+            bool succ = false;
 
-            ////Byte[] encryptBytes;
-            //if (!fileNotExist)
-            //{
-            //    string str;
-            //    using (var licfile = new StreamReader(ConstDefinition.RunningPath + "\\license.dat", true))
-            //    {
-            //        str = licfile.ReadLine();
-            //    }
-            //    foreach (string mac in macAddress)
-            //    {
-            //        string encryptStr = Utils.Utils.MD5Encrypt(mac+"0");
+            //Byte[] encryptBytes;
+            if (!fileNotExist)
+            {
+                string str;
+                using (var licfile = new StreamReader(ConstDefinition.RunningPath + "\\license.dat", true))
+                {
+                    str = licfile.ReadLine();
+                }
+                foreach (string mac in macAddress)
+                {
+                    string encryptStr = Utils.Utils.MD5Encrypt(mac + "0");
 
-            //        if (str.Equals(encryptStr))
-            //        {
-            //            ConstDefinition.Runlevel = 0;
-            //            succ = true;
-            //            break;
-            //        }
-            //        encryptStr = Utils.Utils.MD5Encrypt(mac + "1");
+                    if (str.Equals(encryptStr))
+                    {
+                        ConstDefinition.Runlevel = 0;
+                        succ = true;
+                        break;
+                    }
+                    encryptStr = Utils.Utils.MD5Encrypt(mac + "1");
 
-            //        if (str.Equals(encryptStr))
-            //        {
-            //            ConstDefinition.Runlevel = 1;
-            //            succ = true;
-            //            break;
-            //        }
-            //    }
-            //}
+                    if (str.Equals(encryptStr))
+                    {
+                        ConstDefinition.Runlevel = 1;
+                        succ = true;
+                        break;
+                    }
+                }
+            }
 
-            //if (fileNotExist || !succ)
-            //{
-            //    // 试用次数
-            //    bool flag = true;
-            //    int times = 0;
+            if (fileNotExist || !succ)
+            {
+                // 试用次数
+                bool flag = true;
+                int times = 0;
 
-            //    try
-            //    {
-            //        XmlDocument xmlDoc = this.config_xmlDoc;
-            //        if (xmlDoc != null)
-            //        {
-            //            XmlNodeList xmlNodeList = xmlDoc.SelectNodes("System/Setting/Item");
-            //            if (xmlNodeList != null && xmlNodeList.Count != 0)
-            //            {
-            //                for (int i = 0; i < xmlNodeList.Count; i++)
-            //                {
-            //                    XmlAttribute atrribName = xmlNodeList[i].Attributes["name"];
-            //                    XmlAttribute atrribValue = xmlNodeList[i].Attributes["value"];
+                try
+                {
+                    XmlDocument xmlDoc = this.config_xmlDoc;
+                    if (xmlDoc != null)
+                    {
+                        XmlNodeList xmlNodeList = xmlDoc.SelectNodes("System/Setting/Item");
+                        if (xmlNodeList != null && xmlNodeList.Count != 0)
+                        {
+                            for (int i = 0; i < xmlNodeList.Count; i++)
+                            {
+                                XmlAttribute atrribName = xmlNodeList[i].Attributes["name"];
+                                XmlAttribute atrribValue = xmlNodeList[i].Attributes["value"];
 
-            //                    if ((atrribName != null) && (atrribValue != null) && (atrribName.Value.Equals("UT")))
-            //                    {
-            //                        times = Int32.Parse(atrribValue.Value);
-            //                    }
-            //                }
-            //            }
-            //        }
+                                if ((atrribName != null) && (atrribValue != null) && (atrribName.Value.Equals("UT")))
+                                {
+                                    times = Int32.Parse(atrribValue.Value);
+                                }
+                            }
+                        }
+                    }
 
-            //        times = DecryptInt(times);
+                    times = DecryptInt(times);
 
-            //        times++;
+                    times++;
 
-            //        if (times > ConstDefinition.TryVersionTimes)
-            //        {
-            //            times--;
-            //            var messageBox1 = new RemindMessageBox1(true);
-            //            messageBox1.remindText.Text = "您使用的是试用版，而且试用次数已用尽，如需继续使用请注册.";
-            //            messageBox1.ShowDialog();
-            //            Shutdown();
-            //            return;
-            //        }
-            //        else if (times > 0)
-            //        {
-            //            int left = ConstDefinition.TryVersionTimes - times + 1;
-            //            //var messageBox1 = new RemindMessageBox1(true);
-            //            //messageBox1.remindText.Text = "您使用的是试用版，在您购买正式版之前还能试用 " + left + " 次.";
-            //            //messageBox1.ShowDialog();
-            //            times = EncryptInt(times);
-            //            string formname = "System/Setting";
-            //            Repopulate_Node_Of_Config_XMLDoc(formname, "Item", "UT", "value", times.ToString());
-            //        }
-            //        else
-            //        {
-            //            var messageBox1 = new RemindMessageBox1(true);
-            //            messageBox1.remindText.Text = "您使用的是试用版，而且试用次数已用尽，如需继续使用请注册.";
-            //            messageBox1.ShowDialog();
-            //            Shutdown();
-            //            return;
-            //        }
-            //    }
-            //    catch(Exception exception)
-            //    {
-            //        MessageBox.Show(exception.Message);
-            //        var messageBox1 = new RemindMessageBox1(true);
-            //        messageBox1.remindText.Text = "您使用的是试用版，而且试用次数已用尽，如需继续使用请注册.";
-            //        messageBox1.ShowDialog();
-            //        Shutdown();
-            //        return;
-            //    }
+                    if (times > ConstDefinition.TryVersionTimes)
+                    {
+                        times--;
+                        var messageBox1 = new RemindMessageBox1(true);
+                        messageBox1.remindText.Text = "您使用的是试用版，而且试用次数已用尽，如需继续使用请注册.";
+                        messageBox1.ShowDialog();
+                        Shutdown();
+                        return;
+                    }
+                    else if (times > 0)
+                    {
+                        int left = ConstDefinition.TryVersionTimes - times + 1;
+                        //var messageBox1 = new RemindMessageBox1(true);
+                        //messageBox1.remindText.Text = "您使用的是试用版，在您购买正式版之前还能试用 " + left + " 次.";
+                        //messageBox1.ShowDialog();
+                        times = EncryptInt(times);
+                        string formname = "System/Setting";
+                        Repopulate_Node_Of_Config_XMLDoc(formname, "Item", "UT", "value", times.ToString());
+                    }
+                    else
+                    {
+                        var messageBox1 = new RemindMessageBox1(true);
+                        messageBox1.remindText.Text = "您使用的是试用版，而且试用次数已用尽，如需继续使用请注册.";
+                        messageBox1.ShowDialog();
+                        Shutdown();
+                        return;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show(exception.Message);
+                    var messageBox1 = new RemindMessageBox1(true);
+                    messageBox1.remindText.Text = "您使用的是试用版，而且试用次数已用尽，如需继续使用请注册.";
+                    messageBox1.ShowDialog();
+                    Shutdown();
+                    return;
+                }
 
-            //}
+            }
 
 
             ////var s = new SplashScreen("SplashScreen.png");
