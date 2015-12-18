@@ -173,6 +173,7 @@ namespace WpfApplication1
             BaseWindow = mainWindow;
             this.ReportListBox.ItemsSource = Datalist;
             PatientGroupComboBox.ItemsSource = PatientGroupComboBoxItems;
+            AddSortRule();
             InitPatientGroupComboBox();
 
             DatePicker1.Text = DateTime.Now.ToString("yyyy-MM-dd");
@@ -556,6 +557,8 @@ namespace WpfApplication1
                                             var list22 = scheduleTemplateDao.SelectScheduleTemplate(condition);
                                             foreach (var type in list22)
                                             {
+                                                if (type.BedId == -1) continue;
+
                                                 var rReportData = new ReportData();
 
                                                 rReportData.Id = type.Id;
@@ -568,14 +571,39 @@ namespace WpfApplication1
                                                         rReportData.PatientName = list2[0].Name;
                                                 }
 
-                                                rReportData.Time = type.AmPmE;
+                                                rReportData.ShiftWork = type.AmPmE;
                                                 rReportData.Method = type.Method;
-                                                if (type.BedId == -1)
+                                                /*if (type.BedId == -1)
                                                     rReportData.BedId = "";
                                                 else
                                                 {
                                                     rReportData.BedId = type.BedId.ToString();
+                                                }*/
+
+                                                using (var bedDao = new BedDao())
+                                                {
+                                                    condition.Clear();
+                                                    condition["Id"] = type.BedId;
+                                                    var bedlist = bedDao.SelectBed(condition);
+                                                    if (bedlist.Count == 1)
+                                                    {
+                                                        long areaId = bedlist[0].PatientAreaId;
+                                                        rReportData.BedId = bedlist[0].Name;
+                                                        using (var patientAreaDao = new PatientAreaDao())
+                                                        {
+                                                            condition.Clear();
+                                                            condition["Id"] = areaId;
+                                                            var arealist = patientAreaDao.SelectPatientArea(condition);
+                                                            if (arealist.Count == 1)
+                                                            {
+                                                                rReportData.Area = arealist[0].Name;
+                                                            }
+
+                                                        }
+                                                    }
+
                                                 }
+
                                                 rReportData.Description = type.Description;
                                                 Datalist.Add(rReportData);
 
@@ -596,15 +624,42 @@ namespace WpfApplication1
                 MainWindow.Log.WriteInfoConsole("In Init.xaml.cs:Init_OnLoaded select patient exception messsage: " + ex.Message);
             }
         }
+
+
+        private void AddSortRule()
+        {
+            SortDescriptionCollection sdc = ReportListBox.Items.SortDescriptions;
+            //SortDescriptionCollection sdc = new SortDescriptionCollection();
+            /*if (sdc.Count > 0)
+            {
+                SortDescription sd = sdc[0];
+                sortDirection = (ListSortDirection)((((int)sd.Direction) + 1) % 2);
+                //判断此列当前的排序方式:升序0,倒序1,并取反进行排序。
+                sdc.Clear();
+            }*/
+            sdc.Clear();
+            sdc.Add(new SortDescription("ShiftWork", ListSortDirection.Ascending));
+            sdc.Add(new SortDescription("Area", ListSortDirection.Ascending));
+            sdc.Add(new SortDescription("BedId", ListSortDirection.Ascending));
+            sdc.Add(new SortDescription("PatientName", ListSortDirection.Ascending));
+            sdc.Add(new SortDescription("Method", ListSortDirection.Ascending));
+
+            var sdc1 = PatientGroupComboBox.Items.SortDescriptions;
+            sdc1.Clear();
+            sdc1.Add(new SortDescription("", ListSortDirection.Ascending));
+
+
+        }
         private void UpdateGroupCount()
         {
             LabelCount.Content = "总共" + Datalist.Count + "人";
+
         }
         private void Report_OnLoaded(object sender, RoutedEventArgs e)
         {
-
+            QueryPatients();
             this.LabelDate.Content = DateTime.Now.ToString("yyyy-M-d dddd");
-
+            
             try
             {
                 using (var scheduleTemplateDao = new ScheduleTemplateDao())
@@ -615,6 +670,9 @@ namespace WpfApplication1
                     var list = scheduleTemplateDao.SelectScheduleTemplate(condition);
                     foreach (var type in list)
                     {
+                        if (type.BedId != -1)
+                            continue;
+
                         var rReportData = new ReportData();
 
                         rReportData.Id = type.Id;
@@ -627,13 +685,37 @@ namespace WpfApplication1
                                 rReportData.PatientName = list2[0].Name;
                         }
                         
-                        rReportData.Time = type.AmPmE;
+                        rReportData.ShiftWork = type.AmPmE;
                         rReportData.Method = type.Method;
-                        if (type.BedId== -1)
+                        /*if (type.BedId== -1)
                             rReportData.BedId = "";
                         else
                         {
                             rReportData.BedId = type.BedId.ToString();
+                        }*/
+
+                        using (var bedDao = new BedDao())
+                        {
+                            condition.Clear();
+                            condition["Id"] = type.BedId;
+                            var bedlist = bedDao.SelectBed(condition);
+                            if (bedlist.Count == 1)
+                            {
+                                long areaId = bedlist[0].PatientAreaId;
+                                rReportData.BedId = bedlist[0].Name;
+                                using (var patientAreaDao = new PatientAreaDao())
+                                {
+                                    condition.Clear();
+                                    condition["Id"] = areaId;
+                                    var arealist = patientAreaDao.SelectPatientArea(condition);
+                                    if (arealist.Count == 1)
+                                    {
+                                        rReportData.Area = arealist[0].Name;
+                                    }
+
+                                }
+                            }
+
                         }
                         rReportData.Description = type.Description;
                         Datalist.Add(rReportData);
@@ -664,9 +746,32 @@ namespace WpfApplication1
         private string _method;
         private string _bedId;
         private string _description;
+        private string _shiftWork;
+        private string _area;
+
 
         public ReportData()
         {
+        }
+
+        public string ShiftWork
+        {
+            get { return _shiftWork; }
+            set
+            {
+                _shiftWork = value;
+                OnPropertyChanged("ShiftWork");
+            }
+        }
+
+        public string Area
+        {
+            get { return _area; }
+            set
+            {
+                _area = value;
+                OnPropertyChanged("Area");
+            }
         }
 
         public Int64 Id

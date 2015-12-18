@@ -43,15 +43,14 @@
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
                                     <ColumnDefinition/>
-                                    <ColumnDefinition Width="0"/>
+                                    <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <Label Content="{Binding PatientName}" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
-                                <Label Content="{Binding Time}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <Label Content="{Binding Method}" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <Label Content="{Binding BedId}" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                <Label  Content="{Binding Description}" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
-                                <Label Content="{Binding Id}" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-                                
+                                <Label Content="{Binding ShiftWork}" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center"/>
+                                <Label Content="{Binding Area}" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="{Binding BedId}" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label Content="{Binding PatientName}" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                                <Label  Content="{Binding Method}" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+                                <Label Content="{Binding Description}" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                             </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
@@ -107,13 +106,14 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="0"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Label Content="患者姓名" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-            <Label Content="时间" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
-            <Label Content="方法" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2"/>
-            <Label Content="床号" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
-            <Label Content="描述" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="4"/>
+            <Label Content="班次" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+            <Label Content="病区" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="1"/>
+            <Label Content="床号" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="2"/>
+            <Label Content="姓名" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="3"/>
+            <Label Content="治疗方法" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="4"/>
+			<Label Content="描述" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="5"/>
             <Label Visibility="Hidden" Content="ID" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Grid.Column="5"/>
         </Grid>
     </Grid>
