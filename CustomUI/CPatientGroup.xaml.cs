@@ -481,6 +481,7 @@ namespace WpfApplication1.CustomUI
             ListViewPatientGroup.IsEnabled = true;
 
             Basewindow.patientGroupPanel.RefreshData();
+            Basewindow.reeportContent.InitPatientGroupComboBox();
 
         }
 

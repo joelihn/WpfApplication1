@@ -660,7 +660,7 @@ namespace WpfApplication1
             QueryPatients();
             this.LabelDate.Content = DateTime.Now.ToString("yyyy-M-d dddd");
             
-            try
+            /*try
             {
                 using (var scheduleTemplateDao = new ScheduleTemplateDao())
                 {
@@ -687,12 +687,7 @@ namespace WpfApplication1
                         
                         rReportData.ShiftWork = type.AmPmE;
                         rReportData.Method = type.Method;
-                        /*if (type.BedId== -1)
-                            rReportData.BedId = "";
-                        else
-                        {
-                            rReportData.BedId = type.BedId.ToString();
-                        }*/
+
 
                         using (var bedDao = new BedDao())
                         {
@@ -726,7 +721,7 @@ namespace WpfApplication1
             catch (Exception ex)
             {
                 MainWindow.Log.WriteInfoConsole("In CInfectType.xaml.cs:ListViewCInfectType_OnLoaded exception messsage: " + ex.Message);
-            }
+            }*/
         }
 
         private void DatePicker1_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
