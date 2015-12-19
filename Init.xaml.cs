@@ -204,11 +204,25 @@ namespace WpfApplication1
             this.ButtonCancel.IsEnabled = true;
         }
 
+        private void ClearInfo()
+        {
+            NationalityTextBox.Text = "";
+            BloodTypeTextBox.Text = "";
+            MobileTextBox.Text = "";
+            PaymentTextBox.Text = "";
+            WeixinhaoTextBox.Text = "";
+            Discription.Text = "";
+            HeightTextBox.Text = "";
+
+        }
+
         private bool isNewAdded = false;
         private void ButtonNew_OnClick(object sender, RoutedEventArgs e)
         {
+            
             SignUP signUpDlg = new SignUP(Basewindow);
             signUpDlg.ShowDialog();
+            ClearInfo();
             //if (signUpDlg.result == DialogResult.OK)
             //{
             //    using (PatientDao patientDao = new PatientDao())
@@ -465,6 +479,7 @@ namespace WpfApplication1
                 fileds["MOBILE"] = MobileTextBox.Text;
                 fileds["WEIXINHAO"] = WeixinhaoTextBox.Text;
                 fileds["PAYMENT"] = PaymentTextBox.Text;
+                fileds["DESCRIPTION"] = Discription.Text;
                
 
                 patientDao.UpdatePatient(fileds, condition);

@@ -568,7 +568,11 @@ namespace WpfApplication1
                                                     condition2["ID"] = type.PatientId;
                                                     var list2 = patientDao1.SelectPatient(condition2);
                                                     if ((list2 != null) && (list.Count > 0))
+
+                                                    {
                                                         rReportData.PatientName = list2[0].Name;
+                                                        rReportData.Description = list2[0].Description;
+                                                    }
                                                 }
 
                                                 rReportData.ShiftWork = type.AmPmE;
@@ -604,7 +608,7 @@ namespace WpfApplication1
 
                                                 }
 
-                                                rReportData.Description = type.Description;
+                                                //rReportData.Description = patient.Description;
                                                 Datalist.Add(rReportData);
 
                                             }

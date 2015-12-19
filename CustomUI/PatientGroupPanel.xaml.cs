@@ -272,6 +272,7 @@ namespace WpfApplication1.CustomUI
                         Basewindow.initContent.MobileTextBox.Text = patient.Mobile;
                         Basewindow.initContent.WeixinhaoTextBox.Text = patient.WeiXinHao;
                         Basewindow.initContent.PaymentTextBox.Text = patient.Payment;
+                        Basewindow.initContent.Discription.Text = patient.Description;
 
                         Basewindow.initContent.ButtonApply.IsEnabled = false;
                         Basewindow.initContent.ButtonCancel.IsEnabled = false;
