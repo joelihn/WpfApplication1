@@ -54,6 +54,8 @@ namespace WpfApplication1.CustomUI
                         Datalist.Add(treatStatusData);
                     }
                 }
+                if (Datalist.Count != 0)
+                    ListViewTreatType.SelectedIndex = 0;
             }
             catch (Exception ex)
             {

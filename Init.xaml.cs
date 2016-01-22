@@ -488,6 +488,14 @@ namespace WpfApplication1
 
         private void ButtonDelete_OnClick(object sender, RoutedEventArgs e)
         {
+            var messageBox2 = new RemindMessageBox2();
+            messageBox2.textBlock1.Text = "您确认删除当前病人记录吗？";
+            messageBox2.ShowDialog();
+            if (messageBox2.remindflag != 1)
+            {
+                return;
+            }
+
             //if (ListViewBed.SelectedIndex == -1) return;
             if (Basewindow.patientGroupPanel.ListBoxPatient.SelectedIndex == -1) return;
 

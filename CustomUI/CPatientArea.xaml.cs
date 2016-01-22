@@ -85,6 +85,8 @@ namespace WpfApplication1.CustomUI
                         Datalist.Add(patientAreaData);
                     }
                 }
+                if (Datalist.Count != 0)
+                    ListViewPatientArea.SelectedIndex = 0;
             }
             catch (Exception ex)
             {

@@ -265,6 +265,9 @@ namespace WpfApplication1.CustomUI
                         Datalist.Add(treatMethodData);
                     }
                 }
+
+                if (Datalist.Count != 0)
+                    ListViewTreatMethod.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
@@ -319,6 +322,9 @@ namespace WpfApplication1.CustomUI
             //    MainWindow.Log.WriteInfoConsole("In CTreatMethod.xaml.cs:ListViewCPatientRoom_OnLoaded 1 exception messsage: " + ex.Message);
             //}
             #endregion
+
+            if (Datalist.Count != 0)
+                ListViewTreatMethod.SelectedIndex = 0;
         }
 
         private void ButtonApply_OnClick(object sender, RoutedEventArgs e)
@@ -551,6 +557,9 @@ namespace WpfApplication1.CustomUI
                         Datalist.Add(treatMethodData);
                     }
                 }
+
+                if (Datalist.Count != 0)
+                    ListViewTreatMethod.SelectedIndex = 0;
             }
             catch (Exception ex)
             {

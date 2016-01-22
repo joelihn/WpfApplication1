@@ -20,7 +20,7 @@ namespace WpfApplication1.Utils
         //程序运行目录
         public static string RunningPath = Application.StartupPath;
 
-        public static int TryVersionTimes = 0;
+        public static int TryVersionTimes = 200;
 
         public static int Runlevel = 1;
     }

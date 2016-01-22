@@ -56,6 +56,8 @@ namespace WpfApplication1.CustomUI
                         Datalist.Add(infectTypeData);
                     }
                 }
+                if (Datalist.Count != 0)
+                    ListViewInfectType.SelectedIndex = 0;
             }
             catch (Exception ex)
             {

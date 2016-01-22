@@ -683,6 +683,34 @@ namespace WpfApplication1
         
         private void ButtonBase_OnClick(object sender, MouseButtonEventArgs e)
         {
+            DependencyObject depObj = e.OriginalSource as DependencyObject;
+            if (depObj == null) return;
+            int row = -1;
+            do {
+                depObj = VisualTreeHelper.GetParent(depObj);//有可能是点击到listviewitem之外的东西，例如滚动条，这时候会为null13                
+                if (depObj == null) break;//得到listviewitem16                 
+                if (depObj.GetType() == typeof(ListBoxItem))
+                { 
+                    //再去获取父级，用来得到索引                  
+                    DependencyObject parent = VisualTreeHelper.GetParent(depObj);
+                    for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
+                    {
+                        if (depObj == VisualTreeHelper.GetChild(parent, i))
+                        {
+                            //得到索引后马上跳出26                            
+                            row = i;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            while (depObj != null);
+            //证明已经找到
+            if (row > -1)
+            {
+                ListBox1.SelectedIndex = row;
+            }
 
 
             if (IsEditable == false) return;

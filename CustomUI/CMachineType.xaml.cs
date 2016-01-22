@@ -70,6 +70,8 @@ namespace WpfApplication1.CustomUI
                         Datalist.Add(machineTypeData);
                     }
                 }
+                if (Datalist.Count != 0)
+                    ListViewMachineType.SelectedIndex = 0;
             }
             catch (Exception ex)
             {
