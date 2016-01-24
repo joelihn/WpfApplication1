@@ -519,6 +519,178 @@ namespace WpfApplication1
 
         }
 
+        private long GetAreaIdByBedId(long bedid)
+        {
+            using (var bedDao = new BedDao())
+            {
+                var condition = new Dictionary<string, object>();
+                condition["Id"] = bedid;
+                var bedlist = bedDao.SelectBed(condition);
+                if (bedlist.Count == 1)
+                {
+                    long areaId = bedlist[0].PatientAreaId;
+                    return areaId;
+                }
+
+            }
+            return -1;
+        }
+
+        private List<Patient> GetPatientsInFixedDay( List<Patient> srcList, long areaid )
+        {
+
+            List<Patient> patients = new List<Patient>();
+            using (var scheduleTemplateDao = new ScheduleTemplateDao())
+            {
+                var condition = new Dictionary<string, object>();
+                condition["DATE"] = DatePicker1.SelectedDate.Value.ToString("yyyy-MM-dd");// DateTime.Now.ToString("yyyy-MM-dd");
+                var list22 = scheduleTemplateDao.SelectScheduleTemplate(condition);
+
+                foreach (var type in list22)
+                {
+                    if (type.BedId == -1) continue;
+
+                    bool bExist = true;
+                    foreach (var patient in patients)
+                    {
+                        if (patient.PatientId != type.PatientId.ToString())
+                        {
+                            bExist = false;
+                            break;
+                        }
+                    }
+                    if (!bExist)
+                    {
+                        long areaid1 = GetAreaIdByBedId(type.BedId);
+                        if(areaid == areaid1)
+                        {
+                            using (PatientDao patientDao1 = new PatientDao())
+                            {
+                                var condition2 = new Dictionary<string, object>();
+                                condition2["ID"] = type.PatientId;
+                                var list2 = patientDao1.SelectPatient(condition2);
+                                patients.Add(list2[0]);
+                            }
+                        }
+                        
+                    }
+
+
+                    
+
+                }
+            }
+
+            foreach (var patient in srcList)
+            {
+                if (!patients.Contains(patient))
+                {
+                    patients.Add(patient);
+                }
+            }
+            return patients;
+        }
+
+        private string GetPatientArea(List<PatientGroupPara> listinParas)
+        {
+            foreach (var patientGroupPara in listinParas)
+            {
+                if (patientGroupPara.Key.Equals("所属分区"))
+                {
+                    return patientGroupPara.Value;
+                }
+            }
+            return "";
+
+        }
+
+        private void QueryPatientsByArea( string areaName )
+        {
+            string areaid = "";
+            using (var patientAreaDao = new PatientAreaDao())
+            {
+                var condition = new Dictionary<string, object>();
+                condition["Name"] = areaName;
+                var arealist = patientAreaDao.SelectPatientArea(condition);
+
+                areaid = arealist[0].Id.ToString();
+            }
+
+            using (BedDao bedDao = new BedDao())
+            {
+                Dictionary<string, object> condition = new Dictionary<string, object>();
+                condition["PatientAreaId"] = areaid;
+                var list = bedDao.SelectBed(condition);
+                foreach (DAOModule.Bed bed in list)
+                {
+                    using (var scheduleTemplateDao = new ScheduleTemplateDao())
+                    {
+
+                        condition.Clear();
+                        condition = new Dictionary<string, object>();
+                        condition["BedId"] = bed.Id;
+                        condition["DATE"] = DatePicker1.SelectedDate.Value.ToString("yyyy-MM-dd");// DateTime.Now.ToString("yyyy-MM-dd");
+                        var list22 = scheduleTemplateDao.SelectScheduleTemplate(condition);
+                        foreach (var type in list22)
+                        {
+                            if (type.BedId == -1) continue;
+
+                            var rReportData = new ReportData();
+
+                            rReportData.Id = type.Id;
+                            using (PatientDao patientDao1 = new PatientDao())
+                            {
+                                var condition2 = new Dictionary<string, object>();
+                                condition2["ID"] = type.PatientId;
+                                var list2 = patientDao1.SelectPatient(condition2);
+                                if ((list2 != null) && (list.Count > 0))
+                                {
+                                    rReportData.PatientName = list2[0].Name;
+                                    rReportData.Description = list2[0].Description;
+                                }
+                            }
+
+                            rReportData.ShiftWork = type.AmPmE;
+                            rReportData.Method = type.Method;
+                            /*if (type.BedId == -1)
+                                rReportData.BedId = "";
+                            else
+                            {
+                                rReportData.BedId = type.BedId.ToString();
+                            }*/
+
+                            using (var bedDao1 = new BedDao())
+                            {
+                                condition.Clear();
+                                condition["Id"] = type.BedId;
+                                var bedlist = bedDao1.SelectBed(condition);
+                                if (bedlist.Count == 1)
+                                {
+                                    long areaId = bedlist[0].PatientAreaId;
+                                    rReportData.BedId = bedlist[0].Name;
+                                    using (var patientAreaDao = new PatientAreaDao())
+                                    {
+                                        condition.Clear();
+                                        condition["Id"] = areaId;
+                                        var arealist = patientAreaDao.SelectPatientArea(condition);
+                                        if (arealist.Count == 1)
+                                        {
+                                            rReportData.Area = arealist[0].Name;
+                                        }
+
+                                    }
+                                }
+
+                            }
+
+                            Datalist.Add(rReportData);
+
+                        }
+                    }
+                }
+            }
+            UpdateGroupCount();
+        }
 
         private void QueryPatients()
         {
@@ -539,11 +711,22 @@ namespace WpfApplication1
                             conditionpara["GROUPID"] = list[0].Id;
                             var listpara = patientGroupParaDao.SelectPatientGroupPara(conditionpara);
 
+                            
                             if (listpara.Count > 0)
                             {
                                 using (var patientDao = new PatientDao())
                                 {
                                     var patientlist = patientDao.SelectPatientSpecial(listpara);
+
+                                    string areaid = GetPatientArea(listpara);
+                                    if (!areaid.Equals(""))
+                                    {
+                                        Datalist.Clear();
+                                        QueryPatientsByArea(areaid);
+                                        return;
+                                    }
+
+
                                     Datalist.Clear();
                                     foreach (var patient in patientlist)
                                     {
@@ -568,7 +751,6 @@ namespace WpfApplication1
                                                     condition2["ID"] = type.PatientId;
                                                     var list2 = patientDao1.SelectPatient(condition2);
                                                     if ((list2 != null) && (list.Count > 0))
-
                                                     {
                                                         rReportData.PatientName = list2[0].Name;
                                                         rReportData.Description = list2[0].Description;
