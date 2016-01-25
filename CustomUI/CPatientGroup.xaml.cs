@@ -201,6 +201,7 @@ namespace WpfApplication1.CustomUI
 
                         Datalist[index].Id = lastInsertId;
                     }
+                    RefreshData();
                 }
                 catch (Exception ex)
                 {

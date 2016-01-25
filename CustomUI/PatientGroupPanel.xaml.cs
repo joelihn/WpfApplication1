@@ -31,10 +31,10 @@ namespace WpfApplication1.CustomUI
             InitializeComponent();
             Basewindow = mainWindow;
             this.ListBoxPatient.ItemsSource = Datalist;
-            string bindingProperty = "Name";
+            /*string bindingProperty = "Name";
             ListSortDirection sortDirection = ListSortDirection.Ascending;
             SortDescriptionCollection sdc = ListBoxPatient.Items.SortDescriptions;
-            sdc.Add(new SortDescription(bindingProperty, sortDirection));
+            sdc.Add(new SortDescription(bindingProperty, sortDirection));*/
 
             this.ComboBoxPatientGroup.SelectedIndex = MainWindow.ComboBoxPatientGroupIndex;
         }
